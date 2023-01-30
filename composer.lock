@@ -972,8 +972,8 @@
                 "laravel"
             ],
             "support": {
-                "issues": "https://github.com/laravel-zero/laravel-zero/issues",
-                "source": "https://github.com/laravel-zero/laravel-zero"
+                "issues": "https://github.com/guanguans/ai-commit/issues",
+                "source": "https://github.com/guanguans/ai-commit"
             },
             "time": "2020-05-21T10:23:05+00:00"
         },
