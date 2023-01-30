@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.29.0@7ec5ffbd5f68ae03782d7fd33fff0c45a69f95b3">
+  <file src="src/PackageSkeleton.php">
+    <MismatchingDocblockReturnType occurrences="1">
+      <code>int</code>
+    </MismatchingDocblockReturnType>
+    <InvalidReturnType occurrences="1">
+      <code>int</code>
+    </InvalidReturnType>
+  </file>
+</files>
