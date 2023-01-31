@@ -35,7 +35,14 @@
     ],
     "require": {
         "php": ">=7.2.5",
-        "laravel-zero/framework": "^7.2 || ^8.0 || ^9.0"
+        "ext-curl": "*",
+        "ext-json": "*",
+        "consolidation/self-update": "^2.0",
+        "guzzlehttp/guzzle": "^6.5 || ^7.0",
+        "hassankhan/config": "^3.0",
+        "illuminate/http": "^7.0 || ^8.0 || ^9.0 || ^10.0",
+        "laravel-zero/framework": "^7.2 || ^8.0 || ^9.0",
+        "league/config": "^1.0"
     },
     "require-dev": {
         "brainmaestro/composer-git-hooks": "^2.8 || ^3.0",
@@ -74,7 +81,9 @@
             "App\\": "app/"
         },
         "classmap": [],
-        "files": [],
+        "files": [
+            "app/Support/helpers.php"
+        ],
         "exclude-from-classmap": [
             "benchmarks"
         ]

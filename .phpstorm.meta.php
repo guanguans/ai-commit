@@ -20,74 +20,56 @@ override(new \Illuminate\Contracts\Container\Container(), map([
     'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
     'db' => \Illuminate\Database\DatabaseManager::class,
     'view.finder' => \Illuminate\View\FileViewFinder::class,
+    'config' => \Illuminate\Config\Repository::class,
 ]));
 
 override(\Illuminate\Container\Container::makeWith(0), map([
     '' => '@',
-    'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
-    'db' => \Illuminate\Database\DatabaseManager::class,
-    'view.finder' => \Illuminate\View\FileViewFinder::class,
+    'config' => \Illuminate\Config\Repository::class,
 ]));
 
 override(\Illuminate\Contracts\Container\Container::get(0), map([
     '' => '@',
-    'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
-    'db' => \Illuminate\Database\DatabaseManager::class,
-    'view.finder' => \Illuminate\View\FileViewFinder::class,
+    'config' => \Illuminate\Config\Repository::class,
 ]));
 
 override(\Illuminate\Contracts\Container\Container::make(0), map([
     '' => '@',
-    'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
-    'db' => \Illuminate\Database\DatabaseManager::class,
-    'view.finder' => \Illuminate\View\FileViewFinder::class,
+    'config' => \Illuminate\Config\Repository::class,
 ]));
 
 override(\Illuminate\Contracts\Container\Container::makeWith(0), map([
     '' => '@',
-    'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
-    'db' => \Illuminate\Database\DatabaseManager::class,
-    'view.finder' => \Illuminate\View\FileViewFinder::class,
+    'config' => \Illuminate\Config\Repository::class,
 ]));
+
 override(\App::get(0), map([
     '' => '@',
-    'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
-    'db' => \Illuminate\Database\DatabaseManager::class,
-    'view.finder' => \Illuminate\View\FileViewFinder::class,
+    'config' => \Illuminate\Config\Repository::class,
 ]));
 
 override(\App::make(0), map([
     '' => '@',
-    'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
-    'db' => \Illuminate\Database\DatabaseManager::class,
-    'view.finder' => \Illuminate\View\FileViewFinder::class,
+    'config' => \Illuminate\Config\Repository::class,
 ]));
 
 override(\App::makeWith(0), map([
     '' => '@',
-    'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
-    'db' => \Illuminate\Database\DatabaseManager::class,
-    'view.finder' => \Illuminate\View\FileViewFinder::class,
+    'config' => \Illuminate\Config\Repository::class,
 ]));
 
 override(\app(0), map([
     '' => '@',
-    'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
-    'db' => \Illuminate\Database\DatabaseManager::class,
-    'view.finder' => \Illuminate\View\FileViewFinder::class,
+    'config' => \Illuminate\Config\Repository::class,
 ]));
 override(\resolve(0), map([
     '' => '@',
-    'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
-    'db' => \Illuminate\Database\DatabaseManager::class,
-    'view.finder' => \Illuminate\View\FileViewFinder::class,
+    'config' => \Illuminate\Config\Repository::class,
 ]));
 
 override(\Psr\Container\ContainerInterface::get(0), map([
     '' => '@',
-    'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
-    'db' => \Illuminate\Database\DatabaseManager::class,
-    'view.finder' => \Illuminate\View\FileViewFinder::class,
+    'config' => \Illuminate\Config\Repository::class,
 ]));
 
 override(\Illuminate\Support\Arr::add(0), type(0));

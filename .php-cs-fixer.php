@@ -10,8 +10,6 @@ declare(strict_types=1);
  * This source file is subject to the MIT license that is bundled.
  */
 
-use Ergebnis\License;
-
 $header = <<<EOF
 This file is part of the guanguans/ai-commit.
 
@@ -20,24 +18,13 @@ This file is part of the guanguans/ai-commit.
 This source file is subject to the MIT license that is bundled.
 EOF;
 
-// $license = License\Type\MIT::text(
-//     __DIR__.'/LICENSE',
-//     License\Range::since(
-//         License\Year::fromString('2018'),
-//         new DateTimeZone('Asia/Shanghai'),
-//     ),
-//     License\Holder::fromString('guanguans'),
-//     License\Url::fromString('https://github.com/guanguans/ai-commit'),
-// );
-
-// $license->header();
-// $license->save();
-
 /** @noinspection PhpParamsInspection */
 $finder = PhpCsFixer\Finder::create()
     ->in([
         __DIR__.'/app',
+        __DIR__.'/bootstrap',
         __DIR__.'/config',
+        __DIR__.'/resources',
         __DIR__.'/tests',
     ])
     ->exclude([
@@ -47,6 +34,7 @@ $finder = PhpCsFixer\Finder::create()
         'vendor/',
     ])
     ->append([
+        __DIR__.'/.ai-commit.php',
         __DIR__.'/.php-cs-fixer.php',
         __DIR__.'/.phpstorm.meta.php',
         __DIR__.'/composer-unused.php',

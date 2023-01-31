@@ -8,7 +8,6 @@
 .phplint-cache
 .php_cs.cache
 .php-cs-fixer.cache
-.phpunit.result.cache
 build/
 coverage/
 clover.xml
@@ -22,3 +21,5 @@ node_modules/
 package-lock.json
 mutation-report.html
 storage/logs/laravel.log
+.env
+.ai-commit.php

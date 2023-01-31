@@ -12,10 +12,20 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\GeneratorManager;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
+    /**
+     * All of the container singletons that should be registered.
+     *
+     * @var array<array-key, string>
+     */
+    public $singletons = [
+        GeneratorManager::class => GeneratorManager::class,
+    ];
+
     /**
      * Bootstrap any application services.
      *
@@ -23,6 +33,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $globalConfigFile = windows_os()
+            ? sprintf('C:\\Users\\%s\\.ai-commit.php', get_current_user())
+            : sprintf('%s/.ai-commit.php', exec('cd ~; pwd'));
+
+        $configOfAICommit = array_merge(
+            $this->app->get('config')->get('ai-commit'),
+            require $this->app->basePath('.ai-commit.php')
+        );
+
+        $this->app->get('config')->set('ai-commit', $configOfAICommit);
     }
 
     /**
