@@ -17,6 +17,7 @@ use App\Contracts\OutputAwareContract;
 use App\Generators\Concerns\OutputAware;
 use App\OpenAI;
 use Illuminate\Support\Arr;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class OpenAIGenerator implements GeneratorContract, OutputAwareContract
 {
@@ -51,7 +52,7 @@ class OpenAIGenerator implements GeneratorContract, OutputAwareContract
 
             $text = Arr::get(json_decode((string) $stringable, true), 'choices.0.text', '');
             $commitMessages .= $text;
-            $this->output->write($text);
+            app(OutputInterface::class)->write($text);
         });
 
         return (string) $commitMessages;

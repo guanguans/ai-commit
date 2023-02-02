@@ -16,10 +16,14 @@ use App\Contracts\GeneratorContract;
 use App\Contracts\OutputAwareContract;
 use App\Exceptions\TaskException;
 use App\GeneratorManager;
+use App\Mark;
+use Composer\Console\Input\InputOption;
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Stringable;
 use LaravelZero\Framework\Commands\Command;
+use function str;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
@@ -32,14 +36,32 @@ class CommitCommand extends Command
     protected $signature = /** @lang text */
         '
         commit
-        {--commit-options=* : Append options for the `git commit` command <comment>[default: "--edit"]</comment>}
-        {--diff-options=* : Append options for the `git diff` command <comment>[default: ":!*.lock"]</comment>}
-        {--generator=openai : Specify generator}
-        {--num=3 : Specify number of generated messages}
-        {--template= : Specify template of messages generated}
+        // {--commit-options=* : Append options for the `git commit` command <comment>[default: "--edit"]</comment>
+        // {--diff-options=* : Append options for the `git diff` command <comment>[default: ":!*.lock"]</comment>
+        // {--generator=openai : Specify generator
+        // {--num=3 : Specify number of generated messages
+        // {--template= : Specify template of messages generated
     ';
 
     protected $description = 'Automagically generate commit messages with AI.';
+
+    /**
+     * The configuration of the command.
+     *
+     * @return void
+     */
+    protected function configure()
+    {
+        $config = resolve(Repository::class);
+
+        $this->setDefinition([
+            new InputOption('commit-options', '', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git commit` command', $config->get('ai-commit.commit-options')),
+            new InputOption('diff-options', '', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git diff` command', $config->get('ai-commit.diff-options')),
+            new InputOption('generator', '', InputOption::VALUE_REQUIRED, 'Specify generator', $config->get('ai-commit.generator')),
+            new InputOption('num', '', InputOption::VALUE_REQUIRED, 'Specify number of generated messages', $config->get('ai-commit.num')),
+            new InputOption('template', '', InputOption::VALUE_REQUIRED, 'Specify template of messages generated', $config->get('ai-commit.template')),
+        ]);
+    }
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
@@ -51,7 +73,7 @@ class CommitCommand extends Command
             $isInsideWorkTree = Process::fromShellCommandline('git rev-parse --is-inside-work-tree')
                 ->mustRun()
                 ->getOutput();
-            if (! \str($isInsideWorkTree)->rtrim()->is('true')) {
+            if (! str($isInsideWorkTree)->rtrim()->is('true')) {
                 $message = <<<'message'
 It looks like you are not in a git repository.
 Please run this command from the root of a git repository, or initialize one using `git init`.
@@ -68,7 +90,7 @@ message;
 
         $this->task('2. Generating commit messages', function () use (&$commitMessages, $stagedDiff) {
             $commitMessages = $this->getGenerator()->generate($this->getPromptOfAI($stagedDiff));
-            if (\str($commitMessages)->isEmpty()) {
+            if (str($commitMessages)->isEmpty()) {
                 throw new TaskException('No commit messages generated.');
             }
 
@@ -138,9 +160,9 @@ message;
 
     protected function getPromptOfAI(string $stagedDiff): string
     {
-        return \str($this->option('template') ?: $this->laravel->get('config')->get('ai-commit.template'))
+        return str($this->option('template') ?: $this->laravel->get('config')->get('ai-commit.template'))
             ->replace(
-                ['{{diff}}', '{{num}}'],
+                [Mark::DIFF, Mark::NUM],
                 [$stagedDiff, $this->option('num') ?: $this->laravel->get('config')->get('ai-commit.num')]
             )
             ->when($this->option('verbose'), function (Stringable $diff) {
