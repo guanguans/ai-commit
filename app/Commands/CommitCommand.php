@@ -16,7 +16,6 @@ use App\Contracts\GeneratorContract;
 use App\Contracts\OutputAwareContract;
 use App\Exceptions\TaskException;
 use App\GeneratorManager;
-use Composer\Console\Input\InputOption;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Collection;
@@ -24,6 +23,7 @@ use Illuminate\Support\Stringable;
 use LaravelZero\Framework\Commands\Command;
 use function str;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
