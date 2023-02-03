@@ -10,9 +10,8 @@ declare(strict_types=1);
  * This source file is subject to the MIT license that is bundled.
  */
 
-namespace App;
+namespace App\Support;
 
-use App\Support\FoundationSDK;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;

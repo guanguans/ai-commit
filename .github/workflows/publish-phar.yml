@@ -2,7 +2,7 @@ name: Publish the released PHAR
 
 on:
   release:
-    types: [created]
+    types: [ created ]
 
 jobs:
   publish:

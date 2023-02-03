@@ -29,7 +29,7 @@ class GeneratorManager extends Manager
 
     public function getDefaultDriver()
     {
-        return $this->config->get('ai-commit.default');
+        return $this->config->get('ai-commit.generator');
     }
 
     protected function createOpenAIDriver(): OpenAIGenerator

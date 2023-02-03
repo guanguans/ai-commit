@@ -62,7 +62,7 @@ return [
                 'connect_timeout' => 3,
                 'timeout' => 60,
             ],
-            'api_key' => '',
+            'api_key' => 'sk-...',
             'completion_parameters' => [
                 'model' => 'text-davinci-003',
                 // 'prompt' => $prompt,

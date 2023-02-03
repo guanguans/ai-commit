@@ -15,7 +15,7 @@ namespace App\Generators;
 use App\Contracts\GeneratorContract;
 use App\Contracts\OutputAwareContract;
 use App\Generators\Concerns\OutputAware;
-use App\OpenAI;
+use App\Support\OpenAI;
 use Illuminate\Support\Arr;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -24,7 +24,7 @@ class OpenAIGenerator implements GeneratorContract, OutputAwareContract
     use OutputAware;
 
     /**
-     * @var \App\OpenAI
+     * @var \App\Support\OpenAI
      */
     protected $openAI;
 
