@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\ConfigManager;
 use App\GeneratorManager;
 use Illuminate\Support\ServiceProvider;
 
@@ -33,16 +34,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $globalConfigFile = windows_os()
-            ? sprintf('C:\\Users\\%s\\.ai-commit.php', get_current_user())
-            : sprintf('%s/.ai-commit.php', exec('cd ~; pwd'));
-
-        $configOfAICommit = array_merge(
-            $this->app->get('config')->get('ai-commit'),
-            require $this->app->basePath('.ai-commit.php')
-        );
-
-        $this->app->get('config')->set('ai-commit', $configOfAICommit);
+        ConfigManager::load();
     }
 
     /**

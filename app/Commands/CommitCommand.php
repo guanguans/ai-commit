@@ -16,7 +16,6 @@ use App\Contracts\GeneratorContract;
 use App\Contracts\OutputAwareContract;
 use App\Exceptions\TaskException;
 use App\GeneratorManager;
-use App\Mark;
 use Composer\Console\Input\InputOption;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Config\Repository;
@@ -40,7 +39,7 @@ class CommitCommand extends Command
         // {--diff-options=* : Append options for the `git diff` command <comment>[default: ":!*.lock"]</comment>
         // {--generator=openai : Specify generator
         // {--num=3 : Specify number of generated messages
-        // {--template= : Specify template of messages generated
+        // {--prompt= : Specify prompt name of messages generated
     ';
 
     protected $description = 'Automagically generate commit messages with AI.';
@@ -52,14 +51,15 @@ class CommitCommand extends Command
      */
     protected function configure()
     {
-        $config = resolve(Repository::class);
+        /** @var \App\ConfigManager $config */
+        $config = resolve(Repository::class)->get('ai-commit');
 
         $this->setDefinition([
-            new InputOption('commit-options', '', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git commit` command', $config->get('ai-commit.commit-options')),
-            new InputOption('diff-options', '', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git diff` command', $config->get('ai-commit.diff-options')),
-            new InputOption('generator', '', InputOption::VALUE_REQUIRED, 'Specify generator', $config->get('ai-commit.generator')),
-            new InputOption('num', '', InputOption::VALUE_REQUIRED, 'Specify number of generated messages', $config->get('ai-commit.num')),
-            new InputOption('template', '', InputOption::VALUE_REQUIRED, 'Specify template of messages generated', $config->get('ai-commit.template')),
+            new InputOption('commit-options', '', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git commit` command', $config->get('commit_options')),
+            new InputOption('diff-options', '', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git diff` command', $config->get('diff_options')),
+            new InputOption('generator', '', InputOption::VALUE_REQUIRED, 'Specify generator name', $config->get('generator')),
+            new InputOption('num', '', InputOption::VALUE_REQUIRED, 'Specify number of generated messages', $config->get('num')),
+            new InputOption('prompt', '', InputOption::VALUE_REQUIRED, 'Specify prompt name of messages generated', $config->get('prompt')),
         ]);
     }
 
@@ -124,17 +124,12 @@ message;
 
     protected function getDiffCommand(): array
     {
-        return array_merge(
-            ['git', 'diff', '--staged'],
-            $this->option('diff-options') ?: $this->laravel->get('config')->get('ai-commit.diff-options')
-        );
+        return array_merge(['git', 'diff', '--staged'], $this->option('diff-options'));
     }
 
     protected function getGenerator(): GeneratorContract
     {
-        $generator = $this->laravel->get(GeneratorManager::class)->driver(
-            $this->option('generator') ?: $this->laravel->get('config')->get('ai-commit.generator')
-        );
+        $generator = $this->laravel->get(GeneratorManager::class)->driver($this->option('generator'));
 
         return tap($generator, function (GeneratorContract $generator) {
             $generator instanceof OutputAwareContract and $generator->setOutput($this->output);
@@ -153,17 +148,20 @@ message;
             ->pipe(function (Collection $collection): array {
                 return array_merge(
                     ['git', 'commit', '--message', $collection->implode(str_repeat(PHP_EOL, 2))],
-                    $this->option('commit-options') ?: $this->laravel->get('config')->get('ai-commit.commit-options')
+                    $this->option('commit-options')
                 );
             });
     }
 
     protected function getPromptOfAI(string $stagedDiff): string
     {
-        return str($this->option('template') ?: $this->laravel->get('config')->get('ai-commit.template'))
+        /** @var \App\ConfigManager $config */
+        $config = $this->laravel->get('config')->get('ai-commit');
+
+        return str($config->get("prompts.{$this->option('prompt')}"))
             ->replace(
-                [Mark::DIFF, Mark::NUM],
-                [$stagedDiff, $this->option('num') ?: $this->laravel->get('config')->get('ai-commit.num')]
+                [$config->get('diff_mark'), $config->get('num_mark')],
+                [$stagedDiff, $this->option('num')]
             )
             ->when($this->option('verbose'), function (Stringable $diff) {
                 $this->line('');
