@@ -16,8 +16,8 @@ use App\Exceptions\InvalidJsonFileException;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Iterator;
 
 /**
  * @template TKey of array-key
@@ -25,22 +25,32 @@ use Iterator;
  *
  * @see https://github.com/hassankhan/config
  */
-class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSerializable, \Stringable, \Iterator
+class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSerializable
 {
-    final public static function load(): void
+    public const NAME = '.ai-commit.json';
+
+    final public static function load(): self
     {
-        resolve('config')->set('ai-commit', self::create());
+        $self = self::create();
+
+        resolve('config')->set('ai-commit', $self);
+
+        return $self;
     }
 
-    final public static function create(): self
+    public static function create(?array $items = null): self
     {
+        if (is_array($items)) {
+            return new self($items);
+        }
+
         $files = [
             config_path('ai-commit.php'),
-            windows_os() ? sprintf('C:\\Users\\%s\\.ai-commit.json', get_current_user()) : sprintf('%s/.ai-commit.json', exec('cd ~; pwd')),
-            getcwd().DIRECTORY_SEPARATOR.'.ai-commit.json',
+            self::globalPath(),
+            self::cwdPath(),
         ];
 
-        return static::createFrom(...array_filter($files, 'file_exists'));
+        return self::createFrom(...array_filter($files, 'file_exists'));
     }
 
     public static function createFrom(...$files): self
@@ -68,7 +78,26 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSeri
             throw new \InvalidArgumentException("Invalid argument type: `$ext`.");
         }, []);
 
-        return new static(array_replace_recursive(...$config));
+        return new self(array_replace_recursive(...$config));
+    }
+
+    public static function globalPath(string $path = self::NAME): string
+    {
+        if (windows_os()) {
+            return sprintf('C:\\Users\\%s', get_current_user()).$path;
+        }
+
+        return exec('cd ~; pwd').$path;
+    }
+
+    public static function cwdPath(string $path = self::NAME): string
+    {
+        $cwd = getcwd();
+        if (false === $cwd) {
+            $cwd = realpath('');
+        }
+
+        return $cwd.($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 
     /**
@@ -77,6 +106,16 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSeri
     public function merge(array $items): self
     {
         $this->items = array_replace_recursive($this->items, $items);
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function forget($keys): self
+    {
+        Arr::forget($this->items, $keys);
 
         return $this;
     }
@@ -113,9 +152,13 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSeri
         return array_map(function ($value) {
             if ($value instanceof \JsonSerializable) {
                 return $value->jsonSerialize();
-            } elseif ($value instanceof Jsonable) {
+            }
+
+            if ($value instanceof Jsonable) {
                 return json_decode($value->toJson(), true);
-            } elseif ($value instanceof Arrayable) {
+            }
+
+            if ($value instanceof Arrayable) {
                 return $value->toArray();
             }
 
@@ -135,134 +178,26 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSeri
         return json_encode($this->jsonSerialize(), $options);
     }
 
-    /**
-     * Convert the collection to its string representation.
-     *
-     * @noinspection DebugFunctionUsageInspection
-     */
-    public function toString(string $type = 'json'): string
+    public function toGlobal(int $options = JSON_PRETTY_PRINT)
     {
-        if (str($type)->is('json')) {
-            return $this->toJson(JSON_PRETTY_PRINT);
-        }
-
-        if (str($type)->is('php')) {
-            return var_export($this->toArray(), true);
-        }
-
-        throw new \InvalidArgumentException("Invalid argument type: `$type`.");
+        $this->toFile(self::globalPath(), $options);
     }
 
-    public function toCwd()
+    public function toCwd(int $options = JSON_PRETTY_PRINT)
     {
-        $file = getcwd().DIRECTORY_SEPARATOR.'.ai-commit.json';
-
-        return $this->toFile($file);
+        $this->toFile(self::cwdPath(), $options);
     }
 
-    public function toGlobal()
+    public function toFile(string $file, int $options = 0)
     {
-        $file = windows_os() ? sprintf('C:\\Users\\%s\\.ai-commit.json', get_current_user()) : sprintf('%s/.ai-commit.json', exec('cd ~; pwd'));
-
-        return $this->toFile($file);
-    }
-
-    public function toFile(string $file)
-    {
-        $type = pathinfo($file, PATHINFO_EXTENSION);
-
-        return file_put_contents($file, $this->toString($type));
+        return file_put_contents($file, $this->toJson($options));
     }
 
     /**
-     * Convert the collection to its string representation.
-     *
      * @return string
      */
     public function __toString()
     {
         return $this->toJson();
-    }
-
-    /**
-     * Iterator Methods.
-     */
-
-    /**
-     * Returns the data array element referenced by its internal cursor.
-     *
-     * @return mixed The element referenced by the data array's internal cursor.
-     *               If the array is empty or there is no element at the cursor, the
-     *               function returns false. If the array is undefined, the function
-     *               returns null
-     */
-    #[\ReturnTypeWillChange]
-    public function current()
-    {
-        return is_array($this->items) ? current($this->items) : null;
-    }
-
-    /**
-     * Returns the data array index referenced by its internal cursor.
-     *
-     * @return mixed The index referenced by the data array's internal cursor.
-     *               If the array is empty or undefined or there is no element at the
-     *               cursor, the function returns null
-     */
-    #[\ReturnTypeWillChange]
-    public function key()
-    {
-        return is_array($this->items) ? key($this->items) : null;
-    }
-
-    /**
-     * Moves the data array's internal cursor forward one element.
-     *
-     * @return mixed The element referenced by the data array's internal cursor
-     *               after the move is completed. If there are no more elements in the
-     *               array after the move, the function returns false. If the data array
-     *               is undefined, the function returns null
-     */
-    #[\ReturnTypeWillChange]
-    public function next()
-    {
-        return is_array($this->items) ? next($this->items) : null;
-    }
-
-    /**
-     * Moves the data array's internal cursor to the first element.
-     *
-     * @return mixed The element referenced by the data array's internal cursor
-     *               after the move is completed. If the data array is empty, the function
-     *               returns false. If the data array is undefined, the function returns
-     *               null
-     */
-    #[\ReturnTypeWillChange]
-    public function rewind()
-    {
-        return is_array($this->items) ? reset($this->items) : null;
-    }
-
-    /**
-     * Tests whether the iterator's current index is valid.
-     *
-     * @return bool True if the current index is valid; false otherwise
-     */
-    #[\ReturnTypeWillChange]
-    public function valid()
-    {
-        return is_array($this->items) ? null !== key($this->items) : false;
-    }
-
-    /**
-     * Remove a value using the offset as a key.
-     *
-     * @param string $key
-     *
-     * @return void
-     */
-    public function remove($key)
-    {
-        $this->offsetUnset($key);
     }
 }
