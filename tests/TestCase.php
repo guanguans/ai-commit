@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 use LaravelZero\Framework\Testing\TestCase as BaseTestCase;
 use phpmock\phpunit\PHPMock;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -20,7 +19,6 @@ use Spatie\Snapshots\MatchesSnapshots;
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
-    use ArraySubsetAsserts;
     use MatchesSnapshots;
     use PHPMock;
 
