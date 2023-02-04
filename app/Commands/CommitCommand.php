@@ -21,7 +21,6 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Stringable;
 use LaravelZero\Framework\Commands\Command;
-use function str;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -73,7 +72,7 @@ class CommitCommand extends Command
             $isInsideWorkTree = Process::fromShellCommandline('git rev-parse --is-inside-work-tree')
                 ->mustRun()
                 ->getOutput();
-            if (! str($isInsideWorkTree)->rtrim()->is('true')) {
+            if (! \str($isInsideWorkTree)->rtrim()->is('true')) {
                 $message = <<<'message'
 It looks like you are not in a git repository.
 Please run this command from the root of a git repository, or initialize one using `git init`.
@@ -90,7 +89,7 @@ message;
 
         $this->task('2. Generating commit messages', function () use (&$commitMessages, $stagedDiff) {
             $commitMessages = $this->getGenerator()->generate($this->getPromptOfAI($stagedDiff));
-            if (str($commitMessages)->isEmpty()) {
+            if (\str($commitMessages)->isEmpty()) {
                 throw new TaskException('No commit messages generated.');
             }
 
@@ -158,7 +157,7 @@ message;
         /** @var \App\ConfigManager $config */
         $config = $this->laravel->get('config')->get('ai-commit');
 
-        return str($config->get("prompts.{$this->option('prompt')}"))
+        return \str($config->get("prompts.{$this->option('prompt')}"))
             ->replace(
                 [$config->get('diff_mark'), $config->get('num_mark')],
                 [$stagedDiff, $this->option('num')]

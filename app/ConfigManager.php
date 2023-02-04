@@ -17,10 +17,7 @@ use Illuminate\Config\Repository;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Collection;
-use InvalidArgumentException;
 use Iterator;
-use JsonSerializable;
-use Stringable;
 
 /**
  * @template TKey of array-key
@@ -28,7 +25,7 @@ use Stringable;
  *
  * @see https://github.com/hassankhan/config
  */
-class ConfigManager extends Repository implements Arrayable, Jsonable, JsonSerializable, Stringable, Iterator
+class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSerializable, \Stringable, \Iterator
 {
     final public static function load(): void
     {
@@ -68,7 +65,7 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, JsonSeria
                 return $items;
             }
 
-            throw new InvalidArgumentException("Invalid argument type: `$ext`.");
+            throw new \InvalidArgumentException("Invalid argument type: `$ext`.");
         }, []);
 
         return new static(array_replace_recursive(...$config));
@@ -114,7 +111,7 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, JsonSeria
     public function jsonSerialize(): array
     {
         return array_map(function ($value) {
-            if ($value instanceof JsonSerializable) {
+            if ($value instanceof \JsonSerializable) {
                 return $value->jsonSerialize();
             } elseif ($value instanceof Jsonable) {
                 return json_decode($value->toJson(), true);
@@ -153,7 +150,7 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, JsonSeria
             return var_export($this->toArray(), true);
         }
 
-        throw new InvalidArgumentException("Invalid argument type: `$type`.");
+        throw new \InvalidArgumentException("Invalid argument type: `$type`.");
     }
 
     public function toCwd()
