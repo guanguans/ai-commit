@@ -29,13 +29,9 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSeri
 {
     public const NAME = '.ai-commit.json';
 
-    final public static function load(): self
+    final public static function load(): void
     {
-        $self = self::create();
-
-        resolve('config')->set('ai-commit', $self);
-
-        return $self;
+        resolve('config')->set('ai-commit', self::create());
     }
 
     public static function create(?array $items = null): self
@@ -44,20 +40,15 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSeri
             return new self($items);
         }
 
-        $files = [
-            config_path('ai-commit.php'),
-            self::globalPath(),
-            self::cwdPath(),
-        ];
-
-        return self::createFrom(...array_filter($files, 'file_exists'));
+        return self::createFrom(
+            ...array_filter([config_path('ai-commit.php'), self::globalPath(), self::localPath()], 'file_exists')
+        );
     }
 
     public static function createFrom(...$files): self
     {
         $config = array_reduce($files, function (array $items, string $file): array {
             $ext = str(pathinfo($file, PATHINFO_EXTENSION));
-
             if ($ext->is('php')) {
                 $items[] = require $file;
 
@@ -83,6 +74,7 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSeri
 
     public static function globalPath(string $path = self::NAME): string
     {
+        $path = $path ? DIRECTORY_SEPARATOR.$path : $path;
         if (windows_os()) {
             return sprintf('C:\\Users\\%s', get_current_user()).$path;
         }
@@ -90,7 +82,7 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSeri
         return exec('cd ~; pwd').$path;
     }
 
-    public static function cwdPath(string $path = self::NAME): string
+    public static function localPath(string $path = self::NAME): string
     {
         $cwd = getcwd();
         if (false === $cwd) {
@@ -100,34 +92,14 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSeri
         return $cwd.($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 
-    /**
-     * @return $this
-     */
-    public function merge(array $items): self
+    public function replace(array $items): void
     {
         $this->items = array_replace_recursive($this->items, $items);
-
-        return $this;
     }
 
-    /**
-     * @return $this
-     */
-    public function forget($keys): self
+    public function forget($keys): void
     {
         Arr::forget($this->items, $keys);
-
-        return $this;
-    }
-
-    /**
-     * Collect the values into a collection.
-     *
-     * @return \Illuminate\Support\Collection<TKey, TValue>
-     */
-    public function collect(): Collection
-    {
-        return new Collection($this->all());
     }
 
     /**
@@ -178,17 +150,17 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSeri
         return json_encode($this->jsonSerialize(), $options);
     }
 
-    public function toGlobal(int $options = JSON_PRETTY_PRINT)
+    public function toGlobal(int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
     {
         $this->toFile(self::globalPath(), $options);
     }
 
-    public function toCwd(int $options = JSON_PRETTY_PRINT)
+    public function toLocal(int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
     {
-        $this->toFile(self::cwdPath(), $options);
+        $this->toFile(self::localPath(), $options);
     }
 
-    public function toFile(string $file, int $options = 0)
+    public function toFile(string $file, int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
     {
         return file_put_contents($file, $this->toJson($options));
     }

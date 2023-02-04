@@ -21,9 +21,7 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Stringable;
 use LaravelZero\Framework\Commands\Command;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
 class CommitCommand extends Command
@@ -31,17 +29,23 @@ class CommitCommand extends Command
     /**
      * @var string
      */
-    protected $signature = /** @lang text */
-        '
-        commit
-        // {--commit-options=* : Append options for the `git commit` command <comment>[default: "--edit"]</comment>
-        // {--diff-options=* : Append options for the `git diff` command <comment>[default: ":!*.lock"]</comment>
-        // {--generator=openai : Specify generator
-        // {--num=3 : Specify number of generated messages
-        // {--prompt= : Specify prompt name of messages generated
-    ';
+    protected $signature = 'commit';
 
+    /**
+     * @var string
+     */
     protected $description = 'Automagically generate commit messages with AI.';
+
+    /**
+     * @var \App\ConfigManager
+     */
+    protected $config;
+
+    public function __construct()
+    {
+        $this->config = resolve(Repository::class)->get('ai-commit');
+        parent::__construct();
+    }
 
     /**
      * The configuration of the command.
@@ -50,20 +54,13 @@ class CommitCommand extends Command
      */
     protected function configure()
     {
-        /** @var \App\ConfigManager $config */
-        $config = resolve(Repository::class)->get('ai-commit');
-
         $this->setDefinition([
-            new InputOption('commit-options', '', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git commit` command', $config->get('commit_options')),
-            new InputOption('diff-options', '', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git diff` command', $config->get('diff_options')),
-            new InputOption('generator', '', InputOption::VALUE_REQUIRED, 'Specify generator name', $config->get('generator')),
-            new InputOption('num', '', InputOption::VALUE_REQUIRED, 'Specify number of generated messages', $config->get('num')),
-            new InputOption('prompt', '', InputOption::VALUE_REQUIRED, 'Specify prompt name of messages generated', $config->get('prompt')),
+            new InputOption('commit-options', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git commit` command', $this->config->get('commit_options')),
+            new InputOption('diff-options', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git diff` command', $this->config->get('diff_options')),
+            new InputOption('generator', null, InputOption::VALUE_REQUIRED, 'Specify generator name', $this->config->get('generator')),
+            new InputOption('num', null, InputOption::VALUE_REQUIRED, 'Specify number of generated messages', $this->config->get('num')),
+            new InputOption('prompt', null, InputOption::VALUE_REQUIRED, 'Specify prompt name of messages generated', $this->config->get('prompt')),
         ]);
-    }
-
-    protected function initialize(InputInterface $input, OutputInterface $output)
-    {
     }
 
     public function handle()
@@ -154,12 +151,9 @@ message;
 
     protected function getPromptOfAI(string $stagedDiff): string
     {
-        /** @var \App\ConfigManager $config */
-        $config = $this->laravel->get('config')->get('ai-commit');
-
-        return \str($config->get("prompts.{$this->option('prompt')}"))
+        return \str($this->config->get("prompts.{$this->option('prompt')}"))
             ->replace(
-                [$config->get('diff_mark'), $config->get('num_mark')],
+                [$this->config->get('diff_mark'), $this->config->get('num_mark')],
                 [$stagedDiff, $this->option('num')]
             )
             ->when($this->option('verbose'), function (Stringable $diff) {

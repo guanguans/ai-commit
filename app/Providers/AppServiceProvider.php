@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\ConfigManager;
-use App\GeneratorManager;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,9 +22,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @var array<array-key, string>
      */
-    public $singletons = [
-        GeneratorManager::class => GeneratorManager::class,
-    ];
+    public $singletons = [];
 
     /**
      * Bootstrap any application services.
