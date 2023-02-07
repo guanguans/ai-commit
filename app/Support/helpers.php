@@ -22,7 +22,7 @@ if (! function_exists('validate')) {
      */
     function validate(array $data, array $rules, array $messages = [], array $customAttributes = []): array
     {
-        return app(Factory::class)->make($data, $rules, $messages, $customAttributes)->validate();
+        return resolve(Factory::class)->make($data, $rules, $messages, $customAttributes)->validate();
     }
 }
 
@@ -70,7 +70,7 @@ if (! function_exists('make')) {
         }
 
         if (is_string($abstract)) {
-            return app($abstract, $parameters);
+            return resolve($abstract, $parameters);
         }
 
         $classes = ['__class', '_class', 'class'];

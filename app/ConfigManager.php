@@ -17,7 +17,6 @@ use Illuminate\Config\Repository;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 
 /**
  * @template TKey of array-key
@@ -92,26 +91,32 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSeri
         return $cwd.($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 
+    public function toGlobal(int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
+    {
+        $this->toFile(self::globalPath(), $options);
+    }
+
+    public function toLocal(int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
+    {
+        $this->toFile(self::localPath(), $options);
+    }
+
+    public function toFile(string $file, int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
+    {
+        return file_put_contents($file, $this->toJson($options));
+    }
+
     public function replace(array $items): void
     {
         $this->items = array_replace_recursive($this->items, $items);
     }
 
+    /**
+     * @param string|array<string> $keys
+     */
     public function forget($keys): void
     {
         Arr::forget($this->items, $keys);
-    }
-
-    /**
-     * Get the collection of items as a plain array.
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        return array_map(function ($value) {
-            return $value instanceof Arrayable ? $value->toArray() : $value;
-        }, $this->all());
     }
 
     /**
@@ -139,8 +144,16 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSeri
     }
 
     /**
-     * Get the collection of items as JSON.
-     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return array_map(function ($value) {
+            return $value instanceof Arrayable ? $value->toArray() : $value;
+        }, $this->all());
+    }
+
+    /**
      * @param int $options
      *
      * @return string
@@ -148,21 +161,6 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSeri
     public function toJson($options = 0)
     {
         return json_encode($this->jsonSerialize(), $options);
-    }
-
-    public function toGlobal(int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
-    {
-        $this->toFile(self::globalPath(), $options);
-    }
-
-    public function toLocal(int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
-    {
-        $this->toFile(self::localPath(), $options);
-    }
-
-    public function toFile(string $file, int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
-    {
-        return file_put_contents($file, $this->toJson($options));
     }
 
     /**

@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\Exceptions;
 
-use Illuminate\Http\Client\RequestException;
 use Illuminate\Validation\ValidationException;
 
 class Handler extends \Illuminate\Foundation\Exceptions\Handler
@@ -20,22 +19,24 @@ class Handler extends \Illuminate\Foundation\Exceptions\Handler
     /**
      * A list of the exception types that are not reported.
      *
-     * @var array
+     * @var array<string>
      */
-    protected $dontReport = [
-        // \Illuminate\Database\Eloquent\ModelNotFoundException::class,
-    ];
+    protected $dontReport = [];
 
-    public function renderForConsole($request, \Throwable $e)
+    /**
+     * {@inheritdoc}
+     */
+    public function renderForConsole($output, \Throwable $e)
     {
         if ($e instanceof ValidationException) {
-            $e = new InvalidConfigException($e->validator->errors()->first());
+            $e = new InvalidConfigException(
+                $e->validator->errors()->first(),
+                $e->status,
+                $e->getPrevious()
+            );
         }
 
-        if ($e instanceof RequestException) {
-        }
-
-        parent::renderForConsole($request, $e);
+        parent::renderForConsole($output, $e);
     }
 
     public function shouldntReport(\Throwable $e)

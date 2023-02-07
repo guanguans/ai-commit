@@ -13,16 +13,12 @@ declare(strict_types=1);
 namespace App\Generators;
 
 use App\Contracts\GeneratorContract;
-use App\Contracts\OutputAwareContract;
-use App\Generators\Concerns\OutputAware;
 use App\Support\OpenAI;
 use Illuminate\Support\Arr;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class OpenAIGenerator implements GeneratorContract, OutputAwareContract
+class OpenAIGenerator implements GeneratorContract
 {
-    use OutputAware;
-
     /**
      * @var \App\Support\OpenAI
      */
@@ -52,7 +48,7 @@ class OpenAIGenerator implements GeneratorContract, OutputAwareContract
 
             $text = Arr::get(json_decode((string) $stringable, true), 'choices.0.text', '');
             $commitMessages .= $text;
-            app(OutputInterface::class)->write($text);
+            resolve(OutputInterface::class)->write($text);
         });
 
         return (string) $commitMessages;
