@@ -44,7 +44,7 @@
 #   Hide                            Hide the subsequent commands from the output
 #   Show                            Show the subsequent commands in the output
 
-Output ./resources/music-dl.gif
+Output ./docs/ai-commit.gif
 
 Require php
 
@@ -54,12 +54,6 @@ Set Height 773
 Set TypingSpeed 100ms
 Set PlaybackSpeed 0.618
 
-Type "./builds/music-dl netease" Sleep 1s
-Enter 1 Sleep 1s
-Type "不只是南方" Sleep 1s
-Enter 1 Sleep 3s
-Type "yes" Sleep 1s
-Enter 1 Sleep 1s
+Type "./builds/ai-commit commit" Sleep 1s
 Down@1s 3 Sleep 1s
 Enter 1 Sleep 10s
-Ctrl+C Sleep 3s
