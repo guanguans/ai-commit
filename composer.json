@@ -116,16 +116,13 @@
         }
     },
     "scripts": {
-        "post-install-cmd": [
+        "post-install-cmd": [],
+        "post-update-cmd": [
             "@cghooks add --ignore-lock",
             "@cghooks update"
         ],
-        "post-update-cmd": [
-            "@cghooks update"
-        ],
         "post-autoload-dump": [],
-        "auto-commit": "auto-commit",
-        "auto-commit-dry-run": "@auto-commit --dry-run",
+        "ai-commit": "@php ./builds/ai-commit commit",
         "cghooks": "@php ./vendor/bin/cghooks",
         "changelog": "@php ./vendor/bin/conventional-changelog",
         "changelog-keep": "@php ./vendor/bin/keep-a-changelog",
