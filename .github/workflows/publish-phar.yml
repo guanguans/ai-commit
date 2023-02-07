@@ -28,7 +28,7 @@ jobs:
           coverage: none
 
       - name: Install the dependencies
-        run: composer install --prefer-dist --no-progress
+        run: composer install --prefer-dist --no-progress --ansi --no-interaction --no-progress --no-suggest --prefer-dist --no-dev
 
       - name: Create the PHAR file.
         run: ./ai-commit app:build ai-commit --build-version=${{ steps.tag.outputs.tag }}
