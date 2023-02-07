@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\Generators;
 
 use App\Contracts\GeneratorContract;
+use App\Support\JsonFixer;
 use App\Support\OpenAI;
 use Illuminate\Support\Arr;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -72,6 +73,9 @@ class OpenAIGenerator implements GeneratorContract
             $output->write($text);
         });
 
-        return (string) $commitMessages;
+        return (new JsonFixer())
+            ->missingValue('')
+            ->silent()
+            ->fix(substr((string) $commitMessages, strpos((string) $commitMessages, '[')));
     }
 }
