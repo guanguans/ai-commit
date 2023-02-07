@@ -14,6 +14,7 @@ namespace App\Exceptions;
 
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Validation\ValidationException;
+use Throwable;
 
 class Handler extends \Illuminate\Foundation\Exceptions\Handler
 {
@@ -26,31 +27,7 @@ class Handler extends \Illuminate\Foundation\Exceptions\Handler
         // \Illuminate\Database\Eloquent\ModelNotFoundException::class,
     ];
 
-    public function report(\Throwable $e)
-    {
-        if ($e instanceof ValidationException) {
-            $e = new InvalidConfigException($e->validator->errors()->first());
-        }
-
-        if ($e instanceof RequestException) {
-        }
-
-        parent::report($e);
-    }
-
-    public function render($request, \Throwable $e)
-    {
-        if ($e instanceof ValidationException) {
-            $e = new InvalidConfigException($e->validator->errors()->first());
-        }
-
-        if ($e instanceof RequestException) {
-        }
-
-        parent::render($request, $e);
-    }
-
-    public function renderForConsole($request, \Throwable $e)
+    public function renderForConsole($request, Throwable $e)
     {
         if ($e instanceof ValidationException) {
             $e = new InvalidConfigException($e->validator->errors()->first());
@@ -60,5 +37,14 @@ class Handler extends \Illuminate\Foundation\Exceptions\Handler
         }
 
         parent::renderForConsole($request, $e);
+    }
+
+    public function shouldntReport(Throwable $e)
+    {
+        if ($this->container->isProduction()) {
+            return true;
+        }
+
+        return parent::shouldntReport($e);
     }
 }
