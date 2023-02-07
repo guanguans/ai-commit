@@ -67,7 +67,7 @@ return [
                 'model' => 'text-davinci-003',
                 // 'prompt' => $prompt,
                 'suffix' => null,
-                'max_tokens' => 3000,
+                'max_tokens' => 500,
                 'temperature' => 0.0,
                 'top_p' => 1.0,
                 'n' => 1,
@@ -79,7 +79,7 @@ return [
                 'frequency_penalty' => 0,
                 'best_of' => 1,
                 // 'logit_bias' => null,
-                'user' => Str::uuid()->toString(),
+                // 'user' => Str::uuid()->toString(),
             ],
         ],
     ],
@@ -91,7 +91,7 @@ return [
      * @see https://github.com/shanginn/git-aicommit
      */
     'prompts' => [
-        'en' => <<<'prompt'
+        'en' => <<<'en'
 Here is the output of the `git diff`:
 ```
 <diff>
@@ -120,11 +120,6 @@ Please provide a response in the form of a valid JSON object and do not include 
         "subject": "<type>(<scope>): <subject>",
         "body": "<BODY (bullet points)>"
     },
-    {
-        "id": 2,
-        "subject": "<type>(<scope>): <subject>",
-        "body": "<BODY (bullet points)>"
-    },
     ...
     {
         "id": n,
@@ -132,8 +127,9 @@ Please provide a response in the form of a valid JSON object and do not include 
         "body": "<BODY (bullet points)>"
     }
 ]
-prompt,
-        'cn' => <<<'prompt'
+en
+        ,
+        'cn' => <<<'cn'
 这是 `git diff` 的输出：
 ```
 <diff>
@@ -162,11 +158,6 @@ prompt,
         "subject": "<type>(<scope>): <subject>",
         "body": "<BODY (bullet points)>"
     },
-    {
-        "id": 2,
-        "subject": "<type>(<scope>): <subject>",
-        "body": "<BODY (bullet points)>"
-    },
     ...
     {
         "id": n,
@@ -174,6 +165,7 @@ prompt,
         "body": "<BODY (bullet points)>"
     }
 ]
-prompt
+cn
+        ,
     ],
 ];

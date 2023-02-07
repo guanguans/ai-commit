@@ -41,6 +41,27 @@ class OpenAIGenerator implements GeneratorContract
         $parameters['prompt'] = $prompt;
 
         $this->openAI->completions($parameters, function (string $data) use (&$commitMessages) {
+            $output = resolve(OutputInterface::class);
+            if (is_json($data)) {
+                // 错误响应
+                $response = json_decode($data, true);
+                if (isset($response['error']['message'])) {
+                    $output->write(PHP_EOL);
+                    $output->write("<error>{$response['error']['message']}</error>");
+                    $output->write(PHP_EOL);
+
+                    return;
+                }
+
+                // 正常响应
+                $text = Arr::get($response, 'choices.0.text', '');
+                $commitMessages .= $text;
+                $output->write($text);
+
+                return;
+            }
+
+            // 流响应
             $stringable = \str($data)->replaceFirst('data: ', '')->rtrim();
             if ($stringable->startsWith('[DONE]')) {
                 return;
@@ -48,7 +69,7 @@ class OpenAIGenerator implements GeneratorContract
 
             $text = Arr::get(json_decode((string) $stringable, true), 'choices.0.text', '');
             $commitMessages .= $text;
-            resolve(OutputInterface::class)->write($text);
+            $output->write($text);
         });
 
         return (string) $commitMessages;

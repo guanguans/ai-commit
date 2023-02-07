@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace App\Commands;
 
 use App\Contracts\GeneratorContract;
-use App\Contracts\OutputAwareContract;
 use App\Exceptions\TaskException;
 use App\GeneratorManager;
 use Illuminate\Console\Scheduling\Schedule;
@@ -125,11 +124,7 @@ message;
 
     protected function getGenerator(): GeneratorContract
     {
-        $generator = $this->laravel->get(GeneratorManager::class)->driver($this->option('generator'));
-
-        return tap($generator, function (GeneratorContract $generator) {
-            $generator instanceof OutputAwareContract and $generator->setOutput($this->output);
-        });
+        return $this->laravel->get(GeneratorManager::class)->driver($this->option('generator'));
     }
 
     protected function getCommitCommand(array $commitMessage): array

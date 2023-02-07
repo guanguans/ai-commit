@@ -64,7 +64,8 @@ class OpenAI extends FoundationSDK
                 'logit_bias' => 'array', // map
                 'user' => 'string|uuid',
             ]
-        ))->throw();
+        ))
+            ->throw();
     }
 
     /**
@@ -79,10 +80,10 @@ class OpenAI extends FoundationSDK
                 'retry' => [
                     'times' => 1,
                     'sleepMilliseconds' => 100,
-                    'when' => static function (\Throwable $throwable) {
-                        return $throwable instanceof ConnectionException;
-                    },
-                    'throw' => true,
+                    // 'when' => static function (\Throwable $throwable) {
+                    //     return $throwable instanceof ConnectionException;
+                    // },
+                    // 'throw' => true,
                 ],
             ],
             validate($config, [
@@ -92,8 +93,8 @@ class OpenAI extends FoundationSDK
                 'retry' => 'array',
                 'retry.times' => 'integer',
                 'retry.sleepMilliseconds' => 'integer',
-                'retry.when' => 'nullable',
-                'retry.throw' => 'bool',
+                // 'retry.when' => 'nullable',
+                // 'retry.throw' => 'bool',
             ])
         );
     }
