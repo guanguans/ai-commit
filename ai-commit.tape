@@ -44,6 +44,8 @@
 #   Hide                            Hide the subsequent commands from the output
 #   Show                            Show the subsequent commands in the output
 
+# https://github.com/charmbracelet/vhs
+
 Output ./docs/ai-commit.gif
 
 Require php
@@ -56,4 +58,6 @@ Set PlaybackSpeed 0.618
 
 Type "./builds/ai-commit commit" Sleep 1s
 Down@1s 3 Sleep 1s
-Enter 1 Sleep 10s
+Enter 1 Sleep 3s
+type ":q" Sleep 3s
+Enter 1 Sleep 3s
