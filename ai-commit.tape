@@ -54,10 +54,9 @@ Set FontSize 20
 Set Width 1250
 Set Height 773
 Set TypingSpeed 100ms
-Set PlaybackSpeed 0.618
+Set PlaybackSpeed 0.382
 
-Type "./builds/ai-commit commit" Sleep 1s
+Type "./ai-commit commit" Sleep 1s
+Enter 1 Sleep 10s
 Down@1s 3 Sleep 1s
-Enter 1 Sleep 3s
-type ":q" Sleep 3s
 Enter 1 Sleep 3s
