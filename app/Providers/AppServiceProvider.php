@@ -13,7 +13,11 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\ConfigManager;
+use App\Macros\StringableMacro;
+use App\Macros\StrMacro;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
+use Illuminate\Support\Stringable;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,7 +26,10 @@ class AppServiceProvider extends ServiceProvider
      *
      * @var array<array-key, string>
      */
-    public $singletons = [];
+    public $singletons = [
+        StringableMacro::class => StringableMacro::class,
+        StrMacro::class => StrMacro::class,
+    ];
 
     /**
      * Bootstrap any application services.
@@ -41,5 +48,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        Stringable::mixin($this->app->make(StringableMacro::class));
+        Str::mixin($this->app->make(StrMacro::class));
     }
 }
