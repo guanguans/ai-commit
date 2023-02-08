@@ -50,13 +50,20 @@ Output ./docs/ai-commit.gif
 
 Require php
 
-Set FontSize 20
-Set Width 1250
-Set Height 773
+Set Framerate 120
+Set FontSize 18
+Set Width 1000
+Set Height 618
 Set TypingSpeed 100ms
-Set PlaybackSpeed 0.382
+Set PlaybackSpeed 0.1
 
+Type "git status" Sleep 1s
+Enter 1 Sleep 100ms
 Type "./ai-commit commit" Sleep 1s
-Enter 1 Sleep 10s
+Enter 1 Sleep 20s
 Down@1s 3 Sleep 1s
-Enter 1 Sleep 3s
+Enter 1 Sleep 100ms
+Type "git status" Sleep 1s
+Enter 1 Sleep 100ms
+Type "git log -1" Sleep 1s
+Enter 1 Sleep 5s

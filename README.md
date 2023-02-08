@@ -1,5 +1,7 @@
 # ai-commit
 
+![](docs/ai-commit.gif)
+
 [简体中文](README-zh_CN.md) | [ENGLISH](README.md)
 
 > Automatically generate commit message by AI. - 通过 AI 自动生成提交信息。
@@ -13,8 +15,6 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/guanguans/ai-commit)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/guanguans/ai-commit)
 
-## Features
-
 ## Requirement
 
 * PHP >= 7.2
@@ -22,10 +22,12 @@
 ## Installation
 
 ```bash
-composer require guanguans/ai-commit --prefer-dist -vvv
+composer require guanguans/ai-commit --dev -v
 ```
 
 ## Usage
+
+![](docs/ai-commit.gif)
 
 ## Testing
 
