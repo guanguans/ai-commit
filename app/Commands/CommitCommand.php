@@ -33,7 +33,7 @@ class CommitCommand extends Command
     /**
      * @var string
      */
-    protected $description = 'Automagically generate commit messages with AI.';
+    protected $description = 'Automagically generate conventional commit messages with AI.';
 
     /**
      * @var \App\ConfigManager
