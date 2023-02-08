@@ -12,11 +12,10 @@ declare(strict_types=1);
 
 namespace App\Commands;
 
-use App\Contracts\GeneratorContract;
 use App\Exceptions\TaskException;
 use App\GeneratorManager;
+use App\Support\JsonFixer;
 use Illuminate\Console\Scheduling\Schedule;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Stringable;
 use LaravelZero\Framework\Commands\Command;
@@ -38,11 +37,11 @@ class CommitCommand extends Command
     /**
      * @var \App\ConfigManager
      */
-    protected $config;
+    protected $configManager;
 
     public function __construct()
     {
-        $this->config = resolve(Repository::class)->get('ai-commit');
+        $this->configManager = config('ai-commit');
         parent::__construct();
     }
 
@@ -54,17 +53,17 @@ class CommitCommand extends Command
     protected function configure()
     {
         $this->setDefinition([
-            new InputOption('commit-options', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git commit` command', $this->config->get('commit_options')),
-            new InputOption('diff-options', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git diff` command', $this->config->get('diff_options')),
-            new InputOption('generator', null, InputOption::VALUE_REQUIRED, 'Specify generator name', $this->config->get('generator')),
-            new InputOption('num', null, InputOption::VALUE_REQUIRED, 'Specify number of generated messages', $this->config->get('num')),
-            new InputOption('prompt', null, InputOption::VALUE_REQUIRED, 'Specify prompt name of messages generated', $this->config->get('prompt')),
+            new InputOption('commit-options', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git commit` command', $this->configManager->get('commit_options')),
+            new InputOption('diff-options', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git diff` command', $this->configManager->get('diff_options')),
+            new InputOption('generator', null, InputOption::VALUE_REQUIRED, 'Specify generator name', $this->configManager->get('generator')),
+            new InputOption('num', null, InputOption::VALUE_REQUIRED, 'Specify number of generated messages', $this->configManager->get('num')),
+            new InputOption('prompt', null, InputOption::VALUE_REQUIRED, 'Specify prompt name of messages generated', $this->configManager->get('prompt')),
         ]);
     }
 
     public function handle()
     {
-        $this->task('1. Checking environment', function () use (&$stagedDiff) {
+        $this->task('1. Checking run environment', function () use (&$stagedDiff) {
             $isInsideWorkTree = Process::fromShellCommandline('git rev-parse --is-inside-work-tree')
                 ->mustRun()
                 ->getOutput();
@@ -83,13 +82,15 @@ message;
             }
         }, 'checking...');
 
-        $this->task('2. Generating commit messages', function () use (&$commitMessages, $stagedDiff) {
-            $commitMessages = $this->getGenerator()->generate($this->getPromptOfAI($stagedDiff));
-            if (\str($commitMessages)->isEmpty()) {
+        $this->task('2. Generating commit messages', function () use (&$messages, $stagedDiff) {
+            $generator = $this->laravel->get(GeneratorManager::class)->driver($this->option('generator'));
+            $messages = $generator->generate($this->getPromptOfAI($stagedDiff));
+            if (\str($messages)->isEmpty()) {
                 throw new TaskException('No commit messages generated.');
             }
 
-            if (! is_json($commitMessages)) {
+            $messages = $this->tryFixMessages($messages);
+            if (! \str($messages)->isJson()) {
                 throw new TaskException('The generated commit messages is an invalid JSON.');
             }
 
@@ -97,18 +98,16 @@ message;
             $this->line('');
         }, 'generating...');
 
-        $this->task('3. Choosing commit message', function () use ($commitMessages, &$commitMessage) {
-            $commitMessages = collect(json_decode($commitMessages, true));
-
-            $chosenSubject = $this->choice('Please choice a commit message', $commitMessages->pluck('subject', 'id')->all());
-
-            $commitMessage = $commitMessages->first(function ($commitMessage) use ($chosenSubject) {
-                return $commitMessage['subject'] === $chosenSubject;
+        $this->task('3. Choosing commit message', function () use ($messages, &$message) {
+            $messages = collect(json_decode($messages, true));
+            $chosenSubject = $this->choice('Please choice a commit message', $messages->pluck('subject', 'id')->all());
+            $message = $messages->first(function ($message) use ($chosenSubject) {
+                return $message['subject'] === $chosenSubject;
             });
         }, 'choosing...');
 
-        $this->task('4. Committing message', function () use ($commitMessage) {
-            (new Process($this->getCommitCommand($commitMessage)))
+        $this->task('4. Committing message', function () use ($message) {
+            (new Process($this->getCommitCommand($message)))
                 ->setTty(true)
                 ->setTimeout(null)
                 ->mustRun();
@@ -122,14 +121,54 @@ message;
         return array_merge(['git', 'diff', '--staged'], $this->option('diff-options'));
     }
 
-    protected function getGenerator(): GeneratorContract
+    protected function getPromptOfAI(string $stagedDiff): string
     {
-        return $this->laravel->get(GeneratorManager::class)->driver($this->option('generator'));
+        return (string) \str($this->configManager->get("prompts.{$this->option('prompt')}"))
+            ->replace(
+                [$this->configManager->get('diff_mark'), $this->configManager->get('num_mark')],
+                [$stagedDiff, $this->option('num')]
+            )
+            ->when($this->option('verbose'), function (Stringable $diff) {
+                $this->line('');
+                $this->comment('============================ start prompt ============================');
+
+                $diff->explode(PHP_EOL)->each(function (string $line) {
+                    if (\str($line)->startsWith('+')) {
+                        $this->info($line);
+
+                        return;
+                    }
+
+                    if (\str($line)->startsWith('-')) {
+                        $this->error($line);
+
+                        return;
+                    }
+
+                    if (\str($line)->startsWith('@@')) {
+                        $this->comment($line);
+
+                        return;
+                    }
+
+                    $this->line($line);
+                });
+
+                $this->comment('============================= end prompt =============================');
+            });
     }
 
-    protected function getCommitCommand(array $commitMessage): array
+    protected function tryFixMessages(string $messages): string
     {
-        return collect($commitMessage)
+        return (string) (new JsonFixer())
+            ->missingValue('')
+            ->silent()
+            ->fix(substr($messages, strpos($messages, '[')));
+    }
+
+    protected function getCommitCommand(array $message): array
+    {
+        return collect($message)
             ->filter(function ($val) {
                 return $val && is_string($val);
             })
@@ -142,22 +181,6 @@ message;
                     $this->option('commit-options')
                 );
             });
-    }
-
-    protected function getPromptOfAI(string $stagedDiff): string
-    {
-        return \str($this->config->get("prompts.{$this->option('prompt')}"))
-            ->replace(
-                [$this->config->get('diff_mark'), $this->config->get('num_mark')],
-                [$stagedDiff, $this->option('num')]
-            )
-            ->when($this->option('verbose'), function (Stringable $diff) {
-                $this->line('');
-                $this->line('===================================================');
-                $this->line($diff);
-                $this->output->write('===================================================');
-            })
-            ->__toString();
     }
 
     /**
