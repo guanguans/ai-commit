@@ -17,7 +17,7 @@ return [
      * Append options for the `git commit` command.
      */
     'commit_options' => [
-        '--edit',
+        // '--edit',
     ],
 
     /**
@@ -26,6 +26,11 @@ return [
     'diff_options' => [
         ':!*.lock',
     ],
+
+    /**
+     * Force no edit mode.
+     */
+    'no_edit' => false,
 
     /**
      * The prompt name.

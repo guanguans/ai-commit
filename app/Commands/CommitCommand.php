@@ -55,9 +55,10 @@ class CommitCommand extends Command
         $this->setDefinition([
             new InputOption('commit-options', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git commit` command', $this->configManager->get('commit_options')),
             new InputOption('diff-options', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git diff` command', $this->configManager->get('diff_options')),
-            new InputOption('generator', null, InputOption::VALUE_REQUIRED, 'Specify generator name', $this->configManager->get('generator')),
+            new InputOption('generator', 'g', InputOption::VALUE_REQUIRED, 'Specify generator name', $this->configManager->get('generator')),
             new InputOption('num', null, InputOption::VALUE_REQUIRED, 'Specify number of generated messages', $this->configManager->get('num')),
-            new InputOption('prompt', null, InputOption::VALUE_REQUIRED, 'Specify prompt name of messages generated', $this->configManager->get('prompt')),
+            new InputOption('prompt', 'p', InputOption::VALUE_REQUIRED, 'Specify prompt name of messages generated', $this->configManager->get('prompt')),
+            new InputOption('no-edit', null, InputOption::VALUE_NONE, 'Force no edit mode'),
         ]);
     }
 
@@ -176,10 +177,21 @@ message;
                 return trim($val, " \t\n\r\x0B");
             })
             ->pipe(function (Collection $collection): array {
-                return array_merge(
-                    ['git', 'commit', '--message', $collection->implode(str_repeat(PHP_EOL, 2))],
-                    $this->option('commit-options')
-                );
+                $options = collect($this->option('commit-options'))
+                    ->push('--edit')
+                    ->pipe(function (Collection $collection): Collection {
+                        $noEdit = $this->option('no-edit') ?: $this->configManager->get('no_edit');
+                        if ($noEdit) {
+                            return $collection->filter(function (string $option): bool {
+                                return '--edit' !== $option;
+                            });
+                        }
+
+                        return $collection;
+                    })
+                    ->all();
+
+                return array_merge(['git', 'commit', '--message', $collection->implode(str_repeat(PHP_EOL, 2))], $options);
             });
     }
 
