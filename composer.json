@@ -172,7 +172,7 @@
         "test-coverage": "@test --coverage-html=./build/phpunit/ --coverage-clover=clover.xml",
         "vhs": [
             "@php -r \"file_exists('.git/hooks/pre-commit') and rename('.git/hooks/pre-commit', '.git/hooks/pre-commit.sample');\"",
-            "@php -r \"file_exists('.git/hooks/post-merge') and rename('.git/hooks/pre-commit', '.git/hooks/post-merge.sample');\"",
+            "@php -r \"file_exists('.git/hooks/post-merge') and rename('.git/hooks/post-merge', '.git/hooks/post-merge.sample');\"",
             "vhs < ai-commit.tape",
             "@cghooks-install"
         ]
