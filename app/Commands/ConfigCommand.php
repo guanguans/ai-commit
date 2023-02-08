@@ -14,7 +14,6 @@ namespace App\Commands;
 
 use App\ConfigManager;
 use Illuminate\Console\Scheduling\Schedule;
-use Illuminate\Contracts\Config\Repository;
 use LaravelZero\Framework\Commands\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -36,27 +35,33 @@ class ConfigCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Manage configuration options.';
+    protected $description = 'Manage config options.';
+
     /**
-     * @var mixed
+     * @var \App\ConfigManager
      */
     protected $configManager;
+
+    public function __construct()
+    {
+        $this->configManager = config('ai-commit');
+        parent::__construct();
+    }
 
     protected function configure()
     {
         $this->setDefinition([
-            new InputArgument('action', InputArgument::REQUIRED, ''),
-            new InputArgument('agr1', InputArgument::OPTIONAL, ''),
-            new InputArgument('agr2', InputArgument::OPTIONAL, ''),
-            new InputOption('global', 'g', InputOption::VALUE_NONE, 'Apply command to the global config file'),
-            new InputOption('editor', 'e', InputOption::VALUE_OPTIONAL, 'Open editor', null),
+            new InputArgument('action', InputArgument::REQUIRED, 'The action(<comment>edit、unset、set、get</comment>) name'),
+            new InputArgument('key', InputArgument::OPTIONAL, 'The key of config options'),
+            new InputArgument('value', InputArgument::OPTIONAL, 'The value of config options'),
+            new InputOption('global', 'g', InputOption::VALUE_NONE, 'Apply to the global config file'),
+            new InputOption('file', 'f', InputOption::VALUE_OPTIONAL, 'Apply to the specify config file'),
+            new InputOption('editor', 'e', InputOption::VALUE_OPTIONAL, 'Specify editor', null),
         ]);
     }
 
     public function initialize(InputInterface $input, OutputInterface $output)
     {
-        /** @var \App\ConfigManager $configManager */
-        $this->configManager = $this->laravel->get(Repository::class)->get('ai-commit');
         if (! file_exists($this->configManager::globalPath())) {
             $this->configManager->toGlobal();
         }
@@ -70,6 +75,10 @@ class ConfigCommand extends Command
     public function handle()
     {
         $file = value(function () {
+            if ($file = $this->option('file')) {
+                return $file;
+            }
+
             if ($this->option('global')) {
                 return ConfigManager::globalPath();
             }
@@ -77,21 +86,22 @@ class ConfigCommand extends Command
             return ConfigManager::localPath();
         });
 
-        if ($this->option('verbose')) {
-            $this->info("The ($file) configuration file is being manipulated");
+        $this->info("The config file($file) is being operated");
+        file_exists($file) or $this->configManager->toFile($file);
+        $this->configManager->replaceFrom($file);
+        $action = $this->argument('action');
+        $key = $this->argument('key');
+        $value = $this->argument('value');
+
+        if (in_array($action, ['unset', 'set'], true) && null === $key) {
+            $this->error('Please specify the parameter key');
+
+            return self::FAILURE;
         }
 
-        if (! file_exists($file)) {
-            $confirm = $this->confirm('Whether to create a configuration file?', true);
-            $confirm and $this->configManager->toFile($file);
-        }
-
-        /** @var \App\ConfigManager $configManager */
-        $configManager = file_exists($file) ? ConfigManager::createFrom($file) : ConfigManager::create([]);
-
-        switch ($action = $this->argument('action')) {
+        switch ($action) {
             case 'edit':
-                $editor = $this->option('editor') ?: value(function () {
+                $editor = value(function () {
                     if ($editor = $this->option('editor')) {
                         return $editor;
                     }
@@ -100,38 +110,31 @@ class ConfigCommand extends Command
                         return 'notepad';
                     }
 
-                    foreach (['editor', 'vim', 'vi', 'nano', 'pico', 'ed'] as $candidate) {
-                        if (exec("which $candidate")) {
-                            return $candidate;
+                    foreach (['editor', 'vim', 'vi', 'nano', 'pico', 'ed'] as $editor) {
+                        if (exec("which $editor")) {
+                            return $editor;
                         }
                     }
 
-                    throw new \RuntimeException('No editors were found.');
+                    throw new \RuntimeException('No editor found or specified.');
                 });
 
                 Process::fromShellCommandline("$editor $file")->setTty(true)->setTimeout(null)->mustRun();
 
                 break;
-            case 'list':
-                if ($file) {
-                    $configManager = ConfigManager::createFrom($file);
-                }
-
-                $this->line($configManager->toJson(JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-
-                break;
             case 'unset':
-                $configManager->forget($this->argument('agr1'));
-                $configManager->toFile($file);
+                $this->configManager->forget($key);
+                $this->configManager->toFile($file);
 
                 break;
             case 'set':
-                $configManager->set($this->argument('agr1'), $this->argument('agr2'));
-                $configManager->toFile($file);
+                $this->configManager->set($key, $value);
+                $this->configManager->toFile($file);
 
                 break;
             case 'get':
-                $value = transform($configManager->get($this->argument('agr1')), function ($value) {
+                $value = null === $key ? $this->configManager->toJson() : $value;
+                $value = transform($value, function ($value) {
                     true === $value and $value = 'true';
                     false === $value and $value = 'false';
                     null === $value and $value = 'null';
@@ -144,8 +147,10 @@ class ConfigCommand extends Command
 
                 break;
             default:
-                throw new \RuntimeException("Unexpected action $action");
+                throw new \RuntimeException("The action($action) must be one of [edit, unset, set, get].");
         }
+
+        return self::SUCCESS;
     }
 
     /**

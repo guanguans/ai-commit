@@ -106,6 +106,23 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSeri
         return file_put_contents($file, $this->toJson($options));
     }
 
+    public function replaceFrom(string $file): void
+    {
+        $ext = str(pathinfo($file, PATHINFO_EXTENSION));
+        if ($ext->is('php')) {
+            $items = require $file;
+        }
+
+        if ($ext->is('json')) {
+            $items = json_decode(file_get_contents($file), true);
+            if (JSON_ERROR_NONE !== json_last_error()) {
+                throw InvalidJsonFileException::make($file);
+            }
+        }
+
+        $this->replace($items);
+    }
+
     public function replace(array $items): void
     {
         $this->items = array_replace_recursive($this->items, $items);
@@ -158,7 +175,7 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSeri
      *
      * @return string
      */
-    public function toJson($options = 0)
+    public function toJson($options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
     {
         return json_encode($this->jsonSerialize(), $options);
     }
