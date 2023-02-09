@@ -106,15 +106,16 @@ class ConfigCommand extends Command
 
                 break;
             case 'get':
-                $value = null === $key ? $this->configManager->toJson() : $value;
-                $value = transform($value, function ($value) {
-                    true === $value and $value = 'true';
-                    false === $value and $value = 'false';
-                    null === $value and $value = 'null';
-                    ! is_scalar($value) and $value = json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+                $value = null === $key ? $this->configManager->toJson() : $this->configManager->get($key);
+                $value = transform($value, $transform = function ($value) {
+                    if (is_scalar($value) || null === $value) {
+                        $json = json_encode(['key' => $value], JSON_UNESCAPED_UNICODE);
 
-                    return $value;
-                });
+                        return (string) \str($json)->replaceFirst('{"key":', '')->replaceLast('}', '');
+                    }
+
+                    return json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+                }, $transform);
 
                 $this->line($value);
 
