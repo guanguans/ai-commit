@@ -51,7 +51,7 @@ class ConfigCommand extends Command
     protected function configure()
     {
         $this->setDefinition([
-            new InputArgument('action', InputArgument::REQUIRED, 'The action(<comment>edit、unset、set、get</comment>) name'),
+            new InputArgument('action', InputArgument::REQUIRED, 'The action(<comment>[set, get, unset, list, edit]</comment>) name'),
             new InputArgument('key', InputArgument::OPTIONAL, 'The key of config options'),
             new InputArgument('value', InputArgument::OPTIONAL, 'The value of config options'),
             new InputOption('global', 'g', InputOption::VALUE_NONE, 'Apply to the global config file'),
@@ -100,6 +100,49 @@ class ConfigCommand extends Command
         }
 
         switch ($action) {
+            case 'set':
+                $this->configManager->set($key, $value);
+                $this->configManager->toFile($file);
+
+                break;
+            case 'get':
+                $value = null === $key ? $this->configManager->toJson() : $value;
+                $value = transform($value, function ($value) {
+                    true === $value and $value = 'true';
+                    false === $value and $value = 'false';
+                    null === $value and $value = 'null';
+                    ! is_scalar($value) and $value = json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+                    return $value;
+                });
+
+                $this->line($value);
+
+                break;
+            case 'unset':
+                $this->configManager->forget($key);
+                $this->configManager->toFile($file);
+
+                break;
+            case 'list':
+                $flattenWithKeys = static function (array $array, string $delimiter = '.', $prefix = null) use (&$flattenWithKeys): array {
+                    $result = [];
+
+                    foreach ($array as $key => $item) {
+                        $fullKey = null === $prefix ? $key : $prefix.$delimiter.$key;
+                        is_array($item) ? $result += $flattenWithKeys($item, $delimiter, $fullKey) : $result[$fullKey] = $item;
+                    }
+
+                    return $result;
+                };
+
+                $json = ConfigManager::create($flattenWithKeys($this->configManager->all()))->toJson();
+
+                \str($json)->ltrim('{')->rtrim('}')->explode(','.PHP_EOL)->each(function ($line) {
+                    $this->line(trim($line));
+                });
+
+                break;
             case 'edit':
                 $editor = value(function () {
                     if ($editor = $this->option('editor')) {
@@ -122,32 +165,8 @@ class ConfigCommand extends Command
                 Process::fromShellCommandline("$editor $file")->setTty(true)->setTimeout(null)->mustRun();
 
                 break;
-            case 'unset':
-                $this->configManager->forget($key);
-                $this->configManager->toFile($file);
-
-                break;
-            case 'set':
-                $this->configManager->set($key, $value);
-                $this->configManager->toFile($file);
-
-                break;
-            case 'get':
-                $value = null === $key ? $this->configManager->toJson() : $value;
-                $value = transform($value, function ($value) {
-                    true === $value and $value = 'true';
-                    false === $value and $value = 'false';
-                    null === $value and $value = 'null';
-                    ! is_scalar($value) and $value = json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
-                    return $value;
-                });
-
-                $this->line($value);
-
-                break;
             default:
-                throw new \RuntimeException("The action($action) must be one of [edit, unset, set, get].");
+                throw new \RuntimeException("The action($action) must be one of [set, get, unset, list, edit].");
         }
 
         return self::SUCCESS;
