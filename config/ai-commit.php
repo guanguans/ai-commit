@@ -28,9 +28,9 @@ return [
     ],
 
     /**
-     * Force no edit mode.
+     * Force edit mode.
      */
-    'no_edit' => false,
+    'edit' => true,
 
     /**
      * The prompt name.

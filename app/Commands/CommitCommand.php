@@ -19,6 +19,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Stringable;
 use LaravelZero\Framework\Commands\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Process\Process;
 
@@ -53,6 +54,7 @@ class CommitCommand extends Command
     protected function configure()
     {
         $this->setDefinition([
+            new InputArgument('path', InputArgument::OPTIONAL, 'The working directory', $this->configManager::localPath('')),
             new InputOption('commit-options', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git commit` command', $this->configManager->get('commit_options')),
             new InputOption('diff-options', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git diff` command', $this->configManager->get('diff_options')),
             new InputOption('generator', 'g', InputOption::VALUE_REQUIRED, 'Specify generator name', $this->configManager->get('generator')),
@@ -64,8 +66,8 @@ class CommitCommand extends Command
 
     public function handle()
     {
-        $this->task('1. Checking run environment', function () use (&$stagedDiff) {
-            $isInsideWorkTree = Process::fromShellCommandline('git rev-parse --is-inside-work-tree')
+        $this->task('   Checking run environment', function () use (&$stagedDiff) {
+            $isInsideWorkTree = $this->createProcess('git rev-parse --is-inside-work-tree')
                 ->mustRun()
                 ->getOutput();
             if (! \str($isInsideWorkTree)->rtrim()->is('true')) {
@@ -77,13 +79,13 @@ message;
                 throw new TaskException($message);
             }
 
-            $stagedDiff = (new Process($this->getDiffCommand()))->mustRun()->getOutput();
+            $stagedDiff = $this->createProcess($this->getDiffCommand())->mustRun()->getOutput();
             if (empty($stagedDiff)) {
                 throw new TaskException('There are no staged files to commit. Try running `git add` to stage some files.');
             }
         }, 'checking...');
 
-        $this->task('2. Generating commit messages', function () use (&$messages, $stagedDiff) {
+        $this->task('   Generating commit messages', function () use (&$messages, $stagedDiff) {
             $generator = $this->laravel->get(GeneratorManager::class)->driver($this->option('generator'));
             $messages = $generator->generate($this->getPromptOfAI($stagedDiff));
             if (\str($messages)->isEmpty()) {
@@ -99,7 +101,7 @@ message;
             $this->line('');
         }, 'generating...');
 
-        $this->task('3. Choosing commit message', function () use ($messages, &$message) {
+        $this->task('   Choosing commit message', function () use ($messages, &$message) {
             $messages = collect(json_decode($messages, true));
             $chosenSubject = $this->choice('Please choice a commit message', $messages->pluck('subject', 'id')->all());
             $message = $messages->first(function ($message) use ($chosenSubject) {
@@ -107,14 +109,28 @@ message;
             });
         }, 'choosing...');
 
-        $this->task('4. Committing message', function () use ($message) {
-            (new Process($this->getCommitCommand($message)))
+        $this->task('   Committing message', function () use ($message) {
+            $this->createProcess($this->getCommitCommand($message))
                 ->setTty(true)
                 ->setTimeout(null)
                 ->mustRun();
         }, 'committing...');
 
         return self::SUCCESS;
+    }
+
+    /**
+     * @param string|array $command
+     */
+    protected function createProcess($command, string $cwd = null, array $env = null, $input = null, ?float $timeout = 60): Process
+    {
+        /** @noinspection CallableParameterUseCaseInTypeContextInspection */
+        null === $cwd and $cwd = $this->argument('path');
+        if (is_string($command)) {
+            return Process::fromShellCommandline($command, $cwd, $env, $input, $timeout);
+        }
+
+        return new Process($command, $cwd, $env, $input, $timeout);
     }
 
     protected function getDiffCommand(): array
@@ -176,22 +192,22 @@ message;
             ->map(function (string $val) {
                 return trim($val, " \t\n\r\x0B");
             })
-            ->pipe(function (Collection $collection): array {
+            ->pipe(function (Collection $message): array {
                 $options = collect($this->option('commit-options'))
                     ->push('--edit')
-                    ->pipe(function (Collection $collection): Collection {
-                        $noEdit = $this->option('no-edit') ?: $this->configManager->get('no_edit');
+                    ->pipe(function (Collection $options): Collection {
+                        $noEdit = $this->option('no-edit') ?: ! $this->configManager->get('edit');
                         if ($noEdit) {
-                            return $collection->filter(function (string $option): bool {
+                            return $options->filter(function (string $option): bool {
                                 return '--edit' !== $option;
                             });
                         }
 
-                        return $collection;
+                        return $options;
                     })
                     ->all();
 
-                return array_merge(['git', 'commit', '--message', $collection->implode(str_repeat(PHP_EOL, 2))], $options);
+                return array_merge(['git', 'commit', '--message', $message->implode(str_repeat(PHP_EOL, 2))], $options);
             });
     }
 
