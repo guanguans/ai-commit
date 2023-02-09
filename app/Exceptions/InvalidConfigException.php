@@ -13,7 +13,8 @@ declare(strict_types=1);
 namespace App\Exceptions;
 
 use App\Contracts\ThrowableContract;
+use Exception;
 
-class InvalidConfigException extends \Exception implements ThrowableContract
+class InvalidConfigException extends Exception implements ThrowableContract
 {
 }

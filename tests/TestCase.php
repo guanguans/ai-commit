@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Tests;
 
 use LaravelZero\Framework\Testing\TestCase as BaseTestCase;
+use Mockery;
 use phpmock\phpunit\PHPMock;
 use Spatie\Snapshots\MatchesSnapshots;
 
@@ -39,7 +40,7 @@ abstract class TestCase extends BaseTestCase
     /**
      * This method is called before each test.
      */
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         // \DG\BypassFinals::enable();
@@ -48,10 +49,10 @@ abstract class TestCase extends BaseTestCase
     /**
      * This method is called after each test.
      */
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         $this->finish();
-        \Mockery::close();
+        Mockery::close();
     }
 
     /**

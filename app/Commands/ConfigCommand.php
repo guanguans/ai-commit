@@ -15,6 +15,7 @@ namespace App\Commands;
 use App\ConfigManager;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
+use RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -23,6 +24,9 @@ use Symfony\Component\Process\Process;
 
 class ConfigCommand extends Command
 {
+    /**
+     * @var string[]
+     */
     public const ACTIONS = ['set', 'get', 'unset', 'list', 'edit'];
 
     /**
@@ -62,7 +66,7 @@ class ConfigCommand extends Command
         ]);
     }
 
-    public function initialize(InputInterface $input, OutputInterface $output)
+    protected function initialize(InputInterface $input, OutputInterface $output)
     {
         if (! file_exists($this->configManager::globalPath())) {
             $this->configManager->toGlobal();
@@ -71,10 +75,8 @@ class ConfigCommand extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
-    public function handle()
+    public function handle(): int
     {
         $file = value(function () {
             if ($file = $this->option('file')) {
@@ -108,15 +110,13 @@ class ConfigCommand extends Command
                 break;
             case 'get':
                 $value = null === $key ? $this->configManager->toJson() : $this->configManager->get($key);
-                $value = transform($value, $transform = function ($value) {
+                $value = transform($value, $transform = static function ($value) {
                     if (is_string($value)) {
                         return $value;
                     }
-
                     if (null === $value) {
                         return 'null';
                     }
-
                     if (is_scalar($value)) {
                         return (string) \str(json_encode([$value], JSON_UNESCAPED_UNICODE))->replaceFirst('[', '')->replaceLast(']', '');
                     }
@@ -168,14 +168,14 @@ class ConfigCommand extends Command
                         }
                     }
 
-                    throw new \RuntimeException('No editor found or specified.');
+                    throw new RuntimeException('No editor found or specified.');
                 });
 
                 Process::fromShellCommandline("$editor $file")->setTimeout(null)->setTty(true)->mustRun();
 
                 break;
             default:
-                throw new \RuntimeException(sprintf('The action(%s) must be one of [set, get, unset, list, edit].', implode(', ', self::ACTIONS)));
+                throw new RuntimeException(sprintf('The action(%s) must be one of [set, get, unset, list, edit].', implode(', ', self::ACTIONS)));
         }
 
         return self::SUCCESS;

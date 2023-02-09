@@ -48,8 +48,8 @@ abstract class FoundationSDK
      */
     public function ddRequestData()
     {
-        return $this->tapPendingRequest(function (PendingRequest $pendingRequest) {
-            $pendingRequest->beforeSending(function (Request $request, array $options) {
+        return $this->tapPendingRequest(static function (PendingRequest $pendingRequest): void {
+            $pendingRequest->beforeSending(static function (Request $request, array $options): void {
                 VarDumper::dump($options['laravel_data']);
                 exit(1);
             });
@@ -61,8 +61,8 @@ abstract class FoundationSDK
      */
     public function dumpRequestData()
     {
-        return $this->tapPendingRequest(function (PendingRequest $pendingRequest) {
-            $pendingRequest->beforeSending(function (Request $request, array $options) {
+        return $this->tapPendingRequest(static function (PendingRequest $pendingRequest): void {
+            $pendingRequest->beforeSending(static function (Request $request, array $options): void {
                 VarDumper::dump($options['laravel_data']);
             });
         });
@@ -70,24 +70,23 @@ abstract class FoundationSDK
 
     public function dd()
     {
-        return $this->tapPendingRequest(function (PendingRequest $pendingRequest) {
+        return $this->tapPendingRequest(static function (PendingRequest $pendingRequest): void {
             $pendingRequest->dd();
         });
     }
 
     public function dump()
     {
-        return $this->tapPendingRequest(function (PendingRequest $pendingRequest) {
+        return $this->tapPendingRequest(static function (PendingRequest $pendingRequest): void {
             $pendingRequest->dump();
         });
     }
 
     public function withLogMiddleware(?LoggerInterface $logger = null, ?MessageFormatter $formatter = null, string $logLevel = 'info')
     {
-        return $this->tapPendingRequest(function (PendingRequest $pendingRequest) use ($logLevel, $formatter, $logger) {
+        return $this->tapPendingRequest(static function (PendingRequest $pendingRequest) use ($logLevel, $formatter, $logger): void {
             $logger = $logger ?: Log::channel('daily');
             $formatter = $formatter ?: new MessageFormatter(MessageFormatter::DEBUG);
-
             $pendingRequest->withMiddleware(Middleware::log($logger, $formatter, $logLevel));
         });
     }

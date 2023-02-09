@@ -40,7 +40,7 @@ class OpenAIGenerator implements GeneratorContract
         $parameters = Arr::get($this->config, 'completion_parameters', []);
         $parameters['prompt'] = $prompt;
 
-        $this->openAI->completions($parameters, function (string $data) use (&$messages) {
+        $this->openAI->completions($parameters, static function (string $data) use (&$messages): void {
             $output = resolve(OutputInterface::class);
             if (\str($data)->isJson()) {
                 // 错误响应
@@ -60,13 +60,11 @@ class OpenAIGenerator implements GeneratorContract
 
                 return;
             }
-
             // 流响应
             $stringable = \str($data)->replaceFirst('data: ', '')->rtrim();
             if ($stringable->startsWith('[DONE]')) {
                 return;
             }
-
             $text = Arr::get(json_decode((string) $stringable, true), 'choices.0.text', '');
             $messages .= $text;
             $output->write($text);

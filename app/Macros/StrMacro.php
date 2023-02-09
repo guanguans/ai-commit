@@ -22,11 +22,10 @@ class StrMacro
      */
     public static function isJson(): callable
     {
-        return function ($value) {
+        return static function ($value): bool {
             if (! is_string($value)) {
                 return false;
             }
-
             json_decode($value);
 
             return JSON_ERROR_NONE === json_last_error();

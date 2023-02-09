@@ -72,13 +72,13 @@ class CommitCommand extends Command
         $config = $this->option('config') and $this->configManager->replaceFrom($config);
     }
 
-    public function handle()
+    public function handle(): int
     {
-        $this->task('1. Checking run environment', function () use (&$stagedDiff) {
-            $isInsideWorkTree = $this->createProcess('git rev-parse --is-inside-work-tree')
+        $this->task('1. Checking run environment', function () use (&$stagedDiff): void {
+            $output = $this->createProcess('git rev-parse --is-inside-work-tree')
                 ->mustRun()
                 ->getOutput();
-            if (! \str($isInsideWorkTree)->rtrim()->is('true')) {
+            if (! \str($output)->rtrim()->is('true')) {
                 $message = <<<'message'
 It looks like you are not in a git repository.
 Please run this command from the root of a git repository, or initialize one using `git init`.
@@ -93,7 +93,7 @@ message;
             }
         }, 'checking...');
 
-        $this->task('2. Generating commit messages', function () use (&$messages, $stagedDiff) {
+        $this->task('2. Generating commit messages', function () use (&$messages, $stagedDiff): void {
             $generator = $this->laravel->get(GeneratorManager::class)->driver($this->option('generator'));
             $messages = $generator->generate($this->getPromptOfAI($stagedDiff));
             if (\str($messages)->isEmpty()) {
@@ -109,15 +109,15 @@ message;
             $this->line('');
         }, 'generating...');
 
-        $this->task('3. Choosing commit message', function () use ($messages, &$message) {
+        $this->task('3. Choosing commit message', function () use ($messages, &$message): void {
             $messages = collect(json_decode($messages, true));
             $chosenSubject = $this->choice('Please choice a commit message', $messages->pluck('subject', 'id')->all());
-            $message = $messages->first(function ($message) use ($chosenSubject) {
+            $message = $messages->first(static function ($message) use ($chosenSubject): bool {
                 return $message['subject'] === $chosenSubject;
             });
         }, 'choosing...');
 
-        $this->task('4. Committing message', function () use ($message) {
+        $this->task('4. Committing message', function () use ($message): void {
             $this->createProcess($this->getCommitCommand($message))
                 ->setTty(true)
                 ->setTimeout(null)
@@ -153,7 +153,7 @@ message;
                 [$this->configManager->get('diff_mark'), $this->configManager->get('num_mark')],
                 [$stagedDiff, $this->option('num')]
             )
-            ->when($this->option('verbose'), function (Stringable $diff) {
+            ->when($this->option('verbose'), function (Stringable $diff): void {
                 $this->line('');
                 $this->comment('============================ start prompt ============================');
 
@@ -194,10 +194,10 @@ message;
     protected function getCommitCommand(array $message): array
     {
         return collect($message)
-            ->filter(function ($val) {
+            ->filter(static function ($val): bool {
                 return $val && is_string($val);
             })
-            ->map(function (string $val) {
+            ->map(static function (string $val): string {
                 return trim($val, " \t\n\r\x0B");
             })
             ->pipe(function (Collection $message): array {
@@ -206,7 +206,7 @@ message;
                     ->pipe(function (Collection $options): Collection {
                         $noEdit = $this->option('no-edit') ?: ! $this->configManager->get('edit');
                         if ($noEdit) {
-                            return $options->filter(function (string $option): bool {
+                            return $options->filter(static function (string $option): bool {
                                 return '--edit' !== $option;
                             });
                         }
@@ -221,10 +221,8 @@ message;
 
     /**
      * Define the command's schedule.
-     *
-     * @return void
      */
-    public function schedule(Schedule $schedule)
+    public function schedule(Schedule $schedule): void
     {
         // $schedule->command(static::class)->everyMinute();
     }

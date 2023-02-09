@@ -17,6 +17,8 @@ use Illuminate\Config\Repository;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Arr;
+use InvalidArgumentException;
+use JsonSerializable;
 
 /**
  * @template TKey of array-key
@@ -24,8 +26,11 @@ use Illuminate\Support\Arr;
  *
  * @see https://github.com/hassankhan/config
  */
-class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSerializable
+class ConfigManager extends Repository implements Arrayable, Jsonable, JsonSerializable
 {
+    /**
+     * @var string
+     */
     public const NAME = '.ai-commit.json';
 
     final public static function load(): void
@@ -46,14 +51,13 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSeri
 
     public static function createFrom(...$files): self
     {
-        $config = array_reduce($files, function (array $items, string $file): array {
+        $config = array_reduce($files, static function (array $items, string $file): array {
             $ext = str(pathinfo($file, PATHINFO_EXTENSION));
             if ($ext->is('php')) {
                 $items[] = require $file;
 
                 return $items;
             }
-
             if ($ext->is('json')) {
                 $config = json_decode(file_get_contents($file), true);
                 if (JSON_ERROR_NONE !== json_last_error()) {
@@ -65,7 +69,7 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSeri
                 return $items;
             }
 
-            throw new \InvalidArgumentException("Invalid argument type: `$ext`.");
+            throw new InvalidArgumentException("Invalid argument type: `$ext`.");
         }, []);
 
         return new self(array_replace_recursive(...$config));
@@ -91,12 +95,12 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSeri
         return $cwd.($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 
-    public function toGlobal(int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
+    public function toGlobal(int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE): void
     {
         $this->toFile(self::globalPath(), $options);
     }
 
-    public function toLocal(int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
+    public function toLocal(int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE): void
     {
         $this->toFile(self::localPath(), $options);
     }
@@ -121,7 +125,7 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSeri
         }
 
         if (! isset($items)) {
-            throw new \InvalidArgumentException('Unsupported config type');
+            throw new InvalidArgumentException('Unsupported config type');
         }
 
         $this->replace($items);
@@ -147,15 +151,13 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSeri
      */
     public function jsonSerialize(): array
     {
-        return array_map(function ($value) {
-            if ($value instanceof \JsonSerializable) {
+        return array_map(static function ($value) {
+            if ($value instanceof JsonSerializable) {
                 return $value->jsonSerialize();
             }
-
             if ($value instanceof Jsonable) {
                 return json_decode($value->toJson(), true);
             }
-
             if ($value instanceof Arrayable) {
                 return $value->toArray();
             }
@@ -164,12 +166,9 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSeri
         }, $this->all());
     }
 
-    /**
-     * @return array
-     */
-    public function toArray()
+    public function toArray(): array
     {
-        return array_map(function ($value) {
+        return array_map(static function ($value) {
             return $value instanceof Arrayable ? $value->toArray() : $value;
         }, $this->all());
     }

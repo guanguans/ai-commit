@@ -18,10 +18,8 @@ class ConfigCommandTest extends TestCase
 {
     /**
      * A basic test example.
-     *
-     * @return void
      */
-    public function testConfigCommand()
+    public function testConfigCommand(): void
     {
         $this->artisan('config get')
             // ->expectsOutput('Simplicity is the ultimate sophistication.')

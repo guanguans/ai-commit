@@ -10,6 +10,9 @@ declare(strict_types=1);
  * This source file is subject to the MIT license that is bundled.
  */
 
+use PhpCsFixer\Config;
+use PhpCsFixer\Finder;
+
 $header = <<<'header'
 This file is part of the guanguans/ai-commit.
 
@@ -19,7 +22,7 @@ This source file is subject to the MIT license that is bundled.
 header;
 
 /** @noinspection PhpParamsInspection */
-$finder = PhpCsFixer\Finder::create()
+$finder = Finder::create()
     ->in([
         __DIR__.'/app',
         __DIR__.'/bootstrap',
@@ -60,7 +63,7 @@ $finder = PhpCsFixer\Finder::create()
 
 // dd(json_encode($header, JSON_UNESCAPED_SLASHES));
 
-return (new PhpCsFixer\Config())
+return (new Config())
     ->setRules([
         '@DoctrineAnnotation' => true,
         // '@PHP80Migration:risky' => true,

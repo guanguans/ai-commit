@@ -15,18 +15,11 @@ namespace App;
 use App\Generators\OpenAIGenerator;
 use Illuminate\Support\Manager;
 
+/**
+ * @method \App\Contracts\GeneratorContract driver(?string $driver = null)
+ */
 class GeneratorManager extends Manager
 {
-    /**
-     * @param string|null $driver
-     *
-     * @return \App\Contracts\GeneratorContract
-     */
-    public function driver($driver = null)
-    {
-        return parent::driver($driver);
-    }
-
     public function getDefaultDriver()
     {
         return $this->config->get('ai-commit.generator');

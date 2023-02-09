@@ -24,8 +24,3 @@ parameters:
 			message: "#^Call to an undefined method Illuminate\\\\Http\\\\Client\\\\PendingRequest\\:\\:dump\\(\\)\\.$#"
 			count: 1
 			path: app/Support/FoundationSDK.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: tests/Feature/InspiringCommandTest.php

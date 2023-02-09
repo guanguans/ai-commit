@@ -26,10 +26,10 @@ class OpenAI extends FoundationSDK
     {
         $pendingRequest = $this->clonePendingRequest();
 
-        if ($writer) {
+        if (null !== $writer) {
             $pendingRequest->withOptions([
                 'curl' => [
-                    CURLOPT_WRITEFUNCTION => static function ($ch, string $data) use ($writer) {
+                    CURLOPT_WRITEFUNCTION => static function ($ch, string $data) use ($writer): int {
                         $writer($data, $ch);
 
                         return strlen($data);
