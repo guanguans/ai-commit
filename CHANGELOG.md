@@ -20,9 +20,6 @@ All notable changes to `guanguans/ai-commit` will be documented in this file.
 
 - Rename pre-commit and post-merge hooks ([ebd02c](https://github.com/guanguans/ai-commit/commit/ebd02c890316768e8d3112bd0f861933188e3176))
 
-
----
-
 **Full Changelog**: https://github.com/guanguans/ai-commit/compare/v0.3.0...v0.4.0
 
 ## v0.3.0 - 2023-02-07

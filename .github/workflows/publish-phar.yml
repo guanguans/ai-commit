@@ -28,21 +28,24 @@ jobs:
           coverage: none
 
       - name: Install the dependencies
-        run: composer install --prefer-dist --no-progress --ansi --no-interaction --no-progress --no-suggest --prefer-dist --no-dev
+        run: composer install --ansi --no-interaction --no-progress --no-suggest --prefer-dist --no-dev --no-scripts
 
       - name: Create the PHAR file.
-        run: ./ai-commit app:build ai-commit --build-version=${{ steps.tag.outputs.tag }}
+        run: ./ai-commit app:build ai-commit.phar --build-version=${{ steps.tag.outputs.tag }}
 
       - name: Upload the PHAR artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ai-commit
-          path: builds/ai-commit
+          name: ai-commit.phar
+          path: builds/ai-commit.phar
 
       - name: Upload the PHAR to release
-        run: gh release upload v${{ steps.tag.outputs.tag }} builds/ai-commit
+        run: gh release upload v${{ steps.tag.outputs.tag }} builds/ai-commit.phar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cp ai-commit.phar to ai-commit
+        run: cp builds/ai-commit.phar builds/ai-commit
 
       - name: Commit bump
         uses: stefanzweifel/git-auto-commit-action@v4
