@@ -67,6 +67,9 @@ class CommitCommand extends Command
         ]);
     }
 
+    /**
+     * @psalm-suppress InvalidScalarArgument
+     */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $config = $this->option('config') and $this->configManager->replaceFrom($config);
