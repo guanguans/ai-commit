@@ -20,7 +20,9 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Stringable;
 use LaravelZero\Framework\Commands\Command;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
 class CommitCommand extends Command
@@ -57,6 +59,7 @@ class CommitCommand extends Command
             new InputArgument('path', InputArgument::OPTIONAL, 'The working directory', $this->configManager::localPath('')),
             new InputOption('commit-options', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git commit` command', $this->configManager->get('commit_options')),
             new InputOption('diff-options', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git diff` command', $this->configManager->get('diff_options')),
+            new InputOption('config', 'c', InputOption::VALUE_OPTIONAL, 'Specify config file'),
             new InputOption('generator', 'g', InputOption::VALUE_REQUIRED, 'Specify generator name', $this->configManager->get('generator')),
             new InputOption('num', null, InputOption::VALUE_REQUIRED, 'Specify number of generated messages', $this->configManager->get('num')),
             new InputOption('prompt', 'p', InputOption::VALUE_REQUIRED, 'Specify prompt name of messages generated', $this->configManager->get('prompt')),
@@ -64,9 +67,14 @@ class CommitCommand extends Command
         ]);
     }
 
+    protected function initialize(InputInterface $input, OutputInterface $output)
+    {
+        $config = $this->option('config') and $this->configManager->replaceFrom($config);
+    }
+
     public function handle()
     {
-        $this->task('   Checking run environment', function () use (&$stagedDiff) {
+        $this->task('1. Checking run environment', function () use (&$stagedDiff) {
             $isInsideWorkTree = $this->createProcess('git rev-parse --is-inside-work-tree')
                 ->mustRun()
                 ->getOutput();
@@ -85,7 +93,7 @@ message;
             }
         }, 'checking...');
 
-        $this->task('   Generating commit messages', function () use (&$messages, $stagedDiff) {
+        $this->task('2. Generating commit messages', function () use (&$messages, $stagedDiff) {
             $generator = $this->laravel->get(GeneratorManager::class)->driver($this->option('generator'));
             $messages = $generator->generate($this->getPromptOfAI($stagedDiff));
             if (\str($messages)->isEmpty()) {
@@ -101,7 +109,7 @@ message;
             $this->line('');
         }, 'generating...');
 
-        $this->task('   Choosing commit message', function () use ($messages, &$message) {
+        $this->task('3. Choosing commit message', function () use ($messages, &$message) {
             $messages = collect(json_decode($messages, true));
             $chosenSubject = $this->choice('Please choice a commit message', $messages->pluck('subject', 'id')->all());
             $message = $messages->first(function ($message) use ($chosenSubject) {
@@ -109,7 +117,7 @@ message;
             });
         }, 'choosing...');
 
-        $this->task('   Committing message', function () use ($message) {
+        $this->task('4. Committing message', function () use ($message) {
             $this->createProcess($this->getCommitCommand($message))
                 ->setTty(true)
                 ->setTimeout(null)
