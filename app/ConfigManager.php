@@ -17,8 +17,6 @@ use Illuminate\Config\Repository;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Arr;
-use InvalidArgumentException;
-use JsonSerializable;
 
 /**
  * @template TKey of array-key
@@ -26,7 +24,7 @@ use JsonSerializable;
  *
  * @see https://github.com/hassankhan/config
  */
-class ConfigManager extends Repository implements Arrayable, Jsonable, JsonSerializable
+class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSerializable
 {
     /**
      * @var string
@@ -69,7 +67,7 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, JsonSeria
                 return $items;
             }
 
-            throw new InvalidArgumentException("Invalid argument type: `$ext`.");
+            throw new \InvalidArgumentException("Invalid argument type: `$ext`.");
         }, []);
 
         return new self(array_replace_recursive(...$config));
@@ -125,7 +123,7 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, JsonSeria
         }
 
         if (! isset($items)) {
-            throw new InvalidArgumentException('Unsupported config type');
+            throw new \InvalidArgumentException('Unsupported config type');
         }
 
         $this->replace($items);
@@ -152,7 +150,7 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, JsonSeria
     public function jsonSerialize(): array
     {
         return array_map(static function ($value) {
-            if ($value instanceof JsonSerializable) {
+            if ($value instanceof \JsonSerializable) {
                 return $value->jsonSerialize();
             }
             if ($value instanceof Jsonable) {

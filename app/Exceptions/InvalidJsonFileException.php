@@ -13,9 +13,8 @@ declare(strict_types=1);
 namespace App\Exceptions;
 
 use App\Contracts\ThrowableContract;
-use RuntimeException;
 
-class InvalidJsonFileException extends RuntimeException implements ThrowableContract
+class InvalidJsonFileException extends \RuntimeException implements ThrowableContract
 {
     public static function make(string $file): self
     {

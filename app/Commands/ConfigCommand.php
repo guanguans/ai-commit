@@ -15,7 +15,6 @@ namespace App\Commands;
 use App\ConfigManager;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
-use RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -168,14 +167,14 @@ class ConfigCommand extends Command
                         }
                     }
 
-                    throw new RuntimeException('No editor found or specified.');
+                    throw new \RuntimeException('No editor found or specified.');
                 });
 
                 Process::fromShellCommandline("$editor $file")->setTimeout(null)->setTty(true)->mustRun();
 
                 break;
             default:
-                throw new RuntimeException(sprintf('The action(%s) must be one of [set, get, unset, list, edit].', implode(', ', self::ACTIONS)));
+                throw new \RuntimeException(sprintf('The action(%s) must be one of [set, get, unset, list, edit].', implode(', ', self::ACTIONS)));
         }
 
         return self::SUCCESS;

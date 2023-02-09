@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace App\Exceptions;
 
 use Illuminate\Validation\ValidationException;
-use Throwable;
 
 class Handler extends \Illuminate\Foundation\Exceptions\Handler
 {
@@ -27,7 +26,7 @@ class Handler extends \Illuminate\Foundation\Exceptions\Handler
     /**
      * {@inheritdoc}
      */
-    public function renderForConsole($output, Throwable $e): void
+    public function renderForConsole($output, \Throwable $e): void
     {
         if ($e instanceof ValidationException) {
             $e = new InvalidConfigException(
@@ -40,7 +39,7 @@ class Handler extends \Illuminate\Foundation\Exceptions\Handler
         parent::renderForConsole($output, $e);
     }
 
-    protected function shouldntReport(Throwable $e)
+    protected function shouldntReport(\Throwable $e)
     {
         if ($this->container->isProduction()) {
             return true;
