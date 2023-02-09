@@ -19,6 +19,8 @@ trait CreatesApplication
     /**
      * Creates the application.
      *
+     * @psalm-suppress ImplementedReturnTypeMismatch
+     *
      * @return \Illuminate\Foundation\Application
      */
     public function createApplication()

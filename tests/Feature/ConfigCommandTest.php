@@ -14,19 +14,17 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 
-class InspiringCommandTest extends TestCase
+class ConfigCommandTest extends TestCase
 {
     /**
      * A basic test example.
      *
      * @return void
      */
-    public function testInspiringCommand()
+    public function testConfigCommand()
     {
-        $this->markTestSkipped(__METHOD__);
-
-        $this->artisan('inspiring')
-            ->expectsOutput('Simplicity is the ultimate sophistication.')
+        $this->artisan('config get')
+            // ->expectsOutput('Simplicity is the ultimate sophistication.')
             ->assertExitCode(0);
     }
 }

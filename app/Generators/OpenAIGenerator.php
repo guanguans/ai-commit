@@ -42,7 +42,7 @@ class OpenAIGenerator implements GeneratorContract
 
         $this->openAI->completions($parameters, function (string $data) use (&$messages) {
             $output = resolve(OutputInterface::class);
-            if (is_json($data)) {
+            if (\str($data)->isJson()) {
                 // 错误响应
                 $response = json_decode($data, true);
                 if (isset($response['error']['message'])) {

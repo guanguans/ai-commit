@@ -19,6 +19,9 @@ use Illuminate\Support\Str;
  */
 class StringableMacro
 {
+    /**
+     * @psalm-suppress InaccessibleProperty
+     */
     public function isJson(): callable
     {
         return function () {

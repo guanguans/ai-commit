@@ -89,15 +89,6 @@ if (! function_exists('make')) {
     }
 }
 
-if (! function_exists('is_json')) {
-    function is_json(string $str): bool
-    {
-        json_decode($str);
-
-        return JSON_ERROR_NONE === json_last_error();
-    }
-}
-
 if (! function_exists('array_reduce_with_keys')) {
     /**
      * @param mixed|null $carry

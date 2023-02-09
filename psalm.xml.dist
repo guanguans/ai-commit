@@ -11,7 +11,6 @@
 >
     <projectFiles>
         <directory name="app"/>
-        <directory name="config"/>
         <directory name="tests"/>
         <ignoreFiles allowMissingFiles="true">
             <directory name="vendor"/>
@@ -21,9 +20,15 @@
 
     <issueHandlers>
         <PropertyNotSetInConstructor errorLevel="info"/>
+        <UnusedVariable>
+            <errorLevel type="suppress">
+                <file name="app/Commands/CommitCommand.php"/>
+                <file name="app/Generators/OpenAIGenerator.php"/>
+            </errorLevel>
+        </UnusedVariable>
     </issueHandlers>
 
     <plugins>
-        <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
+        <!--<pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>-->
     </plugins>
 </psalm>

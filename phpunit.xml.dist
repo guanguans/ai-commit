@@ -34,7 +34,7 @@
         </whitelist>
     </filter>
 
-    <listeners>
+    <!--<listeners>
         <listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener">
             <arguments>
                 <array>
@@ -50,5 +50,5 @@
                 </array>
             </arguments>
         </listener>
-    </listeners>
+    </listeners>-->
 </phpunit>

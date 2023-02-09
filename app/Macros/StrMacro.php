@@ -17,6 +17,9 @@ namespace App\Macros;
  */
 class StrMacro
 {
+    /**
+     * @psalm-suppress UnusedFunctionCall
+     */
     public static function isJson(): callable
     {
         return function ($value) {

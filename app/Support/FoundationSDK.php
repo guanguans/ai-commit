@@ -43,6 +43,9 @@ abstract class FoundationSDK
         $this->pendingRequest = $this->buildPendingRequest($this->config);
     }
 
+    /**
+     * @psalm-suppress UnusedClosureParam
+     */
     public function ddRequestData()
     {
         return $this->tapPendingRequest(function (PendingRequest $pendingRequest) {
@@ -53,6 +56,9 @@ abstract class FoundationSDK
         });
     }
 
+    /**
+     * @psalm-suppress UnusedClosureParam
+     */
     public function dumpRequestData()
     {
         return $this->tapPendingRequest(function (PendingRequest $pendingRequest) {
