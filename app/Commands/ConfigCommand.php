@@ -23,6 +23,8 @@ use Symfony\Component\Process\Process;
 
 class ConfigCommand extends Command
 {
+    public const ACTIONS = ['set', 'get', 'unset', 'list', 'edit'];
+
     /**
      * The signature of the command.
      *
@@ -51,7 +53,7 @@ class ConfigCommand extends Command
     protected function configure()
     {
         $this->setDefinition([
-            new InputArgument('action', InputArgument::REQUIRED, 'The action(<comment>[set, get, unset, list, edit]</comment>) name'),
+            new InputArgument('action', InputArgument::REQUIRED, sprintf('The action(<comment>[%s]</comment>) name', implode(', ', self::ACTIONS))),
             new InputArgument('key', InputArgument::OPTIONAL, 'The key of config options'),
             new InputArgument('value', InputArgument::OPTIONAL, 'The value of config options'),
             new InputOption('global', 'g', InputOption::VALUE_NONE, 'Apply to the global config file'),
@@ -91,7 +93,6 @@ class ConfigCommand extends Command
         $this->configManager->replaceFrom($file);
         $action = $this->argument('action');
         $key = $this->argument('key');
-        $value = $this->argument('value');
 
         if (in_array($action, ['unset', 'set'], true) && null === $key) {
             $this->error('Please specify the parameter key');
@@ -101,22 +102,29 @@ class ConfigCommand extends Command
 
         switch ($action) {
             case 'set':
-                $this->configManager->set($key, $value);
+                $this->configManager->set($key, $this->argument('value'));
                 $this->configManager->toFile($file);
 
                 break;
             case 'get':
                 $value = null === $key ? $this->configManager->toJson() : $this->configManager->get($key);
                 $value = transform($value, $transform = function ($value) {
-                    if (is_scalar($value) || null === $value) {
-                        $json = json_encode(['key' => $value], JSON_UNESCAPED_UNICODE);
+                    if (is_string($value)) {
+                        return $value;
+                    }
 
-                        return (string) \str($json)->replaceFirst('{"key":', '')->replaceLast('}', '');
+                    if (null === $value) {
+                        return 'null';
+                    }
+
+                    if (is_scalar($value)) {
+                        return (string) \str(json_encode([$value], JSON_UNESCAPED_UNICODE))->replaceFirst('[', '')->replaceLast(']', '');
                     }
 
                     return json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
                 }, $transform);
 
+                $this->line('');
                 $this->line($value);
 
                 break;
@@ -126,11 +134,10 @@ class ConfigCommand extends Command
 
                 break;
             case 'list':
-                $flattenWithKeys = static function (array $array, string $delimiter = '.', $prefix = null) use (&$flattenWithKeys): array {
+                $flattenWithKeys = static function (array $array, string $delimiter = '.', $prefixKey = null) use (&$flattenWithKeys): array {
                     $result = [];
-
                     foreach ($array as $key => $item) {
-                        $fullKey = null === $prefix ? $key : $prefix.$delimiter.$key;
+                        $fullKey = null === $prefixKey ? $key : $prefixKey.$delimiter.$key;
                         is_array($item) ? $result += $flattenWithKeys($item, $delimiter, $fullKey) : $result[$fullKey] = $item;
                     }
 
@@ -139,7 +146,8 @@ class ConfigCommand extends Command
 
                 $json = ConfigManager::create($flattenWithKeys($this->configManager->all()))->toJson();
 
-                \str($json)->ltrim('{')->rtrim('}')->explode(','.PHP_EOL)->each(function ($line) {
+                $this->line('');
+                \str($json)->ltrim('{')->rtrim('}')->explode(','.PHP_EOL)->each(function (string $line) {
                     $this->line(trim($line));
                 });
 
@@ -163,11 +171,11 @@ class ConfigCommand extends Command
                     throw new \RuntimeException('No editor found or specified.');
                 });
 
-                Process::fromShellCommandline("$editor $file")->setTty(true)->setTimeout(null)->mustRun();
+                Process::fromShellCommandline("$editor $file")->setTimeout(null)->setTty(true)->mustRun();
 
                 break;
             default:
-                throw new \RuntimeException("The action($action) must be one of [set, get, unset, list, edit].");
+                throw new \RuntimeException(sprintf('The action(%s) must be one of [set, get, unset, list, edit].', implode(', ', self::ACTIONS)));
         }
 
         return self::SUCCESS;
