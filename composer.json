@@ -6,15 +6,21 @@
     "abandoned": false,
     "non-feature-branches": [],
     "keywords": [
-        "commit",
-        "message",
         "ai",
-        "openai",
-        "git",
-        "diff",
-        "keepachangelog",
         "changelog",
-        "conventional"
+        "chatgpt",
+        "commit",
+        "commit-message",
+        "commitizen",
+        "commitlint",
+        "conventional",
+        "conventional-commit",
+        "diff",
+        "git",
+        "git-diff",
+        "gpt",
+        "keepachangelog",
+        "openai"
     ],
     "readme": "README.md",
     "authors": [
