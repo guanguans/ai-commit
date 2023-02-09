@@ -10,13 +10,13 @@ declare(strict_types=1);
  * This source file is subject to the MIT license that is bundled.
  */
 
-$header = <<<EOF
+$header = <<<'header'
 This file is part of the guanguans/ai-commit.
 
 (c) guanguans <ityaozm@gmail.com>
 
 This source file is subject to the MIT license that is bundled.
-EOF;
+header;
 
 /** @noinspection PhpParamsInspection */
 $finder = PhpCsFixer\Finder::create()

@@ -1,6 +1,6 @@
 {
     "name": "guanguans/ai-commit",
-    "description": "Automatically generate commit message by AI. - 通过 AI 自动生成提交信息。",
+    "description": "Automagically generate conventional commit messages with AI. - 使用 AI 自动生约定式提交信息。",
     "license": "MIT",
     "type": "project",
     "abandoned": false,
@@ -11,7 +11,10 @@
         "ai",
         "openai",
         "git",
-        "diff"
+        "diff",
+        "keepachangelog",
+        "changelog",
+        "conventional"
     ],
     "readme": "README.md",
     "authors": [
@@ -50,7 +53,6 @@
         "marcocesarato/php-conventional-changelog": "^1.16",
         "mockery/mockery": "^1.3",
         "nunomaduro/larastan": "^1.0 || ^2.0",
-        "phly/keep-a-changelog": "^2.10",
         "php-mock/php-mock-phpunit": "^2.6",
         "phpstan/extension-installer": "^1.2",
         "phpstan/phpstan": "^1.9",

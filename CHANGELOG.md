@@ -4,6 +4,22 @@ All notable changes to `guanguans/ai-commit` will be documented in this file.
 
 ## v0.5.0 - 2023-02-09
 
+### Features
+
+
+##### Commit Command
+
+* Add config option ([922513](https://github.com/guanguans/ai-commit/commit/922513dc801be3431c22381753bbfab6862674fe))
+* Add InputArgument for path ([5f63c6](https://github.com/guanguans/ai-commit/commit/5f63c68ee586b26ff0b866df7506aa7cff1f2599))
+
+##### Config
+
+* Add list actions ([1afd29](https://github.com/guanguans/ai-commit/commit/1afd29c64029a9d26021f990cba51fe06b08eeaf))
+
+##### Config Command
+
+* Add ACTIONS constant ([e39ba8](https://github.com/guanguans/ai-commit/commit/e39ba85b1721785650630341614a0301b3a53808))
+
 **Full Changelog**: https://github.com/guanguans/ai-commit/compare/v0.4.0...v0.5.0
 
 ## v0.4.0 - 2023-02-08
