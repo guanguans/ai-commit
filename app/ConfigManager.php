@@ -120,6 +120,10 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSeri
             }
         }
 
+        if (! isset($items)) {
+            throw new \InvalidArgumentException('Unsupported config type');
+        }
+
         $this->replace($items);
     }
 

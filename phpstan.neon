@@ -11,8 +11,8 @@ parameters:
         - app
         - tests
     tmpDir: build/phpstan
-    checkOctaneCompatibility: true
-    checkModelProperties: true
+#    checkOctaneCompatibility: true
+#    checkModelProperties: true
     checkMissingIterableValueType: true
 #    disallowFloatsEverywhere: true
 

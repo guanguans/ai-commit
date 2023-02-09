@@ -18,6 +18,6 @@ class InvalidJsonFileException extends \RuntimeException implements ThrowableCon
 {
     public static function make(string $file): self
     {
-        return new static("Invalid json file: [$file].");
+        return new self("Invalid json file: [$file].");
     }
 }
