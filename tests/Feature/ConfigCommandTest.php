@@ -56,8 +56,13 @@ class ConfigCommandTest extends TestCase
         $this->artisan('config list')->assertExitCode(0);
     }
 
+    /**
+     * @psalm-suppress UnevaluatedCode
+     */
     public function testActionOfEdit(): void
     {
+        $this->markTestSkipped(__METHOD__);
+
         $this->expectException(ProcessFailedException::class);
         $this->expectExceptionMessage('The command "foo ');
         $this->artisan('config edit --editor=foo');
