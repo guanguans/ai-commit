@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace App\Exceptions;
 
-class InvalidConfigException extends InvalidArgumentException
+use App\Contracts\ThrowableContract;
+
+class InvalidArgumentException extends \InvalidArgumentException implements ThrowableContract
 {
 }

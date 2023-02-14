@@ -12,8 +12,6 @@ declare(strict_types=1);
 
 namespace App\Exceptions;
 
-use App\Contracts\ThrowableContract;
-
-class TaskException extends \Exception implements ThrowableContract
+class TaskException extends RuntimeException
 {
 }

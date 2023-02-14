@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace App\Commands;
 
 use App\ConfigManager;
+use App\Exceptions\RuntimeException;
+use App\Exceptions\UnsupportedActionOfConfigException;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -29,15 +31,11 @@ class ConfigCommand extends Command
     public const ACTIONS = ['set', 'get', 'unset', 'list', 'edit'];
 
     /**
-     * The signature of the command.
-     *
      * @var string
      */
     protected $signature = 'config';
 
     /**
-     * The description of the command.
-     *
      * @var string
      */
     protected $description = 'Manage config options.';
@@ -53,6 +51,9 @@ class ConfigCommand extends Command
         parent::__construct();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this->setDefinition([
@@ -61,7 +62,7 @@ class ConfigCommand extends Command
             new InputArgument('value', InputArgument::OPTIONAL, 'The value of config options'),
             new InputOption('global', 'g', InputOption::VALUE_NONE, 'Apply to the global config file'),
             new InputOption('file', 'f', InputOption::VALUE_OPTIONAL, 'Apply to the specify config file'),
-            new InputOption('editor', 'e', InputOption::VALUE_OPTIONAL, 'Specify editor', null),
+            new InputOption('editor', 'e', InputOption::VALUE_OPTIONAL, 'Specify editor'),
         ]);
     }
 
@@ -72,9 +73,6 @@ class ConfigCommand extends Command
         }
     }
 
-    /**
-     * Execute the console command.
-     */
     public function handle(): int
     {
         $file = value(function () {
@@ -109,22 +107,8 @@ class ConfigCommand extends Command
                 break;
             case 'get':
                 $value = null === $key ? $this->configManager->toJson() : $this->configManager->get($key);
-                $value = transform($value, $transform = static function ($value) {
-                    if (is_string($value)) {
-                        return $value;
-                    }
-                    if (null === $value) {
-                        return 'null';
-                    }
-                    if (is_scalar($value)) {
-                        return (string) \str(json_encode([$value], JSON_UNESCAPED_UNICODE))->replaceFirst('[', '')->replaceLast(']', '');
-                    }
-
-                    return json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-                }, $transform);
-
                 $this->line('');
-                $this->line($value);
+                $this->line($this->transformToCommandStr($value));
 
                 break;
             case 'unset':
@@ -133,22 +117,30 @@ class ConfigCommand extends Command
 
                 break;
             case 'list':
+                /**
+                 * @param array-key|null $prefixKey
+                 */
                 $flattenWithKeys = static function (array $array, string $delimiter = '.', $prefixKey = null) use (&$flattenWithKeys): array {
                     $result = [];
-                    foreach ($array as $key => $item) {
+                    foreach ($array as $key => $value) {
                         $fullKey = null === $prefixKey ? $key : $prefixKey.$delimiter.$key;
-                        is_array($item) ? $result += $flattenWithKeys($item, $delimiter, $fullKey) : $result[$fullKey] = $item;
+                        is_array($value) ? $result += $flattenWithKeys($value, $delimiter, $fullKey) : $result[$fullKey] = $value;
                     }
 
                     return $result;
                 };
 
-                $json = ConfigManager::create($flattenWithKeys($this->configManager->all()))->toJson();
-
-                $this->line('');
-                \str($json)->ltrim('{')->rtrim('}')->explode(','.PHP_EOL)->each(function (string $line) {
-                    $this->line(trim($line));
-                });
+                collect($flattenWithKeys($this->configManager->all()))
+                    ->tap(function () {
+                        $this->line('');
+                    })
+                    ->each(function ($value, $key) {
+                        $this->line(sprintf(
+                            '<comment>%s</comment>: <info>%s</info>',
+                            $this->transformToCommandStr($key),
+                            $this->transformToCommandStr($value)
+                        ));
+                    });
 
                 break;
             case 'edit':
@@ -167,24 +159,44 @@ class ConfigCommand extends Command
                         }
                     }
 
-                    throw new \RuntimeException('No editor found or specified.');
+                    throw new RuntimeException('No editor found or specified.');
                 });
 
                 Process::fromShellCommandline("$editor $file")->setTimeout(null)->setTty(true)->mustRun();
 
                 break;
             default:
-                throw new \RuntimeException(sprintf('The action(%s) must be one of [set, get, unset, list, edit].', implode(', ', self::ACTIONS)));
+                throw UnsupportedActionOfConfigException::make($action);
         }
 
         return self::SUCCESS;
     }
 
-    /**
-     * Define the command's schedule.
-     */
     public function schedule(Schedule $schedule): void
     {
         // $schedule->command(static::class)->everyMinute();
+    }
+
+    /**
+     * @param mixed $value
+     *
+     * @psalm-suppress NullableReturnStatement
+     */
+    protected function transformToCommandStr($value): string
+    {
+        return transform(
+            $value,
+            $transform = static function ($value): string {
+                true === $value and $value = 'true';
+                false === $value and $value = 'false';
+                0 === $value and $value = '0';
+                0.0 === $value and $value = '0.0';
+                null === $value and $value = 'null';
+                ! is_scalar($value) and $value = json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+                return (string) $value;
+            },
+            $transform
+        );
     }
 }

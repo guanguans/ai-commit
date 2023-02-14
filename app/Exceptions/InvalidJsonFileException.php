@@ -12,12 +12,10 @@ declare(strict_types=1);
 
 namespace App\Exceptions;
 
-use App\Contracts\ThrowableContract;
-
-class InvalidJsonFileException extends \RuntimeException implements ThrowableContract
+class InvalidJsonFileException extends InvalidArgumentException
 {
-    public static function make(string $file): self
+    public static function make(string $file, int $code = 0, ?\Throwable $previous = null): self
     {
-        return new self("Invalid json file: [$file].");
+        return new self("The file($file) is an invalid json file.", $code, $previous);
     }
 }
