@@ -21,11 +21,36 @@
 
 ## 安装
 
+### 直接下载 [ai-commit](./builds/ai-commit) 文件
+
 ```bash
+curl 'https://raw.githubusercontent.com/guanguans/ai-commit/main/builds/ai-commit' -o ai-commit --progress
+chmod +x ai-commit
+```
+
+### 通过 Composer 安装
+
+```bash
+# 全局安装
+composer global require guanguans/ai-commit --dev -v
+
+# 本地安装
 composer require guanguans/ai-commit --dev -v
 ```
 
 ## 使用
+
+### 首次使用需配置 [OpenAI API key](https://platform.openai.com/account/api-keys)
+
+```bash
+./ai-commit config set generators.openai.api_key sk-... --global
+```
+
+### 生成且提交信息
+
+```bash
+./ai-commit commit
+```
 
 ![](docs/ai-commit.gif)
 
