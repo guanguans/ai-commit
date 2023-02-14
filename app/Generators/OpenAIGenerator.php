@@ -15,6 +15,7 @@ namespace App\Generators;
 use App\Contracts\GeneratorContract;
 use App\Support\OpenAI;
 use Illuminate\Support\Arr;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class OpenAIGenerator implements GeneratorContract
@@ -40,8 +41,8 @@ class OpenAIGenerator implements GeneratorContract
         $parameters = Arr::get($this->config, 'completion_parameters', []);
         $parameters['prompt'] = $prompt;
 
-        $this->openAI->completions($parameters, static function (string $data) use (&$messages): void {
-            $output = resolve(OutputInterface::class);
+        $this->openAI->completions($parameters, function (string $data) use (&$messages): void {
+            $output = $this->createOutput();
             if (\str($data)->isJson()) {
                 // 错误响应
                 $response = json_decode($data, true);
@@ -60,6 +61,7 @@ class OpenAIGenerator implements GeneratorContract
 
                 return;
             }
+
             // 流响应
             $stringable = \str($data)->replaceFirst('data: ', '')->rtrim();
             if ($stringable->startsWith('[DONE]')) {
@@ -71,5 +73,16 @@ class OpenAIGenerator implements GeneratorContract
         });
 
         return (string) $messages;
+    }
+
+    protected function createOutput(): OutputInterface
+    {
+        try {
+            $output = resolve(OutputInterface::class);
+        } catch (\Throwable $e) {
+            $output = resolve(ConsoleOutput::class);
+        }
+
+        return $output;
     }
 }

@@ -43,6 +43,7 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
         // \DG\BypassFinals::enable();
+        config('ai-commit')->set('generators.openai.api_key', 'sk-...');
     }
 
     /**
@@ -50,6 +51,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function tearDown(): void
     {
+        parent::tearDown();
         $this->finish();
         \Mockery::close();
     }

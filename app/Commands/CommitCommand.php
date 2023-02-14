@@ -49,9 +49,7 @@ class CommitCommand extends Command
     }
 
     /**
-     * The configuration of the command.
-     *
-     * @return void
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -222,9 +220,6 @@ message;
             });
     }
 
-    /**
-     * Define the command's schedule.
-     */
     public function schedule(Schedule $schedule): void
     {
         // $schedule->command(static::class)->everyMinute();
