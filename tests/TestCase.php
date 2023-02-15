@@ -14,12 +14,10 @@ namespace Tests;
 
 use LaravelZero\Framework\Testing\TestCase as BaseTestCase;
 use phpmock\phpunit\PHPMock;
-use Spatie\Snapshots\MatchesSnapshots;
 
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
-    use MatchesSnapshots;
     use PHPMock;
 
     /**
