@@ -49,7 +49,8 @@ return [
     |
     */
 
-    'env' => 'development',
+    // 'env' => 'development',
+    'env' => env('APP_ENV', 'production'),
 
     /*
     |--------------------------------------------------------------------------
