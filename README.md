@@ -93,6 +93,57 @@ composer require guanguans/ai-commit --dev -v
 
 ```
 
+### List commands
+
+```shell
+╰─ ./ai-commit list                                                                     ─╯
+
+  
+          _____    _____                          _ _   
+    /\   |_   _|  / ____|                        (_) |  
+   /  \    | |   | |     ___  _ __ ___  _ __ ___  _| |_ 
+  / /\ \   | |   | |    / _ \| '_ ` _ \| '_ ` _ \| | __|
+ / ____ \ _| |_  | |___| (_) | | | | | | | | | | | | |_ 
+/_/    \_\_____|  \_____\___/|_| |_| |_|_| |_| |_|_|\__|
+                                                        
+                                                        
+
+  1.1.2
+
+  USAGE: ai-commit <command> [options] [arguments]
+
+  commit      Automagically generate conventional commit messages with AI.
+  completion  Dump the shell completion script
+  config      Manage config options.
+  self-update Allows to self-update a build application
+  thanks      Thanks for using this tool.
+```
+
+### Operate config
+
+```shell
+./ai-commit config [set, get, unset, list, edit] key value
+
+./ai-commit config set key value
+./ai-commit config get key
+./ai-commit config unset key
+./ai-commit config list
+./ai-commit config edit
+```
+
+### Self update
+
+```shell
+╰─ ./ai-commit self-update                                                              ─╯
+
+Checking for a new version...
+=============================
+
+                                                                                           
+ [OK] Updated from version 1.1.1 to v1.1.2.                                                
+                                                                                           
+```
+
 ## Testing
 
 ```shell
