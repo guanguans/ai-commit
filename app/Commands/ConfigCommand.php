@@ -172,11 +172,6 @@ class ConfigCommand extends Command
         return self::SUCCESS;
     }
 
-    public function schedule(Schedule $schedule): void
-    {
-        // $schedule->command(static::class)->everyMinute();
-    }
-
     /**
      * @param mixed $value
      *
@@ -198,5 +193,10 @@ class ConfigCommand extends Command
             },
             $transform
         );
+    }
+
+    public function schedule(Schedule $schedule): void
+    {
+        // $schedule->command(static::class)->everyMinute();
     }
 }

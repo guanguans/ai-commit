@@ -50,9 +50,6 @@ final class ThanksCommand extends Command
         return self::SUCCESS;
     }
 
-    /**
-     * Define the command's schedule.
-     */
     public function schedule(Schedule $schedule): void
     {
         // $schedule->command(static::class)->everyMinute();
