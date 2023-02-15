@@ -10,8 +10,6 @@ declare(strict_types=1);
  * This source file is subject to the MIT license that is bundled.
  */
 
-use LaravelZero\Framework\Components\Updater\Strategy\GithubStrategy;
-
 return [
     /*
     |--------------------------------------------------------------------------
@@ -24,5 +22,5 @@ return [
     |
     */
 
-    'strategy' => GithubStrategy::class,
+    'strategy' => LaravelZero\Framework\Components\Updater\Strategy\GithubStrategy::class,
 ];
