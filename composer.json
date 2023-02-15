@@ -150,8 +150,6 @@
             "@mark-separate",
             "@lint",
             "@mark-separate",
-            "@composer-check-platform-reqs",
-            "@mark-separate",
             "@composer-validate",
             "@mark-separate",
             "@style-lint",
