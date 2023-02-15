@@ -23,40 +23,74 @@
 
 ### 直接下载 [ai-commit](./builds/ai-commit) 文件
 
-```bash
+```shell
 curl 'https://raw.githubusercontent.com/guanguans/ai-commit/main/builds/ai-commit' -o ai-commit --progress
 chmod +x ai-commit
 ```
 
 ### 通过 Composer 安装
 
-```bash
-# 全局安装
+```shell
+# 全局
 composer global require guanguans/ai-commit --dev -v
 
-# 本地安装
+# 本地
 composer require guanguans/ai-commit --dev -v
 ```
 
 ## 使用
 
-### 首次使用需配置 [OpenAI API key](https://platform.openai.com/account/api-keys)
+### 配置 [OpenAI API key](https://platform.openai.com/account/api-keys)
 
-```bash
+```shell
 ./ai-commit config set generators.openai.api_key sk-... --global
 ```
 
 ### 生成且提交信息
 
-```bash
+```shell
 ./ai-commit commit
+```
+
+```shell
+╰─ ./ai-commit commit                                                                                  ─╯
+1. Checking run environment: ✔
+2. Generating commit messages: generating...
+
+[
+    {
+        "id": 1,
+        "subject": "Docs(README): Configure OpenAI API key",
+        "body": "- Update README-zh_CN.md\n- Update README.md\n- Explain how to configure OpenAI API key"
+    },
+    {
+        "id": 2,
+        "subject": "Install(Composer): Add global and local install instructions",
+        "body": "- Update README.md\n- Add instructions for global and local install via Composer"
+    },
+    {
+        "id": 3,
+        "subject": "Usage(Commit Messages): Add best practices",
+        "body": "- Update README.md\n- Add best practices for writing commit messages"
+    }
+]
+
+2. Generating commit messages: ✔
+3. Choosing commit message: choosing...
+
+ Please choice a commit message:
+  [1] Docs(README): Configure OpenAI API key
+  [2] Install(Composer): Add global and local install instructions
+  [3] Usage(Commit Messages): Add best practices
+ > 
+
 ```
 
 ![](docs/ai-commit.gif)
 
 ## 测试
 
-```bash
+```shell
 composer test
 ```
 
