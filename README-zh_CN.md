@@ -93,8 +93,6 @@ composer require guanguans/ai-commit --dev -v
 
 ```
 
-![](docs/ai-commit.gif)
-
 ## 测试
 
 ```shell
