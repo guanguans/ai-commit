@@ -105,6 +105,11 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSeri
 
     public function toFile(string $file, int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
     {
+        $this->forget([
+            'generators.openai.completion_parameters.prompt',
+            'generators.openai.completion_parameters.user',
+        ]);
+
         return file_put_contents($file, $this->toJson($options));
     }
 

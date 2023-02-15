@@ -67,7 +67,7 @@ return [
                 'connect_timeout' => 3,
                 'timeout' => 60,
             ],
-            'api_key' => 'sk-...',
+            'api_key' => env('OPENAI_API_KEY'),
             'completion_parameters' => [
                 'model' => 'text-davinci-003',
                 // 'prompt' => $prompt,
@@ -84,7 +84,7 @@ return [
                 'frequency_penalty' => 0,
                 'best_of' => 1,
                 // 'logit_bias' => null,
-                // 'user' => Str::uuid()->toString(),
+                'user' => Str::uuid()->toString(),
             ],
         ],
     ],
