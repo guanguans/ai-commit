@@ -15,6 +15,13 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/guanguans/ai-commit)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/guanguans/ai-commit)
 
+## Features
+
+* By default, commit messages is generated in conventional format
+* You can customize the AI driver that generates commit messages(currently only supported by Open AI)
+* You can customize the prompt template that generates commit messages
+* You can customize the number of generates commit messages to be selected
+
 ## Requirement
 
 * PHP >= 7.2

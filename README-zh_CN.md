@@ -15,6 +15,13 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/guanguans/ai-commit)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/guanguans/ai-commit)
 
+## 功能
+
+* 默认生成 conventional 格式的提交信息
+* 可自定义生成信息的 AI 驱动(目前仅支持 Open AI)
+* 可自定义生成信息的提示模板
+* 可自定义生成待选提交信息的数量
+
 ## 环境要求
 
 * PHP >= 7.2
