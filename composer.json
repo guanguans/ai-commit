@@ -61,7 +61,7 @@
         "phpstan/extension-installer": "^1.2",
         "phpstan/phpstan": "^1.9",
         "phpunit/phpunit": "^8.5 || ^9.5 || ^10.0",
-        "rector/rector": "^0.15.7",
+        "rector/rector": "^0.15.10",
         "vimeo/psalm": "^4.30 || ^5.4"
     },
     "replace": {},
@@ -147,6 +147,8 @@
             "@md-lint",
             "@mark-separate",
             "@lint",
+            "@mark-separate",
+            "@composer-check-platform-reqs",
             "@mark-separate",
             "@composer-validate",
             "@mark-separate",
