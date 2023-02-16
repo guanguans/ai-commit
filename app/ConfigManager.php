@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App;
 
 use App\Exceptions\InvalidJsonFileException;
+use App\Exceptions\UnsupportedConfigFileTypeException;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
@@ -49,28 +50,7 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSeri
 
     public static function createFrom(...$files): self
     {
-        $config = array_reduce($files, static function (array $items, string $file): array {
-            $ext = str(pathinfo($file, PATHINFO_EXTENSION));
-            if ($ext->is('php')) {
-                $items[] = require $file;
-
-                return $items;
-            }
-            if ($ext->is('json')) {
-                $config = json_decode(file_get_contents($file), true);
-                if (JSON_ERROR_NONE !== json_last_error()) {
-                    throw InvalidJsonFileException::make($file);
-                }
-
-                $items[] = $config;
-
-                return $items;
-            }
-
-            throw new \InvalidArgumentException("Invalid argument type: `$ext`.");
-        }, []);
-
-        return new self(array_replace_recursive(...$config));
+        return new self(self::readFrom(...$files));
     }
 
     public static function globalPath(string $path = self::NAME): string
@@ -115,23 +95,7 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSeri
 
     public function replaceFrom(string $file): void
     {
-        $ext = str(pathinfo($file, PATHINFO_EXTENSION));
-        if ($ext->is('php')) {
-            $items = require $file;
-        }
-
-        if ($ext->is('json')) {
-            $items = json_decode(file_get_contents($file), true);
-            if (JSON_ERROR_NONE !== json_last_error()) {
-                throw InvalidJsonFileException::make($file);
-            }
-        }
-
-        if (! isset($items)) {
-            throw new \InvalidArgumentException('Unsupported config type');
-        }
-
-        $this->replace($items);
+        $this->replace(self::readFrom($file));
     }
 
     public function replace(array $items): void
@@ -192,5 +156,32 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSeri
     public function __toString()
     {
         return $this->toJson();
+    }
+
+    protected static function readFrom(...$files): array
+    {
+        $configurations = array_reduce($files, static function (array $configurations, string $file): array {
+            $ext = str(pathinfo($file, PATHINFO_EXTENSION));
+            if ($ext->is('php')) {
+                $configurations[] = require $file;
+
+                return $configurations;
+            }
+
+            if ($ext->is('json')) {
+                $configuration = json_decode(file_get_contents($file), true);
+                if (JSON_ERROR_NONE !== json_last_error()) {
+                    throw InvalidJsonFileException::make($file);
+                }
+
+                $configurations[] = $configuration;
+
+                return $configurations;
+            }
+
+            throw UnsupportedConfigFileTypeException::make($file);
+        }, []);
+
+        return array_replace_recursive(...$configurations);
     }
 }

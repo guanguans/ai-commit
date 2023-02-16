@@ -14,6 +14,7 @@ namespace App;
 
 use App\Generators\OpenAIGenerator;
 use Illuminate\Support\Manager;
+use Illuminate\Support\Str;
 
 /**
  * @method \App\Contracts\GeneratorContract driver(?string $driver = null)
@@ -25,8 +26,25 @@ class GeneratorManager extends Manager
         return $this->config->get('ai-commit.generator');
     }
 
-    protected function createOpenAIDriver(): OpenAIGenerator
+    /**
+     * @noinspection MissingParentCallInspection
+     */
+    protected function createDriver($driver)
     {
-        return new OpenAIGenerator($this->config->get('ai-commit.generators.openai'));
+        if (isset($this->customCreators[$driver])) {
+            return $this->callCustomCreator($driver);
+        }
+
+        $method = 'create'.Str::studly($driver).'Driver';
+        if (method_exists($this, $method)) {
+            return $this->$method($this->config->get("ai-commit.generators.$driver"));
+        }
+
+        throw new \InvalidArgumentException("Driver [$driver] not supported.");
+    }
+
+    protected function createOpenAIDriver(array $config): OpenAIGenerator
+    {
+        return new OpenAIGenerator($config);
     }
 }

@@ -40,7 +40,6 @@ abstract class TestCase extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        // \DG\BypassFinals::enable();
         config('ai-commit')->set('generators.openai.api_key', 'sk-...');
     }
 
