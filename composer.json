@@ -85,7 +85,8 @@
         }
     },
     "bin": [
-        "builds/ai-commit"
+        "builds/ai-commit",
+        "builds/ai-commit80"
     ],
     "archive": {},
     "config": {

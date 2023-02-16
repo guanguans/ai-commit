@@ -17,9 +17,7 @@ use Illuminate\Validation\ValidationException;
 class Handler extends \Illuminate\Foundation\Exceptions\Handler
 {
     /**
-     * A list of the exception types that are not reported.
-     *
-     * @var array<string>
+     * {@inheritdoc}
      */
     protected $dontReport = [];
 
@@ -39,6 +37,9 @@ class Handler extends \Illuminate\Foundation\Exceptions\Handler
         parent::renderForConsole($output, $e);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function shouldntReport(\Throwable $e)
     {
         if ($this->container->isProduction()) {
