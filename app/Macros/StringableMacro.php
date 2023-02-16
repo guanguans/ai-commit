@@ -22,9 +22,9 @@ class StringableMacro
     /**
      * @psalm-suppress InaccessibleProperty
      */
-    public function isJson(): callable
+    public function isJson(): \Closure
     {
-        return function () {
+        return function (): bool {
             return Str::isJson($this->value);
         };
     }

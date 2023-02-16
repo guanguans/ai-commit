@@ -12,9 +12,11 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Contracts\OutputAwareContract;
 use App\Generators\OpenAIGenerator;
 use Illuminate\Support\Manager;
 use Illuminate\Support\Str;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * @method \App\Contracts\GeneratorContract driver(?string $driver = null)
@@ -37,7 +39,12 @@ class GeneratorManager extends Manager
 
         $method = 'create'.Str::studly($driver).'Driver';
         if (method_exists($this, $method)) {
-            return $this->$method($this->config->get("ai-commit.generators.$driver"));
+            $generator = $this->$method($this->config->get("ai-commit.generators.$driver"));
+            if ($generator instanceof OutputAwareContract) {
+                $generator->setOutput($this->container->make(SymfonyStyle::class));
+            }
+
+            return $generator;
         }
 
         throw new \InvalidArgumentException("Driver [$driver] not supported.");

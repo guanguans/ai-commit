@@ -20,12 +20,13 @@ class StrMacro
     /**
      * @psalm-suppress UnusedFunctionCall
      */
-    public static function isJson(): callable
+    public static function isJson(): \Closure
     {
         return static function ($value): bool {
             if (! is_string($value)) {
                 return false;
             }
+
             json_decode($value);
 
             return JSON_ERROR_NONE === json_last_error();

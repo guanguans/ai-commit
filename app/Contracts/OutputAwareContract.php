@@ -10,8 +10,11 @@ declare(strict_types=1);
  * This source file is subject to the MIT license that is bundled.
  */
 
-namespace App\Exceptions;
+namespace App\Contracts;
 
-class InvalidConfigException extends InvalidArgumentException
+use Symfony\Component\Console\Style\SymfonyStyle;
+
+interface OutputAwareContract
 {
+    public function setOutput(SymfonyStyle $output): void;
 }

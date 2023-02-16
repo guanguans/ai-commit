@@ -13,13 +13,15 @@ declare(strict_types=1);
 namespace App\Generators;
 
 use App\Contracts\GeneratorContract;
+use App\Contracts\OutputAwareContract;
+use App\Generators\Concerns\OutputAware;
 use App\Support\OpenAI;
 use Illuminate\Support\Arr;
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Output\OutputInterface;
 
-class OpenAIGenerator implements GeneratorContract
+class OpenAIGenerator implements GeneratorContract, OutputAwareContract
 {
+    use OutputAware;
+
     /**
      * @var array
      */
@@ -30,18 +32,15 @@ class OpenAIGenerator implements GeneratorContract
      */
     protected $openAI;
 
-    /**
-     * @var \Symfony\Component\Console\Output\OutputInterface
-     */
-    protected $output;
-
     public function __construct(array $config)
     {
         $this->config = $config;
         $this->openAI = new OpenAI(Arr::only($config, ['http_options', 'retry', 'base_url', 'api_key']));
-        $this->output = $this->createOutput();
     }
 
+    /**
+     * @noinspection CallableParameterUseCaseInTypeContextInspection
+     */
     public function generate(string $prompt): string
     {
         $parameters = Arr::get($this->config, 'completion_parameters', []);
@@ -52,7 +51,8 @@ class OpenAIGenerator implements GeneratorContract
                 // 错误响应
                 $response = json_decode($data, true);
                 if (isset($response['error']['message'])) {
-                    $this->output->writeln("<error>{$response['error']['message']}</error>");
+                    $this->output->note(sprintf('In %s line %s:', pathinfo(__FILE__, PATHINFO_FILENAME), __LINE__));
+                    $this->output->error($response['error']['message']);
 
                     return;
                 }
@@ -66,26 +66,15 @@ class OpenAIGenerator implements GeneratorContract
             }
 
             // 流响应
-            $rowData = \str($data)->replaceFirst('data: ', '')->rtrim();
-            if ($rowData->startsWith('[DONE]')) {
+            $data = \str($data)->replaceFirst('data: ', '')->rtrim();
+            if ($data->startsWith('[DONE]')) {
                 return;
             }
-            $text = Arr::get(json_decode((string) $rowData, true), 'choices.0.text', '');
+            $text = Arr::get(json_decode((string) $data, true), 'choices.0.text', '');
             $messages .= $text;
             $this->output->write($text);
         });
 
         return (string) $messages;
-    }
-
-    protected function createOutput(): OutputInterface
-    {
-        try {
-            $output = resolve(OutputInterface::class);
-        } catch (\Throwable $e) {
-            $output = resolve(ConsoleOutput::class);
-        }
-
-        return $output;
     }
 }

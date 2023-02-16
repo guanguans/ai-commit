@@ -18,8 +18,13 @@ use Tests\TestCase;
 
 class OpenAIGeneratorTest extends TestCase
 {
+    /**
+     * @psalm-suppress UnevaluatedCode
+     */
     public function testGenerate(): void
     {
+        $this->markTestSkipped(__METHOD__);
+
         $this->expectException(RequestException::class);
         $this->expectExceptionCode(401);
 

@@ -12,26 +12,35 @@ declare(strict_types=1);
 
 namespace App\Exceptions;
 
+use Illuminate\Http\Client\HttpClientException;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 class Handler extends \Illuminate\Foundation\Exceptions\Handler
 {
     /**
      * {@inheritdoc}
      */
-    protected $dontReport = [];
-
-    /**
-     * {@inheritdoc}
-     */
     public function renderForConsole($output, \Throwable $e): void
     {
+        $outputStyle = $this->container->make(SymfonyStyle::class);
+        $note = sprintf("In %s line {$e->getLine()}:", pathinfo($e->getFile(), PATHINFO_FILENAME));
+
         if ($e instanceof ValidationException) {
-            $e = new InvalidConfigException(
-                $e->validator->errors()->first(),
-                $e->status,
-                $e->getPrevious()
-            );
+            $outputStyle->note($note);
+            $outputStyle->block($e->validator->errors()->all(), 'ERROR(Config)', 'fg=white;bg=red', ' ', true);
+
+            return;
+        }
+
+        if ($e instanceof HttpClientException) {
+            $status = trans($key = "http-statuses.{$e->getCode()}");
+            if ($key !== $status) {
+                $outputStyle->note($note);
+                $outputStyle->block($e->getMessage(), "ERROR($status)", 'fg=white;bg=red', ' ', true);
+
+                return;
+            }
         }
 
         parent::renderForConsole($output, $e);
@@ -42,7 +51,7 @@ class Handler extends \Illuminate\Foundation\Exceptions\Handler
      */
     protected function shouldntReport(\Throwable $e)
     {
-        if ($this->container->isProduction()) {
+        if (\Phar::running()) {
             return true;
         }
 
