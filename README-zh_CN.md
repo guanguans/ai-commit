@@ -31,8 +31,13 @@
 ### 直接下载 [ai-commit](./builds/ai-commit) 文件
 
 ```shell
+# PHP >= 7.2
 curl 'https://raw.githubusercontent.com/guanguans/ai-commit/main/builds/ai-commit' -o ai-commit --progress
+# PHP >= 8.0
+curl 'https://raw.githubusercontent.com/guanguans/ai-commit/main/builds/ai-commit80' -o ai-commit80 --progress
+
 chmod +x ai-commit
+chmod +x ai-commit80
 ```
 
 ### 通过 Composer 安装
@@ -47,20 +52,17 @@ composer require guanguans/ai-commit --dev -v
 
 ## 使用
 
-### 配置 [OpenAI API key](https://platform.openai.com/account/api-keys)
+### 快速开始
 
 ```shell
+# 配置 OpenAI API key(https://platform.openai.com/account/api-keys)
 ./ai-commit config set generators.openai.api_key sk-... --global
-```
 
-### 生成且提交信息
-
-```shell
+# 生成且提交信息
 ./ai-commit commit
 ```
 
 ```shell
-╰─ ./ai-commit commit                                                                                  ─╯
 1. Checking run environment: ✔
 2. Generating commit messages: generating...
 
@@ -90,7 +92,6 @@ composer require guanguans/ai-commit --dev -v
   [2] Install(Composer): Add global and local install instructions
   [3] Usage(Commit Messages): Add best practices
  > 
-
 ```
 
 ### 列出命令
@@ -122,7 +123,7 @@ composer require guanguans/ai-commit --dev -v
 ### 操作配置
 
 ```shell
-./ai-commit config [set, get, unset, list, edit] key value
+./ai-commit config [set, get, unset, list, edit] key value --global
 
 ./ai-commit config set key value
 ./ai-commit config get key
