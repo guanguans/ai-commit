@@ -4,7 +4,9 @@ on:
   push:
     paths:
       - '**.php'
+      - '.github/workflows/psalm.yml'
       - 'psalm.xml.dist'
+      - 'psalm-baseline.xml'
 
 jobs:
   psalm:
@@ -27,7 +29,10 @@ jobs:
           key: composer-${{ hashFiles('composer.lock') }}
 
       - name: Run composer install
-        run: composer install -n --prefer-dist
+        run: composer install --prefer-dist --ansi --no-interaction --no-scripts
+
+      - name: Install global psalm
+        run: composer global require vimeo/psalm --prefer-dist --ansi --no-interaction --no-scripts
 
       - name: Run psalm
         run: composer psalm

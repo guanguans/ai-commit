@@ -32,7 +32,7 @@ jobs:
           coverage: xdebug
 
       - name: Install dependencies
-        run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
+        run: composer update --${{ matrix.dependency-version }} --prefer-dist --ansi --no-interaction --no-scripts
 
       - name: Execute tests
         run: composer test-c
