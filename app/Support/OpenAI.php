@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Support;
 
+use GuzzleHttp\RequestOptions;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
@@ -73,28 +74,31 @@ class OpenAI extends FoundationSDK
      */
     protected function validateConfig(array $config): array
     {
-        return array_merge(
+        return array_replace_recursive(
             [
-                'http_options' => [],
-                'base_url' => 'https://api.openai.com/v1',
+                'http_options' => [
+                    RequestOptions::CONNECT_TIMEOUT => 10,
+                    RequestOptions::TIMEOUT => 120,
+                ],
                 'retry' => [
                     'times' => 1,
-                    'sleepMilliseconds' => 100,
+                    'sleepMilliseconds' => 1000,
                     // 'when' => static function (\Throwable $throwable) {
                     //     return $throwable instanceof ConnectionException;
                     // },
                     // 'throw' => true,
                 ],
+                'base_url' => 'https://api.openai.com/v1',
             ],
             validate($config, [
                 'http_options' => 'array',
-                'base_url' => 'string',
-                'api_key' => 'required|string',
                 'retry' => 'array',
                 'retry.times' => 'integer',
                 'retry.sleepMilliseconds' => 'integer',
                 // 'retry.when' => 'nullable',
                 // 'retry.throw' => 'bool',
+                'base_url' => 'string',
+                'api_key' => 'required|string',
             ])
         );
     }

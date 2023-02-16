@@ -21,19 +21,25 @@ use Symfony\Component\Console\Output\OutputInterface;
 class OpenAIGenerator implements GeneratorContract
 {
     /**
+     * @var array
+     */
+    protected $config;
+
+    /**
      * @var \App\Support\OpenAI
      */
     protected $openAI;
 
     /**
-     * @var array
+     * @var \Symfony\Component\Console\Output\OutputInterface
      */
-    protected $config;
+    protected $output;
 
     public function __construct(array $config)
     {
         $this->config = $config;
-        $this->openAI = new OpenAI(Arr::only($config, ['http_options', 'api_key']));
+        $this->openAI = new OpenAI(Arr::only($config, ['http_options', 'retry', 'base_url', 'api_key']));
+        $this->output = $this->createOutput();
     }
 
     public function generate(string $prompt): string
@@ -42,14 +48,11 @@ class OpenAIGenerator implements GeneratorContract
         $parameters['prompt'] = $prompt;
 
         $this->openAI->completions($parameters, function (string $data) use (&$messages): void {
-            $output = $this->createOutput();
             if (\str($data)->isJson()) {
                 // 错误响应
                 $response = json_decode($data, true);
                 if (isset($response['error']['message'])) {
-                    $output->write(PHP_EOL);
-                    $output->write("<error>{$response['error']['message']}</error>");
-                    $output->write(PHP_EOL);
+                    $this->output->writeln("<error>{$response['error']['message']}</error>");
 
                     return;
                 }
@@ -57,19 +60,19 @@ class OpenAIGenerator implements GeneratorContract
                 // 正常响应
                 $text = Arr::get($response, 'choices.0.text', '');
                 $messages .= $text;
-                $output->write($text);
+                $this->output->write($text);
 
                 return;
             }
 
             // 流响应
-            $stringable = \str($data)->replaceFirst('data: ', '')->rtrim();
-            if ($stringable->startsWith('[DONE]')) {
+            $rowData = \str($data)->replaceFirst('data: ', '')->rtrim();
+            if ($rowData->startsWith('[DONE]')) {
                 return;
             }
-            $text = Arr::get(json_decode((string) $stringable, true), 'choices.0.text', '');
+            $text = Arr::get(json_decode((string) $rowData, true), 'choices.0.text', '');
             $messages .= $text;
-            $output->write($text);
+            $this->output->write($text);
         });
 
         return (string) $messages;
