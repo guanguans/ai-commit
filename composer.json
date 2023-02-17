@@ -43,21 +43,21 @@
         }
     ],
     "require": {
-        "php": ">=7.2.5",
+        "php": ">=7.3",
         "ext-curl": "*",
         "ext-json": "*"
     },
     "require-dev": {
         "guzzlehttp/guzzle": "^7.5",
-        "illuminate/http": "^7.30 || ^8.0 || ^9.0",
-        "illuminate/translation": "^7.30 || ^8.0 || ^9.0",
-        "illuminate/validation": "^7.30 || ^8.0 || ^9.0",
-        "laminas/laminas-text": "^2.7",
-        "laravel-zero/framework": "^7.2 || ^8.0 || ^9.0",
-        "mockery/mockery": "^1.3",
+        "illuminate/http": "^8.83 || ^9.0 || ^10.0",
+        "illuminate/translation": "^8.83 || ^9.0 || ^10.0",
+        "illuminate/validation": "^8.83 || ^9.0 || ^10.0",
+        "laminas/laminas-text": "^2.9",
+        "laravel-zero/framework": "^8.10 || ^9.0 || ^10.0",
+        "mockery/mockery": "^1.5",
         "padraic/phar-updater": "^1.0",
         "php-mock/php-mock-phpunit": "^2.6",
-        "phpunit/phpunit": "^8.5 || ^9.5 || ^10.0"
+        "phpunit/phpunit": "^9.6 || ^10.0"
     },
     "replace": {},
     "conflict": {},
