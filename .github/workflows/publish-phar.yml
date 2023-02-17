@@ -31,7 +31,7 @@ jobs:
         run: composer install --prefer-dist --optimize-autoloader --ansi --no-interaction --no-progress --no-suggest --no-scripts
 
       - name: Create the PHAR file.
-        run: ./ai-commit app:build ai-commit.phar --build-version=${{ steps.tag.outputs.tag }}
+        run: ./ai-commit app:build ai-commit.phar --build-version=${{ steps.tag.outputs.tag }} -v
 
       - name: Upload the PHAR artifact
         uses: actions/upload-artifact@v3

@@ -115,7 +115,7 @@ final class BuildCommand extends Command
         }
 
         // $boxBinary = windows_os() ? '.\box.bat' : './box';
-        $boxBinary = realpath($this->laravel->basePath('vendor/laravel-zero/framework/bin/'.(windows_os() ? 'box.bat' : 'box')));
+        $boxBinary = realpath(base_path('vendor/laravel-zero/framework/bin/'.(windows_os() ? 'box.bat' : 'box')));
 
         $process = new Process(
             [$boxBinary, 'compile', '--working-dir='.base_path(), '--config='.base_path('box.json')] + $this->getExtraBoxOptions(),
