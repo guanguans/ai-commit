@@ -21,6 +21,9 @@ use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
+/**
+ * @see \LaravelZero\Framework\Commands\BuildCommand
+ */
 final class BuildCommand extends Command
 {
     /**
@@ -74,7 +77,7 @@ final class BuildCommand extends Command
     /**
      * {@inheritdoc}
      */
-    public function run(InputInterface $input, OutputInterface $output)
+    public function run(InputInterface $input, OutputInterface $output): int
     {
         return parent::run($input, $this->originalOutput = $output);
     }
@@ -102,6 +105,7 @@ final class BuildCommand extends Command
 
     /**
      * @psalm-suppress UndefinedInterfaceMethod
+     * @noinspection PhpVoidFunctionResultUsedInspection
      */
     private function compile(string $name): BuildCommand
     {
@@ -150,6 +154,9 @@ final class BuildCommand extends Command
         return $this;
     }
 
+    /**
+     * @noinspection DebugFunctionUsageInspection
+     */
     private function prepare(): BuildCommand
     {
         $configFile = $this->app->configPath('app.php');
