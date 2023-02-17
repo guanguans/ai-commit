@@ -13,15 +13,12 @@ declare(strict_types=1);
 namespace App\Generators;
 
 use App\Contracts\GeneratorContract;
-use App\Contracts\OutputAwareContract;
-use App\Generators\Concerns\OutputAware;
 use App\Support\OpenAI;
+use Illuminate\Console\OutputStyle;
 use Illuminate\Support\Arr;
 
-class OpenAIGenerator implements GeneratorContract, OutputAwareContract
+class OpenAIGenerator implements GeneratorContract
 {
-    use OutputAware;
-
     /**
      * @var array
      */
@@ -32,10 +29,16 @@ class OpenAIGenerator implements GeneratorContract, OutputAwareContract
      */
     protected $openAI;
 
+    /**
+     * @var \Illuminate\Console\OutputStyle
+     */
+    protected $output;
+
     public function __construct(array $config)
     {
         $this->config = $config;
         $this->openAI = new OpenAI(Arr::only($config, ['http_options', 'retry', 'base_url', 'api_key']));
+        $this->output = resolve(OutputStyle::class);
     }
 
     /**

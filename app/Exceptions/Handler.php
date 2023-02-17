@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace App\Exceptions;
 
+use Illuminate\Console\OutputStyle;
 use Illuminate\Http\Client\HttpClientException;
 use Illuminate\Validation\ValidationException;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 class Handler extends \Illuminate\Foundation\Exceptions\Handler
 {
@@ -23,7 +23,7 @@ class Handler extends \Illuminate\Foundation\Exceptions\Handler
      */
     public function renderForConsole($output, \Throwable $e): void
     {
-        $outputStyle = $this->container->make(SymfonyStyle::class);
+        $outputStyle = $this->container->make(OutputStyle::class);
         $note = sprintf("In %s line {$e->getLine()}:", pathinfo($e->getFile(), PATHINFO_FILENAME));
 
         if ($e instanceof ValidationException) {
