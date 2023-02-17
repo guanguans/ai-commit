@@ -24,20 +24,15 @@
 
 ## Requirement
 
-* PHP >= 7.2
+* PHP >= 7.3
 
 ## Installation
 
 ### Download the [ai-commit](./builds/ai-commit) file
 
 ```shell
-# PHP >= 7.2
 curl 'https://raw.githubusercontent.com/guanguans/ai-commit/main/builds/ai-commit' -o ai-commit --progress
-# PHP >= 8.0
-curl 'https://raw.githubusercontent.com/guanguans/ai-commit/main/builds/ai-commit80' -o ai-commit80 --progress
-
 chmod +x ai-commit
-chmod +x ai-commit80
 ```
 
 ### Install via Composer

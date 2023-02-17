@@ -31,13 +31,8 @@
 ### 直接下载 [ai-commit](./builds/ai-commit) 文件
 
 ```shell
-# PHP >= 7.2
 curl 'https://raw.githubusercontent.com/guanguans/ai-commit/main/builds/ai-commit' -o ai-commit --progress
-# PHP >= 8.0
-curl 'https://raw.githubusercontent.com/guanguans/ai-commit/main/builds/ai-commit80' -o ai-commit80 --progress
-
 chmod +x ai-commit
-chmod +x ai-commit80
 ```
 
 ### 通过 Composer 安装
