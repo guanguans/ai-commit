@@ -112,7 +112,7 @@ return static function (RectorConfig $rectorConfig): void {
     ]);
 
     $rectorConfig->sets([
-        LevelSetList::UP_TO_PHP_72,
+        LevelSetList::UP_TO_PHP_73,
         SetList::ACTION_INJECTION_TO_CONSTRUCTOR_INJECTION,
         SetList::CODE_QUALITY,
         SetList::CODING_STYLE,
@@ -127,7 +127,7 @@ return static function (RectorConfig $rectorConfig): void {
         // SetList::TYPE_DECLARATION_STRICT,
         SetList::EARLY_RETURN,
 
-        PHPUnitLevelSetList::UP_TO_PHPUNIT_80,
+        PHPUnitLevelSetList::UP_TO_PHPUNIT_90,
         // PHPUnitSetList::PHPUNIT80_DMS,
         PHPUnitSetList::PHPUNIT_CODE_QUALITY,
         PHPUnitSetList::PHPUNIT_EXCEPTION,
