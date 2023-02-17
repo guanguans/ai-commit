@@ -105,6 +105,7 @@ final class BuildCommand extends Command
 
     /**
      * @psalm-suppress UndefinedInterfaceMethod
+     *
      * @noinspection PhpVoidFunctionResultUsedInspection
      */
     private function compile(string $name): BuildCommand
