@@ -23,6 +23,5 @@ mutation-report.html
 storage/logs/laravel.log
 .env
 /.ai-commit.*
-/composer.lock
 /cghooks.lock
 .ai-commit.json
