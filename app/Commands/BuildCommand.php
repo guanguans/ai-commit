@@ -137,7 +137,7 @@ final class BuildCommand extends Command
         foreach (tap($process)->start() as $type => $data) {
             $progressBar->advance();
 
-            if ($this->output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
+            if ($this->option('verbose')) {
                 $process::OUT === $type ? $this->info("$data") : $this->error("$data");
             }
         }
