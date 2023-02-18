@@ -40,6 +40,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        /** @see \Symfony\Component\VarDumper\VarDumper */
+        $_SERVER['VAR_DUMPER_FORMAT'] = 'server';
+
         ConfigManager::load();
     }
 
