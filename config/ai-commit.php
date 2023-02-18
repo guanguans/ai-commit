@@ -10,7 +10,6 @@ declare(strict_types=1);
  * This source file is subject to the MIT license that is bundled.
  */
 
-use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Str;
 
 return [
@@ -65,8 +64,8 @@ return [
         'openai' => [
             'driver' => 'openai',
             'http_options' => [
-                RequestOptions::CONNECT_TIMEOUT => 10,
-                RequestOptions::TIMEOUT => 120,
+                GuzzleHttp\RequestOptions::CONNECT_TIMEOUT => 30,
+                GuzzleHttp\RequestOptions::TIMEOUT => 180,
             ],
             'retry' => [
                 'times' => 1,

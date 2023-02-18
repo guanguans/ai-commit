@@ -169,12 +169,11 @@ class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSeri
             }
 
             if ($ext->is('json')) {
-                $configuration = json_decode(file_get_contents($file), true);
-                if (JSON_ERROR_NONE !== json_last_error()) {
+                if (! str($contents = file_get_contents($file))->isJson()) {
                     throw InvalidJsonFileException::make($file);
                 }
 
-                $configurations[] = $configuration;
+                $configurations[] = json_decode($contents, true);
 
                 return $configurations;
             }

@@ -17,6 +17,7 @@ use GuzzleHttp\Middleware;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Support\Traits\Tappable;
 use Psr\Log\LoggerInterface;
@@ -26,6 +27,7 @@ abstract class FoundationSDK
 {
     use Tappable;
     use Macroable;
+    use Conditionable;
 
     /**
      * @var array

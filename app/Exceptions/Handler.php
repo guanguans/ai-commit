@@ -24,10 +24,10 @@ class Handler extends \Illuminate\Foundation\Exceptions\Handler
     public function renderForConsole($output, \Throwable $e): void
     {
         $outputStyle = $this->container->make(OutputStyle::class);
-        $note = sprintf("In %s line {$e->getLine()}:", pathinfo($e->getFile(), PATHINFO_FILENAME));
+        $position = sprintf("In %s line {$e->getLine()}:", pathinfo($e->getFile(), PATHINFO_FILENAME));
 
         if ($e instanceof ValidationException) {
-            $outputStyle->note($note);
+            $outputStyle->section($position);
             $outputStyle->block($e->validator->errors()->all(), 'ERROR(Config)', 'fg=white;bg=red', ' ', true);
 
             return;
@@ -36,7 +36,7 @@ class Handler extends \Illuminate\Foundation\Exceptions\Handler
         if ($e instanceof HttpClientException) {
             $status = trans($key = "http-statuses.{$e->getCode()}");
             if ($key !== $status) {
-                $outputStyle->note($note);
+                $outputStyle->section($position);
                 $outputStyle->block($e->getMessage(), "ERROR($status)", 'fg=white;bg=red', ' ', true);
 
                 return;

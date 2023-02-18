@@ -54,7 +54,7 @@ class OpenAIGenerator implements GeneratorContract
                 // 错误响应
                 $response = json_decode($data, true);
                 if (isset($response['error']['message'])) {
-                    $this->output->note(sprintf('In %s line %s:', pathinfo(__FILE__, PATHINFO_FILENAME), __LINE__));
+                    $this->output->section(sprintf('In %s line %s:', pathinfo(__FILE__, PATHINFO_FILENAME), __LINE__));
                     $this->output->error($response['error']['message']);
 
                     return;
