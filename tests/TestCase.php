@@ -40,7 +40,11 @@ abstract class TestCase extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        config('ai-commit')->set('generators.openai.api_key', 'sk-...');
+
+        /** @var \App\ConfigManager $config */
+        $config = config('ai-commit');
+        $config->replaceFrom($this->app->configPath('ai-commit.php'));
+        $config->set('generators.openai.api_key', 'sk-...');
     }
 
     /**

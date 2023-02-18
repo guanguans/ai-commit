@@ -87,14 +87,14 @@ class ConfigCommand extends Command
             return ConfigManager::localPath();
         });
 
-        $this->info("The config file($file) is being operated");
+        $this->output->info("The config file($file) is being operated.");
         file_exists($file) or $this->configManager->toFile($file);
         $this->configManager->replaceFrom($file);
         $action = $this->argument('action');
         $key = $this->argument('key');
 
         if (in_array($action, ['unset', 'set'], true) && null === $key) {
-            $this->error('Please specify the parameter key');
+            $this->output->error('Please specify the parameter key.');
 
             return self::FAILURE;
         }
@@ -107,7 +107,6 @@ class ConfigCommand extends Command
                 break;
             case 'get':
                 $value = null === $key ? $this->configManager->toJson() : $this->configManager->get($key);
-                $this->line('');
                 $this->line($this->transformToCommandStr($value));
 
                 break;
@@ -131,12 +130,9 @@ class ConfigCommand extends Command
                 };
 
                 collect($flattenWithKeys($this->configManager->all()))
-                    ->tap(function () {
-                        $this->line('');
-                    })
                     ->each(function ($value, $key) {
                         $this->line(sprintf(
-                            '<comment>%s</comment>: <info>%s</info>',
+                            '<comment>[%s]</comment> <info>%s</info>',
                             $this->transformToCommandStr($key),
                             $this->transformToCommandStr($value)
                         ));
@@ -168,6 +164,8 @@ class ConfigCommand extends Command
             default:
                 throw UnsupportedActionOfConfigException::make($action);
         }
+
+        $this->output->success('Operate successfully.');
 
         return self::SUCCESS;
     }
