@@ -61,6 +61,14 @@ final class BuildCommand extends Command
     private $originalOutput;
 
     /**
+     * @psalm-suppress UndefinedInterfaceMethod
+     */
+    public function isEnabled()
+    {
+        return ! $this->laravel->isProduction();
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function handle()
