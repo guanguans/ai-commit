@@ -73,30 +73,25 @@ class CommitCommand extends Command
         $config = $this->option('config') and $this->configManager->replaceFrom($config);
     }
 
-    public function handle(): int
+    public function handle(GeneratorManager $generatorManager): int
     {
-        $this->task('1. Checking run environment', function () use (&$stagedDiff): void {
-            $output = $this->createProcess('git rev-parse --is-inside-work-tree')
+        $this->task('1. Generating commit messages', function () use ($generatorManager, &$messages): void {
+            $isInsideWorkTree = $this->createProcess('git rev-parse --is-inside-work-tree')
                 ->mustRun()
                 ->getOutput();
-            if (! \str($output)->rtrim()->is('true')) {
-                $message = <<<'message'
+            if (! \str($isInsideWorkTree)->rtrim()->is('true')) {
+                throw new TaskException(<<<'message'
 It looks like you are not in a git repository.
 Please run this command from the root of a git repository, or initialize one using `git init`.
-message;
-
-                throw new TaskException($message);
+message);
             }
 
             $stagedDiff = $this->createProcess($this->getDiffCommand())->mustRun()->getOutput();
-            if (empty($stagedDiff)) {
+            if (\str($stagedDiff)->isEmpty()) {
                 throw new TaskException('There are no staged files to commit. Try running `git add` to stage some files.');
             }
-        }, 'checking...');
 
-        $this->task('2. Generating commit messages', function () use (&$messages, $stagedDiff): void {
-            $generator = $this->laravel->get(GeneratorManager::class)->driver($this->option('generator'));
-            $messages = $generator->generate($this->getPromptOfAI($stagedDiff));
+            $messages = $generatorManager->driver($this->option('generator'))->generate($this->getPromptOfAI($stagedDiff));
             if (\str($messages)->isEmpty()) {
                 throw new TaskException('No commit messages generated.');
             }
@@ -105,12 +100,9 @@ message;
             if (! \str($messages)->isJson()) {
                 throw new TaskException('The generated commit messages is an invalid JSON.');
             }
-
-            $this->line('');
-            $this->line('');
         }, 'generating...');
 
-        $this->task('3. Choosing commit message', function () use ($messages, &$message): void {
+        $this->task('2. Choosing commit message', function () use ($messages, &$message): void {
             $messages = collect(json_decode($messages, true));
             $chosenSubject = $this->choice('Please choice a commit message', $messages->pluck('subject', 'id')->all());
             $message = $messages->first(static function ($message) use ($chosenSubject): bool {
@@ -118,7 +110,7 @@ message;
             });
         }, 'choosing...');
 
-        $this->task('4. Committing message', function () use ($message): void {
+        $this->task('3. Committing message', function () use ($message): void {
             $this->createProcess($this->getCommitCommand($message))
                 ->setTty(true)
                 ->setTimeout(null)
@@ -135,11 +127,16 @@ message;
     {
         /** @noinspection CallableParameterUseCaseInTypeContextInspection */
         null === $cwd and $cwd = $this->argument('path');
-        if (is_string($command)) {
-            return Process::fromShellCommandline($command, $cwd, $env, $input, $timeout);
+
+        $process = is_string($command)
+            ? Process::fromShellCommandline($command, $cwd, $env, $input, $timeout)
+            : new Process($command, $cwd, $env, $input, $timeout);
+
+        if ($this->option('verbose')) {
+            $this->output->info($process->getCommandLine());
         }
 
-        return new Process($command, $cwd, $env, $input, $timeout);
+        return $process;
     }
 
     protected function getDiffCommand(): array
@@ -155,32 +152,7 @@ message;
                 [$stagedDiff, $this->option('num')]
             )
             ->when($this->option('verbose'), function (Stringable $diff): void {
-                $this->line('');
-                $this->comment('============================ start prompt ============================');
-
-                $diff->explode(PHP_EOL)->each(function (string $line) {
-                    if (\str($line)->startsWith('+')) {
-                        $this->info($line);
-
-                        return;
-                    }
-
-                    if (\str($line)->startsWith('-')) {
-                        $this->error($line);
-
-                        return;
-                    }
-
-                    if (\str($line)->startsWith('@@')) {
-                        $this->comment($line);
-
-                        return;
-                    }
-
-                    $this->line($line);
-                });
-
-                $this->comment('============================= end prompt =============================');
+                $this->output->info($diff->__toString());
             });
     }
 

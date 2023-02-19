@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\ConfigManager;
+use App\GeneratorManager;
 use App\Macros\StringableMacro;
 use App\Macros\StrMacro;
 use Illuminate\Console\OutputStyle;
@@ -33,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
     public $singletons = [
         StringableMacro::class => StringableMacro::class,
         StrMacro::class => StrMacro::class,
+        GeneratorManager::class => GeneratorManager::class,
     ];
 
     /**
