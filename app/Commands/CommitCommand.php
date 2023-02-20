@@ -184,13 +184,16 @@ message);
             ->fix(substr($messages, strpos($messages, '[')));
     }
 
+    /**
+     * @psalm-suppress RedundantCondition
+     */
     protected function getCommitCommand(array $message): array
     {
         $options = collect($this->option('commit-options'))
             ->push('--edit')
             ->when($this->option('no-edit') ?: ! $this->configManager->get('edit'), static function (Collection $collection): Collection {
                 return $collection->filter(static function (string $option): bool {
-                    return '--edit' !== $option;
+                    return '--edit' !== $option || '-e' !== $option;
                 });
             })
             ->all();
