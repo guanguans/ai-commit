@@ -26,6 +26,16 @@
                 <file name="app/Generators/OpenAIGenerator.php"/>
             </errorLevel>
         </UnusedVariable>
+        <InternalMethod>
+            <errorLevel type="suppress">
+                <directory name="tests"/>
+            </errorLevel>
+        </InternalMethod>
+        <InvalidScope>
+            <errorLevel type="suppress">
+                <directory name="tests"/>
+            </errorLevel>
+        </InvalidScope>
     </issueHandlers>
 
     <plugins>

@@ -56,8 +56,8 @@
         "laravel-zero/framework": "^8.10 || ^9.0 || ^10.0",
         "mockery/mockery": "^1.5",
         "padraic/phar-updater": "^1.0",
-        "php-mock/php-mock-phpunit": "^2.6",
-        "phpunit/phpunit": "^9.6 || ^10.0"
+        "pestphp/pest": "^1.22",
+        "php-mock/php-mock-phpunit": "^2.6"
     },
     "replace": {},
     "conflict": {},
@@ -90,7 +90,9 @@
     ],
     "archive": {},
     "config": {
-        "allow-plugins": {},
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        },
         "apcu-autoloader": true,
         "classmap-authoritative": false,
         "optimize-autoloader": true,
@@ -177,8 +179,8 @@
         "style-fix": "php-cs-fixer fix --using-cache=no --config=.php-cs-fixer.php --ansi",
         "style-lint": "@style-fix --diff --dry-run",
         "test": "@php ./vendor/bin/phpunit --cache-result-file=./build/phpunit/.phpunit.result.cache --coverage-text",
-        "test-coverage": "@test --coverage-html=./build/phpunit/ --coverage-clover=clover.xml",
-        "var-dump-server": "@php ./vendor/bin/var-dump-server -vvv",
+        "test-coverage": "@pest",
+        "var-dump-server": "@pest-coverage",
         "vhs": [
             "@cghooks-uninstall",
             "vhs < ai-commit.tape",
