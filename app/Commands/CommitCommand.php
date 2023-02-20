@@ -57,11 +57,11 @@ class CommitCommand extends Command
             new InputArgument('path', InputArgument::OPTIONAL, 'The working directory', $this->configManager::localPath('')),
             new InputOption('commit-options', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git commit` command', $this->configManager->get('commit_options')),
             new InputOption('diff-options', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git diff` command', $this->configManager->get('diff_options')),
-            new InputOption('config', 'c', InputOption::VALUE_OPTIONAL, 'Specify config file'),
             new InputOption('generator', 'g', InputOption::VALUE_REQUIRED, 'Specify generator name', $this->configManager->get('generator')),
-            new InputOption('num', null, InputOption::VALUE_REQUIRED, 'Specify number of generated messages', $this->configManager->get('num')),
             new InputOption('prompt', 'p', InputOption::VALUE_REQUIRED, 'Specify prompt name of messages generated', $this->configManager->get('prompt')),
+            new InputOption('num', null, InputOption::VALUE_REQUIRED, 'Specify number of generated messages', $this->configManager->get('num')),
             new InputOption('no-edit', null, InputOption::VALUE_NONE, 'Force no edit mode'),
+            new InputOption('config', 'c', InputOption::VALUE_OPTIONAL, 'Specify config file'),
         ]);
     }
 
@@ -70,15 +70,27 @@ class CommitCommand extends Command
      */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        $config = $this->option('config') and $this->configManager->replaceFrom($config);
+        if ($configFile = $this->option('config')) {
+            $this->configManager->replaceFrom($configFile);
+
+            $options = $this->configManager->getMany([
+                'commit_options',
+                'diff_options',
+                'generator',
+                'num',
+                'prompt',
+            ]);
+
+            foreach ($options as $name => $value) {
+                $this->input->setOption(\str($name)->slug()->__toString(), $value);
+            }
+        }
     }
 
     public function handle(GeneratorManager $generatorManager): int
     {
         $this->task('1. Generating commit messages', function () use ($generatorManager, &$messages): void {
-            $isInsideWorkTree = $this->createProcess('git rev-parse --is-inside-work-tree')
-                ->mustRun()
-                ->getOutput();
+            $isInsideWorkTree = $this->createProcess('git rev-parse --is-inside-work-tree')->mustRun()->getOutput();
             if (! \str($isInsideWorkTree)->rtrim()->is('true')) {
                 throw new TaskException(<<<'message'
 It looks like you are not in a git repository.
@@ -103,8 +115,15 @@ message);
         }, 'generating...');
 
         $this->task('2. Choosing commit message', function () use ($messages, &$message): void {
-            $messages = collect(json_decode($messages, true));
-            $chosenSubject = $this->choice('Please choice a commit message', $messages->pluck('subject', 'id')->all());
+            $messages = collect(json_decode($messages, true))->when($this->option('verbose'), function (Collection $collection) {
+                $this->newLine();
+                $collection->dump();
+
+                return $collection;
+            });
+
+            $chosenSubject = $this->choice('Please choice a commit message', $messages->pluck('subject', 'id')->all(), '1');
+
             $message = $messages->first(static function ($message) use ($chosenSubject): bool {
                 return $message['subject'] === $chosenSubject;
             });
@@ -146,14 +165,15 @@ message);
 
     protected function getPromptOfAI(string $stagedDiff): string
     {
-        return (string) \str($this->configManager->get("prompts.{$this->option('prompt')}"))
+        return \str($this->configManager->get("prompts.{$this->option('prompt')}"))
             ->replace(
                 [$this->configManager->get('diff_mark'), $this->configManager->get('num_mark')],
                 [$stagedDiff, $this->option('num')]
             )
             ->when($this->option('verbose'), function (Stringable $diff): void {
                 $this->output->info($diff->__toString());
-            });
+            })
+            ->__toString();
     }
 
     protected function tryFixMessages(string $messages): string
@@ -166,30 +186,26 @@ message);
 
     protected function getCommitCommand(array $message): array
     {
-        return collect($message)
+        $options = collect($this->option('commit-options'))
+            ->push('--edit')
+            ->when($this->option('no-edit') ?: ! $this->configManager->get('edit'), function (Collection $collection) {
+                return $collection->filter(static function (string $option): bool {
+                    return '--edit' !== $option;
+                });
+            })
+            ->all();
+
+        /** @noinspection CallableParameterUseCaseInTypeContextInspection */
+        $message = collect($message)
             ->filter(static function ($val): bool {
-                return $val && is_string($val);
+                return $val && ! is_numeric($val);
             })
             ->map(static function (string $val): string {
                 return trim($val, " \t\n\r\x0B");
             })
-            ->pipe(function (Collection $message): array {
-                $options = collect($this->option('commit-options'))
-                    ->push('--edit')
-                    ->pipe(function (Collection $options): Collection {
-                        $noEdit = $this->option('no-edit') ?: ! $this->configManager->get('edit');
-                        if ($noEdit) {
-                            return $options->filter(static function (string $option): bool {
-                                return '--edit' !== $option;
-                            });
-                        }
+            ->implode(str_repeat(PHP_EOL, 2));
 
-                        return $options;
-                    })
-                    ->all();
-
-                return array_merge(['git', 'commit', '--message', $message->implode(str_repeat(PHP_EOL, 2))], $options);
-            });
+        return array_merge(['git', 'commit', '--message', $message], $options);
     }
 
     public function schedule(Schedule $schedule): void
