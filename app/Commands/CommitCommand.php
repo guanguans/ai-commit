@@ -116,7 +116,7 @@ message);
 
         $this->task('2. Choosing commit message', function () use ($messages, &$message): void {
             $messages = collect(json_decode($messages, true))->when($this->option('verbose'), function (Collection $collection) {
-                $this->newLine(2);
+                $this->newLine();
                 $collection->dump();
 
                 return $collection;
