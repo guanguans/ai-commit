@@ -14,7 +14,7 @@ namespace App\Exceptions;
 
 use App\Commands\ConfigCommand;
 
-class UnsupportedActionOfConfigException extends InvalidArgumentException
+class UnsupportedConfigActionException extends InvalidArgumentException
 {
     public static function make(string $action, int $code = 0, ?\Throwable $previous = null): self
     {

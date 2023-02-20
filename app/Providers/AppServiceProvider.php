@@ -53,7 +53,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singletonIf(OutputStyle::class, function () {
+        $this->app->singletonIf(OutputStyle::class, static function (): OutputStyle {
             return new OutputStyle(new ArgvInput(), new ConsoleOutput());
         });
 

@@ -14,7 +14,7 @@ namespace App\Commands;
 
 use App\ConfigManager;
 use App\Exceptions\RuntimeException;
-use App\Exceptions\UnsupportedActionOfConfigException;
+use App\Exceptions\UnsupportedConfigActionException;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -130,7 +130,7 @@ class ConfigCommand extends Command
                 };
 
                 collect($flattenWithKeys($this->configManager->all()))
-                    ->each(function ($value, $key) {
+                    ->each(function ($value, $key): void {
                         $this->line(sprintf(
                             '<comment>[%s]</comment> <info>%s</info>',
                             $this->transformToCommandStr($key),
@@ -162,7 +162,7 @@ class ConfigCommand extends Command
 
                 break;
             default:
-                throw UnsupportedActionOfConfigException::make($action);
+                throw UnsupportedConfigActionException::make($action);
         }
 
         $this->output->success('Operate successfully.');

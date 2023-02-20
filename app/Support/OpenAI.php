@@ -27,7 +27,7 @@ class OpenAI extends FoundationSDK
             ->clonePendingRequest()
             ->when(
                 is_callable($writer),
-                static function (PendingRequest $pendingRequest) use ($writer) {
+                static function (PendingRequest $pendingRequest) use ($writer): void {
                     $pendingRequest->withOptions([
                         'curl' => [
                             CURLOPT_WRITEFUNCTION => static function ($ch, string $data) use ($writer): int {
@@ -83,7 +83,7 @@ class OpenAI extends FoundationSDK
                 'retry' => [
                     'times' => 1,
                     'sleepMilliseconds' => 1000,
-                    'when' => static function (\Throwable $throwable) {
+                    'when' => static function (\Throwable $throwable): bool {
                         return $throwable instanceof \Illuminate\Http\Client\ConnectionException;
                     },
                     // 'throw' => true,

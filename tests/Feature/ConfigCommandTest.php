@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\ConfigManager;
-use App\Exceptions\UnsupportedActionOfConfigException;
+use App\Exceptions\UnsupportedConfigActionException;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Tests\TestCase;
 
@@ -70,7 +70,7 @@ class ConfigCommandTest extends TestCase
 
     public function testUnsupportedAction(): void
     {
-        $this->expectException(UnsupportedActionOfConfigException::class);
+        $this->expectException(UnsupportedConfigActionException::class);
         $this->expectExceptionMessage('foo');
         $this->artisan('config foo');
     }

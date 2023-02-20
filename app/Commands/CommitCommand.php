@@ -115,7 +115,7 @@ message);
         }, 'generating...');
 
         $this->task('2. Choosing commit message', function () use ($messages, &$message): void {
-            $messages = collect(json_decode($messages, true))->when($this->option('verbose'), function (Collection $collection) {
+            $messages = collect(json_decode($messages, true))->when($this->option('verbose'), function (Collection $collection): Collection {
                 $this->newLine();
                 $collection->dump();
 
@@ -129,7 +129,7 @@ message);
             });
         }, 'choosing...');
 
-        $this->task('3. Committing message', function () use ($message): void {
+        $this->task('3. Committing message', static function () use ($message): void {
             $this->createProcess($this->getCommitCommand($message))
                 ->setTty(true)
                 ->setTimeout(null)
@@ -188,7 +188,7 @@ message);
     {
         $options = collect($this->option('commit-options'))
             ->push('--edit')
-            ->when($this->option('no-edit') ?: ! $this->configManager->get('edit'), function (Collection $collection) {
+            ->when($this->option('no-edit') ?: ! $this->configManager->get('edit'), static function (Collection $collection): Collection {
                 return $collection->filter(static function (string $option): bool {
                     return '--edit' !== $option;
                 });
