@@ -1,6 +1,16 @@
 parameters:
 	ignoreErrors:
 		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Foundation\\\\Application\\:\\:isProduction\\(\\)\\.$#"
+			count: 1
+			path: app/Commands/BuildCommand.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Console\\\\Output\\\\OutputInterface\\:\\:section\\(\\)\\.$#"
+			count: 1
+			path: app/Commands/BuildCommand.php
+
+		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Container\\\\Container\\:\\:isProduction\\(\\)\\.$#"
 			count: 1
 			path: app/Exceptions/Handler.php
@@ -14,16 +24,6 @@ parameters:
 			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Str\\:\\:isJson\\(\\)\\.$#"
 			count: 1
 			path: app/Macros/StringableMacro.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Http\\\\Client\\\\PendingRequest\\:\\:dd\\(\\)\\.$#"
-			count: 1
-			path: app/Support/FoundationSDK.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Http\\\\Client\\\\PendingRequest\\:\\:dump\\(\\)\\.$#"
-			count: 1
-			path: app/Support/FoundationSDK.php
 
 		-
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
