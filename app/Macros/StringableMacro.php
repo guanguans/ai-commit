@@ -17,7 +17,7 @@ use Illuminate\Support\Str;
 /**
  * @mixin \Illuminate\Support\Stringable
  */
-class StringableMacro
+final class StringableMacro
 {
     /**
      * @psalm-suppress InaccessibleProperty

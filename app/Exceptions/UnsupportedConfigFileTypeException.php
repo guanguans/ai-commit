@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Exceptions;
 
-class UnsupportedConfigFileTypeException extends InvalidArgumentException
+final class UnsupportedConfigFileTypeException extends InvalidArgumentException
 {
     public static function make(string $file, int $code = 0, ?\Throwable $previous = null): self
     {

@@ -23,7 +23,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
-class ConfigCommand extends Command
+final class ConfigCommand extends Command
 {
     /**
      * @var string[]

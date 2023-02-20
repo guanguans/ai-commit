@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Http;
 /**
  * @see https://beta.openai.com/docs/api-reference/introduction
  */
-class OpenAI extends FoundationSDK
+final class OpenAI extends FoundationSDK
 {
     public function completions(array $parameters, ?callable $writer = null): Response
     {

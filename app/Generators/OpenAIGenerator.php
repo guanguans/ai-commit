@@ -17,22 +17,22 @@ use App\Support\OpenAI;
 use Illuminate\Console\OutputStyle;
 use Illuminate\Support\Arr;
 
-class OpenAIGenerator implements GeneratorContract
+final class OpenAIGenerator implements GeneratorContract
 {
     /**
      * @var array
      */
-    protected $config;
+    private $config;
 
     /**
      * @var \App\Support\OpenAI
      */
-    protected $openAI;
+    private $openAI;
 
     /**
      * @var \Illuminate\Console\OutputStyle
      */
-    protected $output;
+    private $output;
 
     public function __construct(array $config)
     {

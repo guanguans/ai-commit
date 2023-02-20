@@ -25,7 +25,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
-class CommitCommand extends Command
+final class CommitCommand extends Command
 {
     /**
      * @var string
@@ -122,14 +122,14 @@ message);
                 return $collection;
             });
 
-            $chosenSubject = $this->choice('Please choice a commit message', $messages->pluck('subject', 'id')->all(), '1');
+            $subject = $this->choice('Please choice a commit message', $messages->pluck('subject', 'id')->all(), '1');
 
-            $message = $messages->first(static function ($message) use ($chosenSubject): bool {
-                return $message['subject'] === $chosenSubject;
+            $message = $messages->first(static function ($message) use ($subject): bool {
+                return $message['subject'] === $subject;
             });
         }, 'choosing...');
 
-        $this->task('3. Committing message', static function () use ($message): void {
+        $this->task('3. Committing message', function () use ($message): void {
             $this->createProcess($this->getCommitCommand($message))
                 ->setTty(true)
                 ->setTimeout(null)

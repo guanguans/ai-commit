@@ -15,7 +15,7 @@ namespace App\Macros;
 /**
  * @mixin \Illuminate\Support\Str
  */
-class StrMacro
+final class StrMacro
 {
     /**
      * @psalm-suppress UnusedFunctionCall

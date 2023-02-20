@@ -16,7 +16,7 @@ use Illuminate\Console\OutputStyle;
 use Illuminate\Http\Client\HttpClientException;
 use Illuminate\Validation\ValidationException;
 
-class Handler extends \Illuminate\Foundation\Exceptions\Handler
+final class Handler extends \Illuminate\Foundation\Exceptions\Handler
 {
     /**
      * {@inheritdoc}

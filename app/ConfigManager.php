@@ -25,7 +25,7 @@ use Illuminate\Support\Arr;
  *
  * @see https://github.com/hassankhan/config
  */
-class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSerializable
+final class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSerializable
 {
     /**
      * @var string

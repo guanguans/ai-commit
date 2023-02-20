@@ -42,6 +42,7 @@ use Rector\Php56\Rector\FunctionLike\AddDefaultValueForUndefinedVariableRector;
 use Rector\PHPUnit\Rector\Class_\AddSeeTestAnnotationRector;
 use Rector\PHPUnit\Set\PHPUnitLevelSetList;
 use Rector\PHPUnit\Set\PHPUnitSetList;
+use Rector\Privatization\Rector\Class_\FinalizeClassesWithoutChildrenRector;
 use Rector\PSR4\Rector\FileWithoutNamespace\NormalizeNamespaceByPSR4ComposerAutoloadRector;
 use Rector\Renaming\Rector\Name\RenameClassRector;
 use Rector\Set\ValueObject\LevelSetList;
@@ -150,6 +151,7 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->rules([
         InlineConstructorDefaultToPropertyRector::class,
+        FinalizeClassesWithoutChildrenRector::class,
     ]);
 
     $rectorConfig->ruleWithConfiguration(

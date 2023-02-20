@@ -19,7 +19,7 @@ use Illuminate\Support\Str;
 /**
  * @method \App\Contracts\GeneratorContract driver(?string $driver = null)
  */
-class GeneratorManager extends Manager
+final class GeneratorManager extends Manager
 {
     public function getDefaultDriver()
     {

@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Exceptions;
 
-class InvalidJsonFileException extends InvalidArgumentException
+final class InvalidJsonFileException extends InvalidArgumentException
 {
     public static function make(string $file, int $code = 0, ?\Throwable $previous = null): self
     {
