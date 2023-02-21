@@ -4,7 +4,7 @@
 
 [简体中文](README-zh_CN.md) | [ENGLISH](README.md)
 
-> Automagically generate conventional commit messages with AI. - 使用 AI 自动生约定式提交信息。
+> Automagically generate conventional git commit messages with AI. - 使用 AI 自动生成约定式 git 提交信息。
 
 [![tests](https://github.com/guanguans/ai-commit/workflows/tests/badge.svg)](https://github.com/guanguans/ai-commit/actions)
 [![check & fix styling](https://github.com/guanguans/ai-commit/actions/workflows/php-cs-fixer.yml/badge.svg)](https://github.com/guanguans/ai-commit/actions)

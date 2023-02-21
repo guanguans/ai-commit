@@ -107,7 +107,7 @@ final class ConfigCommand extends Command
                 break;
             case 'get':
                 $value = null === $key ? $this->configManager->toJson() : $this->configManager->get($key);
-                $this->line($this->transformToCommandStr($value));
+                $this->line($this->transformToCommandArg($value));
 
                 break;
             case 'unset':
@@ -133,8 +133,8 @@ final class ConfigCommand extends Command
                     ->each(function ($value, $key): void {
                         $this->line(sprintf(
                             '<comment>[%s]</comment> <info>%s</info>',
-                            $this->transformToCommandStr($key),
-                            $this->transformToCommandStr($value)
+                            $this->transformToCommandArg($key),
+                            $this->transformToCommandArg($value)
                         ));
                     });
 
@@ -175,7 +175,7 @@ final class ConfigCommand extends Command
      *
      * @psalm-suppress NullableReturnStatement
      */
-    protected function transformToCommandStr($value): string
+    protected function transformToCommandArg($value): string
     {
         return transform(
             $value,

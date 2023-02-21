@@ -32,7 +32,7 @@ final class ConfigManager extends Repository implements Arrayable, Jsonable, \Js
      */
     public const NAME = '.ai-commit.json';
 
-    final public static function load(): void
+    public static function load(): void
     {
         resolve('config')->set('ai-commit', self::create());
     }

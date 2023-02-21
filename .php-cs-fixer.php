@@ -37,6 +37,7 @@ $finder = Finder::create()
         'vendor/',
     ])
     ->append([
+        __DIR__.'/ai-commit',
         __DIR__.'/.ai-commit.php',
         __DIR__.'/.php-cs-fixer.php',
         __DIR__.'/.phpstorm.meta.php',

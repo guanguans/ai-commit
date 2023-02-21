@@ -1,6 +1,6 @@
 {
     "name": "guanguans/ai-commit",
-    "description": "Automagically generate conventional commit messages with AI. - 使用 AI 自动生成约定式提交信息。",
+    "description": "Automagically generate conventional git commit messages with AI. - 使用 AI 自动生成约定式 git 提交信息。",
     "license": "MIT",
     "type": "project",
     "abandoned": false,
