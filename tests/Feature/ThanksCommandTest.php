@@ -12,6 +12,12 @@ declare(strict_types=1);
 
 use App\Commands\ThanksCommand;
 
-it('can thanks for using this tool.', function () {
-    $this->artisan(ThanksCommand::class)->assertSuccessful();
-});
+it('can thanks for using this tool', function () {
+    $this->getFunctionMock(class_namespace(ThanksCommand::class), 'exec')
+        ->expects($this->once())
+        ->willReturn('');
+
+    $this->artisan(ThanksCommand::class)
+        ->expectsQuestion('Can you quickly <options=bold>star our GitHub repository</>? 🙏🏻', 'yes')
+        ->assertSuccessful();
+})->group(__DIR__, __FILE__);

@@ -1,0 +1,44 @@
+{
+    "commit_options": [],
+    "diff_options": [
+        ":!*.lock"
+    ],
+    "edit": true,
+    "prompt": "conventional",
+    "num": 3,
+    "generator": "openai",
+    "diff_mark": "<diff>",
+    "num_mark": "<num>",
+    "generators": {
+        "openai": {
+            "driver": "openai",
+            "http_options": {
+                "connect_timeout": 30,
+                "timeout": 180
+            },
+            "retry": {
+                "times": 1,
+                "sleepMilliseconds": 1000
+            },
+            "api_key": "sk-...",
+            "completion_parameters": {
+                "model": "text-davinci-003",
+                "suffix": null,
+                "max_tokens": 500,
+                "temperature": 0,
+                "top_p": 1,
+                "n": 1,
+                "stream": true,
+                "logprobs": null,
+                "echo": false,
+                "stop": null,
+                "presence_penalty": 0,
+                "frequency_penalty": 0,
+                "best_of": 1
+            }
+        }
+    },
+    "prompts": {
+        "conventional": "Here is the output of the `git diff`:\n<diff>\nHere are some best practices for writing commit messages:\n- Write clear, concise, and descriptive messages that explain the changes made in the commit.\n- Use the present tense and active voice in the message, for example, \"Fix bug\" instead of \"Fixed bug.\"\n- Use the imperative mood, which gives the message a sense of command, e.g. \"Add feature\" instead of \"Added feature\"\n- Limit the subject line to 72 characters or less.\n- Capitalize the subject line.\n- Do not end the subject line with a period.\n- Limit the body of the message to 256 characters or less.\n- Use a blank line between the subject and the body of the message.\n- Use the body of the message to provide additional context or explain the reasoning behind the changes.\n- Avoid using general terms like \"update\" or \"change\" in the subject line, be specific about what was updated or changed.\n- Explain, What was done at a glance in the subject line, and provide additional context in the body of the message.\n- Why the change was necessary in the body of the message.\n- The details about what was done in the body of the message.\n- Any useful details concerning the change in the body of the message.\n- Use a hyphen (-) for the bullet points in the body of the message.\nWrite <num> commit messages that accurately summarizes the changes made in the given `git diff` output, following the best practices listed above and the conventional commit format.\nPlease provide a response in the form of a valid JSON object and do not include \"Output:\", \"Response:\" or anything similar to those two before it, in the following format:\n[\n    {\n        \"id\": 1,\n        \"subject\": \"<type>(<scope>): <subject>\",\n        \"body\": \"<BODY (bullet points)>\"\n    },\n    ...\n    {\n        \"id\": n,\n        \"subject\": \"<type>(<scope>): <subject>\",\n        \"body\": \"<BODY (bullet points)>\"\n    }\n]"
+    },
+}

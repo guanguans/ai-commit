@@ -25,9 +25,9 @@ return [
      */
     'diff_options' => [
         ':!*.lock',
-        ':!pom.xml',
-        ':!.gradle.kts',
-        ':!go.sum',
+        // ':!pom.xml',
+        // ':!.gradle.kts',
+        // ':!go.sum',
     ],
 
     /**

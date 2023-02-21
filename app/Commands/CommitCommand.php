@@ -23,6 +23,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
 final class CommitCommand extends Command
@@ -90,12 +91,18 @@ final class CommitCommand extends Command
     public function handle(GeneratorManager $generatorManager): int
     {
         $this->task('1. Generating commit messages', function () use ($generatorManager, &$messages): void {
-            $isInsideWorkTree = $this->createProcess('git rev-parse --is-inside-work-tree')->mustRun()->getOutput();
-            if (! \str($isInsideWorkTree)->rtrim()->is('true')) {
-                throw new TaskException(<<<'message'
-It looks like you are not in a git repository.
-Please run this command from the root of a git repository, or initialize one using `git init`.
-message);
+            try {
+                $process = $this->createProcess('git rev-parse --is-inside-work-tree');
+                $process->mustRun();
+            } catch (ProcessFailedException $e) {
+                $errorOutput = \str($process->getErrorOutput())
+                    ->rtrim()
+                    ->whenStartsWith('fatal: ', function (Stringable $stringable) use ($process) {
+                        return $stringable->append(" [{$process->getWorkingDirectory()}].");
+                    })
+                    ->__toString();
+
+                throw new TaskException($errorOutput);
             }
 
             $stagedDiff = $this->createProcess($this->getDiffCommand())->mustRun()->getOutput();

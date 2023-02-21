@@ -51,7 +51,7 @@ final class Handler extends \Illuminate\Foundation\Exceptions\Handler
      */
     protected function shouldntReport(\Throwable $e)
     {
-        if (\Phar::running() && $this->container->isProduction()) {
+        if ($this->container->isProduction()) {
             return true;
         }
 

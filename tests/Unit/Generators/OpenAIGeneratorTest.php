@@ -11,12 +11,19 @@ declare(strict_types=1);
  */
 
 use App\Generators\OpenAIGenerator;
-use Illuminate\Http\Client\RequestException;
+use Illuminate\Http\Client\Request;
+use Illuminate\Support\Facades\Http;
 
-it('generate', function () {
-    // $this->expectException(RequestException::class);
-    // // $this->expectExceptionCode(401);
-    //
-    // $openAIGenerator = new OpenAIGenerator(config('ai-commit.generators.openai'));
-    // $openAIGenerator->generate('foo');
+/**
+ * @psalm-suppress UnusedClosureParam
+ */
+it('can generate commit messages', function () {
+    Http::fake(function (Request $request, array $options) {
+        return Http::response('foo');
+    });
+
+    $openAIGenerator = new OpenAIGenerator(config('ai-commit.generators.openai'));
+    $generate = $openAIGenerator->generate('foo');
+    expect($generate)->toBeString();
+    Http::assertSentCount(1);
 });

@@ -122,9 +122,11 @@ final class ConfigManager extends Repository implements Arrayable, Jsonable, \Js
             if ($value instanceof \JsonSerializable) {
                 return $value->jsonSerialize();
             }
+
             if ($value instanceof Jsonable) {
                 return json_decode($value->toJson(), true);
             }
+
             if ($value instanceof Arrayable) {
                 return $value->toArray();
             }
@@ -158,7 +160,7 @@ final class ConfigManager extends Repository implements Arrayable, Jsonable, \Js
         return $this->toJson();
     }
 
-    protected static function readFrom(...$files): array
+    public static function readFrom(...$files): array
     {
         $configurations = array_reduce($files, static function (array $configurations, string $file): array {
             $ext = str(pathinfo($file, PATHINFO_EXTENSION));

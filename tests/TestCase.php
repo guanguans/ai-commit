@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use App\ConfigManager;
 use LaravelZero\Framework\Testing\TestCase as BaseTestCase;
 use phpmock\phpunit\PHPMock;
 
@@ -41,10 +42,9 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        /** @var \App\ConfigManager $config */
-        $config = config('ai-commit');
-        $config->replaceFrom($this->app->configPath('ai-commit.php'));
-        $config->set('generators.openai.api_key', 'sk-...');
+        $configManager = ConfigManager::createFrom($this->app->configPath('ai-commit.php'));
+        $configManager->set('generators.openai.api_key', 'sk-...');
+        config()->set('ai-commit', $configManager);
     }
 
     /**
