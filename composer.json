@@ -1,6 +1,6 @@
 {
     "name": "guanguans/ai-commit",
-    "description": "Automagically generate conventional commit messages with AI. - 使用 AI 自动生约定式提交信息。",
+    "description": "Automagically generate conventional commit messages with AI. - 使用 AI 自动生成约定式提交信息。",
     "license": "MIT",
     "type": "project",
     "abandoned": false,
@@ -85,8 +85,7 @@
         }
     },
     "bin": [
-        "builds/ai-commit",
-        "builds/ai-commit80"
+        "builds/ai-commit"
     ],
     "archive": {},
     "config": {
@@ -178,9 +177,9 @@
         "rector-dry-run": "@rector --dry-run",
         "style-fix": "php-cs-fixer fix --using-cache=no --config=.php-cs-fixer.php --ansi",
         "style-lint": "@style-fix --diff --dry-run",
-        "test": "@php ./vendor/bin/phpunit --cache-result-file=./build/phpunit/.phpunit.result.cache --coverage-text",
-        "test-coverage": "@pest",
-        "var-dump-server": "@pest-coverage",
+        "test": "@pest",
+        "test-coverage": "@pest-coverage",
+        "var-dump-server": "var-dump-server",
         "vhs": [
             "@cghooks-uninstall",
             "vhs < ai-commit.tape",

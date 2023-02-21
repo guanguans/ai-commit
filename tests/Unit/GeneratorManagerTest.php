@@ -10,23 +10,15 @@ declare(strict_types=1);
  * This source file is subject to the MIT license that is bundled.
  */
 
-namespace Tests\Unit;
-
 use App\GeneratorManager;
 use App\Generators\OpenAIGenerator;
-use Tests\TestCase;
 
-class GeneratorManagerTest extends TestCase
-{
-    public function testGetDefaultDriver(): void
-    {
-        $defaultDriver = $this->app->get(GeneratorManager::class)->getDefaultDriver();
-        $this->assertIsString($defaultDriver);
-    }
+it('get default driver', function () {
+    $defaultDriver = $this->app->get(GeneratorManager::class)->getDefaultDriver();
+    expect($defaultDriver)->toBeString();
+});
 
-    public function testCreateOpenAIDriver(): void
-    {
-        $driver = $this->app->get(GeneratorManager::class)->driver('openai');
-        $this->assertInstanceOf(OpenAIGenerator::class, $driver);
-    }
-}
+it('create open a i driver', function () {
+    $driver = $this->app->get(GeneratorManager::class)->driver('openai');
+    expect($driver)->toBeInstanceOf(OpenAIGenerator::class);
+});
