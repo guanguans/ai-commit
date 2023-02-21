@@ -10,60 +10,108 @@ declare(strict_types=1);
  * This source file is subject to the MIT license that is bundled.
  */
 
+use App\Commands\ConfigCommand;
 use App\ConfigManager;
+use App\Exceptions\RuntimeException;
 use App\Exceptions\UnsupportedConfigActionException;
-use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
-it('action of set', function () {
-    $this->artisan('config set foo.bar bar')
+it('can set config.', function () {
+    $this->getFunctionMock(class_namespace(ConfigCommand::class), 'file_exists')
+        ->expects($this->atLeastOnce())
+        ->willReturn(false);
 
-        // ->expectsOutput(sprintf('The config file(%s) is being operated', ConfigManager::localPath()))
-        ->assertExitCode(0);
+    $this->artisan(ConfigCommand::class, [
+        'action' => 'set',
+        'key' => 'foo.bar',
+        'value' => 'bar',
+    ])->assertSuccessful();
 
-    $file = __DIR__.DIRECTORY_SEPARATOR.ConfigManager::NAME;
-    $this->artisan(sprintf('config set foo.bar bar --file %s', $file))
+    $this->artisan(ConfigCommand::class, [
+        'action' => 'set',
+        'key' => 'foo.bar',
+        'value' => 'bar',
+        '--file' => __DIR__.DIRECTORY_SEPARATOR.ConfigManager::NAME,
+    ])->assertSuccessful();
 
-        // ->expectsOutput(sprintf("The config file($file) is being operated"))
-        ->assertExitCode(0);
+    $this->artisan(ConfigCommand::class, [
+        'action' => 'set',
+        'key' => 'foo.bar',
+        'value' => 'bar',
+        '--global' => true,
+    ])->assertSuccessful();
 
-    $this->artisan(sprintf('config set foo.bar bar --global'))
-
-        // ->expectsOutput(sprintf('The config file(%s) is being operated', ConfigManager::globalPath()))
-        ->assertExitCode(0);
-
-    $this->artisan(sprintf('config set'))
-
-        // ->expectsOutput('Please specify the parameter key.')
-        ->assertExitCode(1);
+    $this->artisan(ConfigCommand::class, [
+        'action' => 'set',
+    ])->assertFailed();
 });
 
-it('action of get', function () {
-    $this->artisan('config get')->assertExitCode(0);
-    $this->artisan('config get foo')->assertExitCode(0);
-    $this->artisan('config get generators.openai')->assertExitCode(0);
+it('can get config.', function () {
+    $this->artisan(ConfigCommand::class, [
+        'action' => 'get',
+    ])->assertSuccessful();
+
+    $this->artisan(ConfigCommand::class, [
+        'action' => 'get',
+        'key' => 'foo',
+    ])->assertSuccessful();
+
+    $this->artisan(ConfigCommand::class, [
+        'action' => 'get',
+        'key' => 'generators.openai',
+    ])->assertSuccessful();
 });
 
-it('action of unset', function () {
-    $this->artisan('config unset foo.bar')->assertExitCode(0);
+it('can unset config.', function () {
+    $this->artisan(ConfigCommand::class, [
+        'action' => 'unset',
+        'key' => 'foo.bar',
+    ])->assertSuccessful();
 });
 
-it('action of list', function () {
-    $this->artisan('config list')->assertExitCode(0);
+it('can list config.', function () {
+    $this->artisan(ConfigCommand::class, [
+        'action' => 'list',
+    ])->assertSuccessful();
 });
 
-/**
- * @psalm-suppress UnevaluatedCode
- */
-it('action of edit', function () {
-    $this->markTestSkipped(__METHOD__);
+it('will throw `RuntimeException` for edit config.', function () {
+    $this->getFunctionMock(class_namespace(ConfigCommand::class), 'exec')
+        ->expects($this->exactly(6))
+        ->willReturn('');
 
-    $this->expectException(ProcessFailedException::class);
-    $this->expectExceptionMessage('The command "foo ');
-    $this->artisan('config edit --editor=foo');
-});
+    $this->artisan(ConfigCommand::class, [
+        'action' => 'edit',
+    ]);
+})->throws(RuntimeException::class, 'No editor found or specified.');
 
-it('unsupported action', function () {
-    $this->expectException(UnsupportedConfigActionException::class);
-    $this->expectExceptionMessage('foo');
-    $this->artisan('config foo');
-});
+it('will throw `\Symfony\Component\Process\Exception\RuntimeException::class` for edit config.', function () {
+    $this->getFunctionMock(class_namespace(Process::class), 'proc_open')
+        ->expects($this->once())
+        ->willReturn(false);
+
+    $this->artisan(ConfigCommand::class, [
+        'action' => 'edit',
+        '--editor' => 'foo',
+    ]);
+})->throws(\Symfony\Component\Process\Exception\RuntimeException::class, 'TTY mode requires /dev/tty to be read/writable.');
+
+it('will throw `Symfony\Component\Process\Exception\RuntimeException::class` for edit config.', function () {
+    $this->getFunctionMock(class_namespace(ConfigCommand::class), 'exec')
+        ->expects($this->once())
+        ->willReturn('/usr/local/bin/vim');
+
+    $this->getFunctionMock(class_namespace(Process::class), 'proc_open')
+        ->expects($this->any())
+        ->willReturn(false);
+
+    $this->artisan(ConfigCommand::class, [
+        'action' => 'edit',
+    ]);
+})->throws(\Symfony\Component\Process\Exception\RuntimeException::class, 'TTY mode requires /dev/tty to be read/writable.');
+
+it('will throw `UnsupportedConfigActionException`.', function () {
+    $this->artisan(ConfigCommand::class, [
+        'action' => 'foo',
+    ]);
+})->throws(UnsupportedConfigActionException::class, 'foo');

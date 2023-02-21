@@ -9,6 +9,9 @@ declare(strict_types=1);
  *
  * This source file is subject to the MIT license that is bundled.
  */
-// it('example', function () {
-//     expect(true)->toBeTrue();
-// });
+
+use App\Commands\ThanksCommand;
+
+it('can thanks for using this tool.', function () {
+    $this->artisan(ThanksCommand::class)->assertSuccessful();
+});

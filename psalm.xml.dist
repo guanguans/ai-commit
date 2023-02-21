@@ -36,6 +36,11 @@
                 <directory name="tests"/>
             </errorLevel>
         </InvalidScope>
+        <UndefinedFunction>
+            <errorLevel type="suppress">
+                <directory name="tests"/>
+            </errorLevel>
+        </UndefinedFunction>
     </issueHandlers>
 
     <plugins>
