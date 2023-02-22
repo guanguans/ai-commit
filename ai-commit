@@ -8,6 +8,7 @@
  *
  * This source file is subject to the MIT license that is bundled.
  */
+
 define('LARAVEL_START', microtime(true));
 
 /*

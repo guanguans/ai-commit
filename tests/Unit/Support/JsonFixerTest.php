@@ -13,19 +13,19 @@ declare(strict_types=1);
 use App\Support\JsonFixer;
 
 it('can fix invalid json.', function (string $json, string $expect) {
-    expect((new JsonFixer()))
+    expect(new JsonFixer())
         ->fix($json)
         ->toBe($expect);
 })->group(__DIR__, __FILE__)->with('InvalidJsons');
 
 it('can fix invalid json with missing value.', function () {
-    expect((new JsonFixer()))
+    expect(new JsonFixer())
         ->silent()
         ->missingValue('')
         ->fix(substr(json_encode([1, 2, 3]), 0, 5))
         ->toBeJson();
 
-    expect((new JsonFixer()))
+    expect(new JsonFixer())
         ->silent(true)
         ->fix($json = substr(json_encode([1, 2, 3]), 3))
         ->toBe($json)
