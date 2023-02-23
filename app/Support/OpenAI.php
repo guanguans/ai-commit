@@ -21,6 +21,47 @@ use Illuminate\Support\Facades\Http;
  */
 final class OpenAI extends FoundationSDK
 {
+    /**
+     * ```ok
+     * {
+     *     "id": "cmpl-6n1qMNWwuF5SYBcS4Nev5sr4ACpEB",
+     *     "object": "text_completion",
+     *     "created": 1677143178,
+     *     "model": "text-davinci-003",
+     *     "choices": [
+     *         {
+     *             "text": "\n\n[\n    {\n        \"id\": 1,\n        \"subject\": \"Fix(OpenAIGenerator): Debugging output\",\n        \"body\": \"- Add var_dump() for debugging output\\n- Add var_dump() for stream response\"\n    },\n    {\n        \"id\": 2,\n        \"subject\": \"Refactor(OpenAIGenerator): Error handling\",\n        \"body\": \"- Check for error response in JSON\\n- Handle error response\"\n    },\n    {\n        \"id\": 3,\n        \"subject\": \"Docs(OpenAIGenerator): Update documentation\",\n        \"body\": \"- Update documentation for OpenAIGenerator class\"\n    }\n]",
+     *             "index": 0,
+     *             "logprobs": null,
+     *             "finish_reason": "stop"
+     *         }
+     *     ],
+     *     "usage": {
+     *         "prompt_tokens": 749,
+     *         "completion_tokens": 159,
+     *         "total_tokens": 908
+     *     }
+     * }
+     * ```.
+     *
+     * ```stream ok
+     * data: {"id": "cmpl-6n1mYrlWTmE9184S4pajlIx6JITEu", "object": "text_completion", "created": 1677142942, "choices": [{"text": "", "index": 0, "logprobs": null, "finish_reason": "stop"}], "model": "text-davinci-003"}
+     *
+     * data: [DONE]
+     *
+     * ```
+     *
+     * ```error
+     * {
+     *     "error": {
+     *         "message": "Incorrect API key provided: sk-........ You can find your API key at https://platform.openai.com/account/api-keys.",
+     *         "type": "invalid_request_error",
+     *         "param": null,
+     *         "code": "invalid_api_key"
+     *     }
+     * }
+     * ```
+     */
     public function completions(array $parameters, ?callable $writer = null): Response
     {
         return $this
@@ -48,20 +89,20 @@ final class OpenAI extends FoundationSDK
                         'in:text-davinci-003,text-curie-001,text-babbage-001,text-ada-001,text-embedding-ada-002,code-davinci-002,code-cushman-001,content-filter-alpha',
                     ],
                     // 'prompt' => 'string|array',
-                    'prompt' => 'string',
+                    'prompt' => 'string|max:10000',
                     'suffix' => 'nullable|string',
                     'max_tokens' => 'integer',
-                    'temperature' => 'numeric',
-                    'top_p' => 'numeric',
-                    'n' => 'integer',
+                    'temperature' => 'numeric|between:0,2',
+                    'top_p' => 'numeric|between:0,1',
+                    'n' => 'integer|min:1',
                     'stream' => 'bool',
-                    'logprobs' => 'nullable|integer',
+                    'logprobs' => 'nullable|integer|between:0,5',
                     'echo' => 'bool',
                     // 'stop' => 'nullable|string|array',
                     'stop' => 'nullable|string',
-                    'presence_penalty' => 'numeric',
-                    'frequency_penalty' => 'numeric',
-                    'best_of' => 'integer',
+                    'presence_penalty' => 'numeric|between:-2,2',
+                    'frequency_penalty' => 'numeric|between:-2,2',
+                    'best_of' => 'integer|min:1',
                     'logit_bias' => 'array', // map
                     'user' => 'string|uuid',
                 ]

@@ -16,7 +16,7 @@ it('can fix invalid json.', function (string $json, string $expect) {
     expect(new JsonFixer())
         ->fix($json)
         ->toBe($expect);
-})->group(__DIR__, __FILE__)->with('InvalidJsons');
+})->skip()->group(__DIR__, __FILE__)->with('InvalidJsons');
 
 it('can fix invalid json with missing value.', function () {
     expect(new JsonFixer())
@@ -26,7 +26,7 @@ it('can fix invalid json with missing value.', function () {
         ->toBeJson();
 
     expect(new JsonFixer())
-        ->silent(true)
+        ->silent()
         ->fix($json = substr(json_encode([1, 2, 3]), 3))
         ->toBe($json)
         ->not

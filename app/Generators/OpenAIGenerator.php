@@ -43,6 +43,26 @@ final class OpenAIGenerator implements GeneratorContract
 
     /**
      * @noinspection CallableParameterUseCaseInTypeContextInspection
+     *
+     * ```return
+     * [
+     *     {
+     *         "id": 1,
+     *         "subject": "patch(Models/Example.php): Update variable value",
+     *         "body": "- Update value of `$var1` from `123` to `456`\n- Patched by `composer-patches`"
+     *     },
+     *     {
+     *         "id": 2,
+     *         "subject": "chore(Models/Example.php): Refactor someFunction",
+     *         "body": "- Refactor `someFunction`\n- Replace value of `$var1` from `123` to `456`"
+     *     },
+     *     {
+     *         "id": 3,
+     *         "subject": "Patch(Models/Example.php): Modify var1",
+     *         "body": "- Patched by composer-patches\n- Changed value of var1 from 123 to 456"
+     *     }
+     * ]
+     * ```
      */
     public function generate(string $prompt): string
     {

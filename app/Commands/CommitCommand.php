@@ -43,9 +43,15 @@ final class CommitCommand extends Command
      */
     protected $configManager;
 
-    public function __construct()
+    /**
+     * @var \App\GeneratorManager
+     */
+    protected $generatorManager;
+
+    public function __construct(GeneratorManager $generatorManager)
     {
         $this->configManager = config('ai-commit');
+        $this->generatorManager = $generatorManager;
         parent::__construct();
     }
 
@@ -88,9 +94,9 @@ final class CommitCommand extends Command
         }
     }
 
-    public function handle(GeneratorManager $generatorManager): int
+    public function handle(): int
     {
-        $this->task('1. Generating commit messages', function () use ($generatorManager, &$messages): void {
+        $this->task('1. Generating commit messages', function () use (&$messages): void {
             try {
                 $process = $this->createProcess('git rev-parse --is-inside-work-tree');
                 $process->mustRun();
@@ -110,7 +116,7 @@ final class CommitCommand extends Command
                 throw new TaskException('There are no staged files to commit. Try running `git add` to stage some files.');
             }
 
-            $messages = $generatorManager->driver($this->option('generator'))->generate($this->getPromptOfAI($stagedDiff));
+            $messages = $this->generatorManager->driver($this->option('generator'))->generate($this->getPromptOfAI($stagedDiff));
             if (\str($messages)->isEmpty()) {
                 throw new TaskException('No commit messages generated.');
             }
@@ -123,10 +129,11 @@ final class CommitCommand extends Command
 
         $this->task('2. Choosing commit message', function () use ($messages, &$message): void {
             $messages = collect(json_decode($messages, true))->when($this->option('verbose'), function (Collection $collection): Collection {
-                $this->newLine();
-                $collection->dump();
-
-                return $collection;
+                return $collection
+                    ->tap(function () {
+                        $this->newLine();
+                    })
+                    ->dump();
             });
 
             $subject = $this->choice('Please choice a commit message', $messages->pluck('subject', 'id')->all(), '1');
