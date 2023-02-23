@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Tests;
 
 use App\ConfigManager;
+use Illuminate\Http\Client\Request;
+use Illuminate\Support\Facades\Http;
 use LaravelZero\Framework\Testing\TestCase as BaseTestCase;
 use phpmock\phpunit\PHPMock;
 
@@ -37,6 +39,8 @@ abstract class TestCase extends BaseTestCase
 
     /**
      * This method is called before each test.
+     *
+     * @psalm-suppress UnusedClosureParam
      */
     protected function setUp(): void
     {
@@ -45,6 +49,10 @@ abstract class TestCase extends BaseTestCase
         $configManager = ConfigManager::createFrom($this->app->configPath('ai-commit.php'));
         $configManager->set('generators.openai.api_key', 'sk-...');
         config()->set('ai-commit', $configManager);
+
+        Http::fake(function (Request $request, array $options) {
+            return Http::response('foo');
+        });
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection NullPointerExceptionInspection */
+
 declare(strict_types=1);
 
 /**
@@ -12,15 +14,14 @@ declare(strict_types=1);
 
 use App\Support\JsonFixer;
 
-it('can fix invalid json.', function (string $json, string $expect) {
+it('can fix invalid json', function (string $json, string $expect) {
     expect(new JsonFixer())
         ->fix($json)
         ->toBe($expect);
-})->skip()->group(__DIR__, __FILE__)->with('InvalidJsons');
+})->group(__DIR__, __FILE__)->with('InvalidJsons')->skip();
 
-it('can fix invalid json with missing value.', function () {
+it('can fix invalid json with missing value', function () {
     expect(new JsonFixer())
-        ->silent()
         ->missingValue('')
         ->fix(substr(json_encode([1, 2, 3]), 0, 5))
         ->toBeJson();
@@ -33,9 +34,8 @@ it('can fix invalid json with missing value.', function () {
         ->toBeJson();
 })->group(__DIR__, __FILE__);
 
-it('will throw `RuntimeException`.', function () {
+it('will throw RuntimeException', function () {
     (new JsonFixer())
         ->silent(false)
-        ->missingValue('')
         ->fix(substr(json_encode([1, 2, 3]), 3));
 })->group(__DIR__, __FILE__)->throws(RuntimeException::class, 'Could not fix JSON (tried padding ``)');
