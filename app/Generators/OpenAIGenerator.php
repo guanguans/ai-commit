@@ -80,21 +80,20 @@ final class OpenAIGenerator implements GeneratorContract
                     return;
                 }
 
-                // 正常响应
-                $text = Arr::get($response, 'choices.0.text', '');
-                $messages .= $text;
+                // 成功响应
+                $messages .= $text = Arr::get($response, 'choices.0.text', '');
                 $this->output->write($text);
 
                 return;
             }
 
-            // 流响应
+            // 成功流响应
             $data = \str($data)->replaceFirst('data: ', '')->rtrim();
             if ($data->startsWith('[DONE]')) {
                 return;
             }
-            $text = Arr::get(json_decode((string) $data, true), 'choices.0.text', '');
-            $messages .= $text;
+
+            $messages .= $text = Arr::get(json_decode((string) $data, true), 'choices.0.text', '');
             $this->output->write($text);
         });
 
