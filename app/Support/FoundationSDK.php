@@ -16,6 +16,7 @@ use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Traits\Macroable;
@@ -100,9 +101,18 @@ abstract class FoundationSDK
         return $this;
     }
 
+    /**
+     * @psalm-suppress UndefinedThisPropertyFetch
+     */
     public function clonePendingRequest()
     {
-        return clone $this->pendingRequest;
+        return tap(clone $this->pendingRequest, function (PendingRequest $request) {
+            $getStubCallbacks = function () {
+                return $this->stubCallbacks;
+            };
+
+            $request->stub($getStubCallbacks->call(Http::getFacadeRoot()));
+        });
     }
 
     /**
