@@ -10,7 +10,16 @@ declare(strict_types=1);
  * This source file is subject to the MIT license that is bundled.
  */
 
-uses(Tests\TestCase::class)->in('Feature', 'Unit');
+uses(Tests\TestCase::class)
+    ->beforeAll(function () {
+    })
+    ->beforeEach(function () {
+    })
+    ->afterEach(function () {
+    })
+    ->afterAll(function () {
+    })
+    ->in('Feature', 'Unit');
 
 /*
 |--------------------------------------------------------------------------

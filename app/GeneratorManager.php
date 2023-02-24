@@ -15,12 +15,17 @@ namespace App;
 use App\Generators\OpenAIGenerator;
 use Illuminate\Support\Manager;
 use Illuminate\Support\Str;
+use Illuminate\Support\Traits\Conditionable;
+use Illuminate\Support\Traits\Tappable;
 
 /**
  * @method \App\Contracts\GeneratorContract driver(?string $driver = null)
  */
 final class GeneratorManager extends Manager
 {
+    use Conditionable;
+    use Tappable;
+
     public function getDefaultDriver()
     {
         return $this->config->get('ai-commit.generator');

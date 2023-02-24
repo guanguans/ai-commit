@@ -32,7 +32,7 @@ it('can set config', function () {
         'action' => 'set',
         'key' => 'foo.bar',
         'value' => 'bar',
-        '--file' => __DIR__.DIRECTORY_SEPARATOR.ConfigManager::NAME,
+        '--file' => __DIR__.'/../Fixtures/repository/'.ConfigManager::NAME,
     ])->assertSuccessful();
 
     $this->artisan(ConfigCommand::class, [

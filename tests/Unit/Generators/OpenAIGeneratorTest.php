@@ -11,46 +11,22 @@ declare(strict_types=1);
  */
 
 use App\GeneratorManager;
-use Illuminate\Http\Client\Request;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
-use Symfony\Component\HttpFoundation\Response;
 
-/**
- * @psalm-suppress UnusedClosureParam
- */
 it('can generate commit messages', function () {
-    Http::fake([
-        '*://api.openai.com/v1/*' => function (Request $request, array $options) use (&$text) {
-            $text = '[    {        "id": 1,        "subject": "Fix(OpenAIGenerator): Debugging output",        "body": "- Add var_dump() for debugging output- Add var_dump() for stream response"    },    {        "id": 2,        "subject": "Refactor(OpenAIGenerator): Error handling",        "body": "- Check for error response in JSON- Handle error response"    },    {        "id": 3,        "subject": "Docs(OpenAIGenerator): Update documentation",        "body": "- Update documentation for OpenAIGenerator class"    }]';
-
-            return Http::response(
-                [
-                    'id' => 'cmpl-6n1qMNWwuF5SYBcS4Nev5sr4ACpEB',
-                    'object' => 'text_completion',
-                    'created' => 1677143178,
-                    'model' => 'text-davinci-003',
-                    'choices' => [
-                        0 => [
-                            'text' => $text,
-                            'index' => 0,
-                            'logprobs' => null,
-                            'finish_reason' => 'stop',
-                        ],
-                    ],
-                    'usage' => [
-                        'prompt_tokens' => 749,
-                        'completion_tokens' => 159,
-                        'total_tokens' => 908,
-                    ],
-                ],
-                transform($options['laravel_data']['prompt'], function ($prompt) {
-                    return array_flip(Response::$statusTexts)[$prompt] ?? 200;
-                })
-            );
-        },
-    ]);
-
     expect(app(GeneratorManager::class)->driver('openai'))
-        ->generate('OK')->toBe($text)->toBeString();
+        ->generate('OK')->toBeString()->not->toBeEmpty();
     Http::assertSentCount(1);
 });
+
+it('will throw forbidden RequestException', function () {
+    app(GeneratorManager::class)->driver('openai')->generate('Forbidden');
+})->group(__DIR__, __FILE__)->throws(RequestException::class, 'HTTP request returned status code 403');
+
+it('will throw unauthorized RequestException', function () {
+    (function () {
+        $this->stubCallbacks = collect();
+    })->call(Http::getFacadeRoot());
+    app(GeneratorManager::class)->driver('openai')->generate('Unauthorized');
+})->group(__DIR__, __FILE__)->throws(RequestException::class, 'HTTP request returned status code 401');

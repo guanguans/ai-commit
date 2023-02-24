@@ -18,6 +18,8 @@ use Illuminate\Config\Repository;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Traits\Conditionable;
+use Illuminate\Support\Traits\Tappable;
 
 /**
  * @template TKey of array-key
@@ -27,6 +29,9 @@ use Illuminate\Support\Arr;
  */
 final class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSerializable
 {
+    use Conditionable;
+    use Tappable;
+
     /**
      * @var string
      */

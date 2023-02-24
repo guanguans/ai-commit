@@ -27,7 +27,7 @@ it('will throw `TaskException(not a git repository)` ', function () {
 
 it('will throw `TaskException(no staged files to commit)` ', function () {
     $this->artisan(CommitCommand::class, [
-        'path' => $this->app->basePath('tests/Fixtures/repository-playground'),
+        'path' => $this->app->basePath('tests/Fixtures/repository'),
     ]);
 })->group(__DIR__, __FILE__)->throws(TaskException::class, 'There are no staged files to commit. Try running `git add` to stage some files.');
 
