@@ -140,14 +140,13 @@ final class CommitCommand extends Command
 
             $message = $messages->first(static function ($message) use ($subject): bool {
                 return $message['subject'] === $subject;
-            });
+            }, []);
         }, 'choosing...');
 
         $this->task('3. Committing message', function () use ($message): void {
-            $this->createProcess($this->getCommitCommand($message))
-                ->setTty(true)
-                ->setTimeout(null)
-                ->mustRun();
+            tap($this->createProcess($this->getCommitCommand($message)), function (Process $process) {
+                $this->isEditMode() and $process->setTty(true);
+            })->mustRun();
         }, 'committing...');
 
         return self::SUCCESS;
@@ -195,7 +194,7 @@ final class CommitCommand extends Command
         return (string) (new JsonFixer())
             ->missingValue('')
             ->silent()
-            ->fix(substr($messages, strpos($messages, '[')));
+            ->fix(substr($messages, (int) strpos($messages, '[')));
     }
 
     /**
@@ -205,9 +204,9 @@ final class CommitCommand extends Command
     {
         $options = collect($this->option('commit-options'))
             ->push('--edit')
-            ->when($this->option('no-edit') ?: ! $this->configManager->get('edit'), static function (Collection $collection): Collection {
+            ->when($this->isNotEditMode(), static function (Collection $collection): Collection {
                 return $collection->filter(static function (string $option): bool {
-                    return '--edit' !== $option || '-e' !== $option;
+                    return '--edit' !== $option && '-e' !== $option;
                 });
             })
             ->all();
@@ -223,6 +222,16 @@ final class CommitCommand extends Command
             ->implode(str_repeat(PHP_EOL, 2));
 
         return array_merge(['git', 'commit', '--message', $message], $options);
+    }
+
+    protected function isEditMode(): bool
+    {
+        return ! $this->isNotEditMode();
+    }
+
+    protected function isNotEditMode(): bool
+    {
+        return (bool) ($this->option('no-edit') ?: ! $this->configManager->get('edit'));
     }
 
     public function schedule(Schedule $schedule): void

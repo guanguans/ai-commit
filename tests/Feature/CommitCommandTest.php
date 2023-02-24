@@ -13,44 +13,137 @@ declare(strict_types=1);
 use App\Commands\CommitCommand;
 use App\Exceptions\TaskException;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Symfony\Component\Process\Process;
 
-beforeEach(function () {
-    config('ai-commit')->set('generators.openai.api_key', 'sk-...');
-});
-
-it('will throw `TaskException(not a git repository)` ', function () {
+it('will throw TaskException(not a git repository)', function () {
     $this->artisan(CommitCommand::class, [
         'path' => $this->app->basePath('../'),
+        '--config' => config_path('ai-commit.php'),
     ]);
-})->group(__DIR__, __FILE__)->throws(TaskException::class, 'fatal: ');
+})
+    ->group(__DIR__, __FILE__)
+    ->throws(TaskException::class, 'fatal: ');
 
-it('will throw `TaskException(no staged files to commit)` ', function () {
+it('will throw TaskException(no staged files to commit)', function () {
+    // 重置暂存区
+    Process::fromShellCommandline('git reset', repository_path())->mustRun();
+
     $this->artisan(CommitCommand::class, [
-        'path' => $this->app->basePath('tests/Fixtures/repository'),
+        'path' => repository_path(),
     ]);
-})->group(__DIR__, __FILE__)->throws(TaskException::class, 'There are no staged files to commit. Try running `git add` to stage some files.');
+})
+    ->depends('it will throw TaskException(not a git repository)')
+    ->group(__DIR__, __FILE__)
+    ->throws(TaskException::class, 'There are no staged files to commit. Try running `git add` to stage some files.');
 
-// it('will throw `TaskException(no commit messages generated)` ', function () {
-//     Http::fake([
-//         'https://api.openai.com/v1/completions' => Http::response(['foo' => 'bar']),
-//     ]);
-//
-//     $this->getFunctionMock(class_namespace(Process::class), 'stream_get_contents')
-//         ->expects($this->any())
-//         ->willReturn('git diff');
-//
-//     $this->artisan(CommitCommand::class);
-// })->group(__DIR__, __FILE__)->throws(TaskException::class, 'No commit messages generated.');
+it('will throw TaskException(no commit messages generated)', function () {
+    // 添加文件到暂存区
+    file_put_contents(repository_path('playground.random'), Str::random());
+    Process::fromShellCommandline('git rm -rf --cached repository/', fixtures_path())->mustRun();
+    Process::fromShellCommandline('git add playground.random', repository_path())->mustRun();
 
-// it('will throw `TaskException(The generated commit messages is an invalid JSON.)` ', function () {
-//     Http::fake([
-//         'https://api.openai.com/v1/completions' => Http::response(['foo' => 'bar']),
-//     ]);
-//
-//     $this->getFunctionMock(class_namespace(Process::class), 'stream_get_contents')
-//         ->expects($this->any())
-//         ->willReturn('git diff');
-//
-//     $this->artisan(CommitCommand::class);
-// })->group(__DIR__, __FILE__)->throws(TaskException::class, 'The generated commit messages is an invalid JSON.');
+    Http::fake(function () {
+        return Http::response([
+            'id' => 'cmpl-6n1qMNWwuF5SYBcS4Nev5sr4ACpEB',
+            'object' => 'text_completion',
+            'created' => 1677143178,
+            'model' => 'text-davinci-003',
+            'choices' => [
+                0 => [
+                    'text' => '', // 空响应
+                    'index' => 0,
+                    'logprobs' => null,
+                    'finish_reason' => 'stop',
+                ],
+            ],
+            'usage' => [
+                'prompt_tokens' => 749,
+                'completion_tokens' => 159,
+                'total_tokens' => 908,
+            ],
+        ]);
+    });
+
+    $this->artisan(CommitCommand::class, [
+        'path' => repository_path(),
+    ]);
+})
+    ->depends('it will throw TaskException(no staged files to commit)')
+    ->group(__DIR__, __FILE__)
+    ->throws(TaskException::class, 'No commit messages generated.');
+
+it('will throw TaskException(The generated commit messages is an invalid JSON)', function () {
+    Http::fake(function () {
+        return Http::response([
+            'id' => 'cmpl-6n1qMNWwuF5SYBcS4Nev5sr4ACpEB',
+            'object' => 'text_completion',
+            'created' => 1677143178,
+            'model' => 'text-davinci-003',
+            'choices' => [
+                0 => [
+                    'text' => 'invalid json', // 无效响应
+                    'index' => 0,
+                    'logprobs' => null,
+                    'finish_reason' => 'stop',
+                ],
+            ],
+            'usage' => [
+                'prompt_tokens' => 749,
+                'completion_tokens' => 159,
+                'total_tokens' => 908,
+            ],
+        ]);
+    });
+
+    $this->artisan(CommitCommand::class, [
+        'path' => repository_path(),
+    ]);
+})
+    ->depends('it will throw TaskException(no commit messages generated)')
+    ->group(__DIR__, __FILE__)
+    ->throws(TaskException::class, 'The generated commit messages is an invalid JSON.');
+
+it('can generate and commit messages', function () {
+    // 设置 git 信息
+    Process::fromShellCommandline('git config user.email yaozm', repository_path())->mustRun();
+    Process::fromShellCommandline('git config user.name ityaozm@gmail.com', repository_path())->mustRun();
+    setup_http_fake();
+
+    $answers = array_column([
+        [
+            'id' => 1,
+            'subject' => 'Fix(OpenAIGenerator): Debugging output',
+            'body' => '- Add var_dump() for debugging output- Add var_dump() for stream response',
+        ],
+        [
+            'id' => 2,
+            'subject' => 'Refactor(OpenAIGenerator): Error handling',
+            'body' => '- Check for error response in JSON- Handle error response',
+        ],
+        [
+            'id' => 3,
+            'subject' => 'Docs(OpenAIGenerator): Update documentation',
+            'body' => '- Update documentation for OpenAIGenerator class',
+        ],
+    ], 'subject', 'id');
+
+    $this
+        ->artisan(CommitCommand::class, [
+            'path' => repository_path(),
+            '--no-edit' => true,
+            '--verbose' => true,
+        ])
+        // ->expectsChoice('Please choice a commit message', '1', $answers, true)
+        ->expectsQuestion('Please choice a commit message', $answers[1])
+        ->assertSuccessful();
+})
+    ->depends('it will throw TaskException(The generated commit messages is an invalid JSON)')
+    ->group(__DIR__, __FILE__);
+
+afterAll(static function (): void {
+    // 清理 playground 仓库
+    Process::fromShellCommandline('git reset b7a6f28', repository_path())->run();
+    Process::fromShellCommandline('git checkout -- .', repository_path())->run();
+    Process::fromShellCommandline('git add tests/Fixtures/repository/', base_path())->mustRun();
+});

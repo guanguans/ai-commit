@@ -29,6 +29,6 @@ it('can create OpenAI driver', function () {
         ->driver('foo')->toBeInstanceOf(OpenAIGenerator::class);
 })->group(__DIR__, __FILE__);
 
-it('will throw `InvalidArgumentException`', function () {
+it('will throw InvalidArgumentException when run driver', function () {
     $this->app->get(GeneratorManager::class)->driver('foo');
 })->group(__DIR__, __FILE__)->throws(InvalidArgumentException::class, 'Driver [foo] not supported.');

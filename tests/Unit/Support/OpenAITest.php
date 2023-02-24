@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Http;
  * @psalm-suppress UnusedClosureParam
  */
 beforeEach(function () {
+    setup_http_fake();
+
     $this->openAI = new OpenAI(Arr::only(
         config('ai-commit.generators.openai'),
         ['http_options', 'retry', 'base_url', 'api_key']
