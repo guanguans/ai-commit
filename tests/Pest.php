@@ -47,9 +47,22 @@ expect()->extend('toBeOne', function () {
 |
 */
 
+/**
+ * @param object|string $class
+ */
 function class_namespace($class): string
 {
     $class = is_object($class) ? get_class($class) : $class;
 
     return (new ReflectionClass($class))->getNamespaceName();
+}
+
+function fixtures_path(string $path = ''): string
+{
+    return __DIR__.'/Fixtures'.($path ? DIRECTORY_SEPARATOR.$path : $path);
+}
+
+function repository_path(string $path = ''): string
+{
+    return fixtures_path('repository'.($path ? DIRECTORY_SEPARATOR.$path : $path));
 }

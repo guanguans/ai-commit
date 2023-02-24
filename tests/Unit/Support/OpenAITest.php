@@ -11,7 +11,7 @@ declare(strict_types=1);
  */
 
 use App\Support\OpenAI;
-use Illuminate\Http\Client\Request;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 
@@ -23,48 +23,19 @@ beforeEach(function () {
         config('ai-commit.generators.openai'),
         ['http_options', 'retry', 'base_url', 'api_key']
     ));
-
-    Http::fake(function (Request $request, array $options) {
-        return Http::response('foo');
-    });
 });
 
-/**
- * @psalm-suppress UnusedVariable
- * @psalm-suppress UnusedClosureParam
- */
 it('can completions', function () {
-    Http::fake(function (Request $request, array $options) {
-        return Http::response('foo');
-    });
-
     $parameters = config('ai-commit.generators.openai.completion_parameters');
-    $parameters['prompt'] = 'prompt';
+    $parameters['prompt'] = 'OK';
+    $response = $this->openAI->completions($parameters, function () {});
 
-    $this->openAI->completions($parameters, function (string $data) use (&$messages): void {
-        if (\str($data)->isJson()) {
-            // 错误响应
-            $response = json_decode($data, true);
-            if (isset($response['error']['message'])) {
-                return;
-            }
-
-            // 正常响应
-            $text = Arr::get($response, 'choices.0.text', '');
-            $messages .= $text;
-
-            return;
-        }
-
-        // 流响应
-        $data = \str($data)->replaceFirst('data: ', '')->rtrim();
-        if ($data->startsWith('[DONE]')) {
-            return;
-        }
-        $text = Arr::get(json_decode((string) $data, true), 'choices.0.text', '');
-        $messages .= $text;
-    });
-
+    expect($response->json('choices.0.text'))->toBeString()->not->toBeEmpty();
     Http::assertSentCount(1);
-    expect($messages)->toBeString();
-})->group(__DIR__, __FILE__)->skip();
+})->group(__DIR__, __FILE__);
+
+it('will throw RequestException when completions', function () {
+    $parameters = config('ai-commit.generators.openai.completion_parameters');
+    $parameters['prompt'] = 'Too Many Requests';
+    $this->openAI->completions($parameters, function () {});
+})->group(__DIR__, __FILE__)->throws(RequestException::class, 'HTTP request returned status code 429');

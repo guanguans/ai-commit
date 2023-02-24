@@ -40,8 +40,6 @@ abstract class TestCase extends BaseTestCase
 
     /**
      * This method is called before each test.
-     *
-     * @psalm-suppress UnusedClosureParam
      */
     protected function setUp(): void
     {

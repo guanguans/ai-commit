@@ -22,14 +22,17 @@ it('can create ConfigManager', function () {
 })->group(__DIR__, __FILE__);
 
 it('can get local path', function () {
-    $this->getFunctionMock('App', 'getcwd')
+    $this->getFunctionMock(class_namespace(ConfigManager::class), 'getcwd')
         ->expects($this->once())
         ->willReturn(false);
     expect(ConfigManager::localPath())->toBeString();
-})->group(__DIR__, __FILE__)->skip();
+})->skip()->group(__DIR__, __FILE__);
 
 it('can to local config file', function () {
-    /** @noinspection PhpVoidFunctionResultUsedInspection */
+    /**
+     * @noinspection PhpVoidFunctionResultUsedInspection
+     * @noinspection NullPointerExceptionInspection
+     */
     expect(ConfigManager::create())->toLocal()->toBeNull();
 })->group(__DIR__, __FILE__);
 
@@ -39,9 +42,9 @@ it('can to local config file', function () {
 it('can to jsonSerialize', function () {
     /** @noinspection ReplaceLegacyMockeryInspection */
     $manager = ConfigManager::create([
-        'jsonSerialize' => \Mockery::spy(JsonSerializable::class),
-        'Jsonable' => \Mockery::spy(Jsonable::class)->shouldReceive('toJson')->andReturn(json_encode([])),
-        'toArray' => \Mockery::spy(Arrayable::class),
+        'JsonSerializable' => \Mockery::spy(JsonSerializable::class),
+        'Jsonable' => \Mockery::spy(Jsonable::class)->shouldReceive('toJson')->andReturn(json_encode([1, 2, 3]))->getMock(),
+        'Arrayable' => \Mockery::spy(Arrayable::class),
     ]);
     expect($manager)->jsonSerialize()->toBeArray();
 })->group(__DIR__, __FILE__);
@@ -55,9 +58,9 @@ it('can to string', function () {
 })->group(__DIR__, __FILE__);
 
 it('will throw InvalidJsonFileException when read from config file', function () {
-    ConfigManager::readFrom(__DIR__.'/../Fixtures/ai-commit.json');
+    ConfigManager::readFrom(fixtures_path('ai-commit.json'));
 })->group(__DIR__, __FILE__)->throws(InvalidJsonFileException::class);
 
 it('will throw UnsupportedConfigFileTypeException when read from config file', function () {
-    ConfigManager::readFrom(__DIR__.'/../Fixtures/ai-commit.yml');
+    ConfigManager::readFrom(fixtures_path('ai-commit.yml'));
 })->group(__DIR__, __FILE__)->throws(UnsupportedConfigFileTypeException::class);

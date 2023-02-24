@@ -14,6 +14,16 @@ use Illuminate\Contracts\Validation\Factory;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
+if (! function_exists('str_remove_cntrl')) {
+    /**
+     * Remove control character.
+     */
+    function str_remove_cntrl(string $str): string
+    {
+        return preg_replace('/[[:cntrl:]]/mu', '', $str);
+    }
+}
+
 if (! function_exists('validate')) {
     /**
      * Validate the given data with the given rules.

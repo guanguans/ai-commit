@@ -71,6 +71,9 @@ return [
             'retry' => [
                 'times' => 1,
                 'sleepMilliseconds' => 1000,
+                'when' => static function (Throwable $throwable): bool {
+                    return $throwable instanceof Illuminate\Http\Client\ConnectionException;
+                },
             ],
             'api_key' => env('OPENAI_API_KEY'),
             'completion_parameters' => [

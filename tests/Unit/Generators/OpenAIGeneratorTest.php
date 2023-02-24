@@ -28,5 +28,6 @@ it('will throw unauthorized RequestException', function () {
     (function () {
         $this->stubCallbacks = collect();
     })->call(Http::getFacadeRoot());
+
     app(GeneratorManager::class)->driver('openai')->generate('Unauthorized');
 })->group(__DIR__, __FILE__)->throws(RequestException::class, 'HTTP request returned status code 401');

@@ -10,10 +10,9 @@
 [![check & fix styling](https://github.com/guanguans/ai-commit/actions/workflows/php-cs-fixer.yml/badge.svg)](https://github.com/guanguans/ai-commit/actions)
 [![codecov](https://codecov.io/gh/guanguans/ai-commit/branch/main/graph/badge.svg?token=URGFAWS6S4)](https://codecov.io/gh/guanguans/ai-commit)
 [![Latest Stable Version](https://poser.pugx.org/guanguans/ai-commit/v)](//packagist.org/packages/guanguans/ai-commit)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/guanguans/ai-commit)
 [![Total Downloads](https://poser.pugx.org/guanguans/ai-commit/downloads)](//packagist.org/packages/guanguans/ai-commit)
 [![License](https://poser.pugx.org/guanguans/ai-commit/license)](//packagist.org/packages/guanguans/ai-commit)
-![GitHub repo size](https://img.shields.io/github/repo-size/guanguans/ai-commit)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/guanguans/ai-commit)
 
 ## 功能
 
