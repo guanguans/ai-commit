@@ -69,7 +69,7 @@ final class ConfigCommand extends Command
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         if (! file_exists($this->configManager::globalPath())) {
-            $this->configManager->toGlobal();
+            $this->configManager->putGlobal();
         }
     }
 
@@ -88,7 +88,7 @@ final class ConfigCommand extends Command
         });
 
         $this->output->info("The config file($file) is being operated.");
-        file_exists($file) or $this->configManager->toFile($file);
+        file_exists($file) or $this->configManager->putFile($file);
         $this->configManager->replaceFrom($file);
         $action = $this->argument('action');
         $key = $this->argument('key');
@@ -102,7 +102,7 @@ final class ConfigCommand extends Command
         switch ($action) {
             case 'set':
                 $this->configManager->set($key, $this->argument('value'));
-                $this->configManager->toFile($file);
+                $this->configManager->putFile($file);
 
                 break;
             case 'get':
@@ -112,31 +112,17 @@ final class ConfigCommand extends Command
                 break;
             case 'unset':
                 $this->configManager->forget($key);
-                $this->configManager->toFile($file);
+                $this->configManager->putFile($file);
 
                 break;
             case 'list':
-                /**
-                 * @param array-key|null $prefixKey
-                 */
-                $flattenWithKeys = static function (array $array, string $delimiter = '.', $prefixKey = null) use (&$flattenWithKeys): array {
-                    $result = [];
-                    foreach ($array as $key => $value) {
-                        $fullKey = null === $prefixKey ? $key : $prefixKey.$delimiter.$key;
-                        is_array($value) ? $result += $flattenWithKeys($value, $delimiter, $fullKey) : $result[$fullKey] = $value;
-                    }
-
-                    return $result;
-                };
-
-                collect($flattenWithKeys($this->configManager->all()))
-                    ->each(function ($value, $key): void {
-                        $this->line(sprintf(
-                            '<comment>[%s]</comment> <info>%s</info>',
-                            $this->transformToCommandArg($key),
-                            $this->transformToCommandArg($value)
-                        ));
-                    });
+                collect(array_flatten_with_keys($this->configManager->all()))->each(function ($value, $key): void {
+                    $this->line(sprintf(
+                        '<comment>[%s]</comment> <info>%s</info>',
+                        $this->transformToCommandArg($key),
+                        $this->transformToCommandArg($value)
+                    ));
+                });
 
                 break;
             case 'edit':

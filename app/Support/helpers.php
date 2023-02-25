@@ -131,3 +131,19 @@ if (! function_exists('array_map_with_keys')) {
         return $result;
     }
 }
+
+if (! function_exists('array_flatten_with_keys')) {
+    /**
+     * @param array-key|null $prefixKey
+     */
+    function array_flatten_with_keys(array $array, string $delimiter = '.', $prefixKey = null): array
+    {
+        $result = [];
+        foreach ($array as $key => $value) {
+            $fullKey = null === $prefixKey ? $key : $prefixKey.$delimiter.$key;
+            is_array($value) ? $result += array_flatten_with_keys($value, $delimiter, $fullKey) : $result[$fullKey] = $value;
+        }
+
+        return $result;
+    };
+}

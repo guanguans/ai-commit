@@ -18,6 +18,7 @@ use Illuminate\Config\Repository;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Traits\Tappable;
 
@@ -78,23 +79,40 @@ final class ConfigManager extends Repository implements Arrayable, Jsonable, \Js
         return $cwd.($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 
-    public function toGlobal(int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE): void
+    /**
+     * @return false|int
+     */
+    public function putGlobal(int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
     {
-        $this->toFile(self::globalPath(), $options);
+        return $this->putFile(self::globalPath(), $options);
     }
 
-    public function toLocal(int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE): void
+    /**
+     * @return false|int
+     */
+    public function putLocal(int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
     {
-        $this->toFile(self::localPath(), $options);
+        return $this->putFile(self::localPath(), $options);
     }
 
-    public function toFile(string $file, int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
+    /**
+     * @return false|int
+     */
+    public function putFile(string $file, int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
     {
-        $this->forget([
-            'generators.openai.retry.when',
-            'generators.openai.completion_parameters.prompt',
-            'generators.openai.completion_parameters.user',
-        ]);
+        collect(array_flatten_with_keys($this->all()))
+            ->filter(static function ($val): bool {
+                return ! (is_scalar($val) || null === $val);
+            })
+            ->keys()
+            ->push(
+                'generators.openai.completion_parameters.prompt',
+                'generators.openai.completion_parameters.user',
+            )
+            ->unique()
+            ->tap(function (Collection $collection) {
+                $this->forget($collection->all());
+            });
 
         return file_put_contents($file, $this->toJson($options));
     }

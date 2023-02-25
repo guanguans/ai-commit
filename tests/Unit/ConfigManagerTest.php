@@ -28,12 +28,8 @@ it('can get local path', function () {
     expect(ConfigManager::localPath())->toBeString();
 })->skip()->group(__DIR__, __FILE__);
 
-it('can to local config file', function () {
-    /**
-     * @noinspection PhpVoidFunctionResultUsedInspection
-     * @noinspection NullPointerExceptionInspection
-     */
-    expect(ConfigManager::create())->toLocal()->toBeNull();
+it('can put local config file', function () {
+    expect(ConfigManager::create())->putLocal()->toBeInt();
 })->group(__DIR__, __FILE__);
 
 /**
