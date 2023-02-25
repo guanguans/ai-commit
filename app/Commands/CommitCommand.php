@@ -88,7 +88,7 @@ final class CommitCommand extends Command
             ]);
 
             foreach ($options as $name => $value) {
-                $this->input->setOption((string) \str($name)->slug(), $value);
+                null === $value or $this->input->setOption((string) \str($name)->slug(), $value);
             }
         }
     }

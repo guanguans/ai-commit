@@ -171,7 +171,7 @@ final class ConfigCommand extends Command
                 0 === $value and $value = '0';
                 0.0 === $value and $value = '0.0';
                 null === $value and $value = 'null';
-                ! is_scalar($value) and $value = json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+                is_scalar($value) or $value = json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
                 return (string) $value;
             },
