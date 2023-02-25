@@ -17,6 +17,8 @@ use App\Exceptions\RuntimeException;
 use App\Exceptions\UnsupportedConfigActionException;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
+use Symfony\Component\Console\Completion\CompletionInput;
+use Symfony\Component\Console\Completion\CompletionSuggestions;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -29,6 +31,11 @@ final class ConfigCommand extends Command
      * @var string[]
      */
     public const ACTIONS = ['set', 'get', 'unset', 'list', 'edit'];
+
+    /**
+     * @var string[]
+     */
+    protected $editors = ['editor', 'vim', 'vi', 'nano', 'pico', 'ed'];
 
     /**
      * @var string
@@ -135,7 +142,7 @@ final class ConfigCommand extends Command
                         return 'notepad';
                     }
 
-                    foreach (['editor', 'vim', 'vi', 'nano', 'pico', 'ed'] as $editor) {
+                    foreach ($this->editors as $editor) {
                         if (exec("which $editor")) {
                             return $editor;
                         }
@@ -154,6 +161,28 @@ final class ConfigCommand extends Command
         $this->output->success('Operate successfully.');
 
         return self::SUCCESS;
+    }
+
+    /**
+     * @psalm-suppress InvalidArgument
+     */
+    public function complete(CompletionInput $input, CompletionSuggestions $suggestions): void
+    {
+        if ($input->mustSuggestArgumentValuesFor('action')) {
+            $suggestions->suggestValues(self::ACTIONS);
+
+            return;
+        }
+
+        if ($input->mustSuggestArgumentValuesFor('key')) {
+            $suggestions->suggestValues(array_keys(array_flatten_with_keys($this->configManager->all())));
+
+            return;
+        }
+
+        if ($input->mustSuggestOptionValuesFor('editor')) {
+            $suggestions->suggestValues($this->editors);
+        }
     }
 
     /**

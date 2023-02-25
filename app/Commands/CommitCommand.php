@@ -19,6 +19,8 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Stringable;
 use LaravelZero\Framework\Commands\Command;
+use Symfony\Component\Console\Completion\CompletionInput;
+use Symfony\Component\Console\Completion\CompletionSuggestions;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -137,6 +139,22 @@ final class CommitCommand extends Command
         }, 'committing...');
 
         return self::SUCCESS;
+    }
+
+    /**
+     * @psalm-suppress InvalidArgument
+     */
+    public function complete(CompletionInput $input, CompletionSuggestions $suggestions): void
+    {
+        if ($input->mustSuggestOptionValuesFor('generator')) {
+            $suggestions->suggestValues(array_keys($this->configManager->get('generators', [])));
+
+            return;
+        }
+
+        if ($input->mustSuggestOptionValuesFor('prompt')) {
+            $suggestions->suggestValues(array_keys($this->configManager->get('prompts', [])));
+        }
     }
 
     /**
