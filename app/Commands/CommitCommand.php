@@ -23,7 +23,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
 final class CommitCommand extends Command
@@ -89,7 +88,7 @@ final class CommitCommand extends Command
             ]);
 
             foreach ($options as $name => $value) {
-                $this->input->setOption(\str($name)->slug()->__toString(), $value);
+                $this->input->setOption((string) \str($name)->slug(), $value);
             }
         }
     }
@@ -97,18 +96,9 @@ final class CommitCommand extends Command
     public function handle(): int
     {
         $this->task('1. Generating commit messages', function () use (&$messages): void {
-            try {
-                $process = $this->createProcess('git rev-parse --is-inside-work-tree');
-                $process->mustRun();
-            } catch (ProcessFailedException $e) {
-                $errorOutput = \str($process->getErrorOutput())
-                    ->rtrim()
-                    ->whenStartsWith('fatal: ', function (Stringable $stringable) use ($process) {
-                        return $stringable->append(" [{$process->getWorkingDirectory()}].");
-                    })
-                    ->__toString();
-
-                throw new TaskException($errorOutput);
+            $process = tap($this->createProcess('git rev-parse --is-inside-work-tree'))->run();
+            if (! $process->isSuccessful()) {
+                throw new TaskException(trim($process->getErrorOutput()));
             }
 
             $stagedDiff = $this->createProcess($this->getDiffCommand())->mustRun()->getOutput();
@@ -116,7 +106,7 @@ final class CommitCommand extends Command
                 throw new TaskException('There are no staged files to commit. Try running `git add` to stage some files.');
             }
 
-            $messages = $this->generatorManager->driver($this->option('generator'))->generate($this->getPromptOfAI($stagedDiff));
+            $messages = $this->generatorManager->driver($this->option('generator'))->generate($this->getPrompt($stagedDiff));
             if (\str($messages)->isEmpty()) {
                 throw new TaskException('No commit messages generated.');
             }
@@ -128,24 +118,21 @@ final class CommitCommand extends Command
         }, 'generating...');
 
         $this->task('2. Choosing commit message', function () use ($messages, &$message): void {
-            $messages = collect(json_decode($messages, true))->when($this->option('verbose'), function (Collection $collection): Collection {
-                return $collection
-                    ->tap(function () {
-                        $this->newLine();
-                    })
-                    ->dump();
-            });
+            $message = collect(json_decode($messages, true))
+                ->tap(function (Collection $messages) {
+                    $this->newLine();
+                    $messages->dump();
+                })
+                ->pipe(function (Collection $messages) {
+                    $subject = $this->choice('Please choice a commit message', $messages->pluck('subject', 'id')->all(), '1');
 
-            $subject = $this->choice('Please choice a commit message', $messages->pluck('subject', 'id')->all(), '1');
-
-            $message = $messages->first(static function ($message) use ($subject): bool {
-                return $message['subject'] === $subject;
-            }, []);
+                    return $messages->firstWhere('subject', $subject) ?? [];
+                });
         }, 'choosing...');
 
         $this->task('3. Committing message', function () use ($message): void {
             tap($this->createProcess($this->getCommitCommand($message)), function (Process $process) {
-                $this->isEditMode() and $process->setTty(true);
+                $this->isEditMode() and $process->setTty(true)->setTimeout(null);
             })->mustRun();
         }, 'committing...');
 
@@ -176,17 +163,18 @@ final class CommitCommand extends Command
         return array_merge(['git', 'diff', '--staged'], $this->option('diff-options'));
     }
 
-    protected function getPromptOfAI(string $stagedDiff): string
+    protected function getPrompt(string $stagedDiff): string
     {
-        return \str($this->configManager->get("prompts.{$this->option('prompt')}"))
+        return (string) \str($this->configManager->get("prompts.{$this->option('prompt')}"))
             ->replace(
                 [$this->configManager->get('diff_mark'), $this->configManager->get('num_mark')],
                 [$stagedDiff, $this->option('num')]
             )
-            ->when($this->option('verbose'), function (Stringable $diff): void {
-                $this->output->info($diff->__toString());
-            })
-            ->__toString();
+            ->when($this->option('verbose'), function (Stringable $prompt): Stringable {
+                $this->output->info((string) $prompt);
+
+                return $prompt;
+            });
     }
 
     protected function tryFixMessages(string $messages): string
@@ -206,7 +194,7 @@ final class CommitCommand extends Command
             ->push('--edit')
             ->when($this->isNotEditMode(), static function (Collection $collection): Collection {
                 return $collection->filter(static function (string $option): bool {
-                    return '--edit' !== $option && '-e' !== $option;
+                    return ! ('--edit' === $option || '-e' === $option);
                 });
             })
             ->all();
@@ -232,6 +220,13 @@ final class CommitCommand extends Command
     protected function isNotEditMode(): bool
     {
         return (bool) ($this->option('no-edit') ?: ! $this->configManager->get('edit'));
+    }
+
+    public function clearScreen(): self
+    {
+        $this->output->write(sprintf("\033\143"));
+
+        return $this;
     }
 
     public function schedule(Schedule $schedule): void
