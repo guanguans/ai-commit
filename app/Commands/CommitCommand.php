@@ -222,13 +222,6 @@ final class CommitCommand extends Command
         return (bool) ($this->option('no-edit') ?: ! $this->configManager->get('edit'));
     }
 
-    public function clearScreen(): self
-    {
-        $this->output->write(sprintf("\033\143"));
-
-        return $this;
-    }
-
     public function schedule(Schedule $schedule): void
     {
         // $schedule->command(static::class)->everyMinute();

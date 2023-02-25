@@ -13,6 +13,18 @@ declare(strict_types=1);
 use Illuminate\Contracts\Validation\Factory;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Symfony\Component\Console\Output\ConsoleOutput;
+
+if (! function_exists('clear_console_screen')) {
+    function clear_console_screen()
+    {
+        if (! app()->runningInConsole()) {
+            return;
+        }
+
+        (new ConsoleOutput())->write(sprintf("\033\143"));
+    }
+}
 
 if (! function_exists('str_remove_cntrl')) {
     /**
