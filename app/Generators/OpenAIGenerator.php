@@ -29,16 +29,10 @@ final class OpenAIGenerator implements GeneratorContract
      */
     private $openAI;
 
-    /**
-     * @var \Illuminate\Console\OutputStyle
-     */
-    private $output;
-
     public function __construct(array $config)
     {
         $this->config = $config;
         $this->openAI = new OpenAI(Arr::only($config, ['http_options', 'retry', 'base_url', 'api_key']));
-        $this->output = resolve(OutputStyle::class);
     }
 
     /**
@@ -68,34 +62,20 @@ final class OpenAIGenerator implements GeneratorContract
     {
         $parameters = Arr::get($this->config, 'completion_parameters', []);
         $parameters['prompt'] = $prompt;
+        $output = resolve(OutputStyle::class);
 
-        $response = $this->openAI->completions($parameters, function (string $data) use (&$messages): void {
-            if (\str($data)->isJson()) {
-                // 错误响应
-                $response = json_decode($data, true);
-                if (isset($response['error']['message'])) {
-                    $this->output->section(sprintf('In %s line %s:', pathinfo(__FILE__, PATHINFO_FILENAME), __LINE__));
-                    $this->output->error($response['error']['message']);
-
+        $response = $this->openAI
+            ->completions($parameters, function (string $data) use ($output, &$messages): void {
+                // 流响应完成
+                if (\str($data)->startsWith('data: [DONE]')) {
                     return;
                 }
 
-                // 成功响应
+                // (正常|错误|流)响应
+                $response = (array) json_decode((string) str($data)->replaceFirst('data: ', ''), true);
                 $messages .= $text = Arr::get($response, 'choices.0.text', '');
-                $this->output->write($text);
-
-                return;
-            }
-
-            // 成功流响应
-            $data = \str($data)->replaceFirst('data: ', '')->rtrim();
-            if ($data->startsWith('[DONE]')) {
-                return;
-            }
-
-            $messages .= $text = Arr::get(json_decode((string) $data, true), 'choices.0.text', '');
-            $this->output->write($text);
-        });
+                $output->write($text);
+            });
 
         // fake 响应
         return (string) ($response->json('choices.0.text') ?? $messages);

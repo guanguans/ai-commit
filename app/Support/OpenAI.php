@@ -17,7 +17,6 @@ use GuzzleHttp\Psr7\Utils;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Stringable;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -71,24 +70,14 @@ final class OpenAI extends FoundationSDK
      */
     public function completions(array $parameters, ?callable $writer = null): Response
     {
-        $response = $this
+        return $this
             ->clonePendingRequest()
             ->when(
                 is_callable($writer),
-                static function (PendingRequest $pendingRequest) use ($writer, &$body): PendingRequest {
+                static function (PendingRequest $pendingRequest) use ($writer): PendingRequest {
                     return $pendingRequest->withOptions([
                         'curl' => [
-                            CURLOPT_WRITEFUNCTION => static function ($ch, string $data) use ($writer, &$body): int {
-                                // 正常响应
-                                if (! str($data)->startsWith('data: ')) {
-                                    $body = $data;
-                                } else {
-                                    // 流响应
-                                    if (! str($data)->startsWith('data: [DONE]')) {
-                                        $body = $data;
-                                    }
-                                }
-
+                            CURLOPT_WRITEFUNCTION => static function ($ch, string $data) use ($writer): int {
                                 $writer($data, $ch);
 
                                 return strlen($data);
@@ -131,21 +120,8 @@ final class OpenAI extends FoundationSDK
                         'user' => 'string|uuid',
                     ]
                 )
-            );
-
-        // 配置 CURLOPT_WRITEFUNCTION
-        if ($body || empty($response->body())) {
-            $body = (string) \str($body)
-                // 流响应
-                ->whenStartsWith('data: ', function (Stringable $body): Stringable {
-                    return $body->replaceFirst('data:', '');
-                })
-                ->trim();
-
-            $response = new Response($response->toPsrResponse()->withBody(Utils::streamFor($body)));
-        }
-
-        return $response->throw();
+            )
+            ->throw();
     }
 
     /**
