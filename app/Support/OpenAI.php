@@ -70,14 +70,18 @@ final class OpenAI extends FoundationSDK
      */
     public function completions(array $parameters, ?callable $writer = null): Response
     {
-        return $this
+        $response = $this
             ->clonePendingRequest()
             ->when(
                 is_callable($writer),
-                static function (PendingRequest $pendingRequest) use ($writer): PendingRequest {
+                static function (PendingRequest $pendingRequest) use ($writer, &$body): PendingRequest {
                     return $pendingRequest->withOptions([
                         'curl' => [
-                            CURLOPT_WRITEFUNCTION => static function ($ch, string $data) use ($writer): int {
+                            CURLOPT_WRITEFUNCTION => static function ($ch, string $data) use ($writer, &$body): int {
+                                if (! str($data)->startsWith('data: [DONE]')) {
+                                    $body = $data;
+                                }
+
                                 $writer($data, $ch);
 
                                 return strlen($data);
@@ -120,8 +124,14 @@ final class OpenAI extends FoundationSDK
                         'user' => 'string|uuid',
                     ]
                 )
-            )
-            ->throw();
+            );
+
+        if ($body || empty($response->body())) {
+            $body = \str($body)->replaceFirst('data:', '');
+            $response = new Response($response->toPsrResponse()->withBody(Utils::streamFor($body)));
+        }
+
+        return $response->throw();
     }
 
     /**
