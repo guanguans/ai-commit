@@ -12,9 +12,13 @@ declare(strict_types=1);
 
 namespace App\Support;
 
+use GuzzleHttp\Middleware;
+use GuzzleHttp\Psr7\Utils;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Stringable;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * @see https://beta.openai.com/docs/api-reference/introduction
@@ -22,6 +26,9 @@ use Illuminate\Support\Facades\Http;
 final class OpenAI extends FoundationSDK
 {
     /**
+     * @psalm-suppress UnusedVariable
+     * @psalm-suppress UnevaluatedCode
+     *
      * ```ok
      * {
      *     "id": "cmpl-6n1qMNWwuF5SYBcS4Nev5sr4ACpEB",
@@ -64,14 +71,24 @@ final class OpenAI extends FoundationSDK
      */
     public function completions(array $parameters, ?callable $writer = null): Response
     {
-        return $this
+        $response = $this
             ->clonePendingRequest()
             ->when(
                 is_callable($writer),
-                static function (PendingRequest $pendingRequest) use ($writer): void {
-                    $pendingRequest->withOptions([
+                static function (PendingRequest $pendingRequest) use ($writer, &$body): PendingRequest {
+                    return $pendingRequest->withOptions([
                         'curl' => [
-                            CURLOPT_WRITEFUNCTION => static function ($ch, string $data) use ($writer): int {
+                            CURLOPT_WRITEFUNCTION => static function ($ch, string $data) use ($writer, &$body): int {
+                                // 正常响应
+                                if (! str($data)->startsWith('data: ')) {
+                                    $body = $data;
+                                } else {
+                                    // 流响应
+                                    if (! str($data)->startsWith('data: [DONE]')) {
+                                        $body = $data;
+                                    }
+                                }
+
                                 $writer($data, $ch);
 
                                 return strlen($data);
@@ -80,34 +97,55 @@ final class OpenAI extends FoundationSDK
                     ]);
                 }
             )
-            ->post('completions', validate(
-                $parameters,
-                [
-                    'model' => [
-                        'required',
-                        'string',
-                        'in:text-davinci-003,text-curie-001,text-babbage-001,text-ada-001,text-embedding-ada-002,code-davinci-002,code-cushman-001,content-filter-alpha',
-                    ],
-                    // 'prompt' => 'string|array',
-                    'prompt' => 'string|max:10000',
-                    'suffix' => 'nullable|string',
-                    'max_tokens' => 'integer',
-                    'temperature' => 'numeric|between:0,2',
-                    'top_p' => 'numeric|between:0,1',
-                    'n' => 'integer|min:1',
-                    'stream' => 'bool',
-                    'logprobs' => 'nullable|integer|between:0,5',
-                    'echo' => 'bool',
-                    // 'stop' => 'nullable|string|array',
-                    'stop' => 'nullable|string',
-                    'presence_penalty' => 'numeric|between:-2,2',
-                    'frequency_penalty' => 'numeric|between:-2,2',
-                    'best_of' => 'integer|min:1',
-                    'logit_bias' => 'array', // map
-                    'user' => 'string|uuid',
-                ]
-            ))
-            ->throw();
+            // ->withMiddleware(
+            //     Middleware::mapResponse(function (ResponseInterface $response) use ($body) {
+            //         return $response->withBody(Utils::streamFor($body));
+            //     })
+            // )
+            ->post(
+                'completions',
+                validate(
+                    $parameters,
+                    [
+                        'model' => [
+                            'required',
+                            'string',
+                            'in:text-davinci-003,text-curie-001,text-babbage-001,text-ada-001,text-embedding-ada-002,code-davinci-002,code-cushman-001,content-filter-alpha',
+                        ],
+                        // 'prompt' => 'string|array',
+                        'prompt' => 'string|between:1,10000',
+                        'suffix' => 'nullable|string',
+                        'max_tokens' => 'integer',
+                        'temperature' => 'numeric|between:0,2',
+                        'top_p' => 'numeric|between:0,1',
+                        'n' => 'integer|min:1',
+                        'stream' => 'bool',
+                        'logprobs' => 'nullable|integer|between:0,5',
+                        'echo' => 'bool',
+                        // 'stop' => 'nullable|string|array',
+                        'stop' => 'nullable|string',
+                        'presence_penalty' => 'numeric|between:-2,2',
+                        'frequency_penalty' => 'numeric|between:-2,2',
+                        'best_of' => 'integer|min:1',
+                        'logit_bias' => 'array', // map
+                        'user' => 'string|uuid',
+                    ]
+                )
+            );
+
+        // 配置 CURLOPT_WRITEFUNCTION
+        if ($body || empty($response->body())) {
+            $body = (string) \str($body)
+                // 流响应
+                ->whenStartsWith('data: ', function (Stringable $body): Stringable {
+                    return $body->replaceFirst('data:', '');
+                })
+                ->trim();
+
+            $response = new Response($response->toPsrResponse()->withBody(Utils::streamFor($body)));
+        }
+
+        return $response->throw();
     }
 
     /**

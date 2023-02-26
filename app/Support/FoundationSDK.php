@@ -104,7 +104,7 @@ abstract class FoundationSDK
     /**
      * @psalm-suppress UndefinedThisPropertyFetch
      */
-    public function clonePendingRequest()
+    public function clonePendingRequest(): PendingRequest
     {
         return tap(clone $this->pendingRequest, function (PendingRequest $request) {
             $getStubCallbacks = function () {
