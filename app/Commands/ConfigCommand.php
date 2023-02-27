@@ -123,12 +123,10 @@ final class ConfigCommand extends Command
 
                 break;
             case 'list':
-                collect(array_flatten_with_keys($this->configManager->all()))->each(function ($value, $key): void {
-                    $this->line(sprintf(
-                        '<comment>[%s]</comment> <info>%s</info>',
-                        $this->transformToCommandArg($key),
-                        $this->transformToCommandArg($value)
-                    ));
+                collect($this->configManager->toDotArray())->each(function ($value, $key): void {
+                    $this->line(
+                        "<comment>[{$this->transformToCommandArg($key)}]</comment> <info>{$this->transformToCommandArg($value)}</info>"
+                    );
                 });
 
                 break;
@@ -175,7 +173,7 @@ final class ConfigCommand extends Command
         }
 
         if ($input->mustSuggestArgumentValuesFor('key')) {
-            $suggestions->suggestValues(array_keys(array_flatten_with_keys($this->configManager->all())));
+            $suggestions->suggestValues(array_keys($this->configManager->toDotArray()));
 
             return;
         }

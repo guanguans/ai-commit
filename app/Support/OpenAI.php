@@ -25,10 +25,10 @@ use Psr\Http\Message\ResponseInterface;
  */
 final class OpenAI extends FoundationSDK
 {
-    public static function clearBody(string $body): string
+    public static function hydrateData(string $data): string
     {
-        return (string) \str($body)->whenStartsWith($prefix = 'data: ', static function (Stringable $body) use ($prefix) {
-            return $body->replaceFirst($prefix, '');
+        return (string) \str($data)->whenStartsWith($prefix = 'data: ', static function (Stringable $data) use ($prefix) {
+            return $data->replaceFirst($prefix, '');
         });
     }
 
@@ -82,12 +82,12 @@ final class OpenAI extends FoundationSDK
             ->clonePendingRequest()
             ->when(
                 ($parameters['stream'] ?? false) && is_callable($writer),
-                static function (PendingRequest $pendingRequest) use ($writer, &$body): PendingRequest {
+                static function (PendingRequest $pendingRequest) use ($writer, &$rowData): PendingRequest {
                     return $pendingRequest->withOptions([
                         'curl' => [
-                            CURLOPT_WRITEFUNCTION => static function ($ch, string $data) use ($writer, &$body): int {
+                            CURLOPT_WRITEFUNCTION => static function ($ch, string $data) use ($writer, &$rowData): int {
                                 if (! str($data)->startsWith('data: [DONE]')) {
-                                    $body = $data;
+                                    $rowData = $data;
                                 }
 
                                 $writer($data, $ch);
@@ -98,15 +98,15 @@ final class OpenAI extends FoundationSDK
                     ]);
                 }
             )
-            ->withMiddleware(
-                Middleware::mapResponse(static function (ResponseInterface $response) use ($body) {
-                    if (empty($body)) {
-                        return $response;
-                    }
-
-                    return $response->withBody(Utils::streamFor($body));
-                })
-            )
+            // ->withMiddleware(
+            //     Middleware::mapResponse(static function (ResponseInterface $response) use ($rowData) {
+            //         if (empty($rowData)) {
+            //             return $response;
+            //         }
+            //
+            //         return $response->withBody(Utils::streamFor($rowData));
+            //     })
+            // )
             ->post(
                 'completions',
                 validate(
@@ -138,8 +138,10 @@ final class OpenAI extends FoundationSDK
                 )
             );
 
-        if ($body || empty($response->body())) {
-            $response = new Response($response->toPsrResponse()->withBody(Utils::streamFor(self::clearBody($body))));
+        if ($rowData || empty($response->body())) {
+            $response = new Response(
+                $response->toPsrResponse()->withBody(Utils::streamFor(self::hydrateData($rowData)))
+            );
         }
 
         return $response->throw();

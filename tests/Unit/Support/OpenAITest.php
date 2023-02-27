@@ -27,6 +27,15 @@ beforeEach(function () {
     ));
 });
 
+/**
+ * @psalm-suppress UndefinedPropertyFetch
+ */
+it('can hydrate data', function () {
+    $data = 'data: {"id": "cmpl-6n1mYrlWTmE9184S4pajlIx6JITEu", "object": "text_completion", "created": 1677142942, "choices": [{"text": "", "index": 0, "logprobs": null, "finish_reason": "stop"}], "model": "text-davinci-003"}';
+    expect($data)->not->toBeJson()
+        ->and(OpenAI::hydrateData($data))->toBeJson();
+})->group(__DIR__, __FILE__);
+
 it('can completions', function () {
     $parameters = config('ai-commit.generators.openai.completion_parameters');
     $parameters['prompt'] = 'OK';

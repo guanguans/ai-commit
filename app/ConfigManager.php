@@ -100,7 +100,7 @@ final class ConfigManager extends Repository implements Arrayable, Jsonable, \Js
      */
     public function putFile(string $file, int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
     {
-        collect(array_flatten_with_keys($this->all()))
+        collect($this->toDotArray())
             ->filter(static function ($val): bool {
                 return ! (is_scalar($val) || null === $val);
             })
@@ -157,6 +157,11 @@ final class ConfigManager extends Repository implements Arrayable, Jsonable, \Js
 
             return $value;
         }, $this->all());
+    }
+
+    public function toDotArray(): array
+    {
+        return Arr::dot($this->toArray());
     }
 
     public function toArray(): array

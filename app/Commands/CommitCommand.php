@@ -169,10 +169,11 @@ final class CommitCommand extends Command
 
     /**
      * @param string|array $command
+     *
+     * @noinspection CallableParameterUseCaseInTypeContextInspection
      */
     protected function createProcess($command, string $cwd = null, array $env = null, $input = null, ?float $timeout = 60): Process
     {
-        /** @noinspection CallableParameterUseCaseInTypeContextInspection */
         null === $cwd and $cwd = $this->argument('path');
 
         $process = is_string($command)
@@ -215,6 +216,8 @@ final class CommitCommand extends Command
 
     /**
      * @psalm-suppress RedundantCondition
+     *
+     * @noinspection CallableParameterUseCaseInTypeContextInspection
      */
     protected function getCommitCommand(array $message): array
     {
@@ -227,7 +230,6 @@ final class CommitCommand extends Command
             })
             ->all();
 
-        /** @noinspection CallableParameterUseCaseInTypeContextInspection */
         $message = collect($message)
             ->filter(static function ($val): bool {
                 return $val && ! is_numeric($val);
