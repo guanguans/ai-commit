@@ -14,7 +14,6 @@ namespace Tests;
 
 use App\ConfigManager;
 use LaravelZero\Framework\Testing\TestCase as BaseTestCase;
-use Mockery;
 use phpmock\phpunit\PHPMock;
 
 abstract class TestCase extends BaseTestCase
@@ -56,7 +55,7 @@ abstract class TestCase extends BaseTestCase
     {
         parent::tearDown();
         $this->finish();
-        Mockery::close();
+        \Mockery::close();
     }
 
     /**
