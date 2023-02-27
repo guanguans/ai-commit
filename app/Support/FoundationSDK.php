@@ -16,6 +16,7 @@ use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Traits\Conditionable;
@@ -106,8 +107,8 @@ abstract class FoundationSDK
      */
     public function clonePendingRequest(): PendingRequest
     {
-        return tap(clone $this->pendingRequest, function (PendingRequest $request) {
-            $getStubCallbacks = function () {
+        return tap(clone $this->pendingRequest, function (PendingRequest $request): void {
+            $getStubCallbacks = function (): Collection {
                 return $this->stubCallbacks;
             };
 

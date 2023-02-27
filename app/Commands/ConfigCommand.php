@@ -61,7 +61,7 @@ final class ConfigCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDefinition([
             new InputArgument('action', InputArgument::REQUIRED, sprintf('The action(<comment>[%s]</comment>) name', implode(', ', self::ACTIONS))),
@@ -73,7 +73,7 @@ final class ConfigCommand extends Command
         ]);
     }
 
-    protected function initialize(InputInterface $input, OutputInterface $output)
+    protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         if (! file_exists($this->configManager::globalPath())) {
             $this->configManager->putGlobal();

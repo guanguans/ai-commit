@@ -59,9 +59,9 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->paths([
         __DIR__.'/app',
-        __DIR__.'/tests',
-        __DIR__.'/.php-cs-fixer.php',
-        __DIR__.'/rector.php',
+        // __DIR__.'/tests',
+        // __DIR__.'/.php-cs-fixer.php',
+        // __DIR__.'/rector.php',
     ]);
 
     $rectorConfig->skip([

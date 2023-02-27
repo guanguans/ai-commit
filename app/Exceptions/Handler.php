@@ -24,7 +24,7 @@ final class Handler extends \Illuminate\Foundation\Exceptions\Handler
     public function renderForConsole($output, \Throwable $e): void
     {
         if ($e instanceof ValidationException) {
-            (function (ValidationException $e) {
+            (function (ValidationException $e): void {
                 $this->message = ($prefix = '- ').implode(PHP_EOL.$prefix, $e->validator->errors()->all());
             })->call($e, $e);
         }

@@ -14,6 +14,7 @@ namespace Tests;
 
 use App\ConfigManager;
 use LaravelZero\Framework\Testing\TestCase as BaseTestCase;
+use Mockery;
 use phpmock\phpunit\PHPMock;
 
 abstract class TestCase extends BaseTestCase
@@ -44,6 +45,7 @@ abstract class TestCase extends BaseTestCase
 
         $configManager = ConfigManager::createFrom($this->app->configPath('ai-commit.php'));
         $configManager->set('generators.openai.api_key', 'sk-...');
+
         config()->set('ai-commit', $configManager);
     }
 
@@ -54,7 +56,7 @@ abstract class TestCase extends BaseTestCase
     {
         parent::tearDown();
         $this->finish();
-        \Mockery::close();
+        Mockery::close();
     }
 
     /**

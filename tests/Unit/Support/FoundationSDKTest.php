@@ -15,35 +15,35 @@ use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Arr;
 use Psr\Log\LoggerInterface;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->openAI = new OpenAI(Arr::only(
         config('ai-commit.generators.openai'),
         ['http_options', 'retry', 'base_url', 'api_key']
     ));
 });
 
-it('can dd request data', function () {
+it('can dd request data', function (): void {
     expect($this->openAI)
         ->ddRequestData()->toBeInstanceOf(OpenAI::class);
 })->group(__DIR__, __FILE__);
 
-it('can dump request data', function () {
+it('can dump request data', function (): void {
     expect($this->openAI)
         ->dumpRequestData()->toBeInstanceOf(OpenAI::class);
 })->group(__DIR__, __FILE__);
 
-it('can dump data', function () {
+it('can dump data', function (): void {
     /** @noinspection DebugFunctionUsageInspection */
     expect($this->openAI)
         ->dump()->toBeInstanceOf(OpenAI::class);
 })->group(__DIR__, __FILE__);
 
-it('can with log middleware', function () {
+it('can with log middleware', function (): void {
     expect($this->openAI)
         ->withLogMiddleware($this->app->get(LoggerInterface::class))->toBeInstanceOf(OpenAI::class);
 })->group(__DIR__, __FILE__);
 
-it('can clone pending request', function () {
+it('can clone pending request', function (): void {
     expect($this->openAI)
         ->clonePendingRequest()->toBeInstanceOf(PendingRequest::class);
 })->group(__DIR__, __FILE__);

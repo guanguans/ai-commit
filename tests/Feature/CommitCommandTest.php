@@ -12,13 +12,14 @@ declare(strict_types=1);
 
 use App\Commands\CommitCommand;
 use App\Exceptions\TaskException;
+use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Process\Process;
 
-it('will throw TaskException(not a git repository)', function () {
+it('will throw TaskException(not a git repository)', function (): void {
     $this->artisan(CommitCommand::class, [
         'path' => $this->app->basePath('../'),
         '--config' => config_path('ai-commit.php'),
@@ -27,7 +28,7 @@ it('will throw TaskException(not a git repository)', function () {
     ->group(__DIR__, __FILE__)
     ->throws(TaskException::class, 'fatal: ');
 
-it('will throw TaskException(no staged files to commit)', function () {
+it('will throw TaskException(no staged files to commit)', function (): void {
     // 重置暂存区
     Process::fromShellCommandline('git reset', repository_path())->mustRun();
 
@@ -39,13 +40,13 @@ it('will throw TaskException(no staged files to commit)', function () {
     ->group(__DIR__, __FILE__)
     ->throws(TaskException::class, 'There are no staged files to commit. Try running `git add` to stage some files.');
 
-it('will throw TaskException(The generated commit messages is an invalid JSON)', function () {
+it('will throw TaskException(The generated commit messages is an invalid JSON)', function (): void {
     // 添加文件到暂存区
     file_put_contents(repository_path('playground.random'), Str::random());
     Process::fromShellCommandline('git rm -rf --cached repository/', fixtures_path())->mustRun();
     Process::fromShellCommandline('git add playground.random', repository_path())->mustRun();
 
-    Http::fake(function () {
+    Http::fake(function (): PromiseInterface {
         return Http::response([
             'id' => 'cmpl-6n1qMNWwuF5SYBcS4Nev5sr4ACpEB',
             'object' => 'text_completion',
@@ -75,7 +76,7 @@ it('will throw TaskException(The generated commit messages is an invalid JSON)',
     ->group(__DIR__, __FILE__)
     ->throws(TaskException::class, 'The generated commit messages(');
 
-it('can generate and commit messages', function () {
+it('can generate and commit messages', function (): void {
     // 设置 git 信息
     Process::fromShellCommandline('git config user.email yaozm', repository_path())->mustRun();
     Process::fromShellCommandline('git config user.name ityaozm@gmail.com', repository_path())->mustRun();

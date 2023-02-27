@@ -29,7 +29,7 @@ final class StrMacro
 
             try {
                 json_decode($value, true, 512, JSON_THROW_ON_ERROR);
-            } catch (\JsonException $e) {
+            } catch (\JsonException $jsonException) {
                 return false;
             }
 

@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 use App\Commands\ThanksCommand;
 
-it('can thanks for using this tool', function () {
+it('can thanks for using this tool', function (): void {
     $this->getFunctionMock(class_namespace(ThanksCommand::class), 'exec')
         ->expects($this->once())
         ->willReturn('');

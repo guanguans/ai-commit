@@ -14,23 +14,23 @@ use App\GeneratorManager;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 
-beforeEach(function () {
+beforeEach(function (): void {
     setup_http_fake();
 });
 
-it('can generate commit messages', function () {
+it('can generate commit messages', function (): void {
     expect(app(GeneratorManager::class)->driver('openai'))
         ->generate('OK')->toBeString()->not->toBeEmpty();
     Http::assertSentCount(1);
 });
 
-it('will throw forbidden RequestException', function () {
+it('will throw forbidden RequestException', function (): void {
     app(GeneratorManager::class)->driver('openai')->generate('Forbidden');
 })->group(__DIR__, __FILE__)->throws(RequestException::class, 'HTTP request returned status code 403');
 
-it('will throw unauthorized RequestException', function () {
+it('will throw unauthorized RequestException', function (): void {
     app(GeneratorManager::class)
-        ->tap(function () {
+        ->tap(function (): void {
             // reset_http_fake();
         })
         ->driver('openai')

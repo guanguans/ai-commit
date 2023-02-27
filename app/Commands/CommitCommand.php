@@ -60,7 +60,7 @@ final class CommitCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDefinition([
             new InputArgument('path', InputArgument::OPTIONAL, 'The working directory', $this->configManager::localPath('')),
@@ -77,7 +77,7 @@ final class CommitCommand extends Command
     /**
      * @psalm-suppress InvalidScalarArgument
      */
-    protected function initialize(InputInterface $input, OutputInterface $output)
+    protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         if ($configFile = $this->option('config')) {
             $this->configManager->replaceFrom($configFile);
@@ -121,12 +121,12 @@ final class CommitCommand extends Command
 
         $this->task('2. Choosing commit message', function () use ($messages, &$message): void {
             $message = collect(json_decode($messages, true))
-                ->tap(function (Collection $messages) {
+                ->tap(function (Collection $messages): void {
                     $this->newLine();
                     $this->table(
                         array_keys($messages->first()),
                         $messages->chunk(1)
-                            ->transform(function (Collection $messages) {
+                            ->transform(static function (Collection $messages): Collection {
                                 return $messages->prepend(new TableSeparator());
                             })
                             ->flatten(1)
@@ -141,7 +141,7 @@ final class CommitCommand extends Command
         }, 'choosing...');
 
         $this->task('3. Committing message', function () use ($message): void {
-            tap($this->createProcess($this->getCommitCommand($message)), function (Process $process) {
+            tap($this->createProcess($this->getCommitCommand($message)), function (Process $process): void {
                 $this->isEditMode() and $process->setTty(true)->setTimeout(null);
             })->mustRun();
         }, 'committing...');

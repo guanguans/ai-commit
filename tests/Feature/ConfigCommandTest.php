@@ -17,7 +17,7 @@ use App\Exceptions\UnsupportedConfigActionException;
 use Symfony\Component\Process\Exception\RuntimeException as SymfonyRuntimeException;
 use Symfony\Component\Process\Process;
 
-it('can set config', function () {
+it('can set config', function (): void {
     $this->getFunctionMock(class_namespace(ConfigCommand::class), 'file_exists')
         ->expects($this->atLeastOnce())
         ->willReturn(false);
@@ -47,7 +47,7 @@ it('can set config', function () {
     ])->assertFailed();
 })->group(__DIR__, __FILE__);
 
-it('can get config', function () {
+it('can get config', function (): void {
     $this->artisan(ConfigCommand::class, [
         'action' => 'get',
     ])->assertSuccessful();
@@ -63,20 +63,20 @@ it('can get config', function () {
     ])->assertSuccessful();
 })->group(__DIR__, __FILE__);
 
-it('can unset config', function () {
+it('can unset config', function (): void {
     $this->artisan(ConfigCommand::class, [
         'action' => 'unset',
         'key' => 'foo.bar',
     ])->assertSuccessful();
 })->group(__DIR__, __FILE__);
 
-it('can list config', function () {
+it('can list config', function (): void {
     $this->artisan(ConfigCommand::class, [
         'action' => 'list',
     ])->assertSuccessful();
 })->group(__DIR__, __FILE__);
 
-it('will throw RuntimeException for edit config', function () {
+it('will throw RuntimeException for edit config', function (): void {
     $this->getFunctionMock(class_namespace(ConfigCommand::class), 'exec')
         ->expects($this->exactly(6))
         ->willReturn('');
@@ -86,7 +86,7 @@ it('will throw RuntimeException for edit config', function () {
     ]);
 })->group(__DIR__, __FILE__)->throws(RuntimeException::class, 'No editor found or specified.');
 
-it('will throw \SymfonyRuntimeException for edit config', function () {
+it('will throw \SymfonyRuntimeException for edit config', function (): void {
     $this->getFunctionMock(class_namespace(Process::class), 'proc_open')
         ->expects($this->once())
         ->willReturn(false);
@@ -97,7 +97,7 @@ it('will throw \SymfonyRuntimeException for edit config', function () {
     ]);
 })->skip()->group(__DIR__, __FILE__)->throws(SymfonyRuntimeException::class, 'TTY mode requires /dev/tty to be read/writable.');
 
-it('will throw SymfonyRuntimeException for edit config', function () {
+it('will throw SymfonyRuntimeException for edit config', function (): void {
     $this->getFunctionMock(class_namespace(ConfigCommand::class), 'exec')
         ->expects($this->once())
         ->willReturn('/usr/local/bin/vim');
@@ -111,7 +111,7 @@ it('will throw SymfonyRuntimeException for edit config', function () {
     ]);
 })->group(__DIR__, __FILE__)->throws(SymfonyRuntimeException::class, 'TTY mode requires /dev/tty to be read/writable.');
 
-it('will throw UnsupportedConfigActionException', function () {
+it('will throw UnsupportedConfigActionException', function (): void {
     $this->artisan(ConfigCommand::class, [
         'action' => 'foo',
     ]);

@@ -16,13 +16,13 @@ use Illuminate\Support\Str;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 if (! function_exists('clear_console_screen')) {
-    function clear_console_screen()
+    function clear_console_screen(): void
     {
         if (! app()->runningInConsole()) {
             return;
         }
 
-        (new ConsoleOutput())->write(sprintf("\033\143"));
+        (new ConsoleOutput())->write("\033\143");
     }
 }
 

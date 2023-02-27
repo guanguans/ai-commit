@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Http;
 /**
  * @psalm-suppress UnusedClosureParam
  */
-beforeEach(function () {
+beforeEach(function (): void {
     setup_http_fake();
 
     $this->openAI = new OpenAI(Arr::only(
@@ -30,23 +30,23 @@ beforeEach(function () {
 /**
  * @psalm-suppress UndefinedPropertyFetch
  */
-it('can hydrate data', function () {
+it('can hydrate data', function (): void {
     $data = 'data: {"id": "cmpl-6n1mYrlWTmE9184S4pajlIx6JITEu", "object": "text_completion", "created": 1677142942, "choices": [{"text": "", "index": 0, "logprobs": null, "finish_reason": "stop"}], "model": "text-davinci-003"}';
     expect($data)->not->toBeJson()
         ->and(OpenAI::hydrateData($data))->toBeJson();
 })->group(__DIR__, __FILE__);
 
-it('can completions', function () {
+it('can completions', function (): void {
     $parameters = config('ai-commit.generators.openai.completion_parameters');
     $parameters['prompt'] = 'OK';
-    $response = $this->openAI->completions($parameters, function () {});
+    $response = $this->openAI->completions($parameters, function (): void {});
 
     expect($response->json('choices.0.text'))->toBeString()->not->toBeEmpty();
     Http::assertSentCount(1);
 })->group(__DIR__, __FILE__);
 
-it('will throw RequestException when completions', function () {
+it('will throw RequestException when completions', function (): void {
     $parameters = config('ai-commit.generators.openai.completion_parameters');
     $parameters['prompt'] = 'Too Many Requests';
-    $this->openAI->completions($parameters, function () {});
+    $this->openAI->completions($parameters, function (): void {});
 })->group(__DIR__, __FILE__)->throws(RequestException::class, 'HTTP request returned status code 429');

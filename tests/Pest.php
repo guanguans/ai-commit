@@ -10,19 +10,21 @@ declare(strict_types=1);
  * This source file is subject to the MIT license that is bundled.
  */
 
+use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Http\Client\Factory;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\TestCase;
 
-uses(Tests\TestCase::class)
-    ->beforeAll(function () {
+uses(TestCase::class)
+    ->beforeAll(function (): void {
     })
-    ->beforeEach(function () {
+    ->beforeEach(function (): void {
     })
-    ->afterEach(function () {
+    ->afterEach(function (): void {
     })
-    ->afterAll(function () {
+    ->afterAll(function (): void {
     })
     ->in('Feature', 'Unit');
 
@@ -75,10 +77,10 @@ function fixtures_path(string $path = ''): string
 /**
  * @psalm-suppress UnusedClosureParam
  */
-function setup_http_fake()
+function setup_http_fake(): void
 {
     Http::fake([
-        '*://api.openai.com/v1/*' => function (Request $request, array $options) {
+        '*://api.openai.com/v1/*' => function (Request $request, array $options): PromiseInterface {
             $status = transform($prompt = $options['laravel_data']['prompt'], function ($prompt) {
                 return array_flip(Response::$statusTexts)[$prompt] ?? 200;
             });
@@ -140,7 +142,7 @@ function setup_http_fake()
 
 function reset_http_fake(?Factory $factory = null): void
 {
-    (function () {
+    (function (): void {
         $this->stubCallbacks = collect();
     })->call($factory ?? Http::getFacadeRoot());
 }

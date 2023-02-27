@@ -27,7 +27,7 @@ final class OpenAI extends FoundationSDK
 {
     public static function hydrateData(string $data): string
     {
-        return (string) \str($data)->whenStartsWith($prefix = 'data: ', static function (Stringable $data) use ($prefix) {
+        return (string) \str($data)->whenStartsWith($prefix = 'data: ', static function (Stringable $data) use ($prefix): Stringable {
             return $data->replaceFirst($prefix, '');
         });
     }

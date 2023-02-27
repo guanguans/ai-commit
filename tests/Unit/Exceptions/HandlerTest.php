@@ -17,7 +17,7 @@ use Illuminate\Validation\Factory;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\Console\Output\OutputInterface;
 
-it('can render exception for console', function () {
+it('can render exception for console', function (): void {
     $this->app['env'] = 'production';
     $output = Mockery::spy(OutputInterface::class);
     /** @noinspection PhpVoidFunctionResultUsedInspection */
@@ -37,9 +37,9 @@ it('can render exception for console', function () {
         )->toBeNull();
 })->group(__DIR__, __FILE__);
 
-it('can report exception', function () {
+it('can report exception', function (): void {
     $this->app['env'] = 'testing';
-    $exception = new \Exception('foo');
+    $exception = new Exception('foo');
     $handler = $this->app->get(Handler::class);
     expect($handler)->shouldReport($exception)->toBeTrue();
 
