@@ -21,6 +21,7 @@ use Illuminate\Support\Stringable;
 use LaravelZero\Framework\Commands\Command;
 use Symfony\Component\Console\Completion\CompletionInput;
 use Symfony\Component\Console\Completion\CompletionSuggestions;
+use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -95,6 +96,9 @@ final class CommitCommand extends Command
         }
     }
 
+    /**
+     * @noinspection DebugFunctionUsageInspection
+     */
     public function handle(): int
     {
         $this->task('1. Generating commit messages', function () use (&$messages): void {
@@ -108,14 +112,10 @@ final class CommitCommand extends Command
                 throw new TaskException('There are no staged files to commit. Try running `git add` to stage some files.');
             }
 
-            $messages = $this->generatorManager->driver($this->option('generator'))->generate($this->getPrompt($stagedDiff));
-            if (\str($messages)->isEmpty()) {
-                throw new TaskException('No commit messages generated.');
-            }
-
-            $messages = $this->tryFixMessages($messages);
+            $originalMessages = $this->generatorManager->driver($this->option('generator'))->generate($this->getPrompt($stagedDiff));
+            $messages = $this->tryFixMessages($originalMessages);
             if (! \str($messages)->isJson()) {
-                throw new TaskException('The generated commit messages is an invalid JSON.');
+                throw new TaskException(sprintf('The generated commit messages(%s) is an invalid JSON.', var_export($originalMessages, true)));
             }
         }, 'generating...');
 
@@ -123,7 +123,15 @@ final class CommitCommand extends Command
             $message = collect(json_decode($messages, true))
                 ->tap(function (Collection $messages) {
                     $this->newLine();
-                    $messages->dump();
+                    $this->table(
+                        array_keys($messages->first()),
+                        $messages->chunk(1)
+                            ->transform(function (Collection $messages) {
+                                return $messages->prepend(new TableSeparator());
+                            })
+                            ->flatten(1)
+                            ->skip(1)
+                    );
                 })
                 ->pipe(function (Collection $messages) {
                     $subject = $this->choice('Please choice a commit message', $messages->pluck('subject', 'id')->all(), '1');

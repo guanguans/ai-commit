@@ -37,43 +37,12 @@ it('will throw TaskException(no staged files to commit)', function () {
     ->group(__DIR__, __FILE__)
     ->throws(TaskException::class, 'There are no staged files to commit. Try running `git add` to stage some files.');
 
-it('will throw TaskException(no commit messages generated)', function () {
+it('will throw TaskException(The generated commit messages is an invalid JSON)', function () {
     // 添加文件到暂存区
     file_put_contents(repository_path('playground.random'), Str::random());
     Process::fromShellCommandline('git rm -rf --cached repository/', fixtures_path())->mustRun();
     Process::fromShellCommandline('git add playground.random', repository_path())->mustRun();
 
-    Http::fake(function () {
-        return Http::response([
-            'id' => 'cmpl-6n1qMNWwuF5SYBcS4Nev5sr4ACpEB',
-            'object' => 'text_completion',
-            'created' => 1677143178,
-            'model' => 'text-davinci-003',
-            'choices' => [
-                0 => [
-                    'text' => '', // 空响应
-                    'index' => 0,
-                    'logprobs' => null,
-                    'finish_reason' => 'stop',
-                ],
-            ],
-            'usage' => [
-                'prompt_tokens' => 749,
-                'completion_tokens' => 159,
-                'total_tokens' => 908,
-            ],
-        ]);
-    });
-
-    $this->artisan(CommitCommand::class, [
-        'path' => repository_path(),
-    ]);
-})
-    ->depends('it will throw TaskException(no staged files to commit)')
-    ->group(__DIR__, __FILE__)
-    ->throws(TaskException::class, 'No commit messages generated.');
-
-it('will throw TaskException(The generated commit messages is an invalid JSON)', function () {
     Http::fake(function () {
         return Http::response([
             'id' => 'cmpl-6n1qMNWwuF5SYBcS4Nev5sr4ACpEB',
@@ -100,9 +69,9 @@ it('will throw TaskException(The generated commit messages is an invalid JSON)',
         'path' => repository_path(),
     ]);
 })
-    ->depends('it will throw TaskException(no commit messages generated)')
+    ->depends('it will throw TaskException(no staged files to commit)')
     ->group(__DIR__, __FILE__)
-    ->throws(TaskException::class, 'The generated commit messages is an invalid JSON.');
+    ->throws(TaskException::class, 'The generated commit messages(');
 
 it('can generate and commit messages', function () {
     // 设置 git 信息
