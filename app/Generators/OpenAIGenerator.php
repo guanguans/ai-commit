@@ -72,12 +72,12 @@ final class OpenAIGenerator implements GeneratorContract
                 }
 
                 // (正常|错误|流)响应
-                $response = (array) json_decode((string) str($data)->replaceFirst('data: ', ''), true);
-                $messages .= $text = Arr::get($response, 'choices.0.text', '');
+                $rowResponse = (array) json_decode($this->openAI::clearBody($data), true);
+                $messages .= $text = Arr::get($rowResponse, 'choices.0.text', '');
                 $output->write($text);
             });
 
         // fake 响应
-        return (string) ($response->json('choices.0.text') ?? $messages);
+        return (string) ($messages ?: $response->json('choices.0.text'));
     }
 }

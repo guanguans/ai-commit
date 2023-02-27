@@ -17,6 +17,7 @@ use GuzzleHttp\Psr7\Utils;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Stringable;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -24,6 +25,13 @@ use Psr\Http\Message\ResponseInterface;
  */
 final class OpenAI extends FoundationSDK
 {
+    public static function clearBody(string $body): string
+    {
+        return (string) \str($body)->whenStartsWith($prefix = 'data: ', static function (Stringable $body) use ($prefix) {
+            return $body->replaceFirst($prefix, '');
+        });
+    }
+
     /**
      * @psalm-suppress UnusedVariable
      * @psalm-suppress UnevaluatedCode
@@ -73,7 +81,7 @@ final class OpenAI extends FoundationSDK
         $response = $this
             ->clonePendingRequest()
             ->when(
-                is_callable($writer),
+                ($parameters['stream'] ?? false) && is_callable($writer),
                 static function (PendingRequest $pendingRequest) use ($writer, &$body): PendingRequest {
                     return $pendingRequest->withOptions([
                         'curl' => [
@@ -90,11 +98,15 @@ final class OpenAI extends FoundationSDK
                     ]);
                 }
             )
-            // ->withMiddleware(
-            //     Middleware::mapResponse(function (ResponseInterface $response) use ($body) {
-            //         return $response->withBody(Utils::streamFor($body));
-            //     })
-            // )
+            ->withMiddleware(
+                Middleware::mapResponse(static function (ResponseInterface $response) use ($body) {
+                    if (empty($body)) {
+                        return $response;
+                    }
+
+                    return $response->withBody(Utils::streamFor($body));
+                })
+            )
             ->post(
                 'completions',
                 validate(
@@ -106,7 +118,7 @@ final class OpenAI extends FoundationSDK
                             'in:text-davinci-003,text-curie-001,text-babbage-001,text-ada-001,text-embedding-ada-002,code-davinci-002,code-cushman-001,content-filter-alpha',
                         ],
                         // 'prompt' => 'string|array',
-                        'prompt' => 'string|between:1,10000',
+                        'prompt' => 'string',
                         'suffix' => 'nullable|string',
                         'max_tokens' => 'integer',
                         'temperature' => 'numeric|between:0,2',
@@ -127,8 +139,7 @@ final class OpenAI extends FoundationSDK
             );
 
         if ($body || empty($response->body())) {
-            $body = \str($body)->replaceFirst('data:', '');
-            $response = new Response($response->toPsrResponse()->withBody(Utils::streamFor($body)));
+            $response = new Response($response->toPsrResponse()->withBody(Utils::streamFor(self::clearBody($body))));
         }
 
         return $response->throw();
