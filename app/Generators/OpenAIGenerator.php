@@ -78,6 +78,6 @@ final class OpenAIGenerator implements GeneratorContract
             });
 
         // fake 响应
-        return (string) ($messages ?: $response->json('choices.0.text'));
+        return (string) ($messages ?? $response->json('choices.0.text'));
     }
 }

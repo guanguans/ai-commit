@@ -13,7 +13,6 @@ declare(strict_types=1);
  */
 
 use App\Exceptions\Handler;
-use Illuminate\Http\Client\HttpClientException;
 use Illuminate\Validation\Factory;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -23,10 +22,6 @@ it('can render exception for console', function () {
     $output = Mockery::spy(OutputInterface::class);
     /** @noinspection PhpVoidFunctionResultUsedInspection */
     expect($this->app->get(Handler::class))
-        ->renderForConsole(
-            $output,
-            Mockery::spy(HttpClientException::class)
-        )->toBeNull()
         ->renderForConsole(
             $output,
             new ValidationException(

@@ -12,35 +12,21 @@ declare(strict_types=1);
 
 namespace App\Exceptions;
 
-use Illuminate\Console\OutputStyle;
-use Illuminate\Http\Client\HttpClientException;
 use Illuminate\Validation\ValidationException;
 
 final class Handler extends \Illuminate\Foundation\Exceptions\Handler
 {
     /**
      * {@inheritdoc}
+     *
+     * @psalm-suppress UndefinedThisPropertyAssignment
      */
     public function renderForConsole($output, \Throwable $e): void
     {
-        $outputStyle = $this->container->make(OutputStyle::class);
-        $position = sprintf("In %s line {$e->getLine()}:", pathinfo($e->getFile(), PATHINFO_FILENAME));
-
         if ($e instanceof ValidationException) {
-            $outputStyle->section($position);
-            $outputStyle->block($e->validator->errors()->all(), 'ERROR(Config)', 'fg=white;bg=red', ' ', true);
-
-            return;
-        }
-
-        if ($e instanceof HttpClientException) {
-            $status = trans($key = "http-statuses.{$e->getCode()}");
-            if ($key !== $status) {
-                $outputStyle->section($position);
-                $outputStyle->block($e->getMessage(), "ERROR($status)", 'fg=white;bg=red', ' ', true);
-
-                return;
-            }
+            (function (ValidationException $e) {
+                $this->message = ($prefix = '- ').implode(PHP_EOL.$prefix, $e->validator->errors()->all());
+            })->call($e, $e);
         }
 
         parent::renderForConsole($output, $e);
