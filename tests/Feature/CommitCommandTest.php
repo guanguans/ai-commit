@@ -12,8 +12,10 @@ declare(strict_types=1);
 
 use App\Commands\CommitCommand;
 use App\Exceptions\TaskException;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Process\Process;
 
 it('will throw TaskException(not a git repository)', function () {
@@ -79,7 +81,7 @@ it('can generate and commit messages', function () {
     Process::fromShellCommandline('git config user.name ityaozm@gmail.com', repository_path())->mustRun();
     setup_http_fake();
 
-    $answers = array_column([
+    $messages = collect([
         [
             'id' => 1,
             'subject' => 'Fix(OpenAIGenerator): Debugging output',
@@ -95,7 +97,7 @@ it('can generate and commit messages', function () {
             'subject' => 'Docs(OpenAIGenerator): Update documentation',
             'body' => '- Update documentation for OpenAIGenerator class',
         ],
-    ], 'subject', 'id');
+    ]);
 
     $this
         ->artisan(CommitCommand::class, [
@@ -103,8 +105,17 @@ it('can generate and commit messages', function () {
             '--no-edit' => true,
             '--verbose' => true,
         ])
-        // ->expectsChoice('Please choice a commit message', '1', $answers, true)
-        ->expectsQuestion('Please choice a commit message', $answers[1])
+        ->expectsTable(
+            array_keys($messages->first()),
+            $messages->chunk(1)
+                ->transform(function (Collection $messages) {
+                    return $messages->prepend(new TableSeparator());
+                })
+                ->flatten(1)
+                ->skip(1)
+        )
+        // ->expectsChoice('Please choice a commit message', $messages->pluck('subject', 'id')->first(), $messages->pluck('subject', 'id')->all())
+        ->expectsQuestion('Please choice a commit message', $messages->pluck('subject', 'id')->first())
         ->assertSuccessful();
 })
     ->depends('it will throw TaskException(The generated commit messages is an invalid JSON)')
