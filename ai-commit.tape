@@ -52,8 +52,8 @@ Require php
 
 Set Framerate 120
 Set FontSize 18
-Set Width 1000
-Set Height 618
+Set Width 1400
+Set Height 865
 Set TypingSpeed 100ms
 Set PlaybackSpeed 0.1
 
