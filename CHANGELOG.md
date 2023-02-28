@@ -2,6 +2,10 @@
 
 All notable changes to `guanguans/ai-commit` will be documented in this file.
 
+## v1.2.6 - 2023-02-28
+
+**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.2.5...v1.2.6
+
 ## v1.2.5 - 2023-02-28
 
 **Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.2.4...v1.2.5
