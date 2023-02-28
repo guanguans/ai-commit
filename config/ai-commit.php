@@ -10,8 +10,6 @@ declare(strict_types=1);
  * This source file is subject to the MIT license that is bundled.
  */
 
-use Illuminate\Support\Str;
-
 return [
     /**
      * Append options for the `git commit` command.
@@ -26,6 +24,17 @@ return [
     'diff_options' => [
         ':!*.lock',
         ':!*.sum',
+    ],
+
+    /**
+     * The retry options.
+     */
+    'retry' => [
+        'times' => 3,
+        'sleep_milliseconds' => 500,
+        'when' => function (Exception $exception) {
+            return $exception instanceof App\Exceptions\TaskException;
+        },
     ],
 
     /**
@@ -92,7 +101,7 @@ return [
                 'frequency_penalty' => 0,
                 'best_of' => 1,
                 // 'logit_bias' => null,
-                'user' => Str::uuid()->toString(),
+                'user' => Illuminate\Support\Str::uuid()->toString(),
             ],
         ],
     ],

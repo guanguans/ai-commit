@@ -71,6 +71,8 @@ final class CommitCommand extends Command
             new InputOption('num', null, InputOption::VALUE_REQUIRED, 'Specify number of generated messages', $this->configManager->get('num')),
             new InputOption('no-edit', null, InputOption::VALUE_NONE, 'Force no edit mode'),
             new InputOption('config', 'c', InputOption::VALUE_OPTIONAL, 'Specify config file'),
+            new InputOption('retry-times', null, InputOption::VALUE_REQUIRED, 'Specify times of retry', $this->configManager->get('retry.times')),
+            new InputOption('retry-sleep-milliseconds', null, InputOption::VALUE_REQUIRED, 'Specify sleep milliseconds of retry', $this->configManager->get('retry.sleep_milliseconds')),
         ]);
     }
 
@@ -88,16 +90,19 @@ final class CommitCommand extends Command
                 'generator',
                 'num',
                 'prompt',
+                'retry.times',
+                'retry.sleep_milliseconds',
             ]);
 
             foreach ($options as $name => $value) {
-                null === $value or $this->input->setOption((string) \str($name)->slug(), $value);
+                null === $value or $this->input->setOption((string) \str($name)->replace(['.', '_'], '-'), $value);
             }
         }
     }
 
     /**
      * @noinspection DebugFunctionUsageInspection
+     * @psalm-suppress InvalidArgument
      */
     public function handle(): int
     {
@@ -112,11 +117,24 @@ final class CommitCommand extends Command
                 throw new TaskException('There are no staged files to commit. Try running `git add` to stage some files.');
             }
 
-            $originalMessages = $this->generatorManager->driver($this->option('generator'))->generate($this->getPrompt($stagedDiff));
-            $messages = $this->tryFixMessages($originalMessages);
-            if (! \str($messages)->isJson()) {
-                throw new TaskException(sprintf('The generated commit messages(%s) is an invalid JSON.', var_export($originalMessages, true)));
-            }
+            $messages = retry(
+                $this->option('retry-times'),
+                function ($attempts) use ($stagedDiff) {
+                    if ($attempts > 1) {
+                        $this->output->info('retrying...');
+                    }
+
+                    $originalMessages = $this->generatorManager->driver($this->option('generator'))->generate($this->getPrompt($stagedDiff));
+                    $messages = $this->tryFixMessages($originalMessages);
+                    if (! \str($messages)->isJson()) {
+                        throw new TaskException(sprintf('The generated commit messages(%s) is an invalid JSON.', var_export($originalMessages, true)));
+                    }
+
+                    return $messages;
+                },
+                $this->option('retry-sleep-milliseconds'),
+                $this->configManager->get('retry.when')
+            );
         }, 'generating...');
 
         $this->task('2. Choosing commit message', function () use ($messages, &$message): void {
