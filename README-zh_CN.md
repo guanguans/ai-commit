@@ -14,13 +14,6 @@
 [![Total Downloads](https://poser.pugx.org/guanguans/ai-commit/downloads)](//packagist.org/packages/guanguans/ai-commit)
 [![License](https://poser.pugx.org/guanguans/ai-commit/license)](//packagist.org/packages/guanguans/ai-commit)
 
-## 功能
-
-* 默认生成 conventional 格式的提交信息
-* 可自定义生成信息的 AI 驱动(目前仅支持 Open AI)
-* 可自定义生成信息的提示模板
-* 可自定义生成待选提交信息的数量
-
 ## 环境要求
 
 * PHP >= 7.3
@@ -88,10 +81,12 @@ composer require guanguans/ai-commit --dev -v
  > 
 ```
 
+![](docs/ai-commit-vhs.gif)
+
 ### 列出命令
 
 ```shell
-╰─ ./ai-commit list                                                                     ─╯
+╰─ ./ai-commit list                                                     ─╯
 
   
           _____    _____                          _ _   
@@ -103,7 +98,7 @@ composer require guanguans/ai-commit --dev -v
                                                         
                                                         
 
-  1.1.2
+  1.2.5
 
   USAGE: ai-commit <command> [options] [arguments]
 
@@ -129,14 +124,14 @@ composer require guanguans/ai-commit --dev -v
 ### 自我更新
 
 ```shell
-╰─ ./ai-commit self-update                                                              ─╯
+╰─ ./ai-commit self-update                                        ─╯
 
 Checking for a new version...
 =============================
 
-                                                                                           
- [OK] Updated from version 1.1.1 to v1.1.2.                                                
-                                                                                           
+                                                                     
+ [OK] Updated from version 1.2.4 to v1.2.5.                          
+                                                                     
 ```
 
 ## 测试

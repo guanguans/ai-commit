@@ -14,13 +14,6 @@
 [![Total Downloads](https://poser.pugx.org/guanguans/ai-commit/downloads)](//packagist.org/packages/guanguans/ai-commit)
 [![License](https://poser.pugx.org/guanguans/ai-commit/license)](//packagist.org/packages/guanguans/ai-commit)
 
-## Features
-
-* By default, commit messages is generated in conventional format
-* You can customize the AI driver that generates commit messages(currently only supported by Open AI)
-* You can customize the prompt template that generates commit messages
-* You can customize the number of generates commit messages to be selected
-
 ## Requirement
 
 * PHP >= 7.3
@@ -88,10 +81,12 @@ composer require guanguans/ai-commit --dev -v
  > 
 ```
 
+![](docs/ai-commit-vhs.gif)
+
 ### List commands
 
 ```shell
-╰─ ./ai-commit list                                                                     ─╯
+╰─ ./ai-commit list                                                     ─╯
 
   
           _____    _____                          _ _   
@@ -103,7 +98,7 @@ composer require guanguans/ai-commit --dev -v
                                                         
                                                         
 
-  1.1.2
+  1.2.5
 
   USAGE: ai-commit <command> [options] [arguments]
 
@@ -129,14 +124,14 @@ composer require guanguans/ai-commit --dev -v
 ### Self update
 
 ```shell
-╰─ ./ai-commit self-update                                                              ─╯
+╰─ ./ai-commit self-update                                        ─╯
 
 Checking for a new version...
 =============================
 
-                                                                                           
- [OK] Updated from version 1.1.1 to v1.1.2.                                                
-                                                                                           
+                                                                     
+ [OK] Updated from version 1.2.4 to v1.2.5.                          
+                                                                     
 ```
 
 ## Testing
