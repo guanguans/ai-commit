@@ -98,15 +98,38 @@ final class OpenAI extends FoundationSDK
                     ]);
                 }
             )
-            // ->withMiddleware(
-            //     Middleware::mapResponse(static function (ResponseInterface $response) use ($rowData) {
-            //         if (empty($rowData)) {
-            //             return $response;
-            //         }
-            //
-            //         return $response->withBody(Utils::streamFor($rowData));
-            //     })
-            // )
+            ->withMiddleware(
+                Middleware::mapResponse(static function (ResponseInterface $response): ResponseInterface {
+                    $contents = $response->getBody()->getContents();
+
+                    // $parameters['stream'] === true && $writer === null
+                    if ($contents && ! \str($contents)->isJson()) {
+                        $data = \str($contents)
+                            ->explode("\n\n")
+                            ->reverse()
+                            ->skip(2)
+                            ->reverse()
+                            ->map(static function (string $rowData): array {
+                                return json_decode(self::hydrateData($rowData), true);
+                            })
+                            ->reduce(static function (array $data, array $rowData): array {
+                                if (empty($data)) {
+                                    return $rowData;
+                                }
+
+                                foreach ($data['choices'] as $index => $choice) {
+                                    $data['choices'][$index]['text'] .= $rowData['choices'][$index]['text'];
+                                }
+
+                                return $data;
+                            }, []);
+
+                        return $response->withBody(Utils::streamFor(json_encode($data)));
+                    }
+
+                    return $response;
+                })
+            )
             ->post(
                 'completions',
                 validate(
@@ -136,9 +159,19 @@ final class OpenAI extends FoundationSDK
                         'user' => 'string|uuid',
                     ]
                 )
-            );
+            )
+            // ->onError(function (Response $response) use ($rowData) {
+            //     if ($rowData && empty($response->body())) {
+            //         (function (Response $response) use ($rowData): void {
+            //             $this->response = $response->toPsrResponse()->withBody(
+            //                 Utils::streamFor(OpenAI::hydrateData($rowData))
+            //             );
+            //         })->call($response, $response);
+            //     }
+            // })
+        ;
 
-        if ($rowData || empty($response->body())) {
+        if ($rowData && empty($response->body())) {
             $response = new Response(
                 $response->toPsrResponse()->withBody(Utils::streamFor(self::hydrateData($rowData)))
             );
