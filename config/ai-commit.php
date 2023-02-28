@@ -15,7 +15,7 @@ return [
      * Append options for the `git commit` command.
      */
     'commit_options' => [
-        // '--edit',
+        '--edit',
     ],
 
     /**
