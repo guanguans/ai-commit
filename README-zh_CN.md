@@ -50,35 +50,57 @@ composer require guanguans/ai-commit --dev -v
 ```
 
 ```shell
-1. Checking run environment: ✔
-2. Generating commit messages: generating...
+╰─ ./ai-commit commit                                                                                                   ─╯
+1. Generating commit messages: generating...
 
 [
     {
         "id": 1,
-        "subject": "Docs(README): Configure OpenAI API key",
+        "subject": "Docs(README): Update README files",
         "body": "- Update README-zh_CN.md\n- Update README.md\n- Explain how to configure OpenAI API key"
     },
     {
         "id": 2,
-        "subject": "Install(Composer): Add global and local install instructions",
+        "subject": "Install(Composer): Add install instructions",
         "body": "- Update README.md\n- Add instructions for global and local install via Composer"
     },
     {
         "id": 3,
-        "subject": "Usage(Commit Messages): Add best practices",
+        "subject": "Commit Messages): Add best practices",
         "body": "- Update README.md\n- Add best practices for writing commit messages"
     }
-]
+1. Generating commit messages: ✔
+2. Choosing commit message: choosing...
++----+---------------------------------------------+--------------------------------------------------------------+
+| id | subject                                     | body                                                         |
++----+---------------------------------------------+--------------------------------------------------------------+
+| 1  | Docs(README): Update README files           | - Update README-zh_CN.md                                     |
+|    |                                             | - Update README.md                                           |
+|    |                                             | - Explain how to configure OpenAI API key                    |
++----+---------------------------------------------+--------------------------------------------------------------+
+| 2  | Install(Composer): Add install instructions | - Update README.md                                           |
+|    |                                             | - Add instructions for global and local install via Composer |
++----+---------------------------------------------+--------------------------------------------------------------+
+| 3  | Commit Messages): Add best practices        | - Update README.md                                           |
+|    |                                             | - Add best practices for writing commit messages             |
++----+---------------------------------------------+--------------------------------------------------------------+
 
-2. Generating commit messages: ✔
-3. Choosing commit message: choosing...
+ Please choice a commit message [Docs(README): Update README files]:
+  [1] Docs(README): Update README files
+  [2] Install(Composer): Add install instructions
+  [3] Commit Messages): Add best practices
+ > Docs(README): Update README files
 
- Please choice a commit message:
-  [1] Docs(README): Configure OpenAI API key
-  [2] Install(Composer): Add global and local install instructions
-  [3] Usage(Commit Messages): Add best practices
- > 
+2. Choosing commit message: ✔
+3. Committing message: committing...
+[main 8c07fa3] Docs(README): Update README files
+ 1 file changed, 1 insertion(+), 29 deletions(-)
+3. Committing message: ✔
+
+                                                                                                                        
+ [OK] Generate and commit messages have succeeded                                                                       
+                                                                                                                        
+
 ```
 
 ![](docs/ai-commit-vhs.gif)
