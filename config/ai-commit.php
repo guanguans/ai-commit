@@ -41,7 +41,8 @@ return [
         'times' => 3,
         'sleep_milliseconds' => 500,
         'when' => function (Exception $exception) {
-            return $exception instanceof App\Exceptions\TaskException;
+            return $exception instanceof Illuminate\Http\Client\ConnectionException
+                   || $exception instanceof App\Exceptions\TaskException;
         },
     ],
 
@@ -74,13 +75,6 @@ return [
             'http_options' => [
                 GuzzleHttp\RequestOptions::CONNECT_TIMEOUT => 30,
                 GuzzleHttp\RequestOptions::TIMEOUT => 180,
-            ],
-            'retry' => [
-                'times' => 1,
-                'sleepMilliseconds' => 1000,
-                'when' => static function (Throwable $throwable): bool {
-                    return $throwable instanceof Illuminate\Http\Client\ConnectionException;
-                },
             ],
             'api_key' => env('OPENAI_API_KEY'),
             'completion_parameters' => [
@@ -115,6 +109,7 @@ return [
         'conventional' => <<<'conventional'
 Here is the output of the `git diff`:
 <diff>
+
 Here are some best practices for writing commit messages:
 - Write clear, concise, and descriptive messages that explain the changes made in the commit.
 - Use the present tense and active voice in the message, for example, "Fix bug" instead of "Fixed bug."

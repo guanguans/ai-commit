@@ -187,15 +187,15 @@ final class OpenAI extends FoundationSDK
     protected function buildPendingRequest(array $config): PendingRequest
     {
         return Http::baseUrl($config['base_url'])
-            // ->throw()
             ->asJson()
             ->withToken($config['api_key'])
-            ->withOptions($config['http_options'])
-            ->retry(
-                $config['retry']['times'],
-                $config['retry']['sleepMilliseconds'],
-                $config['retry']['when']
-                // $config['retry']['throw']
-            );
+            // ->throw()
+            // ->retry(
+            //     $config['retry']['times'],
+            //     $config['retry']['sleepMilliseconds'],
+            //     $config['retry']['when']
+            //     // $config['retry']['throw']
+            // )
+            ->withOptions($config['http_options']);
     }
 }
