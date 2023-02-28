@@ -102,6 +102,7 @@ final class CommitCommand extends Command
 
     /**
      * @noinspection DebugFunctionUsageInspection
+     *
      * @psalm-suppress InvalidArgument
      */
     public function handle(): int
