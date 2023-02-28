@@ -214,7 +214,7 @@ final class CommitCommand extends Command
     {
         return (string) \str($this->configManager->get("prompts.{$this->option('prompt')}"))
             ->replace(
-                [$this->configManager->get('diff_mark'), $this->configManager->get('num_mark')],
+                [$this->configManager->get('marks.diff'), $this->configManager->get('marks.num')],
                 [$stagedDiff, $this->option('num')]
             )
             ->when($this->option('verbose'), function (Stringable $prompt): Stringable {

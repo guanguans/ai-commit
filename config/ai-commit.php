@@ -27,7 +27,15 @@ return [
     ],
 
     /**
-     * The retry options.
+     * The list of marks.
+     */
+    'marks' => [
+        'diff' => '<diff>',
+        'num' => '<num>',
+    ],
+
+    /**
+     * The options of retry.
      */
     'retry' => [
         'times' => 3,
@@ -56,16 +64,6 @@ return [
      * The generator name.
      */
     'generator' => 'openai',
-
-    /**
-     * The mark of diff.
-     */
-    'diff_mark' => '<diff>',
-
-    /**
-     * The mark of number.
-     */
-    'num_mark' => '<num>',
 
     /**
      * The list of generators.
