@@ -37,14 +37,20 @@ abstract class FoundationSDK
     protected $config;
 
     /**
+     * @var \Illuminate\Http\Client\Factory
+     */
+    protected $http;
+
+    /**
      * @var \Illuminate\Http\Client\PendingRequest
      */
-    protected $pendingRequest;
+    protected $defaultPendingRequest;
 
     public function __construct(array $config)
     {
         $this->config = $this->validateConfig($config);
-        $this->pendingRequest = $this->buildPendingRequest($this->config);
+        $this->http = Http::getFacadeRoot();
+        $this->defaultPendingRequest = $this->buildDefaultPendingRequest($this->config);
     }
 
     /**
@@ -52,7 +58,7 @@ abstract class FoundationSDK
      */
     public function ddRequestData()
     {
-        return $this->tapPendingRequest(static function (PendingRequest $pendingRequest): void {
+        return $this->tapDefaultPendingRequest(static function (PendingRequest $pendingRequest): void {
             $pendingRequest->beforeSending(static function (Request $request, array $options): void {
                 VarDumper::dump($options['laravel_data']);
                 exit(1);
@@ -65,39 +71,24 @@ abstract class FoundationSDK
      */
     public function dumpRequestData()
     {
-        return $this->tapPendingRequest(static function (PendingRequest $pendingRequest): void {
+        return $this->tapDefaultPendingRequest(static function (PendingRequest $pendingRequest): void {
             $pendingRequest->beforeSending(static function (Request $request, array $options): void {
                 VarDumper::dump($options['laravel_data']);
             });
         });
     }
 
-    public function dd()
+    public function buildLogMiddleware(?LoggerInterface $logger = null, ?MessageFormatter $formatter = null, string $logLevel = 'info'): callable
     {
-        return $this->tapPendingRequest(static function (PendingRequest $pendingRequest): void {
-            $pendingRequest->dd();
-        });
+        $logger = $logger ?: Log::channel('daily');
+        $formatter = $formatter ?: new MessageFormatter(MessageFormatter::DEBUG);
+
+        return Middleware::log($logger, $formatter, $logLevel);
     }
 
-    public function dump()
+    public function tapDefaultPendingRequest(callable $callback)
     {
-        return $this->tapPendingRequest(static function (PendingRequest $pendingRequest): void {
-            $pendingRequest->dump();
-        });
-    }
-
-    public function withLogMiddleware(?LoggerInterface $logger = null, ?MessageFormatter $formatter = null, string $logLevel = 'info')
-    {
-        return $this->tapPendingRequest(static function (PendingRequest $pendingRequest) use ($logLevel, $formatter, $logger): void {
-            $logger = $logger ?: Log::channel('daily');
-            $formatter = $formatter ?: new MessageFormatter(MessageFormatter::DEBUG);
-            $pendingRequest->withMiddleware(Middleware::log($logger, $formatter, $logLevel));
-        });
-    }
-
-    public function tapPendingRequest(callable $callback)
-    {
-        $this->pendingRequest = tap($this->pendingRequest, $callback);
+        $this->defaultPendingRequest = tap($this->defaultPendingRequest, $callback);
 
         return $this;
     }
@@ -105,14 +96,14 @@ abstract class FoundationSDK
     /**
      * @psalm-suppress UndefinedThisPropertyFetch
      */
-    public function clonePendingRequest(): PendingRequest
+    public function cloneDefaultPendingRequest(): PendingRequest
     {
-        return tap(clone $this->pendingRequest, function (PendingRequest $request): void {
+        return tap(clone $this->defaultPendingRequest, function (PendingRequest $request): void {
             $getStubCallbacks = function (): Collection {
                 return $this->stubCallbacks;
             };
 
-            $request->stub($getStubCallbacks->call(Http::getFacadeRoot()));
+            $request->stub($getStubCallbacks->call($this->http));
         });
     }
 
@@ -139,9 +130,9 @@ abstract class FoundationSDK
      *     return Http::withOptions($config['http_options'])
      *         ->baseUrl($config['baseUrl'])
      *         ->asJson()
-     *         ->withMiddleware($this->buildLoggerMiddleware());
+     *         ->withMiddleware($this->buildLogMiddleware());
      * }
      * ```.
      */
-    abstract protected function buildPendingRequest(array $config): PendingRequest;
+    abstract protected function buildDefaultPendingRequest(array $config): PendingRequest;
 }

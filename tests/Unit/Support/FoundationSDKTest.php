@@ -32,18 +32,12 @@ it('can dump request data', function (): void {
         ->dumpRequestData()->toBeInstanceOf(OpenAI::class);
 })->group(__DIR__, __FILE__);
 
-it('can dump data', function (): void {
-    /** @noinspection DebugFunctionUsageInspection */
+it('can build log middleware', function (): void {
     expect($this->openAI)
-        ->dump()->toBeInstanceOf(OpenAI::class);
-})->group(__DIR__, __FILE__);
-
-it('can with log middleware', function (): void {
-    expect($this->openAI)
-        ->withLogMiddleware($this->app->get(LoggerInterface::class))->toBeInstanceOf(OpenAI::class);
+        ->buildLogMiddleware($this->app->get(LoggerInterface::class))->toBeCallable();
 })->group(__DIR__, __FILE__);
 
 it('can clone pending request', function (): void {
     expect($this->openAI)
-        ->clonePendingRequest()->toBeInstanceOf(PendingRequest::class);
+        ->cloneDefaultPendingRequest()->toBeInstanceOf(PendingRequest::class);
 })->group(__DIR__, __FILE__);

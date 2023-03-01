@@ -16,7 +16,6 @@ use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Utils;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Stringable;
 use Psr\Http\Message\ResponseInterface;
 
@@ -79,7 +78,7 @@ final class OpenAI extends FoundationSDK
     public function completions(array $parameters, ?callable $writer = null): Response
     {
         $response = $this
-            ->clonePendingRequest()
+            ->cloneDefaultPendingRequest()
             ->when(
                 ($parameters['stream'] ?? false) && is_callable($writer),
                 static function (PendingRequest $pendingRequest) use ($writer, &$rowData): PendingRequest {
@@ -217,9 +216,10 @@ final class OpenAI extends FoundationSDK
     /**
      * {@inheritDoc}
      */
-    protected function buildPendingRequest(array $config): PendingRequest
+    protected function buildDefaultPendingRequest(array $config): PendingRequest
     {
-        return Http::baseUrl($config['base_url'])
+        return $this->http
+            ->baseUrl($config['base_url'])
             ->asJson()
             ->withToken($config['api_key'])
             // ->throw()
