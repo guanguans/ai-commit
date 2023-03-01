@@ -98,38 +98,38 @@ final class OpenAI extends FoundationSDK
                     ]);
                 }
             )
-            ->withMiddleware(
-                Middleware::mapResponse(static function (ResponseInterface $response): ResponseInterface {
-                    $contents = $response->getBody()->getContents();
-
-                    // $parameters['stream'] === true && $writer === null
-                    if ($contents && ! \str($contents)->isJson()) {
-                        $data = \str($contents)
-                            ->explode("\n\n")
-                            ->reverse()
-                            ->skip(2)
-                            ->reverse()
-                            ->map(static function (string $rowData): array {
-                                return json_decode(self::hydrateData($rowData), true);
-                            })
-                            ->reduce(static function (array $data, array $rowData): array {
-                                if (empty($data)) {
-                                    return $rowData;
-                                }
-
-                                foreach ($data['choices'] as $index => $choice) {
-                                    $data['choices'][$index]['text'] .= $rowData['choices'][$index]['text'];
-                                }
-
-                                return $data;
-                            }, []);
-
-                        return $response->withBody(Utils::streamFor(json_encode($data)));
-                    }
-
-                    return $response;
-                })
-            )
+            // ->withMiddleware(
+            //     Middleware::mapResponse(static function (ResponseInterface $response): ResponseInterface {
+            //         $contents = $response->getBody()->getContents();
+            //
+            //         // $parameters['stream'] === true && $writer === null
+            //         if ($contents && ! \str($contents)->isJson()) {
+            //             $data = \str($contents)
+            //                 ->explode("\n\n")
+            //                 ->reverse()
+            //                 ->skip(2)
+            //                 ->reverse()
+            //                 ->map(static function (string $rowData): array {
+            //                     return json_decode(self::hydrateData($rowData), true);
+            //                 })
+            //                 ->reduce(static function (array $data, array $rowData): array {
+            //                     if (empty($data)) {
+            //                         return $rowData;
+            //                     }
+            //
+            //                     foreach ($data['choices'] as $index => $choice) {
+            //                         $data['choices'][$index]['text'] .= $rowData['choices'][$index]['text'];
+            //                     }
+            //
+            //                     return $data;
+            //                 }, []);
+            //
+            //             return $response->withBody(Utils::streamFor(json_encode($data)));
+            //         }
+            //
+            //         return $response;
+            //     })
+            // )
             ->post(
                 'completions',
                 validate(

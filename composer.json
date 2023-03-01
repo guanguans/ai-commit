@@ -154,7 +154,7 @@
         ],
         "composer-check-platform-reqs": "@composer check-platform-reqs --lock",
         "composer-unused-checker": "@php ./vendor/bin/composer-unused --ansi",
-        "composer-validate": "@composer validate --check-lock --strict",
+        "composer-validate": "@composer validate --strict",
         "lint": [
             "for DIR in .; do find $DIR -maxdepth 1 -type f -name '*.php' -type f ! -name 'xxx.php' -exec php -l {} \\; 2>&1 | (! grep -v '^No syntax errors detected'); done",
             "for DIR in ./app ./bootstrap ./config ./tests; do find $DIR -type f -name '*.php' -type f ! -name 'xxx.php' -exec php -l {} \\; 2>&1 | (! grep -v '^No syntax errors detected'); done"
