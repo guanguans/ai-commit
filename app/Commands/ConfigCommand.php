@@ -108,13 +108,13 @@ final class ConfigCommand extends Command
 
         switch ($action) {
             case 'set':
-                $this->configManager->set($key, $this->argument('value'));
+                $this->configManager->set($key, $this->argToValue($this->argument('value')));
                 $this->configManager->putFile($file);
 
                 break;
             case 'get':
                 $value = null === $key ? $this->configManager->toJson() : $this->configManager->get($key);
-                $this->line($this->transformToCommandArg($value));
+                $this->line($this->valueToArg($value));
 
                 break;
             case 'unset':
@@ -124,9 +124,7 @@ final class ConfigCommand extends Command
                 break;
             case 'list':
                 collect($this->configManager->toDotArray())->each(function ($value, $key): void {
-                    $this->line(
-                        "<comment>[{$this->transformToCommandArg($key)}]</comment> <info>{$this->transformToCommandArg($value)}</info>"
-                    );
+                    $this->line("[<comment>$key</comment>] <info>{$this->valueToArg($value)}</info>");
                 });
 
                 break;
@@ -184,26 +182,55 @@ final class ConfigCommand extends Command
     }
 
     /**
+     * @return mixed
+     */
+    protected function argToValue(string $arg)
+    {
+        if (0 === strncasecmp($arg, 'null', 4)) {
+            return null;
+        }
+
+        if (0 === strncasecmp($arg, 'true', 4)) {
+            return true;
+        }
+
+        if (0 === strncasecmp($arg, 'false', 5)) {
+            return false;
+        }
+
+        if (is_numeric($arg)) {
+            return str_contains($arg, '.') ? (float) $arg : (int) $arg;
+        }
+
+        if (\str($arg)->isJson()) {
+            return json_decode($arg, true);
+        }
+
+        return $arg;
+    }
+
+    /**
      * @param mixed $value
      *
-     * @psalm-suppress NullableReturnStatement
+     * @noinspection DebugFunctionUsageInspection
      */
-    protected function transformToCommandArg($value): string
+    protected function valueToArg($value): string
     {
-        return transform(
-            $value,
-            $transform = static function ($value): string {
-                true === $value and $value = 'true';
-                false === $value and $value = 'false';
-                0 === $value and $value = '0';
-                0.0 === $value and $value = '0.0';
-                null === $value and $value = 'null';
-                is_scalar($value) or $value = json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        if (null === $value) {
+            return 'null';
+        }
 
-                return (string) $value;
-            },
-            $transform
-        );
+        if (is_float($value)) {
+            str_contains($value = (string) $value, '.') or $value = "$value.0";
+
+            return $value;
+        }
+
+        if (is_scalar($value)) {
+            return var_export($value, true);
+        }
+
+        return (string) json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
 
     public function schedule(Schedule $schedule): void

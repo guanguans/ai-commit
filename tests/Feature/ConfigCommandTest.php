@@ -47,6 +47,17 @@ it('can set config', function (): void {
     ])->assertFailed();
 })->group(__DIR__, __FILE__);
 
+it('can set special config value', function ($value): void {
+    $this->artisan(ConfigCommand::class, [
+        'action' => 'set',
+        'key' => 'foo.bar',
+        'value' => $value,
+        '--file' => repository_path(ConfigManager::NAME),
+    ])->assertSuccessful();
+})
+    ->group(__DIR__, __FILE__)
+    ->with(['null', 'true', 'false', '0.0', '0', json_encode(['foo' => 'bar'])]);
+
 it('can get config', function (): void {
     $this->artisan(ConfigCommand::class, [
         'action' => 'get',
