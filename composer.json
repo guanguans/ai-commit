@@ -179,7 +179,7 @@
         "style-lint": "@style-fix --diff --dry-run",
         "test": "@pest",
         "test-coverage": "@pest-coverage",
-        "var-dump-server": "var-dump-server",
+        "var-dump-server": "var-dump-server --ansi",
         "vhs": [
             "@cghooks-uninstall",
             "vhs < ai-commit.tape",
