@@ -166,7 +166,7 @@
         "md-lint": "lint-md --config .lintmdrc ./*.md ./.github/ ./docs/",
         "pest": "@php ./vendor/bin/pest --cache-result-file=./build//phpunit/.phpunit.result.cache",
         "pest-coverage": "@pest --coverage-html=./build/phpunit/ --coverage-clover=clover.xml --coverage",
-        "phpstan": "phpstan analyse -vv",
+        "phpstan": "phpstan analyse --ansi -vv",
         "phpstan-baseline": "@phpstan --generate-baseline --allow-empty-baseline",
         "post-merge": [
             "@composer install"

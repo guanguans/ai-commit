@@ -1,19 +1,14 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Foundation\\\\Application\\:\\:isProduction\\(\\)\\.$#"
+			message: "#^Parameter \\#1 \\$times of function retry expects int, array\\|bool\\|string\\|null given\\.$#"
 			count: 1
-			path: app/Commands/BuildCommand.php
+			path: app/Commands/CommitCommand.php
 
 		-
-			message: "#^Call to an undefined method Symfony\\\\Component\\\\Console\\\\Output\\\\OutputInterface\\:\\:section\\(\\)\\.$#"
+			message: "#^Parameter \\#3 \\$sleepMilliseconds of function retry expects Closure\\|int, array\\|bool\\|string\\|null given\\.$#"
 			count: 1
-			path: app/Commands/BuildCommand.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Container\\\\Container\\:\\:isProduction\\(\\)\\.$#"
-			count: 1
-			path: app/Exceptions/Handler.php
+			path: app/Commands/CommitCommand.php
 
 		-
 			message: "#^Access to protected property App\\\\Macros\\\\StringableMacro\\:\\:\\$value\\.$#"
@@ -21,11 +16,7 @@ parameters:
 			path: app/Macros/StringableMacro.php
 
 		-
-			message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Str\\:\\:isJson\\(\\)\\.$#"
+			message: "#^Access to an undefined property App\\\\Support\\\\FoundationSDK\\:\\:\\$stubCallbacks\\.$#"
 			count: 1
-			path: app/Macros/StringableMacro.php
+			path: app/Support/FoundationSDK.php
 
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: tests/Feature/ConfigCommandTest.php
