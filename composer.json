@@ -123,8 +123,8 @@
             "@cghooks update"
         ],
         "post-autoload-dump": [],
-        "ai-commit": "@php ./builds/ai-commit commit",
-        "cghooks": "@php cghooks",
+        "ai-commit": "@php ./builds/ai-commit commit --ansi",
+        "cghooks": "@php cghooks --ansi",
         "cghooks-install": [
             "@cghooks add --ignore-lock",
             "@cghooks update"
@@ -133,7 +133,7 @@
             "@php -r \"file_exists('.git/hooks/pre-commit') and rename('.git/hooks/pre-commit', '.git/hooks/pre-commit.sample');\"",
             "@php -r \"file_exists('.git/hooks/post-merge') and rename('.git/hooks/post-merge', '.git/hooks/post-merge.sample');\""
         ],
-        "changelog": "conventional-changelog",
+        "changelog": "conventional-changelog --ansi",
         "changelog-major": "@changelog --major",
         "changelog-minor": "@changelog --minor",
         "changelog-patch": "@changelog --patch",
@@ -152,9 +152,9 @@
             "@psalm",
             "@mark-finish"
         ],
-        "composer-check-platform-reqs": "@composer check-platform-reqs --lock",
+        "composer-check-platform-reqs": "@composer check-platform-reqs --lock --ansi",
         "composer-unused-checker": "@php ./vendor/bin/composer-unused --ansi",
-        "composer-validate": "@composer validate --strict",
+        "composer-validate": "@composer validate --strict --ansi",
         "lint": [
             "for DIR in .; do find $DIR -maxdepth 1 -type f -name '*.php' -type f ! -name 'xxx.php' -exec php -l {} \\; 2>&1 | (! grep -v '^No syntax errors detected'); done",
             "for DIR in ./app ./bootstrap ./config ./tests; do find $DIR -type f -name '*.php' -type f ! -name 'xxx.php' -exec php -l {} \\; 2>&1 | (! grep -v '^No syntax errors detected'); done"
