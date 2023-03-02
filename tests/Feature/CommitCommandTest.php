@@ -103,6 +103,7 @@ it('can generate and commit messages', function (): void {
     $this
         ->artisan(CommitCommand::class, [
             'path' => repository_path(),
+            '--generator' => 'openai',
             '--no-edit' => true,
             '--verbose' => true,
         ])

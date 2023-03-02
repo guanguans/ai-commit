@@ -73,7 +73,7 @@ return [
     /**
      * The generator name.
      */
-    'generator' => 'openai',
+    'generator' => 'openaichat',
 
     /**
      * The list of generators.

@@ -44,7 +44,6 @@ abstract class TestCase extends BaseTestCase
 
         $configManager = ConfigManager::createFrom($this->app->configPath('ai-commit.php'));
         $configManager->set('generators.openai.api_key', 'sk-...');
-
         config()->set('ai-commit', $configManager);
     }
 

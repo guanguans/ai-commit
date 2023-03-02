@@ -280,9 +280,11 @@ final class OpenAI extends FoundationSDK
     protected function buildDefaultPendingRequest(array $config): PendingRequest
     {
         return parent::buildDefaultPendingRequest($config)
+
             ->baseUrl($config['base_url'])
             ->asJson()
             ->withToken($config['api_key'])
+            // ->dump()
             // ->throw()
             // ->retry(
             //     $config['retry']['times'],

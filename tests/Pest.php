@@ -81,7 +81,8 @@ function setup_http_fake(): void
 {
     Http::fake([
         '*://api.openai.com/v1/*' => function (Request $request, array $options): PromiseInterface {
-            $status = transform($prompt = $options['laravel_data']['prompt'], function ($prompt) {
+            $prompt = $options['laravel_data']['prompt'];
+            $status = transform($prompt, function ($prompt) {
                 return array_flip(Response::$statusTexts)[$prompt] ?? 200;
             });
 

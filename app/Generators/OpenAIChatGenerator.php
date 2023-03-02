@@ -47,7 +47,7 @@ final class OpenAIChatGenerator extends OpenAIGenerator
     {
         $parameters = Arr::get($this->config, 'completion_parameters', []);
         $parameters['messages'] = [
-            ['role' => 'committer', 'content' => $prompt],
+            ['role' => 'assistant', 'content' => $prompt],
         ];
         $output = resolve(OutputStyle::class);
 
@@ -60,11 +60,11 @@ final class OpenAIChatGenerator extends OpenAIGenerator
 
                 // (正常|错误|流)响应
                 $rowResponse = (array) json_decode($this->openAI::hydrateData($data), true);
-                $messages .= $text = Arr::get($rowResponse, 'choices.0.message.content', '');
+                $messages .= $text = Arr::get($rowResponse, 'choices.0.delta.content', '');
                 $output->write($text);
             });
 
         // fake 响应
-        return (string) ($messages ?? $response->json('choices.0.message.content'));
+        return (string) ($messages ?? $response->json('choices.0.delta.content'));
     }
 }
