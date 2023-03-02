@@ -180,6 +180,67 @@ final class OpenAI extends FoundationSDK
     }
 
     /**
+     * @psalm-suppress UnusedVariable
+     * @psalm-suppress UnevaluatedCode
+     */
+    public function chatCompletions(array $parameters, ?callable $writer = null): Response
+    {
+        $response = $this
+            ->cloneDefaultPendingRequest()
+            ->when(
+                ($parameters['stream'] ?? false) && is_callable($writer),
+                static function (PendingRequest $pendingRequest) use ($writer, &$rowData): PendingRequest {
+                    return $pendingRequest->withOptions([
+                        'curl' => [
+                            CURLOPT_WRITEFUNCTION => static function ($ch, string $data) use ($writer, &$rowData): int {
+                                if (! str($data)->startsWith('data: [DONE]')) {
+                                    $rowData = $data;
+                                }
+
+                                $writer($data, $ch);
+
+                                return strlen($data);
+                            },
+                        ],
+                    ]);
+                }
+            )
+            ->post(
+                'chat/completions',
+                validate(
+                    $parameters,
+                    [
+                        'model' => [
+                            'required',
+                            'string',
+                            'in:gpt-3.5-turbo,gpt-3.5-turbo-0301',
+                        ],
+                        'messages' => 'required|array',
+                        'temperature' => 'numeric|between:0,2',
+                        'top_p' => 'numeric|between:0,1',
+                        'n' => 'integer|min:1',
+                        'stream' => 'bool',
+                        // 'stop' => 'nullable|string|array',
+                        'stop' => 'nullable|string',
+                        'max_tokens' => 'integer',
+                        'presence_penalty' => 'numeric|between:-2,2',
+                        'frequency_penalty' => 'numeric|between:-2,2',
+                        'logit_bias' => 'array', // map
+                        'user' => 'string|uuid',
+                    ]
+                )
+            );
+
+        if ($rowData && empty($response->body())) {
+            $response = new Response(
+                $response->toPsrResponse()->withBody(Utils::streamFor(self::hydrateData($rowData)))
+            );
+        }
+
+        return $response->throw();
+    }
+
+    /**
      * {@inheritDoc}
      */
     protected function validateConfig(array $config): array

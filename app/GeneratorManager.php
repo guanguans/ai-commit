@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Generators\OpenAIChatGenerator;
 use App\Generators\OpenAIGenerator;
 use Illuminate\Support\Manager;
 use Illuminate\Support\Str;
@@ -51,5 +52,10 @@ final class GeneratorManager extends Manager
     protected function createOpenAIDriver(array $config): OpenAIGenerator
     {
         return new OpenAIGenerator($config);
+    }
+
+    protected function createOpenAIChatDriver(array $config): OpenAIChatGenerator
+    {
+        return new OpenAIChatGenerator($config);
     }
 }

@@ -12,29 +12,11 @@ declare(strict_types=1);
 
 namespace App\Generators;
 
-use App\Contracts\GeneratorContract;
-use App\Support\OpenAI;
 use Illuminate\Console\OutputStyle;
 use Illuminate\Support\Arr;
 
-class OpenAIGenerator implements GeneratorContract
+final class OpenAIChatGenerator extends OpenAIGenerator
 {
-    /**
-     * @var array
-     */
-    protected $config;
-
-    /**
-     * @var \App\Support\OpenAI
-     */
-    protected $openAI;
-
-    public function __construct(array $config)
-    {
-        $this->config = $config;
-        $this->openAI = new OpenAI(Arr::only($config, ['http_options', 'retry', 'base_url', 'api_key']));
-    }
-
     /**
      * @noinspection CallableParameterUseCaseInTypeContextInspection
      *
@@ -57,15 +39,20 @@ class OpenAIGenerator implements GeneratorContract
      *     }
      * ]
      * ```
+     *
+     * @noinspection MissingParentCallInspection
+     * @psalm-suppress UnusedVariable
      */
     public function generate(string $prompt): string
     {
         $parameters = Arr::get($this->config, 'completion_parameters', []);
-        $parameters['prompt'] = $prompt;
+        $parameters['messages'] = [
+            ['role' => 'committer', 'content' => $prompt],
+        ];
         $output = resolve(OutputStyle::class);
 
         $response = $this->openAI
-            ->completions($parameters, function (string $data) use ($output, &$messages): void {
+            ->chatCompletions($parameters, function (string $data) use ($output, &$messages): void {
                 // 流响应完成
                 if (\str($data)->startsWith('data: [DONE]')) {
                     return;
@@ -73,11 +60,11 @@ class OpenAIGenerator implements GeneratorContract
 
                 // (正常|错误|流)响应
                 $rowResponse = (array) json_decode($this->openAI::hydrateData($data), true);
-                $messages .= $text = Arr::get($rowResponse, 'choices.0.text', '');
+                $messages .= $text = Arr::get($rowResponse, 'choices.0.message.content', '');
                 $output->write($text);
             });
 
         // fake 响应
-        return (string) ($messages ?? $response->json('choices.0.text'));
+        return (string) ($messages ?? $response->json('choices.0.message.content'));
     }
 }

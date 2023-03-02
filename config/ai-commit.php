@@ -104,6 +104,27 @@ return [
                 'user' => Illuminate\Support\Str::uuid()->toString(),
             ],
         ],
+        'openaichat' => [
+            'driver' => 'openai',
+            'http_options' => [
+                // GuzzleHttp\RequestOptions::PROXY => 'http://localhost:8125',
+            ],
+            'api_key' => env('OPENAI_API_KEY'),
+            'completion_parameters' => [
+                'model' => 'gpt-3.5-turbo',
+                // 'messages' => 'required|array',
+                'max_tokens' => 500,
+                'temperature' => 0.0,
+                'top_p' => 1.0,
+                'n' => 1,
+                'stream' => true,
+                'stop' => null,
+                'presence_penalty' => 0,
+                'frequency_penalty' => 0,
+                // 'logit_bias' => null,
+                'user' => Illuminate\Support\Str::uuid()->toString(),
+            ],
+        ],
     ],
 
     /**
