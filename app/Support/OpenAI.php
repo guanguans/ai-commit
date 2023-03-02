@@ -187,16 +187,16 @@ final class OpenAI extends FoundationSDK
         return array_replace_recursive(
             [
                 'http_options' => [
-                    \GuzzleHttp\RequestOptions::CONNECT_TIMEOUT => 30,
-                    \GuzzleHttp\RequestOptions::TIMEOUT => 180,
+                    // \GuzzleHttp\RequestOptions::CONNECT_TIMEOUT => 30,
+                    // \GuzzleHttp\RequestOptions::TIMEOUT => 180,
                 ],
                 'retry' => [
-                    'times' => 1,
-                    'sleepMilliseconds' => 1000,
-                    'when' => static function (\Throwable $throwable): bool {
-                        return $throwable instanceof \Illuminate\Http\Client\ConnectionException;
-                    },
-                    // 'throw' => true,
+                    // 'times' => 1,
+                    // 'sleepMilliseconds' => 1000,
+                    // 'when' => static function (\Exception $exception): bool {
+                    //     return $exception instanceof \Illuminate\Http\Client\ConnectionException;
+                    // },
+                    // // 'throw' => true,
                 ],
                 'base_url' => 'https://api.openai.com/v1',
             ],
@@ -218,7 +218,7 @@ final class OpenAI extends FoundationSDK
      */
     protected function buildDefaultPendingRequest(array $config): PendingRequest
     {
-        return $this->http
+        return parent::buildDefaultPendingRequest($config)
             ->baseUrl($config['base_url'])
             ->asJson()
             ->withToken($config['api_key'])

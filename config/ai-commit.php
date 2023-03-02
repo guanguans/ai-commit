@@ -27,11 +27,12 @@ return [
     ],
 
     /**
-     * The list of marks.
+     * The options of http client.
+     *
+     * @see https://docs.guzzlephp.org/en/stable/request-options.html
      */
-    'marks' => [
-        'diff' => '<diff>',
-        'num' => '<num>',
+    'http_options' => [
+        GuzzleHttp\RequestOptions::VERIFY => false,
     ],
 
     /**
@@ -40,10 +41,18 @@ return [
     'retry' => [
         'times' => 3,
         'sleep_milliseconds' => 500,
-        'when' => function (Exception $exception) {
+        'when' => static function (Exception $exception): bool {
             return $exception instanceof Illuminate\Http\Client\ConnectionException
                    || $exception instanceof App\Exceptions\TaskException;
         },
+    ],
+
+    /**
+     * The list of marks.
+     */
+    'marks' => [
+        'diff' => '<diff>',
+        'num' => '<num>',
     ],
 
     /**
@@ -52,14 +61,14 @@ return [
     'edit' => true,
 
     /**
-     * The prompt name.
-     */
-    'prompt' => 'conventional',
-
-    /**
      * The number of generated messages.
      */
     'num' => 3,
+
+    /**
+     * The prompt name.
+     */
+    'prompt' => 'conventional',
 
     /**
      * The generator name.
@@ -73,8 +82,7 @@ return [
         'openai' => [
             'driver' => 'openai',
             'http_options' => [
-                GuzzleHttp\RequestOptions::CONNECT_TIMEOUT => 30,
-                GuzzleHttp\RequestOptions::TIMEOUT => 180,
+                // GuzzleHttp\RequestOptions::PROXY => 'http://localhost:8125',
             ],
             'api_key' => env('OPENAI_API_KEY'),
             'completion_parameters' => [

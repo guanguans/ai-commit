@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Support;
 
+use Composer\InstalledVersions;
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
 use Illuminate\Http\Client\PendingRequest;
@@ -19,6 +20,7 @@ use Illuminate\Http\Client\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Stringable;
 use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Support\Traits\Tappable;
@@ -134,5 +136,29 @@ abstract class FoundationSDK
      * }
      * ```.
      */
-    abstract protected function buildDefaultPendingRequest(array $config): PendingRequest;
+    protected function buildDefaultPendingRequest(array $config): PendingRequest
+    {
+        return $this->http
+            ->withUserAgent(self::userAgent())
+            ->withOptions((array) config('ai-commit.http_options'));
+    }
+
+    protected static function userAgent(): string
+    {
+        static $userAgent;
+
+        if (null === $userAgent) {
+            $userAgent = implode(' ', [
+                sprintf('ai-commit/%s', \str(config('app.version'))->whenStartsWith('v', function (Stringable $version): Stringable {
+                    return $version->replaceFirst('v', '');
+                })),
+                sprintf('guzzle/%s', InstalledVersions::getPrettyVersion('guzzlehttp/guzzle')),
+                sprintf('curl/%s', ((array) call_user_func('\curl_version'))['version'] ?? 'unknown'),
+                sprintf('PHP/%s', PHP_VERSION),
+                sprintf('%s/%s', PHP_OS, php_uname('r')),
+            ]);
+        }
+
+        return $userAgent;
+    }
 }
