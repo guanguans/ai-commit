@@ -34,6 +34,7 @@ it('will throw TaskException(no staged files to commit)', function (): void {
 
     $this->artisan(CommitCommand::class, [
         'path' => repository_path(),
+        '--generator' => 'openai',
     ]);
 })
     ->depends('it will throw TaskException(not a git repository)')
@@ -70,6 +71,7 @@ it('will throw TaskException(The generated commit messages is an invalid JSON)',
 
     $this->artisan(CommitCommand::class, [
         'path' => repository_path(),
+        '--generator' => 'openai',
     ]);
 })
     ->depends('it will throw TaskException(no staged files to commit)')
