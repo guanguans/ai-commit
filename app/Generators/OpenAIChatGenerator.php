@@ -39,8 +39,8 @@ final class OpenAIChatGenerator extends OpenAIGenerator
      *     }
      * ]
      * ```
-     *
      * @noinspection MissingParentCallInspection
+     *
      * @psalm-suppress UnusedVariable
      */
     public function generate(string $prompt): string
