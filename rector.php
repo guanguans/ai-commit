@@ -110,6 +110,8 @@ return static function (RectorConfig $rectorConfig): void {
         '**/__snapshots__/*',
         '**/__snapshots__*',
         __DIR__.'/src/foundation/tests/AppTest.php',
+        __DIR__.'/app/Support/JsonFixer.php',
+        __DIR__.'/app/Commands/BuildCommand.php',
     ]);
 
     $rectorConfig->sets([

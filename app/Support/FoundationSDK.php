@@ -149,11 +149,11 @@ abstract class FoundationSDK
 
         if (null === $userAgent) {
             $userAgent = implode(' ', [
-                sprintf('ai-commit/%s', \str(config('app.version'))->whenStartsWith('v', function (Stringable $version): Stringable {
+                sprintf('ai-commit/%s', \str(config('app.version'))->whenStartsWith('v', static function (Stringable $version): Stringable {
                     return $version->replaceFirst('v', '');
                 })),
                 sprintf('guzzle/%s', InstalledVersions::getPrettyVersion('guzzlehttp/guzzle')),
-                sprintf('curl/%s', ((array) call_user_func('\curl_version'))['version'] ?? 'unknown'),
+                sprintf('curl/%s', curl_version()['version'] ?? 'unknown'),
                 sprintf('PHP/%s', PHP_VERSION),
                 sprintf('%s/%s', PHP_OS, php_uname('r')),
             ]);
