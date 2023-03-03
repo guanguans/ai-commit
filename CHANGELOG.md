@@ -2,6 +2,14 @@
 
 All notable changes to `guanguans/ai-commit` will be documented in this file.
 
+## v1.3.0 - 2023-03-03
+
+### What's Changed
+
+- [ImgBot] Optimize images by @imgbot in https://github.com/guanguans/ai-commit/pull/8
+
+**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.2.8...v1.3.0
+
 ## v1.2.8 - 2023-03-02
 
 **Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.2.7...v1.2.8
