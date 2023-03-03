@@ -32,9 +32,6 @@ final class OpenAI extends FoundationSDK
     }
 
     /**
-     * @psalm-suppress UnusedVariable
-     * @psalm-suppress UnevaluatedCode
-     *
      * ```ok
      * {
      *     "id": "cmpl-6n1qMNWwuF5SYBcS4Nev5sr4ACpEB",
@@ -77,111 +74,36 @@ final class OpenAI extends FoundationSDK
      */
     public function completions(array $parameters, ?callable $writer = null): Response
     {
-        $response = $this
-            ->cloneDefaultPendingRequest()
-            ->when(
-                ($parameters['stream'] ?? false) && is_callable($writer),
-                static function (PendingRequest $pendingRequest) use ($writer, &$rowData): PendingRequest {
-                    return $pendingRequest->withOptions([
-                        'curl' => [
-                            CURLOPT_WRITEFUNCTION => static function ($ch, string $data) use ($writer, &$rowData): int {
-                                if (! str($data)->startsWith('data: [DONE]')) {
-                                    $rowData = $data;
-                                }
-
-                                $writer($data, $ch);
-
-                                return strlen($data);
-                            },
-                        ],
-                    ]);
-                }
-            )
-            // ->withMiddleware(
-            //     Middleware::mapResponse(static function (ResponseInterface $response): ResponseInterface {
-            //         $contents = $response->getBody()->getContents();
-            //
-            //         // $parameters['stream'] === true && $writer === null
-            //         if ($contents && ! \str($contents)->isJson()) {
-            //             $data = \str($contents)
-            //                 ->explode("\n\n")
-            //                 ->reverse()
-            //                 ->skip(2)
-            //                 ->reverse()
-            //                 ->map(static function (string $rowData): array {
-            //                     return json_decode(self::hydrateData($rowData), true);
-            //                 })
-            //                 ->reduce(static function (array $data, array $rowData): array {
-            //                     if (empty($data)) {
-            //                         return $rowData;
-            //                     }
-            //
-            //                     foreach ($data['choices'] as $index => $choice) {
-            //                         $data['choices'][$index]['text'] .= $rowData['choices'][$index]['text'];
-            //                     }
-            //
-            //                     return $data;
-            //                 }, []);
-            //
-            //             return $response->withBody(Utils::streamFor(json_encode($data)));
-            //         }
-            //
-            //         return $response;
-            //     })
-            // )
-            ->post(
-                'completions',
-                validate(
-                    $parameters,
-                    [
-                        'model' => [
-                            'required',
-                            'string',
-                        ],
-                        // 'prompt' => 'string|array',
-                        'prompt' => 'string',
-                        'suffix' => 'nullable|string',
-                        'max_tokens' => 'integer',
-                        'temperature' => 'numeric|between:0,2',
-                        'top_p' => 'numeric|between:0,1',
-                        'n' => 'integer|min:1',
-                        'stream' => 'bool',
-                        'logprobs' => 'nullable|integer|between:0,5',
-                        'echo' => 'bool',
-                        // 'stop' => 'nullable|string|array',
-                        'stop' => 'nullable|string',
-                        'presence_penalty' => 'numeric|between:-2,2',
-                        'frequency_penalty' => 'numeric|between:-2,2',
-                        'best_of' => 'integer|min:1',
-                        'logit_bias' => 'array', // map
-                        'user' => 'string|uuid',
-                    ]
-                )
-            )
-            // ->onError(function (Response $response) use ($rowData) {
-            //     if ($rowData && empty($response->body())) {
-            //         (function (Response $response) use ($rowData): void {
-            //             $this->response = $response->toPsrResponse()->withBody(
-            //                 Utils::streamFor(OpenAI::hydrateData($rowData))
-            //             );
-            //         })->call($response, $response);
-            //     }
-            // })
-        ;
-
-        if ($rowData && empty($response->body())) {
-            $response = new Response(
-                $response->toPsrResponse()->withBody(Utils::streamFor(self::hydrateData($rowData)))
-            );
-        }
-
-        return $response->throw();
+        return $this->completion(
+            $parameters,
+            [
+                'model' => [
+                    'required',
+                    'string',
+                ],
+                // 'prompt' => 'string|array',
+                'prompt' => 'string',
+                'suffix' => 'nullable|string',
+                'max_tokens' => 'integer',
+                'temperature' => 'numeric|between:0,2',
+                'top_p' => 'numeric|between:0,1',
+                'n' => 'integer|min:1',
+                'stream' => 'bool',
+                'logprobs' => 'nullable|integer|between:0,5',
+                'echo' => 'bool',
+                // 'stop' => 'nullable|string|array',
+                'stop' => 'nullable|string',
+                'presence_penalty' => 'numeric|between:-2,2',
+                'frequency_penalty' => 'numeric|between:-2,2',
+                'best_of' => 'integer|min:1',
+                'logit_bias' => 'array', // map
+                'user' => 'string|uuid',
+            ],
+            $writer
+        );
     }
 
     /**
-     * @psalm-suppress UnusedVariable
-     * @psalm-suppress UnevaluatedCode
-     *
      * ```php
      * [
      *     'id' => 'chatcmpl-6pqDoRwRGQAlRvJnesR9QMG9rxpyK',
@@ -204,7 +126,7 @@ final class OpenAI extends FoundationSDK
      *         ],
      *     ],
      * ];
-     * ```
+     * ```.
      *
      * ```stream
      * data: {"id":"chatcmpl-6pqQB0NVBCjNcs6aPeFUi4gy1pCoj","object":"chat.completion.chunk","created":1677814255,"model":"gpt-3.5-turbo-0301","choices":[{"delta":{"content":" used"},"index":0,"finish_reason":null}]}
@@ -216,59 +138,29 @@ final class OpenAI extends FoundationSDK
      */
     public function chatCompletions(array $parameters, ?callable $writer = null): Response
     {
-        $response = $this
-            ->cloneDefaultPendingRequest()
-            ->when(
-                ($parameters['stream'] ?? false) && is_callable($writer),
-                static function (PendingRequest $pendingRequest) use ($writer, &$rowData): PendingRequest {
-                    return $pendingRequest->withOptions([
-                        'curl' => [
-                            CURLOPT_WRITEFUNCTION => static function ($ch, string $data) use ($writer, &$rowData): int {
-                                if (! str($data)->startsWith('data: [DONE]')) {
-                                    $rowData = $data;
-                                }
-
-                                $writer($data, $ch);
-
-                                return strlen($data);
-                            },
-                        ],
-                    ]);
-                }
-            )
-            ->post(
-                'chat/completions',
-                validate(
-                    $parameters,
-                    [
-                        'model' => [
-                            'required',
-                            'string',
-                            'in:gpt-3.5-turbo,gpt-3.5-turbo-0301',
-                        ],
-                        'messages' => 'required|array',
-                        'temperature' => 'numeric|between:0,2',
-                        'top_p' => 'numeric|between:0,1',
-                        'n' => 'integer|min:1',
-                        'stream' => 'bool',
-                        // 'stop' => 'nullable|string|array',
-                        'stop' => 'nullable|string',
-                        'max_tokens' => 'integer',
-                        'presence_penalty' => 'numeric|between:-2,2',
-                        'frequency_penalty' => 'numeric|between:-2,2',
-                        'logit_bias' => 'array', // map
-                        'user' => 'string|uuid',
-                    ]
-                )
-            );
-
-        if ($rowData && empty($response->body())) {
-            $response = new Response(
-                $response->toPsrResponse()->withBody(Utils::streamFor(self::hydrateData($rowData)))
-            );
-        }
-
-        return $response->throw();
+        return $this->completion(
+            $parameters,
+            [
+                'model' => [
+                    'required',
+                    'string',
+                    'in:gpt-3.5-turbo,gpt-3.5-turbo-0301',
+                ],
+                'messages' => 'required|array',
+                'temperature' => 'numeric|between:0,2',
+                'top_p' => 'numeric|between:0,1',
+                'n' => 'integer|min:1',
+                'stream' => 'bool',
+                // 'stop' => 'nullable|string|array',
+                'stop' => 'nullable|string',
+                'max_tokens' => 'integer',
+                'presence_penalty' => 'numeric|between:-2,2',
+                'frequency_penalty' => 'numeric|between:-2,2',
+                'logit_bias' => 'array', // map
+                'user' => 'string|uuid',
+            ],
+            $writer
+        );
     }
 
     /**
@@ -349,6 +241,85 @@ final class OpenAI extends FoundationSDK
     public function models(): Response
     {
         return $this->cloneDefaultPendingRequest()->get('models')->throw();
+    }
+
+    /**
+     * @psalm-suppress UnusedVariable
+     * @psalm-suppress UnevaluatedCode
+     */
+    private function completion(array $parameters, array $rules, ?callable $writer = null, array $messages = [], array $customAttributes = []): Response
+    {
+        $response = $this
+            ->cloneDefaultPendingRequest()
+            ->when(
+                ($parameters['stream'] ?? false) && is_callable($writer),
+                static function (PendingRequest $pendingRequest) use ($writer, &$rowData): PendingRequest {
+                    return $pendingRequest->withOptions([
+                        'curl' => [
+                            CURLOPT_WRITEFUNCTION => static function ($ch, string $data) use ($writer, &$rowData): int {
+                                if (! str($data)->startsWith('data: [DONE]')) {
+                                    $rowData = $data;
+                                }
+
+                                $writer($data, $ch);
+
+                                return strlen($data);
+                            },
+                        ],
+                    ]);
+                }
+            )
+            // ->withMiddleware(
+            //     Middleware::mapResponse(static function (ResponseInterface $response): ResponseInterface {
+            //         $contents = $response->getBody()->getContents();
+            //
+            //         // $parameters['stream'] === true && $writer === null
+            //         if ($contents && ! \str($contents)->isJson()) {
+            //             $data = \str($contents)
+            //                 ->explode("\n\n")
+            //                 ->reverse()
+            //                 ->skip(2)
+            //                 ->reverse()
+            //                 ->map(static function (string $rowData): array {
+            //                     return json_decode(self::hydrateData($rowData), true);
+            //                 })
+            //                 ->reduce(static function (array $data, array $rowData): array {
+            //                     if (empty($data)) {
+            //                         return $rowData;
+            //                     }
+            //
+            //                     foreach ($data['choices'] as $index => $choice) {
+            //                         $data['choices'][$index]['text'] .= $rowData['choices'][$index]['text'];
+            //                     }
+            //
+            //                     return $data;
+            //                 }, []);
+            //
+            //             return $response->withBody(Utils::streamFor(json_encode($data)));
+            //         }
+            //
+            //         return $response;
+            //     })
+            // )
+            ->post('completions', validate($parameters, $rules, $messages, $customAttributes))
+            // ->onError(function (Response $response) use ($rowData) {
+            //     if ($rowData && empty($response->body())) {
+            //         (function (Response $response) use ($rowData): void {
+            //             $this->response = $response->toPsrResponse()->withBody(
+            //                 Utils::streamFor(OpenAI::hydrateData($rowData))
+            //             );
+            //         })->call($response, $response);
+            //     }
+            // })
+        ;
+
+        if ($rowData && empty($response->body())) {
+            $response = new Response(
+                $response->toPsrResponse()->withBody(Utils::streamFor(self::hydrateData($rowData)))
+            );
+        }
+
+        return $response->throw();
     }
 
     /**
