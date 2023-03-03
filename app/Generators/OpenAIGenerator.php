@@ -29,14 +29,20 @@ class OpenAIGenerator implements GeneratorContract
      */
     protected $openAI;
 
+    /**
+     * @var \Illuminate\Console\OutputStyle
+     */
+    protected $output;
+
     public function __construct(array $config)
     {
         $this->config = $config;
         $this->openAI = new OpenAI(Arr::only($config, ['http_options', 'retry', 'base_url', 'api_key']));
+        $this->output = resolve(OutputStyle::class);
     }
 
     /**
-     * @noinspection CallableParameterUseCaseInTypeContextInspection
+     * @psalm-suppress RedundantCast
      *
      * ```return
      * [
@@ -62,22 +68,33 @@ class OpenAIGenerator implements GeneratorContract
     {
         $parameters = Arr::get($this->config, 'completion_parameters', []);
         $parameters['prompt'] = $prompt;
-        $output = resolve(OutputStyle::class);
 
-        $response = $this->openAI
-            ->completions($parameters, function (string $data) use ($output, &$messages): void {
-                // 流响应完成
-                if (\str($data)->startsWith('data: [DONE]')) {
-                    return;
-                }
-
-                // (正常|错误|流)响应
-                $rowResponse = (array) json_decode($this->openAI::hydrateData($data), true);
-                $messages .= $text = Arr::get($rowResponse, 'choices.0.text', '');
-                $output->write($text);
-            });
+        $response = $this->openAI->completions($parameters, $this->getWriter($messages));
 
         // fake 响应
-        return (string) ($messages ?? $response->json('choices.0.text'));
+        return (string) ($messages ?? self::extractCompletion($response));
+    }
+
+    /**
+     * @param \ArrayAccess|array $response
+     */
+    protected static function extractCompletion($response): string
+    {
+        return Arr::get($response, 'choices.0.text', '');
+    }
+
+    protected function getWriter(?string &$messages): \Closure
+    {
+        return function (string $data) use (&$messages): void {
+            // 流响应完成
+            if (\str($data)->startsWith('data: [DONE]')) {
+                return;
+            }
+
+            // (正常|错误|流)响应
+            $rowResponse = (array) json_decode($this->openAI::hydrateData($data), true);
+            $messages .= $text = static::extractCompletion($rowResponse);
+            $this->output->write($text);
+        };
     }
 }

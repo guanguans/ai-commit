@@ -75,6 +75,7 @@ final class OpenAI extends FoundationSDK
     public function completions(array $parameters, ?callable $writer = null): Response
     {
         return $this->completion(
+            'completions',
             $parameters,
             [
                 'model' => [
@@ -139,6 +140,7 @@ final class OpenAI extends FoundationSDK
     public function chatCompletions(array $parameters, ?callable $writer = null): Response
     {
         return $this->completion(
+            'chat/completions',
             $parameters,
             [
                 'model' => [
@@ -247,7 +249,7 @@ final class OpenAI extends FoundationSDK
      * @psalm-suppress UnusedVariable
      * @psalm-suppress UnevaluatedCode
      */
-    private function completion(array $parameters, array $rules, ?callable $writer = null, array $messages = [], array $customAttributes = []): Response
+    private function completion(string $url, array $parameters, array $rules, ?callable $writer = null, array $messages = [], array $customAttributes = []): Response
     {
         $response = $this
             ->cloneDefaultPendingRequest()
@@ -301,7 +303,7 @@ final class OpenAI extends FoundationSDK
             //         return $response;
             //     })
             // )
-            ->post('completions', validate($parameters, $rules, $messages, $customAttributes))
+            ->post($url, validate($parameters, $rules, $messages, $customAttributes))
             // ->onError(function (Response $response) use ($rowData) {
             //     if ($rowData && empty($response->body())) {
             //         (function (Response $response) use ($rowData): void {
