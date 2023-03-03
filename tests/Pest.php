@@ -80,7 +80,7 @@ function fixtures_path(string $path = ''): string
 function setup_http_fake(): void
 {
     Http::fake([
-        '*://api.openai.com/v1/*' => function (Request $request, array $options): PromiseInterface {
+        '*://api.openai.com/v1/completions' => function (Request $request, array $options): PromiseInterface {
             $prompt = $options['laravel_data']['prompt'];
             $status = transform($prompt, function ($prompt) {
                 return array_flip(Response::$statusTexts)[$prompt] ?? 200;
@@ -137,6 +137,83 @@ function setup_http_fake(): void
                 ];
 
             return Http::response($body, $status);
+        },
+        '*://api.openai.com/v1/chat/completions' => function (Request $request, array $options): PromiseInterface {
+            $prompt = $options['laravel_data']['messages'][0]['content'];
+            $status = transform($prompt, function ($prompt) {
+                return array_flip(Response::$statusTexts)[$prompt] ?? 200;
+            });
+
+            $body = $status >= 400
+                ?
+                [
+                    'error' => [
+                        'message' => 'Incorrect API key provided: sk-........ You can find your API key at https://platform.openai.com/account/api-keys.',
+                        'type' => 'invalid_request_error',
+                        'param' => null,
+                        'code' => 'invalid_api_key',
+                    ],
+                ]
+                :
+                [
+                    'id' => 'chatcmpl-6pqDoRwRGQAlRvJnesR9QMG9rxpyK',
+                    'object' => 'chat.completion',
+                    'created' => 1677813488,
+                    'model' => 'gpt-3.5-turbo-0301',
+                    'usage' => [
+                        'prompt_tokens' => 8,
+                        'completion_tokens' => 16,
+                        'total_tokens' => 24,
+                    ],
+                    'choices' => [
+                        [
+                            'delta' => [
+                                'role' => 'assistant',
+                                'content' => 'PHP (Hypertext Preprocessor) is a server-side scripting language used',
+                            ],
+                            'finish_reason' => 'length',
+                            'index' => 0,
+                        ],
+                    ],
+                ];
+
+            return Http::response($body, $status);
+        },
+
+        '*://api.openai.com/v1/models' => function (Request $request, array $options): PromiseInterface {
+            return Http::response(
+                <<<'body'
+{
+    "object": "list",
+    "data": [
+        {
+            "id": "babbage",
+            "object": "model",
+            "created": 1649358449,
+            "owned_by": "openai",
+            "permission": [
+                {
+                    "id": "modelperm-49FUp5v084tBB49tC4z8LPH5",
+                    "object": "model_permission",
+                    "created": 1669085501,
+                    "allow_create_engine": false,
+                    "allow_sampling": true,
+                    "allow_logprobs": true,
+                    "allow_search_indices": false,
+                    "allow_view": true,
+                    "allow_fine_tuning": false,
+                    "organization": "*",
+                    "group": null,
+                    "is_blocking": false
+                }
+            ],
+            "root": "babbage",
+            "parent": null
+        }
+    ]
+}
+body
+            );
         },
     ]);
 }

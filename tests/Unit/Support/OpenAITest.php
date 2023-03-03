@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 use App\Support\OpenAI;
 use Illuminate\Http\Client\RequestException;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 
@@ -143,3 +144,19 @@ it('will throw RequestException when completions', function (): void {
     $parameters['prompt'] = 'Too Many Requests';
     $this->openAI->completions($parameters, function (): void {});
 })->group(__DIR__, __FILE__)->throws(RequestException::class, 'HTTP request returned status code 429');
+
+it('can chat completions', function (): void {
+    $parameters = config('ai-commit.generators.openaichat.completion_parameters');
+    $parameters['messages'] = [
+        ['role' => 'user', 'content' => 'OK'],
+    ];
+
+    expect($this->openAI->chatCompletions($parameters, function (): void {}))->toBeInstanceOf(Response::class)
+        ->body()->toBeJson();
+    Http::assertSentCount(1);
+})->group(__DIR__, __FILE__);
+
+it('can models', function (): void {
+    expect($this->openAI->models())->toBeInstanceOf(Response::class)
+        ->body()->toBeJson();
+})->group(__DIR__, __FILE__);

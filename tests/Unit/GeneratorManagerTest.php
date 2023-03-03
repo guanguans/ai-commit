@@ -29,6 +29,11 @@ it('can create OpenAI driver', function (): void {
         ->driver('foo')->toBeInstanceOf(OpenAIGenerator::class);
 })->group(__DIR__, __FILE__);
 
+it('can create OpenAI chat driver', function (): void {
+    expect($this->app->get(GeneratorManager::class))
+        ->driver('openaichat')->toBeInstanceOf(OpenAIGenerator::class);
+})->group(__DIR__, __FILE__);
+
 it('will throw InvalidArgumentException when run driver', function (): void {
     $this->app->get(GeneratorManager::class)->driver('foo');
 })->group(__DIR__, __FILE__)->throws(InvalidArgumentException::class, 'Driver [foo] not supported.');
