@@ -18,6 +18,7 @@ final class OpenAIChatGenerator extends OpenAIGenerator
 {
     /**
      * @psalm-suppress RedundantCast
+     *
      * @noinspection MissingParentCallInspection
      */
     public function generate(string $prompt): string
