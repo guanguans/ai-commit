@@ -33,6 +33,7 @@ return [
      */
     'http_options' => [
         GuzzleHttp\RequestOptions::VERIFY => false,
+        GuzzleHttp\RequestOptions::TIMEOUT => 180,
     ],
 
     /**
@@ -82,11 +83,11 @@ return [
         'openai' => [
             'driver' => 'openai',
             'http_options' => [
-                // GuzzleHttp\RequestOptions::PROXY => 'http://localhost:8125',
+                // GuzzleHttp\RequestOptions::PROXY => 'http://localhost:8125/v1',
             ],
             'api_key' => env('OPENAI_API_KEY'),
             'completion_parameters' => [
-                'model' => 'text-davinci-003',
+                'model' => 'text-davinci-003', // ['text-davinci-003', 'text-davinci-002']
                 // 'prompt' => $prompt,
                 'suffix' => null,
                 'max_tokens' => 500,
@@ -106,13 +107,10 @@ return [
         ],
         'openaichat' => [
             'driver' => 'openai',
-            'http_options' => [
-                // GuzzleHttp\RequestOptions::PROXY => 'http://localhost:8125',
-            ],
             'api_key' => env('OPENAI_API_KEY'),
             'completion_parameters' => [
-                'model' => 'gpt-3.5-turbo',
-                // 'messages' => 'required|array',
+                'model' => 'gpt-3.5-turbo', // ['gpt-3.5-turbo', 'gpt-3.5-turbo-0301']
+                // 'messages' => $messages,
                 'max_tokens' => 500,
                 'temperature' => 0.0,
                 'top_p' => 1.0,

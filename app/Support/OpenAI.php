@@ -137,7 +137,6 @@ final class OpenAI extends FoundationSDK
                         'model' => [
                             'required',
                             'string',
-                            'in:text-davinci-003,text-curie-001,text-babbage-001,text-ada-001,text-embedding-ada-002,code-davinci-002,code-cushman-001,content-filter-alpha',
                         ],
                         // 'prompt' => 'string|array',
                         'prompt' => 'string',
@@ -182,6 +181,38 @@ final class OpenAI extends FoundationSDK
     /**
      * @psalm-suppress UnusedVariable
      * @psalm-suppress UnevaluatedCode
+     *
+     * ```php
+     * [
+     *     'id' => 'chatcmpl-6pqDoRwRGQAlRvJnesR9QMG9rxpyK',
+     *     'object' => 'chat.completion',
+     *     'created' => 1677813488,
+     *     'model' => 'gpt-3.5-turbo-0301',
+     *     'usage' => [
+     *         'prompt_tokens' => 8,
+     *         'completion_tokens' => 16,
+     *         'total_tokens' => 24,
+     *     ],
+     *     'choices' => [
+     *         [
+     *             'message' => [
+     *                 'role' => 'assistant',
+     *                 'content' => 'PHP (Hypertext Preprocessor) is a server-side scripting language used',
+     *             ],
+     *             'finish_reason' => 'length',
+     *             'index' => 0,
+     *         ],
+     *     ],
+     * ];
+     * ```
+     *
+     * ```stream
+     * data: {"id":"chatcmpl-6pqQB0NVBCjNcs6aPeFUi4gy1pCoj","object":"chat.completion.chunk","created":1677814255,"model":"gpt-3.5-turbo-0301","choices":[{"delta":{"content":" used"},"index":0,"finish_reason":null}]}
+     *
+     * data: {"id":"chatcmpl-6pqQB0NVBCjNcs6aPeFUi4gy1pCoj","object":"chat.completion.chunk","created":1677814255,"model":"gpt-3.5-turbo-0301","choices":[{"delta":{},"index":0,"finish_reason":"length"}]}
+     *
+     * data: [DONE]
+     * ```
      */
     public function chatCompletions(array $parameters, ?callable $writer = null): Response
     {
@@ -238,6 +269,86 @@ final class OpenAI extends FoundationSDK
         }
 
         return $response->throw();
+    }
+
+    /**
+     * ```php
+     * [
+     *     'ada',
+     *     'ada-code-search-code',
+     *     'ada-code-search-text',
+     *     'ada-search-document',
+     *     'ada-search-query',
+     *     'ada-similarity',
+     *     'ada:2020-05-03',
+     *     'audio-transcribe-deprecated',
+     *     'babbage',
+     *     'babbage-code-search-code',
+     *     'babbage-code-search-text',
+     *     'babbage-search-document',
+     *     'babbage-search-query',
+     *     'babbage-similarity',
+     *     'babbage:2020-05-03',
+     *     'code-cushman-001',
+     *     'code-davinci-002',
+     *     'code-davinci-edit-001',
+     *     'code-search-ada-code-001',
+     *     'code-search-ada-text-001',
+     *     'code-search-babbage-code-001',
+     *     'code-search-babbage-text-001',
+     *     'curie',
+     *     'curie-instruct-beta',
+     *     'curie-search-document',
+     *     'curie-search-query',
+     *     'curie-similarity',
+     *     'curie:2020-05-03',
+     *     'cushman:2020-05-03',
+     *     'davinci',
+     *     'davinci-if:3.0.0',
+     *     'davinci-instruct-beta',
+     *     'davinci-instruct-beta:2.0.0',
+     *     'davinci-search-document',
+     *     'davinci-search-query',
+     *     'davinci-similarity',
+     *     'davinci:2020-05-03',
+     *     'gpt-3.5-turbo',
+     *     'gpt-3.5-turbo-0301',
+     *     'if-curie-v2',
+     *     'if-davinci-v2',
+     *     'if-davinci:3.0.0',
+     *     'text-ada-001',
+     *     'text-ada:001',
+     *     'text-babbage-001',
+     *     'text-babbage:001',
+     *     'text-curie-001',
+     *     'text-curie:001',
+     *     'text-davinci-001',
+     *     'text-davinci-002',
+     *     'text-davinci-003',
+     *     'text-davinci-edit-001',
+     *     'text-davinci-insert-001',
+     *     'text-davinci-insert-002',
+     *     'text-davinci:001',
+     *     'text-embedding-ada-002',
+     *     'text-search-ada-doc-001',
+     *     'text-search-ada-query-001',
+     *     'text-search-babbage-doc-001',
+     *     'text-search-babbage-query-001',
+     *     'text-search-curie-doc-001',
+     *     'text-search-curie-query-001',
+     *     'text-search-davinci-doc-001',
+     *     'text-search-davinci-query-001',
+     *     'text-similarity-ada-001',
+     *     'text-similarity-babbage-001',
+     *     'text-similarity-curie-001',
+     *     'text-similarity-davinci-001',
+     *     'whisper-1',
+     * ];
+     * ```.
+     */
+    public function models(): Response
+    {
+        return $this->cloneDefaultPendingRequest()->get('models')->throw();
     }
 
     /**
