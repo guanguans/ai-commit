@@ -30,6 +30,6 @@ parameters:
 #        switchConditionsMatchingType: false
 #        noVariableVariables: false
     ignoreErrors:
-        - '#Undefined variable: \$this#'
-        - '#Call to an undefined method#'
+        - "#^Call to an undefined method #"
         - "#^Call to an undefined static method Illuminate\\\\Support\\\\Str\\:\\:isJson\\(\\)\\.$#"
+        - "#^Undefined variable\\: \\$this$#"
