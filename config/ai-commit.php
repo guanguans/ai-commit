@@ -85,7 +85,7 @@ return [
             'http_options' => [
                 // GuzzleHttp\RequestOptions::PROXY => 'http://localhost:8125/v1',
             ],
-            'api_key' => env('OPENAI_API_KEY'),
+            'api_key' => env('OPENAI_API_KEY', 'sk-...'),
             'completion_parameters' => [
                 'model' => 'text-davinci-003', // ['text-davinci-003', 'text-davinci-002']
                 // 'prompt' => $prompt,
@@ -107,7 +107,7 @@ return [
         ],
         'openaichat' => [
             'driver' => 'openai',
-            'api_key' => env('OPENAI_API_KEY'),
+            'api_key' => env('OPENAI_API_KEY', 'sk-...'),
             'completion_parameters' => [
                 'model' => 'gpt-3.5-turbo', // ['gpt-3.5-turbo', 'gpt-3.5-turbo-0301']
                 // 'messages' => $messages,

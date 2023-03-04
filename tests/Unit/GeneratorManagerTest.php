@@ -11,6 +11,7 @@ declare(strict_types=1);
  */
 
 use App\GeneratorManager;
+use App\Generators\OpenAIChatGenerator;
 use App\Generators\OpenAIGenerator;
 
 it('can get default driver name', function (): void {
@@ -31,7 +32,7 @@ it('can create OpenAI driver', function (): void {
 
 it('can create OpenAI chat driver', function (): void {
     expect($this->app->get(GeneratorManager::class))
-        ->driver('openaichat')->toBeInstanceOf(OpenAIGenerator::class);
+        ->driver('openaichat')->toBeInstanceOf(OpenAIChatGenerator::class);
 })->group(__DIR__, __FILE__);
 
 it('will throw InvalidArgumentException when run driver', function (): void {

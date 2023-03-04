@@ -36,3 +36,32 @@ it('will throw unauthorized RequestException', function (): void {
         ->driver('openai')
         ->generate('Unauthorized');
 })->group(__DIR__, __FILE__)->throws(RequestException::class, 'HTTP request returned status code 401');
+
+/**
+ * @psalm-suppress UnusedVariable
+ */
+it('can call writer', function (): void {
+    $rowResponses = [
+        'data: {"id": "cmpl-6or3mHmSgvCePOlM34DK90rm6J0ec", "object": "text_completion", "created": 1677578382, "choices": [{"text": "  ", "index": 0, "logprobs": null, "finish_reason": null}], "model": "text-davinci-003"}
+
+',
+        'data: {"id": "cmpl-6or3mHmSgvCePOlM34DK90rm6J0ec", "object": "text_completion", "created": 1677578382, "choices": [{"text": "use", "index": 0, "logprobs": null, "finish_reason": null}], "model": "text-davinci-003"}
+
+',
+        'data: {"id": "cmpl-6or3mHmSgvCePOlM34DK90rm6J0ec", "object": "text_completion", "created": 1677578382, "choices": [{"text": " App", "index": 0, "logprobs": null, "finish_reason": "length"}], "model": "text-davinci-003"}
+
+',
+        'data: [DONE]
+
+',
+    ];
+    $openaiGenerator = app(GeneratorManager::class)->driver('openai');
+
+    foreach ($rowResponses as $rowResponse) {
+        (function (string $rowResponse) use (&$messages) {
+            $this->getWriter($messages)($rowResponse);
+        })->call($openaiGenerator, $rowResponse);
+    }
+
+    expect($messages)->toBe('  use App');
+})->group(__DIR__, __FILE__);
