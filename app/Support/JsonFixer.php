@@ -18,7 +18,7 @@ namespace App\Support;
 final class JsonFixer
 {
     /**
-     * @var array Current token stack indexed by position
+     * @var array
      */
     private $stack = [];
 
@@ -33,7 +33,7 @@ final class JsonFixer
     private $silent = false;
 
     /**
-     * @var array The complementary pairs
+     * @var array<string,string> The complementary pairs
      */
     private $pairs = [
         '{' => '}',
@@ -56,10 +56,8 @@ final class JsonFixer
 
     /**
      * Set/unset silent mode.
-     *
-     * @return $this
      */
-    public function silent(bool $silent = true)
+    public function silent(bool $silent = true): self
     {
         $this->silent = $silent;
 
@@ -68,17 +66,9 @@ final class JsonFixer
 
     /**
      * Set missing value.
-     *
-     * @return $this
      */
-    public function missingValue(string $value)
+    public function missingValue(string $value): self
     {
-        // if (null === $value) {
-        //     $value = 'null';
-        // } elseif (is_bool($value)) {
-        //     $value = $value ? 'true' : 'false';
-        // }
-
         $this->missingValue = $value;
 
         return $this;
@@ -87,13 +77,9 @@ final class JsonFixer
     /**
      * Fix the truncated JSON.
      *
-     * @param string $json the JSON string to fix
-     *
-     * @return string Fixed JSON. If failed with silent then original JSON.
-     *
-     * @throws \RuntimeException when fixing fails
+     * @throws \RuntimeException
      */
-    public function fix(string $json)
+    public function fix(string $json): string
     {
         [$head, $json, $tail] = $this->trim($json);
 
@@ -110,7 +96,7 @@ final class JsonFixer
         return $head.$this->doFix($json).$tail;
     }
 
-    private function trim($json)
+    private function trim(string $json): array
     {
         \preg_match('/^(\s*)([^\s]+)(\s*)$/', $json, $match);
 
@@ -122,7 +108,7 @@ final class JsonFixer
         return $match;
     }
 
-    private function isValid($json): bool
+    private function isValid(string $json): bool
     {
         /** @psalm-suppress UnusedFunctionCall */
         \json_decode($json);
@@ -130,7 +116,7 @@ final class JsonFixer
         return \JSON_ERROR_NONE === \json_last_error();
     }
 
-    private function quickFix($json)
+    private function quickFix(string $json): ?string
     {
         if (1 === \strlen($json) && isset($this->pairs[$json])) {
             return $json.$this->pairs[$json];
@@ -143,7 +129,7 @@ final class JsonFixer
         return $this->padString($json);
     }
 
-    private function reset()
+    private function reset(): void
     {
         $this->stack = [];
         $this->inStr = false;
@@ -151,7 +137,7 @@ final class JsonFixer
         $this->arrayPos = -1;
     }
 
-    private function maybeLiteral($json)
+    private function maybeLiteral(string $json): ?string
     {
         if (! \in_array($json[0], ['t', 'f', 'n'])) {
             return null;
@@ -168,17 +154,15 @@ final class JsonFixer
         // @codeCoverageIgnoreEnd
     }
 
-    private function doFix($json)
+    private function doFix(string $json): string
     {
         [$index, $char] = [-1, ''];
 
         while (isset($json[++$index])) {
             [$prev, $char] = [$char, $json[$index]];
 
-            $next = $json[$index + 1] ?? '';
-
             if (! \in_array($char, [' ', "\n", "\r"])) {
-                $this->stack($prev, $char, $index, $next);
+                $this->stack($prev, $char, $index);
             }
         }
 
@@ -188,7 +172,7 @@ final class JsonFixer
     /**
      * @psalm-suppress UnusedParam
      */
-    private function stack($prev, $char, $index, $next)
+    private function stack(string $prev, string $char, int $index): void
     {
         if ($this->maybeStr($prev, $char, $index)) {
             return;
@@ -215,7 +199,7 @@ final class JsonFixer
     /**
      * @noinspection OffsetOperationsInspection
      */
-    private function popToken($token = null)
+    private function popToken(?string $token = null)
     {
         // Last one
         if (null === $token) {
@@ -232,7 +216,7 @@ final class JsonFixer
         }
     }
 
-    private function maybeStr($prev, $char, $index)
+    private function maybeStr(string $prev, string $char, int $index): bool
     {
         if ('\\' !== $prev && '"' === $char) {
             $this->inStr = ! $this->inStr;
@@ -245,7 +229,7 @@ final class JsonFixer
         return $this->inStr;
     }
 
-    private function updatePos($char, int $index)
+    private function updatePos(string $char, int $index): void
     {
         if ('{' === $char) {
             $this->objectPos = $index;
@@ -260,7 +244,7 @@ final class JsonFixer
         }
     }
 
-    private function fixOrFail($json)
+    private function fixOrFail(string $json): string
     {
         $length = \strlen($json);
         $tmpJson = $this->pad($json);
@@ -277,7 +261,7 @@ final class JsonFixer
     }
 
     /* trait PadsJson */
-    public function pad($tmpJson)
+    public function pad(string $tmpJson): string
     {
         if (! $this->inStr) {
             $tmpJson = \rtrim($tmpJson, ',');
@@ -292,7 +276,7 @@ final class JsonFixer
         return $this->padStack($tmpJson);
     }
 
-    private function padLiteral($tmpJson)
+    private function padLiteral(string $tmpJson): string
     {
         if ($this->inStr) {
             return $tmpJson;
@@ -307,7 +291,7 @@ final class JsonFixer
         return \substr($tmpJson, 0, -\strlen($matches[1])).$literal;
     }
 
-    private function padStack($tmpJson)
+    private function padStack(string $tmpJson): string
     {
         foreach (\array_reverse($this->stack, true) as $token) {
             if (isset($this->pairs[$token])) {
@@ -318,7 +302,7 @@ final class JsonFixer
         return $tmpJson;
     }
 
-    private function padObject($tmpJson)
+    private function padObject(string $tmpJson): string
     {
         if (! $this->objectNeedsPadding($tmpJson)) {
             return $tmpJson;
@@ -343,7 +327,7 @@ final class JsonFixer
         return $tmpJson;
     }
 
-    private function objectNeedsPadding($tmpJson): bool
+    private function objectNeedsPadding(string $tmpJson): bool
     {
         $last = \substr($tmpJson, -1);
         $empty = '{' === $last && ! $this->inStr;
@@ -351,7 +335,7 @@ final class JsonFixer
         return ! $empty && $this->arrayPos < $this->objectPos;
     }
 
-    private function padString($string)
+    private function padString(string $string): ?string
     {
         $last = \substr($string, -1);
         $last2 = \substr($string, -2);
@@ -365,7 +349,7 @@ final class JsonFixer
         // @codeCoverageIgnoreEnd
     }
 
-    private function padIf($string, $substr)
+    private function padIf(string $string, string $substr): string
     {
         if (\substr($string, -\strlen($substr)) !== $substr) {
             return $string.$substr;

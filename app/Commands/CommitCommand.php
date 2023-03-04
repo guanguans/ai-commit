@@ -227,7 +227,7 @@ final class CommitCommand extends Command
 
     protected function tryFixMessages(string $messages): string
     {
-        return (string) (new JsonFixer())
+        return (new JsonFixer())
             // ->missingValue('')
             ->silent()
             ->fix(substr($messages, (int) strpos($messages, '[')));
