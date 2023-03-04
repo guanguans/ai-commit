@@ -220,12 +220,6 @@ final class ConfigCommand extends Command
             return 'null';
         }
 
-        if (is_float($value)) {
-            str_contains($value = (string) $value, '.') or $value = "$value.0";
-
-            return $value;
-        }
-
         if (is_scalar($value)) {
             return var_export($value, true);
         }
