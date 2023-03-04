@@ -2,6 +2,14 @@
 
 All notable changes to `guanguans/ai-commit` will be documented in this file.
 
+## v1.3.1 - 2023-03-04
+
+### What's Changed
+
+- Bump pestphp/pest from 1.22.4 to 1.22.5 by @dependabot in https://github.com/guanguans/ai-commit/pull/9
+
+**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.3.0...v1.3.1
+
 ## v1.3.0 - 2023-03-03
 
 ### What's Changed
