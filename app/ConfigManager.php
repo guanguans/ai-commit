@@ -148,7 +148,7 @@ final class ConfigManager extends Repository implements Arrayable, Jsonable, \Js
             }
 
             if ($value instanceof Jsonable) {
-                return json_decode($value->toJson(), true);
+                return json_decode($value->toJson(), true, 512, JSON_THROW_ON_ERROR);
             }
 
             if ($value instanceof Arrayable) {
@@ -204,7 +204,7 @@ final class ConfigManager extends Repository implements Arrayable, Jsonable, \Js
                     throw InvalidJsonFileException::make($file);
                 }
 
-                $configurations[] = json_decode($contents, true);
+                $configurations[] = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
 
                 return $configurations;
             }

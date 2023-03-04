@@ -58,7 +58,7 @@ it('can call writer', function (): void {
     $openaiGenerator = app(GeneratorManager::class)->driver('openai');
 
     foreach ($rowResponses as $rowResponse) {
-        (function (string $rowResponse) use (&$messages) {
+        (function (string $rowResponse) use (&$messages): void {
             $this->getWriter($messages)($rowResponse);
         })->call($openaiGenerator, $rowResponse);
     }

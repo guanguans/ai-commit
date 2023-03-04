@@ -203,7 +203,7 @@ final class ConfigCommand extends Command
         }
 
         if (\str($arg)->isJson()) {
-            return json_decode($arg, true);
+            return json_decode($arg, true, 512, JSON_THROW_ON_ERROR);
         }
 
         return $arg;

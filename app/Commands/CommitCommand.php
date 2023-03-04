@@ -120,7 +120,7 @@ final class CommitCommand extends Command
 
             $messages = retry(
                 $this->option('retry-times'),
-                function ($attempts) use ($stagedDiff) {
+                function ($attempts) use ($stagedDiff): string {
                     if ($attempts > 1) {
                         $this->output->info('retrying...');
                     }
@@ -139,7 +139,7 @@ final class CommitCommand extends Command
         }, 'generating...');
 
         $this->task('2. Choosing commit message', function () use ($messages, &$message): void {
-            $message = collect(json_decode($messages, true))
+            $message = collect(json_decode($messages, true, 512, JSON_THROW_ON_ERROR))
                 ->tap(function (Collection $messages): void {
                     $this->newLine();
                     $this->table(
