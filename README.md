@@ -39,7 +39,7 @@ composer require guanguans/ai-commit --dev -v
 
 ## Usage
 
-### Quick Start
+### Quick start
 
 ```shell
 # Config OpenAI API key(https://platform.openai.com/account/api-keys)
@@ -154,6 +154,38 @@ Checking for a new version...
                                                                      
  [OK] Updated from version 1.2.4 to v1.2.5.                          
                                                                      
+```
+
+### Command help
+
+```shell
+╰─ ./ai-commit commit --help                                                                                                                                        ─╯
+Description:
+  Automagically generate conventional commit messages with AI.
+
+Usage:
+  commit [options] [--] [<path>]
+
+Arguments:
+  path                                                     The working directory [default: "/Users/yaozm/Documents/develop/ai-commit"]
+
+Options:
+      --commit-options[=COMMIT-OPTIONS]                    Append options for the `git commit` command [default: ["--edit"]] (multiple values allowed)
+      --diff-options[=DIFF-OPTIONS]                        Append options for the `git diff` command [default: [":!*.lock",":!*.sum"]] (multiple values allowed)
+  -g, --generator=GENERATOR                                Specify generator name [default: "openaichat"]
+  -p, --prompt=PROMPT                                      Specify prompt name of messages generated [default: "conventional"]
+      --num=NUM                                            Specify number of generated messages [default: 3]
+      --no-edit                                            Force no edit mode
+  -c, --config[=CONFIG]                                    Specify config file
+      --retry-times=RETRY-TIMES                            Specify times of retry [default: 3]
+      --retry-sleep-milliseconds=RETRY-SLEEP-MILLISECONDS  Specify sleep milliseconds of retry [default: 500]
+  -h, --help                                               Display help for the given command. When no command is given display help for the list command
+  -q, --quiet                                              Do not output any message
+  -V, --version                                            Display this application version
+      --ansi|--no-ansi                                     Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction                                     Do not ask any interactive question
+      --env[=ENV]                                          The environment the command should run under
+  -v|vv|vvv, --verbose                                     Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 ```
 
 ## Testing
