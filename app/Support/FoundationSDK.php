@@ -153,7 +153,7 @@ abstract class FoundationSDK
                     return $version->replaceFirst('v', '');
                 })),
                 sprintf('guzzle/%s', InstalledVersions::getPrettyVersion('guzzlehttp/guzzle')),
-                sprintf('curl/%s', curl_version()['version'] ?? 'unknown'),
+                sprintf('curl/%s', curl_version()['version']),
                 sprintf('PHP/%s', PHP_VERSION),
                 sprintf('%s/%s', PHP_OS, php_uname('r')),
             ]);
