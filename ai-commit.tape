@@ -46,14 +46,14 @@
 
 # https://github.com/charmbracelet/vhs
 
-Output ./docs/ai-commit.gif
+Output ./docs/ai-commit-vhs.gif
 
 Require php
 
 Set Framerate 120
 Set FontSize 18
-Set Width 1400
-Set Height 865
+Set Width 1500
+Set Height 927
 Set TypingSpeed 100ms
 Set PlaybackSpeed 0.1
 
