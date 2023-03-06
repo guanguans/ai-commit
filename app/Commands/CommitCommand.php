@@ -118,6 +118,7 @@ final class CommitCommand extends Command
                 throw new TaskException('There are no staged files to commit. Try running `git add` to stage some files.');
             }
 
+            $this->newLine();
             $messages = retry(
                 $this->option('retry-times'),
                 function ($attempts) use ($stagedDiff): string {
@@ -136,12 +137,13 @@ final class CommitCommand extends Command
                 $this->option('retry-sleep-milliseconds'),
                 $this->configManager->get('retry.when')
             );
+            $this->newLine();
         }, 'generating...');
 
         $this->task('2. Choosing commit message', function () use ($messages, &$message): void {
             $message = collect(json_decode($messages, true, 512, JSON_THROW_ON_ERROR))
                 ->tap(function (Collection $messages): void {
-                    $this->newLine();
+                    $this->newLine(2);
                     $this->table(
                         array_keys($messages->first()),
                         $messages->chunk(1)
