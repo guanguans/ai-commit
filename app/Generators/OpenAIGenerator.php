@@ -92,7 +92,7 @@ class OpenAIGenerator implements GeneratorContract
             }
 
             // (正常|错误|流)响应
-            $rowResponse = (array) json_decode($this->openAI::hydrateData($data), true, 512, JSON_THROW_ON_ERROR);
+            $rowResponse = (array) json_decode($this->openAI::hydrateData($data), true);
             $messages .= $text = static::extractCompletion($rowResponse);
             $this->output->write($text);
         };
