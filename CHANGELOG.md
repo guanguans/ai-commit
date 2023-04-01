@@ -2,6 +2,17 @@
 
 All notable changes to `guanguans/ai-commit` will be documented in this file.
 
+## v1.3.3 - 2023-04-01
+
+### What's Changed
+
+- Bump php-mock/php-mock-phpunit from 2.6.1 to 2.7.0 by @dependabot in https://github.com/guanguans/ai-commit/pull/10
+- Bump pestphp/pest from 1.22.5 to 1.22.6 by @dependabot in https://github.com/guanguans/ai-commit/pull/11
+- Bump php-mock/php-mock-phpunit from 2.7.0 to 2.7.1 by @dependabot in https://github.com/guanguans/ai-commit/pull/12
+- Bump actions/stale from 7 to 8 by @dependabot in https://github.com/guanguans/ai-commit/pull/13
+
+**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.3.2...v1.3.3
+
 ## v1.3.2 - 2023-03-06
 
 **Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.3.1...v1.3.2
