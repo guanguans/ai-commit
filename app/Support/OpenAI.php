@@ -338,7 +338,7 @@ final class OpenAI extends FoundationSDK
                 ],
                 'retry' => [
                     // 'times' => 1,
-                    // 'sleepMilliseconds' => 1000,
+                    // 'sleep' => 1000,
                     // 'when' => static function (\Exception $exception): bool {
                     //     return $exception instanceof \Illuminate\Http\Client\ConnectionException;
                     // },
@@ -350,7 +350,7 @@ final class OpenAI extends FoundationSDK
                 'http_options' => 'array',
                 'retry' => 'array',
                 'retry.times' => 'integer',
-                'retry.sleepMilliseconds' => 'integer',
+                'retry.sleep' => 'integer',
                 'retry.when' => 'nullable',
                 // 'retry.throw' => 'bool',
                 'base_url' => 'string',
@@ -373,7 +373,7 @@ final class OpenAI extends FoundationSDK
             // ->throw()
             // ->retry(
             //     $config['retry']['times'],
-            //     $config['retry']['sleepMilliseconds'],
+            //     $config['retry']['sleep'],
             //     $config['retry']['when']
             //     // $config['retry']['throw']
             // )

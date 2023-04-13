@@ -71,7 +71,7 @@ final class CommitCommand extends Command
             new InputOption('no-edit', null, InputOption::VALUE_NONE, 'Force no edit mode'),
             new InputOption('config', 'c', InputOption::VALUE_OPTIONAL, 'Specify config file'),
             new InputOption('retry-times', null, InputOption::VALUE_REQUIRED, 'Specify times of retry', $this->configManager->get('retry.times', 3)),
-            new InputOption('retry-sleep-milliseconds', null, InputOption::VALUE_REQUIRED, 'Specify sleep milliseconds of retry', $this->configManager->get('retry.sleep_milliseconds', 500)),
+            new InputOption('retry-sleep', null, InputOption::VALUE_REQUIRED, 'Specify sleep milliseconds of retry', $this->configManager->get('retry.sleep', 500)),
         ]);
     }
 
@@ -89,7 +89,7 @@ final class CommitCommand extends Command
                 'generator',
                 'prompt',
                 'retry.times',
-                'retry.sleep_milliseconds',
+                'retry.sleep',
             ]);
 
             foreach ($options as $name => $value) {
@@ -132,7 +132,7 @@ final class CommitCommand extends Command
 
                     return $messages;
                 },
-                $this->option('retry-sleep-milliseconds'),
+                $this->option('retry-sleep'),
                 $this->configManager->get('retry.when')
             );
             $this->newLine();

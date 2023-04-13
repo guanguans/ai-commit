@@ -42,7 +42,7 @@ return [
      */
     'retry' => [
         'times' => 3,
-        'sleep_milliseconds' => 200,
+        'sleep' => 200,
         'when' => static function (Exception $exception): bool {
             return $exception instanceof App\Exceptions\TaskException;
         },
