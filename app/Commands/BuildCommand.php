@@ -23,6 +23,7 @@ use Symfony\Component\Process\Process;
 
 /**
  * @see \LaravelZero\Framework\Commands\BuildCommand
+ * @see https://github.com/configuredco/haulable
  */
 final class BuildCommand extends Command
 {

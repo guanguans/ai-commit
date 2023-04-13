@@ -25,3 +25,8 @@ storage/logs/laravel.log
 /.ai-commit.*
 /cghooks.lock
 .ai-commit.json
+
+macos_intel/
+macos_apple/
+linux_x86_64/
+windows_x64/

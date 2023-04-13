@@ -156,6 +156,8 @@
         "composer-check-platform-reqs": "@composer check-platform-reqs --lock --ansi",
         "composer-unused-checker": "@php ./vendor/bin/composer-unused --ansi",
         "composer-validate": "@composer validate --strict --ansi",
+        "haulable": "haulable --ansi -v",
+        "haulable-package": "@haulable package ./builds/ai-commit",
         "lint": [
             "for DIR in .; do find $DIR -maxdepth 1 -type f -name '*.php' -type f ! -name 'xxx.php' -exec php -l {} \\; 2>&1 | (! grep -v '^No syntax errors detected'); done",
             "for DIR in ./app ./bootstrap ./config ./tests; do find $DIR -type f -name '*.php' -type f ! -name 'xxx.php' -exec php -l {} \\; 2>&1 | (! grep -v '^No syntax errors detected'); done"
@@ -180,7 +182,7 @@
         "style-lint": "@style-fix --diff --dry-run",
         "test": "@pest",
         "test-coverage": "@pest-coverage",
-        "var-dump-server": "var-dump-server --ansi",
+        "var-dump-server": "var-dump-server --ansi -v",
         "vhs": [
             "@cghooks-uninstall",
             "vhs < ai-commit.tape",
