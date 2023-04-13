@@ -49,22 +49,14 @@ return [
     ],
 
     /**
-     * The list of marks.
+     * The mark of diff.
      */
-    'marks' => [
-        'diff' => '<diff>',
-        'num' => '<num>',
-    ],
+    'diff_mark' => '<diff>',
 
     /**
      * Force edit mode.
      */
     'edit' => true,
-
-    /**
-     * The number of generated messages.
-     */
-    'num' => 3,
 
     /**
      * The prompt name.
@@ -152,7 +144,7 @@ Here are some best practices for writing commit messages:
 - The details about what was done in the body of the message.
 - Any useful details concerning the change in the body of the message.
 - Use a hyphen (-) for the bullet points in the body of the message.
-Write <num> commit messages that accurately summarizes the changes made in the given `git diff` output, following the best practices listed above and the conventional commit format.
+Write 3 commit messages that accurately summarizes the changes made in the given `git diff` output, following the best practices listed above and the conventional commit format.
 Please provide a response in the form of a valid JSON object and do not include "Output:", "Response:" or anything similar to those two before it, in the following format:
 [
     {

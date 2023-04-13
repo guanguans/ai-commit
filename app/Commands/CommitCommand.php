@@ -68,7 +68,6 @@ final class CommitCommand extends Command
             new InputOption('diff-options', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git diff` command', $this->configManager->get('diff_options', [])),
             new InputOption('generator', 'g', InputOption::VALUE_REQUIRED, 'Specify generator name', $this->configManager->get('generator')),
             new InputOption('prompt', 'p', InputOption::VALUE_REQUIRED, 'Specify prompt name of messages generated', $this->configManager->get('prompt')),
-            new InputOption('num', null, InputOption::VALUE_REQUIRED, 'Specify number of generated messages', $this->configManager->get('num', 3)),
             new InputOption('no-edit', null, InputOption::VALUE_NONE, 'Force no edit mode'),
             new InputOption('config', 'c', InputOption::VALUE_OPTIONAL, 'Specify config file'),
             new InputOption('retry-times', null, InputOption::VALUE_REQUIRED, 'Specify times of retry', $this->configManager->get('retry.times', 3)),
@@ -88,7 +87,6 @@ final class CommitCommand extends Command
                 'commit_options',
                 'diff_options',
                 'generator',
-                'num',
                 'prompt',
                 'retry.times',
                 'retry.sleep_milliseconds',
@@ -216,10 +214,7 @@ final class CommitCommand extends Command
     protected function getPrompt(string $stagedDiff): string
     {
         return (string) \str($this->configManager->get("prompts.{$this->option('prompt')}"))
-            ->replace(
-                [$this->configManager->get('marks.diff'), $this->configManager->get('marks.num')],
-                [$stagedDiff, $this->option('num')]
-            )
+            ->replace($this->configManager->get('diff_mark'), $stagedDiff)
             ->when($this->option('verbose'), function (Stringable $prompt): Stringable {
                 $this->output->info((string) $prompt);
 
