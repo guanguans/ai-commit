@@ -135,11 +135,12 @@ composer require guanguans/ai-commit --dev -v
 ### 操作配置
 
 ```shell
-./ai-commit config [set, get, unset, list, edit] key value --global
+./ai-commit config [set, get, unset, reset, list, edit] key value --global
 
 ./ai-commit config set key value
 ./ai-commit config get key
 ./ai-commit config unset key
+./ai-commit config reset key
 ./ai-commit config list
 ./ai-commit config edit
 ```
