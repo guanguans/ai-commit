@@ -16,6 +16,7 @@ use App\ConfigManager;
 use App\Exceptions\RuntimeException;
 use App\Exceptions\UnsupportedConfigActionException;
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Support\Arr;
 use LaravelZero\Framework\Commands\Command;
 use Symfony\Component\Console\Completion\CompletionInput;
 use Symfony\Component\Console\Completion\CompletionSuggestions;
@@ -30,7 +31,7 @@ final class ConfigCommand extends Command
     /**
      * @var string[]
      */
-    public const ACTIONS = ['set', 'get', 'unset', 'list', 'edit'];
+    public const ACTIONS = ['set', 'get', 'unset', 'reset', 'list', 'edit'];
 
     /**
      * @var string[]
@@ -100,7 +101,7 @@ final class ConfigCommand extends Command
         $action = $this->argument('action');
         $key = $this->argument('key');
 
-        if (in_array($action, ['unset', 'set'], true) && null === $key) {
+        if (in_array($action, ['set', 'unset'], true) && null === $key) {
             $this->output->error('Please specify the parameter key.');
 
             return self::FAILURE;
@@ -119,6 +120,12 @@ final class ConfigCommand extends Command
                 break;
             case 'unset':
                 $this->configManager->forget($key);
+                $this->configManager->putFile($file);
+
+                break;
+            case 'reset':
+                $config = require config_path('ai-commit.php');
+                $key ? $this->configManager->set($key, Arr::get($config, $key)) : $this->configManager->replace($config);
                 $this->configManager->putFile($file);
 
                 break;
