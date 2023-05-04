@@ -92,9 +92,13 @@ final class CommitCommand extends Command
                 'retry.sleep',
             ]);
 
-            foreach ($options as $name => $value) {
-                null === $value or $this->input->setOption((string) \str($name)->replace(['.', '_'], '-'), $value);
-            }
+            collect($options)
+                ->reject(static function ($value): bool {
+                    return null === $value;
+                })
+                ->each(function ($value, $name) {
+                    $this->input->setOption((string) \str($name)->replace(['.', '_'], '-'), $value);
+                });
         }
     }
 
