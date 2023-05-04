@@ -87,6 +87,17 @@ it('can unset config', function (): void {
     ])->assertSuccessful();
 })->group(__DIR__, __FILE__);
 
+it('can reset config', function (): void {
+    $this->artisan(ConfigCommand::class, [
+        'action' => 'reset',
+        'key' => 'foo.bar',
+    ])->assertSuccessful();
+
+    $this->artisan(ConfigCommand::class, [
+        'action' => 'reset',
+    ])->assertSuccessful();
+})->group(__DIR__, __FILE__);
+
 it('can list config', function (): void {
     $this->artisan(ConfigCommand::class, [
         'action' => 'list',
