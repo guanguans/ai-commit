@@ -2,6 +2,16 @@
 
 All notable changes to `guanguans/ai-commit` will be documented in this file.
 
+## v1.4.2 - 2023-05-04
+
+### What's Changed
+
+- Bump guzzlehttp/guzzle from 7.5.0 to 7.5.1 by @dependabot in https://github.com/guanguans/ai-commit/pull/14
+- Bump dependabot/fetch-metadata from 1.3.6 to 1.4.0 by @dependabot in https://github.com/guanguans/ai-commit/pull/15
+- Bump pestphp/pest from 1.22.6 to 1.23.0 by @dependabot in https://github.com/guanguans/ai-commit/pull/16
+
+**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.4.1...v1.4.2
+
 ## v1.4.1 - 2023-04-13
 
 **Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.4.0...v1.4.1
