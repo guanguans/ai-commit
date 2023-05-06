@@ -11,13 +11,10 @@ declare(strict_types=1);
  */
 
 return [
-    'unknownError' => 'Unknown Error',
     '0' => 'Unknown Error',
-
     '100' => 'Continue',
     '101' => 'Switching Protocols',
     '102' => 'Processing',
-
     '200' => 'OK',
     '201' => 'Created',
     '202' => 'Accepted',
@@ -28,7 +25,6 @@ return [
     '207' => 'Multi-Status',
     '208' => 'Already Reported',
     '226' => 'IM Used',
-
     '300' => 'Multiple Choices',
     '301' => 'Moved Permanently',
     '302' => 'Found',
@@ -37,7 +33,6 @@ return [
     '305' => 'Use Proxy',
     '307' => 'Temporary Redirect',
     '308' => 'Permanent Redirect',
-
     '400' => 'Bad Request',
     '401' => 'Unauthorized',
     '402' => 'Payment Required',
@@ -71,7 +66,6 @@ return [
     '449' => 'Retry With',
     '451' => 'Unavailable For Legal Reasons',
     '499' => 'Client Closed Request',
-
     '500' => 'Internal Server Error',
     '501' => 'Not Implemented',
     '502' => 'Bad Gateway',
@@ -94,4 +88,5 @@ return [
     '527' => 'Railgun Error',
     '598' => 'Network Read Timeout Error',
     '599' => 'Network Connect Timeout Error',
+    'unknownError' => 'Unknown Error',
 ];
