@@ -2,6 +2,14 @@
 
 All notable changes to `guanguans/ai-commit` will be documented in this file.
 
+## v1.4.4 - 2023-05-16
+
+### What's Changed
+
+- Bump guzzlehttp/guzzle from 7.5.1 to 7.6.1 by @dependabot in https://github.com/guanguans/ai-commit/pull/17
+
+**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.4.3...v1.4.4
+
 ## v1.4.3 - 2023-05-06
 
 **Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.4.2...v1.4.3
