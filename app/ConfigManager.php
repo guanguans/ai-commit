@@ -108,6 +108,8 @@ final class ConfigManager extends Repository implements Arrayable, Jsonable, \Js
             ->push(
                 'generators.openai.completion_parameters.prompt',
                 'generators.openai.completion_parameters.user',
+                'generators.openaichat.completion_parameters.prompt',
+                'generators.openaichat.completion_parameters.user',
             )
             ->unique()
             ->tap(function (Collection $collection): void {
