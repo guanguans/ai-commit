@@ -81,6 +81,8 @@ final class ConfigManager extends Repository implements Arrayable, Jsonable, \Js
 
     /**
      * @return false|int
+     *
+     * @throws \JsonException
      */
     public function putGlobal(int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
     {
@@ -89,6 +91,8 @@ final class ConfigManager extends Repository implements Arrayable, Jsonable, \Js
 
     /**
      * @return false|int
+     *
+     * @throws \JsonException
      */
     public function putLocal(int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
     {
@@ -97,6 +101,8 @@ final class ConfigManager extends Repository implements Arrayable, Jsonable, \Js
 
     /**
      * @return false|int
+     *
+     * @throws \JsonException
      */
     public function putFile(string $file, int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
     {
@@ -141,6 +147,8 @@ final class ConfigManager extends Repository implements Arrayable, Jsonable, \Js
      * Convert the object into something JSON serializable.
      *
      * @return array<TKey, mixed>
+     *
+     * @throws \JsonException
      */
     public function jsonSerialize(): array
     {
@@ -177,6 +185,8 @@ final class ConfigManager extends Repository implements Arrayable, Jsonable, \Js
      * @param int $options
      *
      * @return string
+     *
+     * @throws \JsonException
      */
     public function toJson($options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
     {
@@ -185,6 +195,8 @@ final class ConfigManager extends Repository implements Arrayable, Jsonable, \Js
 
     /**
      * @return string
+     *
+     * @throws \JsonException
      */
     public function __toString()
     {
