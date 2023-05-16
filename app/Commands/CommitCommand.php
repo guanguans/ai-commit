@@ -96,7 +96,7 @@ final class CommitCommand extends Command
                 ->reject(static function ($value): bool {
                     return null === $value;
                 })
-                ->each(function ($value, $name) {
+                ->each(function ($value, $name): void {
                     $this->input->setOption((string) \str($name)->replace(['.', '_'], '-'), $value);
                 });
         }
@@ -245,7 +245,7 @@ final class CommitCommand extends Command
             ->push('--edit')
             ->when($this->isNotEditMode(), static function (Collection $collection): Collection {
                 return $collection->filter(static function (string $option): bool {
-                    return ! ('--edit' === $option || '-e' === $option);
+                    return '--edit' !== $option && '-e' !== $option;
                 });
             })
             ->all();

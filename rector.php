@@ -37,8 +37,10 @@ use Rector\EarlyReturn\Rector\If_\ChangeAndIfToEarlyReturnRector;
 use Rector\EarlyReturn\Rector\If_\ChangeOrIfReturnToEarlyReturnRector;
 use Rector\EarlyReturn\Rector\Return_\ReturnBinaryAndToEarlyReturnRector;
 use Rector\EarlyReturn\Rector\Return_\ReturnBinaryOrToEarlyReturnRector;
+use Rector\Naming\Rector\Assign\RenameVariableToMatchMethodCallReturnTypeRector;
 use Rector\Naming\Rector\ClassMethod\RenameParamToMatchTypeRector;
 use Rector\Php56\Rector\FunctionLike\AddDefaultValueForUndefinedVariableRector;
+use Rector\Php73\Rector\FuncCall\JsonThrowOnErrorRector;
 use Rector\PHPUnit\Rector\Class_\AddSeeTestAnnotationRector;
 use Rector\PHPUnit\Set\PHPUnitLevelSetList;
 use Rector\PHPUnit\Set\PHPUnitSetList;
@@ -94,6 +96,13 @@ return static function (RectorConfig $rectorConfig): void {
         RenameClassRector::class,
         UnSpreadOperatorRector::class,
 
+        RenameVariableToMatchMethodCallReturnTypeRector::class => [
+            __DIR__.'/app/Commands/CommitCommand.php',
+        ],
+        JsonThrowOnErrorRector::class => [
+            __DIR__.'/app/Generators/OpenAIGenerator.php',
+        ],
+
         // paths
         '**/Fixture*',
         '**/Fixture/*',
@@ -139,17 +148,23 @@ return static function (RectorConfig $rectorConfig): void {
         PHPUnitSetList::PHPUNIT_YIELD_DATA_PROVIDER,
     ]);
 
-    $rectorConfig->disableParallel();
     $rectorConfig->importNames(true, false);
-    $rectorConfig->nestedChainMethodCallLimit(3);
+    $rectorConfig->importShortClasses(false);
+    $rectorConfig->parallel(240);
     $rectorConfig->phpstanConfig(__DIR__.'/phpstan.neon');
+    $rectorConfig->phpVersion(PhpVersion::PHP_73);
+
     // $rectorConfig->cacheClass(FileCacheStorage::class);
     // $rectorConfig->cacheDirectory(__DIR__.'/build/rector');
+    // $rectorConfig->containerCacheDirectory(__DIR__.'/build/rector');
+    // $rectorConfig->disableParallel();
     // $rectorConfig->fileExtensions(['php']);
-    // $rectorConfig->parameters()->set(Option::APPLY_AUTO_IMPORT_NAMES_ON_CHANGED_FILES_ONLY, true);
-    // $rectorConfig->phpVersion(PhpVersion::PHP_80);
-    // $rectorConfig->parallel();
     // $rectorConfig->indent(' ', 4);
+    // $rectorConfig->memoryLimit('2G');
+    // $rectorConfig->nestedChainMethodCallLimit(3);
+    // $rectorConfig->noDiffs();
+    // $rectorConfig->parameters()->set(Option::APPLY_AUTO_IMPORT_NAMES_ON_CHANGED_FILES_ONLY, true);
+    // $rectorConfig->removeUnusedImports();
 
     $rectorConfig->rules([
         InlineConstructorDefaultToPropertyRector::class,

@@ -102,7 +102,7 @@ final class ConfigManager extends Repository implements Arrayable, Jsonable, \Js
     {
         collect($this->toDotArray())
             ->filter(static function ($val): bool {
-                return ! (is_scalar($val) || null === $val);
+                return ! is_scalar($val) && null !== $val;
             })
             ->keys()
             ->push(
@@ -110,7 +110,7 @@ final class ConfigManager extends Repository implements Arrayable, Jsonable, \Js
                 'generators.openai.completion_parameters.user',
             )
             ->unique()
-            ->tap(function (Collection $collection) {
+            ->tap(function (Collection $collection): void {
                 $this->forget($collection->all());
             });
 
