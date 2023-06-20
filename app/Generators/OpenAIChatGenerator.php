@@ -35,7 +35,7 @@ final class OpenAIChatGenerator extends OpenAIGenerator
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected static function extractCompletion($response): string
     {

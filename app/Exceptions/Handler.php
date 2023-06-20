@@ -17,7 +17,7 @@ use Illuminate\Validation\ValidationException;
 final class Handler extends \Illuminate\Foundation\Exceptions\Handler
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @psalm-suppress UndefinedThisPropertyAssignment
      */
@@ -33,7 +33,7 @@ final class Handler extends \Illuminate\Foundation\Exceptions\Handler
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function shouldntReport(\Throwable $e)
     {

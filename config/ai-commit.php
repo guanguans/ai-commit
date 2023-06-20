@@ -11,16 +11,12 @@ declare(strict_types=1);
  */
 
 return [
-    /**
-     * Append options for the `git commit` command.
-     */
+    // Append options for the `git commit` command.
     'commit_options' => [
         '--edit',
     ],
 
-    /**
-     * Append options for the `git diff` command.
-     */
+    // Append options for the `git diff` command.
     'diff_options' => [
         ':!*.lock',
         ':!*.sum',
@@ -37,9 +33,7 @@ return [
         GuzzleHttp\RequestOptions::TIMEOUT => 180,
     ],
 
-    /**
-     * The options of retry.
-     */
+    // The options of retry.
     'retry' => [
         'times' => 3,
         'sleep' => 200,
@@ -48,29 +42,19 @@ return [
         },
     ],
 
-    /**
-     * The mark of diff.
-     */
+    // The mark of diff.
     'diff_mark' => '<diff>',
 
-    /**
-     * Force edit mode.
-     */
+    // Force edit mode.
     'edit' => true,
 
-    /**
-     * The prompt name.
-     */
+    // The prompt name.
     'prompt' => 'conventional',
 
-    /**
-     * The generator name.
-     */
+    // The generator name.
     'generator' => 'openaichat',
 
-    /**
-     * The list of generators.
-     */
+    // The list of generators.
     'generators' => [
         'openaichat' => [
             'driver' => 'openai',

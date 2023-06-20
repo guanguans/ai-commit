@@ -28,7 +28,7 @@ use Symfony\Component\Process\Process;
 final class BuildCommand extends Command
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected $signature = 'app:build
         {name? : The build name}
@@ -37,21 +37,21 @@ final class BuildCommand extends Command
     ';
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected $description = 'Build a single file executable.';
 
     /**
      * Holds the configuration on is original state.
      *
-     * @var string|null
+     * @var null|string
      */
     private static $config;
 
     /**
      * Holds the box.json on is original state.
      *
-     * @var string|null
+     * @var null|string
      */
     private static $box;
 
@@ -63,6 +63,19 @@ final class BuildCommand extends Command
     private $originalOutput;
 
     /**
+     * Makes sure that the `clear` is performed even
+     * if the command fails.
+     *
+     * @return void
+     */
+    public function __destruct()
+    {
+        if (null !== self::$config) {
+            $this->clear();
+        }
+    }
+
+    /**
      * @psalm-suppress UndefinedInterfaceMethod
      */
     public function isEnabled()
@@ -71,7 +84,7 @@ final class BuildCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function handle()
     {
@@ -85,7 +98,7 @@ final class BuildCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function run(InputInterface $input, OutputInterface $output): int
     {
@@ -171,7 +184,7 @@ final class BuildCommand extends Command
     private function prepare(): BuildCommand
     {
         $configFile = $this->app->configPath('app.php');
-        static::$config = File::get($configFile);
+        self::$config = File::get($configFile);
 
         $config = include $configFile;
 
@@ -180,7 +193,7 @@ final class BuildCommand extends Command
         $config['version'] = $version;
 
         $boxFile = $this->app->basePath('box.json');
-        static::$box = File::get($boxFile);
+        self::$box = File::get($boxFile);
 
         $this->task(
             '   1. Moving application to <fg=yellow>production mode</>',
@@ -189,11 +202,11 @@ final class BuildCommand extends Command
             }
         );
 
-        $boxContents = json_decode(static::$box, true);
+        $boxContents = json_decode(self::$box, true);
         $boxContents['main'] = $this->getBinary();
 
         // Exclude Box binaries in output Phar
-        $boxContents['blacklist'] = isset($boxContents['blacklist']) && is_array($boxContents['blacklist']) ? $boxContents['blacklist'] : [];
+        $boxContents['blacklist'] = isset($boxContents['blacklist']) && \is_array($boxContents['blacklist']) ? $boxContents['blacklist'] : [];
         $boxContents['blacklist'][] = 'vendor/laravel-zero/framework/bin/box';
         $boxContents['blacklist'][] = 'vendor/laravel-zero/framework/bin/box.bat';
         $boxContents['blacklist'][] = 'vendor/laravel-zero/framework/bin/box73';
@@ -208,13 +221,13 @@ final class BuildCommand extends Command
 
     private function clear(): BuildCommand
     {
-        File::put($this->app->configPath('app.php'), static::$config);
+        File::put($this->app->configPath('app.php'), self::$config);
 
-        File::put($this->app->basePath('box.json'), static::$box);
+        File::put($this->app->basePath('box.json'), self::$box);
 
-        static::$config = null;
+        self::$config = null;
 
-        static::$box = null;
+        self::$box = null;
 
         return $this;
     }
@@ -265,7 +278,7 @@ final class BuildCommand extends Command
      */
     private function supportsAsyncSignals(): bool
     {
-        return extension_loaded('pcntl');
+        return \extension_loaded('pcntl');
     }
 
     private function getExtraBoxOptions(): array
@@ -277,18 +290,5 @@ final class BuildCommand extends Command
         }
 
         return $extraBoxOptions;
-    }
-
-    /**
-     * Makes sure that the `clear` is performed even
-     * if the command fails.
-     *
-     * @return void
-     */
-    public function __destruct()
-    {
-        if (null !== static::$config) {
-            $this->clear();
-        }
     }
 }

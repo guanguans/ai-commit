@@ -26,7 +26,7 @@ final class OpenAI extends FoundationSDK
 {
     public static function hydrateData(string $data): string
     {
-        return (string) \str($data)->whenStartsWith($prefix = 'data: ', static function (Stringable $data) use ($prefix): Stringable {
+        return (string) str($data)->whenStartsWith($prefix = 'data: ', static function (Stringable $data) use ($prefix): Stringable {
             return $data->replaceFirst($prefix, '');
         });
     }
@@ -247,6 +247,60 @@ final class OpenAI extends FoundationSDK
     }
 
     /**
+     * {@inheritDoc}
+     */
+    protected function validateConfig(array $config): array
+    {
+        return array_replace_recursive(
+            [
+                'http_options' => [
+                    // \GuzzleHttp\RequestOptions::CONNECT_TIMEOUT => 30,
+                    // \GuzzleHttp\RequestOptions::TIMEOUT => 180,
+                ],
+                'retry' => [
+                    // 'times' => 1,
+                    // 'sleep' => 1000,
+                    // 'when' => static function (\Exception $exception): bool {
+                    //     return $exception instanceof \Illuminate\Http\Client\ConnectionException;
+                    // },
+                    // // 'throw' => true,
+                ],
+                'base_url' => 'https://api.openai.com/v1',
+            ],
+            validate($config, [
+                'http_options' => 'array',
+                'retry' => 'array',
+                'retry.times' => 'integer',
+                'retry.sleep' => 'integer',
+                'retry.when' => 'nullable',
+                // 'retry.throw' => 'bool',
+                'base_url' => 'string',
+                'api_key' => 'required|string',
+            ])
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function buildDefaultPendingRequest(array $config): PendingRequest
+    {
+        return parent::buildDefaultPendingRequest($config)
+            ->baseUrl($config['base_url'])
+            ->asJson()
+            ->withToken($config['api_key'])
+            // ->dump()
+            // ->throw()
+            // ->retry(
+            //     $config['retry']['times'],
+            //     $config['retry']['sleep'],
+            //     $config['retry']['when']
+            //     // $config['retry']['throw']
+            // )
+            ->withOptions($config['http_options']);
+    }
+
+    /**
      * @psalm-suppress UnusedVariable
      * @psalm-suppress UnevaluatedCode
      */
@@ -255,7 +309,7 @@ final class OpenAI extends FoundationSDK
         $response = $this
             ->cloneDefaultPendingRequest()
             ->when(
-                ($parameters['stream'] ?? false) && is_callable($writer),
+                ($parameters['stream'] ?? false) && \is_callable($writer),
                 static function (PendingRequest $pendingRequest) use ($writer, &$rowData): PendingRequest {
                     return $pendingRequest->withOptions([
                         'curl' => [
@@ -266,7 +320,7 @@ final class OpenAI extends FoundationSDK
 
                                 $writer($data, $ch);
 
-                                return strlen($data);
+                                return \strlen($data);
                             },
                         ],
                     ]);
@@ -314,7 +368,7 @@ final class OpenAI extends FoundationSDK
             //         })->call($response, $response);
             //     }
             // })
-        ;
+;
 
         if ($rowData && empty($response->body())) {
             $response = new Response(
@@ -323,60 +377,5 @@ final class OpenAI extends FoundationSDK
         }
 
         return $response->throw();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function validateConfig(array $config): array
-    {
-        return array_replace_recursive(
-            [
-                'http_options' => [
-                    // \GuzzleHttp\RequestOptions::CONNECT_TIMEOUT => 30,
-                    // \GuzzleHttp\RequestOptions::TIMEOUT => 180,
-                ],
-                'retry' => [
-                    // 'times' => 1,
-                    // 'sleep' => 1000,
-                    // 'when' => static function (\Exception $exception): bool {
-                    //     return $exception instanceof \Illuminate\Http\Client\ConnectionException;
-                    // },
-                    // // 'throw' => true,
-                ],
-                'base_url' => 'https://api.openai.com/v1',
-            ],
-            validate($config, [
-                'http_options' => 'array',
-                'retry' => 'array',
-                'retry.times' => 'integer',
-                'retry.sleep' => 'integer',
-                'retry.when' => 'nullable',
-                // 'retry.throw' => 'bool',
-                'base_url' => 'string',
-                'api_key' => 'required|string',
-            ])
-        );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function buildDefaultPendingRequest(array $config): PendingRequest
-    {
-        return parent::buildDefaultPendingRequest($config)
-
-            ->baseUrl($config['base_url'])
-            ->asJson()
-            ->withToken($config['api_key'])
-            // ->dump()
-            // ->throw()
-            // ->retry(
-            //     $config['retry']['times'],
-            //     $config['retry']['sleep'],
-            //     $config['retry']['when']
-            //     // $config['retry']['throw']
-            // )
-            ->withOptions($config['http_options']);
     }
 }

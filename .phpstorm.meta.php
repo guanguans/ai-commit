@@ -12,9 +12,7 @@ declare(strict_types=1);
 
 namespace PHPSTORM_META;
 
-/**
- * PhpStorm Meta file, to provide autocomplete information for PhpStorm.
- */
+// PhpStorm Meta file, to provide autocomplete information for PhpStorm.
 override(new \Illuminate\Contracts\Container\Container(), map([
     '' => '@',
     'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
@@ -58,11 +56,11 @@ override(\App::makeWith(0), map([
     'config' => \Illuminate\Config\Repository::class,
 ]));
 
-override(\app(0), map([
+override(app(0), map([
     '' => '@',
     'config' => \Illuminate\Config\Repository::class,
 ]));
-override(\resolve(0), map([
+override(resolve(0), map([
     '' => '@',
     'config' => \Illuminate\Config\Repository::class,
 ]));
@@ -73,4 +71,4 @@ override(\Psr\Container\ContainerInterface::get(0), map([
 ]));
 
 override(\Illuminate\Support\Arr::add(0), type(0));
-override(\optional(0), type(0));
+override(optional(0), type(0));

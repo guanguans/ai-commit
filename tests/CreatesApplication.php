@@ -20,10 +20,8 @@ trait CreatesApplication
      * Creates the application.
      *
      * @psalm-suppress ImplementedReturnTypeMismatch
-     *
-     * @return \Illuminate\Foundation\Application
      */
-    public function createApplication()
+    public function createApplication(): \Illuminate\Foundation\Application
     {
         /** @var \Illuminate\Foundation\Application $app */
         $app = require __DIR__.'/../bootstrap/app.php';

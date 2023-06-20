@@ -23,7 +23,7 @@ final class StrMacro
     public static function isJson(): \Closure
     {
         return static function ($value): bool {
-            if (! is_string($value)) {
+            if (! \is_string($value)) {
                 return false;
             }
 

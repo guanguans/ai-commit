@@ -34,6 +34,8 @@ final class GeneratorManager extends Manager
 
     /**
      * @noinspection MissingParentCallInspection
+     *
+     * @param mixed $driver
      */
     protected function createDriver($driver)
     {
@@ -43,7 +45,7 @@ final class GeneratorManager extends Manager
 
         $method = 'create'.Str::studly($driver).'Driver';
         if (method_exists($this, $method)) {
-            return $this->$method($this->config->get("ai-commit.generators.$driver"));
+            return $this->{$method}($this->config->get("ai-commit.generators.$driver"));
         }
 
         throw new \InvalidArgumentException("Driver [$driver] not supported.");

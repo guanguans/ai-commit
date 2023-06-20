@@ -59,28 +59,6 @@ final class ConfigCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function configure(): void
-    {
-        $this->setDefinition([
-            new InputArgument('action', InputArgument::REQUIRED, sprintf('The action(<comment>[%s]</comment>) name', implode(', ', self::ACTIONS))),
-            new InputArgument('key', InputArgument::OPTIONAL, 'The key of config options'),
-            new InputArgument('value', InputArgument::OPTIONAL, 'The value of config options'),
-            new InputOption('global', 'g', InputOption::VALUE_NONE, 'Apply to the global config file'),
-            new InputOption('file', 'f', InputOption::VALUE_OPTIONAL, 'Apply to the specify config file'),
-            new InputOption('editor', 'e', InputOption::VALUE_OPTIONAL, 'Specify editor'),
-        ]);
-    }
-
-    protected function initialize(InputInterface $input, OutputInterface $output): void
-    {
-        if (! file_exists($this->configManager::globalPath())) {
-            $this->configManager->putGlobal();
-        }
-    }
-
     public function handle(): int
     {
         $file = value(function () {
@@ -101,7 +79,7 @@ final class ConfigCommand extends Command
         $action = $this->argument('action');
         $key = $this->argument('key');
 
-        if (in_array($action, ['set', 'unset'], true) && null === $key) {
+        if (\in_array($action, ['set', 'unset'], true) && null === $key) {
             $this->output->error('Please specify the parameter key.');
 
             return self::FAILURE;
@@ -188,13 +166,40 @@ final class ConfigCommand extends Command
         }
     }
 
+    public function schedule(Schedule $schedule): void
+    {
+        // $schedule->command(static::class)->everyMinute();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function configure(): void
+    {
+        $this->setDefinition([
+            new InputArgument('action', InputArgument::REQUIRED, sprintf('The action(<comment>[%s]</comment>) name', implode(', ', self::ACTIONS))),
+            new InputArgument('key', InputArgument::OPTIONAL, 'The key of config options'),
+            new InputArgument('value', InputArgument::OPTIONAL, 'The value of config options'),
+            new InputOption('global', 'g', InputOption::VALUE_NONE, 'Apply to the global config file'),
+            new InputOption('file', 'f', InputOption::VALUE_OPTIONAL, 'Apply to the specify config file'),
+            new InputOption('editor', 'e', InputOption::VALUE_OPTIONAL, 'Specify editor'),
+        ]);
+    }
+
+    protected function initialize(InputInterface $input, OutputInterface $output): void
+    {
+        if (! file_exists($this->configManager::globalPath())) {
+            $this->configManager->putGlobal();
+        }
+    }
+
     /**
      * @return mixed
      */
     protected function argToValue(string $arg)
     {
         if (0 === strncasecmp($arg, 'null', 4)) {
-            return null;
+            return;
         }
 
         if (0 === strncasecmp($arg, 'true', 4)) {
@@ -209,7 +214,7 @@ final class ConfigCommand extends Command
             return str_contains($arg, '.') ? (float) $arg : (int) $arg;
         }
 
-        if (\str($arg)->isJson()) {
+        if (str($arg)->isJson()) {
             return json_decode($arg, true, 512, JSON_THROW_ON_ERROR);
         }
 
@@ -227,15 +232,10 @@ final class ConfigCommand extends Command
             return 'null';
         }
 
-        if (is_scalar($value)) {
+        if (\is_scalar($value)) {
             return var_export($value, true);
         }
 
         return (string) json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-    }
-
-    public function schedule(Schedule $schedule): void
-    {
-        // $schedule->command(static::class)->everyMinute();
     }
 }

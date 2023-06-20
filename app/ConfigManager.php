@@ -28,7 +28,7 @@ use Illuminate\Support\Traits\Tappable;
  *
  * @see https://github.com/hassankhan/config
  */
-final class ConfigManager extends Repository implements Arrayable, Jsonable, \JsonSerializable
+final class ConfigManager extends Repository implements \JsonSerializable, Arrayable, Jsonable
 {
     use Conditionable;
     use Tappable;
@@ -38,6 +38,14 @@ final class ConfigManager extends Repository implements Arrayable, Jsonable, \Js
      */
     public const NAME = '.ai-commit.json';
 
+    /**
+     * @throws \JsonException
+     */
+    public function __toString(): string
+    {
+        return $this->toJson();
+    }
+
     public static function load(): void
     {
         resolve('config')->set('ai-commit', self::create());
@@ -45,7 +53,7 @@ final class ConfigManager extends Repository implements Arrayable, Jsonable, \Js
 
     public static function create(?array $items = null): self
     {
-        if (is_array($items)) {
+        if (\is_array($items)) {
             return new self($items);
         }
 
@@ -80,9 +88,9 @@ final class ConfigManager extends Repository implements Arrayable, Jsonable, \Js
     }
 
     /**
-     * @return false|int
-     *
      * @throws \JsonException
+     *
+     * @return false|int
      */
     public function putGlobal(int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
     {
@@ -90,9 +98,9 @@ final class ConfigManager extends Repository implements Arrayable, Jsonable, \Js
     }
 
     /**
-     * @return false|int
-     *
      * @throws \JsonException
+     *
+     * @return false|int
      */
     public function putLocal(int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
     {
@@ -100,15 +108,15 @@ final class ConfigManager extends Repository implements Arrayable, Jsonable, \Js
     }
 
     /**
-     * @return false|int
-     *
      * @throws \JsonException
+     *
+     * @return false|int
      */
     public function putFile(string $file, int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
     {
         collect($this->toDotArray())
             ->filter(static function ($val): bool {
-                return ! is_scalar($val) && null !== $val;
+                return ! \is_scalar($val) && null !== $val;
             })
             ->keys()
             ->push(
@@ -136,7 +144,7 @@ final class ConfigManager extends Repository implements Arrayable, Jsonable, \Js
     }
 
     /**
-     * @param string|array<string> $keys
+     * @param array<string>|string $keys
      */
     public function forget($keys): void
     {
@@ -146,9 +154,9 @@ final class ConfigManager extends Repository implements Arrayable, Jsonable, \Js
     /**
      * Convert the object into something JSON serializable.
      *
-     * @return array<TKey, mixed>
-     *
      * @throws \JsonException
+     *
+     * @return array<TKey, mixed>
      */
     public function jsonSerialize(): array
     {
@@ -182,25 +190,13 @@ final class ConfigManager extends Repository implements Arrayable, Jsonable, \Js
     }
 
     /**
-     * @param int $options
-     *
-     * @return string
+     * {@inheritDoc}
      *
      * @throws \JsonException
      */
-    public function toJson($options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
+    public function toJson($options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE): string
     {
         return json_encode($this->jsonSerialize(), $options);
-    }
-
-    /**
-     * @return string
-     *
-     * @throws \JsonException
-     */
-    public function __toString()
-    {
-        return $this->toJson();
     }
 
     public static function readFrom(...$files): array

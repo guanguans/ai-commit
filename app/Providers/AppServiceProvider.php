@@ -49,7 +49,7 @@ final class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function register(): void
     {

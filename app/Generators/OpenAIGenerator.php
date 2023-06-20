@@ -76,7 +76,7 @@ class OpenAIGenerator implements GeneratorContract
     }
 
     /**
-     * @param \ArrayAccess|array $response
+     * @param array|\ArrayAccess $response
      */
     protected static function extractCompletion($response): string
     {
@@ -87,7 +87,7 @@ class OpenAIGenerator implements GeneratorContract
     {
         return function (string $data) use (&$messages): void {
             // 流响应完成
-            if (\str($data)->startsWith('data: [DONE]')) {
+            if (str($data)->startsWith('data: [DONE]')) {
                 return;
             }
 

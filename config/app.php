@@ -90,9 +90,7 @@ return [
     */
 
     'providers' => [
-        /**
-         * Laravel Framework Service Providers...
-         */
+        // Laravel Framework Service Providers...
         // Illuminate\Cache\CacheServiceProvider::class,
         // Illuminate\Filesystem\FilesystemServiceProvider::class,
         // Illuminate\Hashing\HashServiceProvider::class,
@@ -101,9 +99,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         // Illuminate\View\ViewServiceProvider::class,
 
-        /**
-         * Application Service Providers...
-         */
+        // Application Service Providers...
         App\Providers\AppServiceProvider::class,
     ],
 ];

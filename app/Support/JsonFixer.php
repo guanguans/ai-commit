@@ -96,14 +96,30 @@ final class JsonFixer
         return $head.$this->doFix($json).$tail;
     }
 
+    // trait PadsJson
+    public function pad(string $tmpJson): string
+    {
+        if (! $this->inStr) {
+            $tmpJson = rtrim($tmpJson, ',');
+            while (',' === $this->lastToken()) {
+                $this->popToken();
+            }
+        }
+
+        $tmpJson = $this->padLiteral($tmpJson);
+        $tmpJson = $this->padObject($tmpJson);
+
+        return $this->padStack($tmpJson);
+    }
+
     private function trim(string $json): array
     {
-        \preg_match('/^(\s*)([^\s]+)(\s*)$/', $json, $match);
+        preg_match('/^(\s*)([^\s]+)(\s*)$/', $json, $match);
 
         $match += ['', '', '', ''];
-        $match[2] = \trim($json);
+        $match[2] = trim($json);
 
-        \array_shift($match);
+        array_shift($match);
 
         return $match;
     }
@@ -111,9 +127,9 @@ final class JsonFixer
     private function isValid(string $json): bool
     {
         /** @psalm-suppress UnusedFunctionCall */
-        \json_decode($json);
+        json_decode($json);
 
-        return \JSON_ERROR_NONE === \json_last_error();
+        return \JSON_ERROR_NONE === json_last_error();
     }
 
     private function quickFix(string $json): ?string
@@ -144,7 +160,7 @@ final class JsonFixer
         }
 
         foreach (['true', 'false', 'null'] as $literal) {
-            if (0 === \strpos($literal, $json)) {
+            if (0 === strpos($literal, $json)) {
                 return $literal;
             }
         }
@@ -180,7 +196,7 @@ final class JsonFixer
 
         $last = $this->lastToken();
 
-        if (\in_array($last, [',', ':', '"']) && \preg_match('/\"|\d|\{|\[|t|f|n/', $char)) {
+        if (\in_array($last, [',', ':', '"']) && preg_match('/\"|\d|\{|\[|t|f|n/', $char)) {
             $this->popToken();
         }
 
@@ -193,7 +209,7 @@ final class JsonFixer
 
     private function lastToken()
     {
-        return \end($this->stack);
+        return end($this->stack);
     }
 
     /**
@@ -203,10 +219,10 @@ final class JsonFixer
     {
         // Last one
         if (null === $token) {
-            return \array_pop($this->stack);
+            return array_pop($this->stack);
         }
 
-        $keys = \array_reverse(\array_keys($this->stack));
+        $keys = array_reverse(array_keys($this->stack));
         foreach ($keys as $key) {
             if ($this->stack[$key] === $token) {
                 unset($this->stack[$key]);
@@ -257,23 +273,7 @@ final class JsonFixer
             return $json;
         }
 
-        throw new \RuntimeException(\sprintf('Could not fix JSON (tried padding `%s`)', \substr($tmpJson, $length)));
-    }
-
-    /* trait PadsJson */
-    public function pad(string $tmpJson): string
-    {
-        if (! $this->inStr) {
-            $tmpJson = \rtrim($tmpJson, ',');
-            while (',' === $this->lastToken()) {
-                $this->popToken();
-            }
-        }
-
-        $tmpJson = $this->padLiteral($tmpJson);
-        $tmpJson = $this->padObject($tmpJson);
-
-        return $this->padStack($tmpJson);
+        throw new \RuntimeException(sprintf('Could not fix JSON (tried padding `%s`)', substr($tmpJson, $length)));
     }
 
     private function padLiteral(string $tmpJson): string
@@ -282,18 +282,18 @@ final class JsonFixer
             return $tmpJson;
         }
 
-        $match = \preg_match('/(tr?u?e?|fa?l?s?e?|nu?l?l?)$/', $tmpJson, $matches);
+        $match = preg_match('/(tr?u?e?|fa?l?s?e?|nu?l?l?)$/', $tmpJson, $matches);
 
         if (! $match || null === $literal = $this->maybeLiteral($matches[1])) {
             return $tmpJson;
         }
 
-        return \substr($tmpJson, 0, -\strlen($matches[1])).$literal;
+        return substr($tmpJson, 0, -\strlen($matches[1])).$literal;
     }
 
     private function padStack(string $tmpJson): string
     {
-        foreach (\array_reverse($this->stack, true) as $token) {
+        foreach (array_reverse($this->stack, true) as $token) {
             if (isset($this->pairs[$token])) {
                 $tmpJson .= $this->pairs[$token];
             }
@@ -308,8 +308,8 @@ final class JsonFixer
             return $tmpJson;
         }
 
-        $part = \substr($tmpJson, $this->objectPos + 1);
-        if (\preg_match('/(\s*\"[^"]+\"\s*:\s*[^,]+,?)+$/', $part, $matches)) {
+        $part = substr($tmpJson, $this->objectPos + 1);
+        if (preg_match('/(\s*\"[^"]+\"\s*:\s*[^,]+,?)+$/', $part, $matches)) {
             return $tmpJson;
         }
 
@@ -329,7 +329,7 @@ final class JsonFixer
 
     private function objectNeedsPadding(string $tmpJson): bool
     {
-        $last = \substr($tmpJson, -1);
+        $last = substr($tmpJson, -1);
         $empty = '{' === $last && ! $this->inStr;
 
         return ! $empty && $this->arrayPos < $this->objectPos;
@@ -337,8 +337,8 @@ final class JsonFixer
 
     private function padString(string $string): ?string
     {
-        $last = \substr($string, -1);
-        $last2 = \substr($string, -2);
+        $last = substr($string, -1);
+        $last2 = substr($string, -2);
 
         if ('\"' === $last2 || '"' !== $last) {
             return $string.'"';
@@ -351,7 +351,7 @@ final class JsonFixer
 
     private function padIf(string $string, string $substr): string
     {
-        if (\substr($string, -\strlen($substr)) !== $substr) {
+        if (substr($string, -\strlen($substr)) !== $substr) {
             return $string.$substr;
         }
 

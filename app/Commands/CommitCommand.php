@@ -58,51 +58,6 @@ final class CommitCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function configure(): void
-    {
-        $this->setDefinition([
-            new InputArgument('path', InputArgument::OPTIONAL, 'The working directory', $this->configManager::localPath('')),
-            new InputOption('commit-options', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git commit` command', $this->configManager->get('commit_options', [])),
-            new InputOption('diff-options', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git diff` command', $this->configManager->get('diff_options', [])),
-            new InputOption('generator', 'g', InputOption::VALUE_REQUIRED, 'Specify generator name', $this->configManager->get('generator')),
-            new InputOption('prompt', 'p', InputOption::VALUE_REQUIRED, 'Specify prompt name of messages generated', $this->configManager->get('prompt')),
-            new InputOption('no-edit', null, InputOption::VALUE_NONE, 'Force no edit mode'),
-            new InputOption('config', 'c', InputOption::VALUE_OPTIONAL, 'Specify config file'),
-            new InputOption('retry-times', null, InputOption::VALUE_REQUIRED, 'Specify times of retry', $this->configManager->get('retry.times', 3)),
-            new InputOption('retry-sleep', null, InputOption::VALUE_REQUIRED, 'Specify sleep milliseconds of retry', $this->configManager->get('retry.sleep', 500)),
-        ]);
-    }
-
-    /**
-     * @psalm-suppress InvalidScalarArgument
-     */
-    protected function initialize(InputInterface $input, OutputInterface $output): void
-    {
-        if ($configFile = $this->option('config')) {
-            $this->configManager->replaceFrom($configFile);
-
-            $options = $this->configManager->getMany([
-                'commit_options',
-                'diff_options',
-                'generator',
-                'prompt',
-                'retry.times',
-                'retry.sleep',
-            ]);
-
-            collect($options)
-                ->reject(static function ($value): bool {
-                    return null === $value;
-                })
-                ->each(function ($value, $name): void {
-                    $this->input->setOption((string) \str($name)->replace(['.', '_'], '-'), $value);
-                });
-        }
-    }
-
-    /**
      * @noinspection DebugFunctionUsageInspection
      *
      * @psalm-suppress InvalidArgument
@@ -116,7 +71,7 @@ final class CommitCommand extends Command
             }
 
             $stagedDiff = $this->createProcess($this->getDiffCommand())->mustRun()->getOutput();
-            if (\str($stagedDiff)->isEmpty()) {
+            if (str($stagedDiff)->isEmpty()) {
                 throw new TaskException('There are no staged files to commit. Try running `git add` to stage some files.');
             }
 
@@ -130,7 +85,7 @@ final class CommitCommand extends Command
 
                     $originalMessages = $this->generatorManager->driver($this->option('generator'))->generate($this->getPrompt($stagedDiff));
                     $messages = $this->tryFixMessages($originalMessages);
-                    if (! \str($messages)->isJson()) {
+                    if (! str($messages)->isJson()) {
                         throw new TaskException(sprintf('The generated commit messages(%s) is an invalid JSON.', var_export($originalMessages, true)));
                     }
 
@@ -190,16 +145,67 @@ final class CommitCommand extends Command
         }
     }
 
+    public function schedule(Schedule $schedule): void
+    {
+        // $schedule->command(static::class)->everyMinute();
+    }
+
     /**
-     * @param string|array $command
+     * {@inheritDoc}
+     */
+    protected function configure(): void
+    {
+        $this->setDefinition([
+            new InputArgument('path', InputArgument::OPTIONAL, 'The working directory', $this->configManager::localPath('')),
+            new InputOption('commit-options', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git commit` command', $this->configManager->get('commit_options', [])),
+            new InputOption('diff-options', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git diff` command', $this->configManager->get('diff_options', [])),
+            new InputOption('generator', 'g', InputOption::VALUE_REQUIRED, 'Specify generator name', $this->configManager->get('generator')),
+            new InputOption('prompt', 'p', InputOption::VALUE_REQUIRED, 'Specify prompt name of messages generated', $this->configManager->get('prompt')),
+            new InputOption('no-edit', null, InputOption::VALUE_NONE, 'Force no edit mode'),
+            new InputOption('config', 'c', InputOption::VALUE_OPTIONAL, 'Specify config file'),
+            new InputOption('retry-times', null, InputOption::VALUE_REQUIRED, 'Specify times of retry', $this->configManager->get('retry.times', 3)),
+            new InputOption('retry-sleep', null, InputOption::VALUE_REQUIRED, 'Specify sleep milliseconds of retry', $this->configManager->get('retry.sleep', 500)),
+        ]);
+    }
+
+    /**
+     * @psalm-suppress InvalidScalarArgument
+     */
+    protected function initialize(InputInterface $input, OutputInterface $output): void
+    {
+        if ($configFile = $this->option('config')) {
+            $this->configManager->replaceFrom($configFile);
+
+            $options = $this->configManager->getMany([
+                'commit_options',
+                'diff_options',
+                'generator',
+                'prompt',
+                'retry.times',
+                'retry.sleep',
+            ]);
+
+            collect($options)
+                ->reject(static function ($value): bool {
+                    return null === $value;
+                })
+                ->each(function ($value, $name): void {
+                    $this->input->setOption((string) str($name)->replace(['.', '_'], '-'), $value);
+                });
+        }
+    }
+
+    /**
+     * @param array|string $command
+     * @param null|mixed $input
      *
      * @noinspection CallableParameterUseCaseInTypeContextInspection
      */
-    protected function createProcess($command, string $cwd = null, array $env = null, $input = null, ?float $timeout = 60): Process
+    protected function createProcess($command, ?string $cwd = null, ?array $env = null, $input = null, ?float $timeout = 60): Process
     {
         null === $cwd and $cwd = $this->argument('path');
 
-        $process = is_string($command)
+        $process = \is_string($command)
             ? Process::fromShellCommandline($command, $cwd, $env, $input, $timeout)
             : new Process($command, $cwd, $env, $input, $timeout);
 
@@ -217,7 +223,7 @@ final class CommitCommand extends Command
 
     protected function getPrompt(string $stagedDiff): string
     {
-        return (string) \str($this->configManager->get("prompts.{$this->option('prompt')}"))
+        return (string) str($this->configManager->get("prompts.{$this->option('prompt')}"))
             ->replace($this->configManager->get('diff_mark'), $stagedDiff)
             ->when($this->option('verbose'), function (Stringable $prompt): Stringable {
                 $this->output->info((string) $prompt);
@@ -270,10 +276,5 @@ final class CommitCommand extends Command
     protected function isNotEditMode(): bool
     {
         return (bool) ($this->option('no-edit') ?: ! $this->configManager->get('edit'));
-    }
-
-    public function schedule(Schedule $schedule): void
-    {
-        // $schedule->command(static::class)->everyMinute();
     }
 }

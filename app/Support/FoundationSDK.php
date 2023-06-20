@@ -119,9 +119,9 @@ abstract class FoundationSDK
      * }
      * ```.
      *
-     * @return array The merged and validated options
-     *
      * @throws \Illuminate\Validation\ValidationException laravel validation rules
+     *
+     * @return array The merged and validated options
      */
     abstract protected function validateConfig(array $config): array;
 
@@ -149,7 +149,7 @@ abstract class FoundationSDK
 
         if (null === $userAgent) {
             $userAgent = implode(' ', [
-                sprintf('ai-commit/%s', \str(config('app.version'))->whenStartsWith('v', static function (Stringable $version): Stringable {
+                sprintf('ai-commit/%s', str(config('app.version'))->whenStartsWith('v', static function (Stringable $version): Stringable {
                     return $version->replaceFirst('v', '');
                 })),
                 sprintf('guzzle/%s', InstalledVersions::getPrettyVersion('guzzlehttp/guzzle')),

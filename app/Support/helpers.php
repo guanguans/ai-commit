@@ -52,11 +52,9 @@ if (! function_exists('str')) {
     /**
      * Get a new stringable object from the given string.
      *
-     * @param string|null $string
-     *
      * @return \Illuminate\Support\Stringable|mixed
      */
-    function str($string = null)
+    function str(?string $string = null)
     {
         if (0 === func_num_args()) {
             return new class() {
@@ -80,10 +78,12 @@ if (! function_exists('make')) {
     /**
      * @psalm-param string|array<string, mixed> $abstract
      *
-     * @return mixed
+     * @param mixed $abstract
      *
      * @throws \InvalidArgumentException
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     *
+     * @return mixed
      */
     function make($abstract, array $parameters = [])
     {
@@ -113,9 +113,9 @@ if (! function_exists('make')) {
 
 if (! function_exists('array_reduce_with_keys')) {
     /**
-     * @param mixed|null $carry
+     * @param null|mixed $carry
      *
-     * @return mixed|null
+     * @return null|mixed
      */
     function array_reduce_with_keys(array $array, callable $callback, $carry = null)
     {
