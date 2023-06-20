@@ -22,7 +22,7 @@ class OpenAIGenerator implements GeneratorContract
     /**
      * @var array
      */
-    protected $config;
+    protected $config = [];
 
     /**
      * @var \App\Support\OpenAI

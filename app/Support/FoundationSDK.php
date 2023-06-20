@@ -36,7 +36,7 @@ abstract class FoundationSDK
     /**
      * @var array
      */
-    protected $config;
+    protected $config = [];
 
     /**
      * @var \Illuminate\Http\Client\Factory

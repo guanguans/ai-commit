@@ -197,12 +197,12 @@ final class BuildCommand extends Command
 
         $this->task(
             '   1. Moving application to <fg=yellow>production mode</>',
-            function () use ($configFile, $config): void {
+            static function () use ($configFile, $config): void {
                 File::put($configFile, '<?php return '.var_export($config, true).';'.PHP_EOL);
             }
         );
 
-        $boxContents = json_decode(self::$box, true);
+        $boxContents = json_decode(self::$box, true, 512, JSON_THROW_ON_ERROR);
         $boxContents['main'] = $this->getBinary();
 
         // Exclude Box binaries in output Phar
@@ -212,7 +212,7 @@ final class BuildCommand extends Command
         $boxContents['blacklist'][] = 'vendor/laravel-zero/framework/bin/box73';
         $boxContents['blacklist'][] = 'vendor/laravel-zero/framework/bin/box73.bat';
 
-        File::put($boxFile, json_encode($boxContents));
+        File::put($boxFile, json_encode($boxContents, JSON_THROW_ON_ERROR));
 
         File::put($configFile, '<?php return '.var_export($config, true).';'.PHP_EOL);
 

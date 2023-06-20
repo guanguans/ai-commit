@@ -12,63 +12,71 @@ declare(strict_types=1);
 
 namespace PHPSTORM_META;
 
+use Illuminate\Bus\Dispatcher;
+use Illuminate\Config\Repository;
+use Illuminate\Contracts\Container\Container;
+use Illuminate\Database\DatabaseManager;
+use Illuminate\Support\Arr;
+use Illuminate\View\FileViewFinder;
+use Psr\Container\ContainerInterface;
+
 // PhpStorm Meta file, to provide autocomplete information for PhpStorm.
-override(new \Illuminate\Contracts\Container\Container(), map([
+override(new Container(), map([
     '' => '@',
-    'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
-    'db' => \Illuminate\Database\DatabaseManager::class,
-    'view.finder' => \Illuminate\View\FileViewFinder::class,
-    'config' => \Illuminate\Config\Repository::class,
+    Dispatcher::class => Dispatcher::class,
+    'db' => DatabaseManager::class,
+    'view.finder' => FileViewFinder::class,
+    'config' => Repository::class,
 ]));
 
-override(\Illuminate\Container\Container::makeWith(0), map([
+override((new \Illuminate\Container\Container())->makeWith(0), map([
     '' => '@',
-    'config' => \Illuminate\Config\Repository::class,
+    'config' => Repository::class,
 ]));
 
-override(\Illuminate\Contracts\Container\Container::get(0), map([
+override((new Container())->get(0), map([
     '' => '@',
-    'config' => \Illuminate\Config\Repository::class,
+    'config' => Repository::class,
 ]));
 
-override(\Illuminate\Contracts\Container\Container::make(0), map([
+override((new Container())->make(0), map([
     '' => '@',
-    'config' => \Illuminate\Config\Repository::class,
+    'config' => Repository::class,
 ]));
 
-override(\Illuminate\Contracts\Container\Container::makeWith(0), map([
+override(Container::makeWith(0), map([
     '' => '@',
-    'config' => \Illuminate\Config\Repository::class,
+    'config' => Repository::class,
 ]));
 
 override(\App::get(0), map([
     '' => '@',
-    'config' => \Illuminate\Config\Repository::class,
+    'config' => Repository::class,
 ]));
 
 override(\App::make(0), map([
     '' => '@',
-    'config' => \Illuminate\Config\Repository::class,
+    'config' => Repository::class,
 ]));
 
 override(\App::makeWith(0), map([
     '' => '@',
-    'config' => \Illuminate\Config\Repository::class,
+    'config' => Repository::class,
 ]));
 
 override(app(0), map([
     '' => '@',
-    'config' => \Illuminate\Config\Repository::class,
+    'config' => Repository::class,
 ]));
 override(resolve(0), map([
     '' => '@',
-    'config' => \Illuminate\Config\Repository::class,
+    'config' => Repository::class,
 ]));
 
-override(\Psr\Container\ContainerInterface::get(0), map([
+override((new ContainerInterface())->get(0), map([
     '' => '@',
-    'config' => \Illuminate\Config\Repository::class,
+    'config' => Repository::class,
 ]));
 
-override(\Illuminate\Support\Arr::add(0), type(0));
+override(Arr::add(0), type(0));
 override(optional(0), type(0));
