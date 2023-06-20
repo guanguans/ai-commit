@@ -62,7 +62,7 @@ return [
                 // guzzlehttp\requestoptions::proxy => 'https://proxy.com/v1',
             ],
             'api_key' => env('OPENAI_API_KEY', 'sk-...'),
-            'completion_parameters' => [
+            'parameters' => [
                 'model' => 'gpt-3.5-turbo', // 'gpt-4,gpt-4-0613,gpt-4-32k,gpt-4-32k-0613,gpt-3.5-turbo,gpt-3.5-turbo-0613,gpt-3.5-turbo-16k,gpt-3.5-turbo-16k-0613
                 // 'messages' => 'required|array',
                 'max_tokens' => 600,
@@ -80,7 +80,7 @@ return [
         'openai' => [
             'driver' => 'openai',
             'api_key' => env('OPENAI_API_KEY', 'sk-...'),
-            'completion_parameters' => [
+            'parameters' => [
                 'model' => 'text-davinci-003', // text-davinci-003,text-davinci-002,text-curie-001,text-babbage-001,text-ada-001
                 // 'prompt' => 'string|array',
                 'suffix' => null,

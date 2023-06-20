@@ -29,7 +29,7 @@ final class OpenAIChatGenerator extends OpenAIGenerator
                 ['role' => 'user', 'content' => $prompt],
             ],
             'user' => Str::uuid()->toString(),
-        ] + Arr::get($this->config, 'completion_parameters', []);
+        ] + Arr::get($this->config, 'parameters', []);
 
         $response = $this->openAI->chatCompletions($parameters, $this->getWriter($messages));
 

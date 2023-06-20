@@ -70,7 +70,7 @@ class OpenAIGenerator implements GeneratorContract
         $parameters = [
             'prompt' => $prompt,
             'user' => Str::uuid()->toString(),
-        ] + Arr::get($this->config, 'completion_parameters', []);
+        ] + Arr::get($this->config, 'parameters', []);
 
         $response = $this->openAI->completions($parameters, $this->getWriter($messages));
 

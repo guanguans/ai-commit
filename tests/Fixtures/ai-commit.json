@@ -21,7 +21,7 @@
                 "sleepMilliseconds": 1000
             },
             "api_key": "sk-...",
-            "completion_parameters": {
+            "parameters": {
                 "model": "text-davinci-003",
                 "suffix": null,
                 "max_tokens": 500,

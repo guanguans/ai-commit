@@ -38,7 +38,7 @@ it('can sanitize data', function (): void {
 })->group(__DIR__, __FILE__);
 
 it('can completions', function (): void {
-    $parameters = config('ai-commit.generators.openai.completion_parameters');
+    $parameters = config('ai-commit.generators.openai.parameters');
     $parameters['prompt'] = 'OK';
     $response = $this->openAI->completions($parameters, function (): void {});
 
@@ -47,13 +47,13 @@ it('can completions', function (): void {
 })->group(__DIR__, __FILE__);
 
 it('will throw RequestException when completions', function (): void {
-    $parameters = config('ai-commit.generators.openai.completion_parameters');
+    $parameters = config('ai-commit.generators.openai.parameters');
     $parameters['prompt'] = 'Too Many Requests';
     $this->openAI->completions($parameters, function (): void {});
 })->group(__DIR__, __FILE__)->throws(RequestException::class, 'HTTP request returned status code 429');
 
 it('can chat completions', function (): void {
-    $parameters = config('ai-commit.generators.openaichat.completion_parameters');
+    $parameters = config('ai-commit.generators.openaichat.parameters');
     $parameters['messages'] = [
         ['role' => 'user', 'content' => 'OK'],
     ];
