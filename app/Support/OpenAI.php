@@ -24,7 +24,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 final class OpenAI extends FoundationSDK
 {
-    public static function hydrateData(string $data): string
+    public static function sanitizeData(string $data): string
     {
         return (string) str($data)->whenStartsWith($prefix = 'data: ', static function (Stringable $data) use ($prefix): Stringable {
             return $data->replaceFirst($prefix, '');
@@ -338,7 +338,7 @@ final class OpenAI extends FoundationSDK
             //                 ->skip(2)
             //                 ->reverse()
             //                 ->map(static function (string $rowData): array {
-            //                     return json_decode(self::hydrateData($rowData), true);
+            //                     return json_decode(self::sanitizeData($rowData), true);
             //                 })
             //                 ->reduce(static function (array $data, array $rowData): array {
             //                     if (empty($data)) {
@@ -363,7 +363,7 @@ final class OpenAI extends FoundationSDK
             //     if ($rowData && empty($response->body())) {
             //         (function (Response $response) use ($rowData): void {
             //             $this->response = $response->toPsrResponse()->withBody(
-            //                 Utils::streamFor(OpenAI::hydrateData($rowData))
+            //                 Utils::streamFor(OpenAI::sanitizeData($rowData))
             //             );
             //         })->call($response, $response);
             //     }
@@ -372,7 +372,7 @@ final class OpenAI extends FoundationSDK
 
         if ($rowData && empty($response->body())) {
             $response = new Response(
-                $response->toPsrResponse()->withBody(Utils::streamFor(self::hydrateData($rowData)))
+                $response->toPsrResponse()->withBody(Utils::streamFor(self::sanitizeData($rowData)))
             );
         }
 
