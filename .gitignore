@@ -14,6 +14,7 @@ clover.xml
 phpunit.xml
 psalm.xml
 vendor/
+vendor-bin/*/composer.lock
 tests.php
 .DS_Store
 .history/
