@@ -33,21 +33,16 @@ use Rector\DeadCode\Rector\ClassMethod\RemoveEmptyClassMethodRector;
 use Rector\EarlyReturn\Rector\If_\ChangeAndIfToEarlyReturnRector;
 use Rector\EarlyReturn\Rector\Return_\ReturnBinaryAndToEarlyReturnRector;
 use Rector\EarlyReturn\Rector\Return_\ReturnBinaryOrToEarlyReturnRector;
-use Rector\EarlyReturn\Rector\StmtsAwareInterface\ReturnEarlyIfVariableRector;
 use Rector\Naming\Rector\Assign\RenameVariableToMatchMethodCallReturnTypeRector;
 use Rector\Naming\Rector\ClassMethod\RenameParamToMatchTypeRector;
-use Rector\Naming\Rector\Foreach_\RenameForeachValueVariableToMatchExprVariableRector;
 use Rector\Php56\Rector\FunctionLike\AddDefaultValueForUndefinedVariableRector;
-use Rector\Php71\Rector\FuncCall\RemoveExtraParametersRector;
 use Rector\Php73\Rector\FuncCall\JsonThrowOnErrorRector;
 use Rector\PHPUnit\Rector\Class_\AddSeeTestAnnotationRector;
-use Rector\PHPUnit\Rector\MethodCall\RemoveExpectAnyFromMockRector;
 use Rector\PHPUnit\Set\PHPUnitLevelSetList;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Renaming\Rector\FuncCall\RenameFunctionRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
-use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
 use Rector\Strict\Rector\Ternary\DisallowedShortTernaryRuleFixerRector;
 
 return static function (RectorConfig $rectorConfig): void {
@@ -79,7 +74,7 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->paths([
         __DIR__.'/app',
-        // __DIR__.'/tests',
+        __DIR__.'/tests',
         __DIR__.'/.*.php',
         __FILE__,
     ]);
@@ -91,7 +86,6 @@ return static function (RectorConfig $rectorConfig): void {
         // AddSeeTestAnnotationRector::class,
         // CallableThisArrayToAnonymousFunctionRector::class,
         // ChangeAndIfToEarlyReturnRector::class,
-        ExplicitBoolCompareRector::class,
         // RemoveEmptyClassMethodRector::class,
         // RemoveUnusedVariableAssignRector::class,
         // ReturnBinaryOrToEarlyReturnRector::class,
@@ -100,46 +94,29 @@ return static function (RectorConfig $rectorConfig): void {
         // UnSpreadOperatorRector::class,
 
         EncapsedStringsToSprintfRector::class,
-        UnSpreadOperatorRector::class,
+        ExplicitBoolCompareRector::class,
         InlineIfToExplicitIfRector::class,
         LogicalToBooleanRector::class,
         RenameParamToMatchTypeRector::class,
         RenameVariableToMatchMethodCallReturnTypeRector::class,
+        UnSpreadOperatorRector::class,
+        WrapEncapsedVariableInCurlyBracesRector::class,
         // NewlineAfterStatementRector::class,
         // ReturnBinaryAndToEarlyReturnRector::class,
         // VarConstantCommentRector::class,
-        WrapEncapsedVariableInCurlyBracesRector::class,
 
-        // DisallowedEmptyRuleFixerRector::class => [
-        //     __DIR__.'/src/Support/QueryAnalyzer.php',
-        // ],
-        // RemoveExtraParametersRector::class => [
-        //     __DIR__.'/src/Macros/QueryBuilderMacro.php',
-        // ],
-        // ExplicitBoolCompareRector::class => [
-        //     __DIR__.'/src/JavascriptRenderer.php',
-        // ],
-        // RenameForeachValueVariableToMatchExprVariableRector::class => [
-        //     __DIR__.'/src/OutputManager.php',
-        // ],
         CompleteDynamicPropertiesRector::class => [
             __DIR__.'/app/Support/FoundationSDK.php',
-        ],
-        StaticClosureRector::class => [
-            __DIR__.'/tests',
-        ],
-        JsonThrowOnErrorRector::class => [
-            __DIR__.'/app/Generators/OpenAIGenerator.php',
         ],
         DisallowedShortTernaryRuleFixerRector::class => [
             __DIR__.'/app/Support/FoundationSDK.php',
         ],
-        // RemoveExpectAnyFromMockRector::class => [
-        //     __DIR__.'/tests/Concerns/WithDumpableTest.php',
-        // ],
-        // ReturnEarlyIfVariableRector::class => [
-        //     __DIR__.'/src/Support/EscapeArg.php',
-        // ],
+        JsonThrowOnErrorRector::class => [
+            __DIR__.'/app/Generators/OpenAIGenerator.php',
+        ],
+        StaticClosureRector::class => [
+            __DIR__.'/tests',
+        ],
 
         // paths
         __DIR__.'/tests/AspectMock',
