@@ -1,10 +1,17 @@
-name: check & fix styling
+name: rector
 
-on: [ push ]
+on:
+  push:
+    paths:
+      - '**.php'
+      - '.github/**.yml'
+      - '.github/**.yaml'
+      - '*.xml'
+      - '*.xml.dist'
 
 jobs:
-  php-cs-fixer:
-    name: php-cs-fixer
+  rector:
+    name: rector
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -25,14 +32,8 @@ jobs:
       - name: Run composer install
         run: composer install --prefer-dist --ansi --no-interaction --no-scripts --ansi -v
 
-      - name: Install global php-cs-fixer
-        run: composer global require friendsofphp/php-cs-fixer --prefer-dist --ansi --no-interaction --no-scripts
+      - name: Install global rector
+        run: composer global require rector/rector --prefer-dist --ansi --no-interaction --no-scripts
 
-      - name: Run php-cs-fixer
-        run: composer style-fix
-
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Fix styling
-          file_pattern: '**.php'
+      - name: Run rector
+        run: composer rector-dry-run
