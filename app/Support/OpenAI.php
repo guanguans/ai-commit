@@ -14,7 +14,9 @@ namespace App\Support;
 
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Utils;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Stringable;
 use Psr\Http\Message\ResponseInterface;
@@ -240,6 +242,8 @@ final class OpenAI extends FoundationSDK
      *     'whisper-1',
      * ];
      * ```.
+     *
+     * @throws RequestException
      */
     public function models(): Response
     {
@@ -248,6 +252,8 @@ final class OpenAI extends FoundationSDK
 
     /**
      * {@inheritDoc}
+     *
+     * @throws BindingResolutionException
      */
     protected function validateConfig(array $config): array
     {
@@ -303,6 +309,9 @@ final class OpenAI extends FoundationSDK
     /**
      * @psalm-suppress UnusedVariable
      * @psalm-suppress UnevaluatedCode
+     *
+     * @throws BindingResolutionException
+     * @throws RequestException
      */
     private function completion(string $url, array $parameters, array $rules, ?callable $writer = null, array $messages = [], array $customAttributes = []): Response
     {
@@ -313,7 +322,7 @@ final class OpenAI extends FoundationSDK
                 static function (PendingRequest $pendingRequest) use ($writer, &$rowData): PendingRequest {
                     return $pendingRequest->withOptions([
                         'curl' => [
-                            CURLOPT_WRITEFUNCTION => static function ($ch, string $data) use ($writer, &$rowData): int {
+                            CURLOPT_WRITEFUNCTION => static function ($ch, string $data) use (&$rowData, $writer): int {
                                 if (! str($data)->startsWith('data: [DONE]')) {
                                     $rowData = $data;
                                 }

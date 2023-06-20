@@ -58,12 +58,12 @@ abstract class FoundationSDK
     /**
      * @psalm-suppress UnusedClosureParam
      */
-    public function ddRequestData()
+    public function ddRequestData(): self
     {
         return $this->tapDefaultPendingRequest(static function (PendingRequest $pendingRequest): void {
             $pendingRequest->beforeSending(static function (Request $request, array $options): void {
-                VarDumper::dump($options['laravel_data']);
-                exit(1);
+                VarDumper::dump($options['laravel_data']); // @codeCoverageIgnore
+                exit(1); // @codeCoverageIgnore
             });
         });
     }
@@ -71,11 +71,11 @@ abstract class FoundationSDK
     /**
      * @psalm-suppress UnusedClosureParam
      */
-    public function dumpRequestData()
+    public function dumpRequestData(): self
     {
         return $this->tapDefaultPendingRequest(static function (PendingRequest $pendingRequest): void {
             $pendingRequest->beforeSending(static function (Request $request, array $options): void {
-                VarDumper::dump($options['laravel_data']);
+                VarDumper::dump($options['laravel_data']); // @codeCoverageIgnore
             });
         });
     }
@@ -88,7 +88,7 @@ abstract class FoundationSDK
         return Middleware::log($logger, $formatter, $logLevel);
     }
 
-    public function tapDefaultPendingRequest(callable $callback)
+    public function tapDefaultPendingRequest(callable $callback): self
     {
         $this->defaultPendingRequest = tap($this->defaultPendingRequest, $callback);
 

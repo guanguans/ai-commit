@@ -86,6 +86,9 @@ class OpenAIGenerator implements GeneratorContract
         return Arr::get($response, 'choices.0.text', '');
     }
 
+    /**
+     * @noinspection JsonEncodingApiUsageInspection
+     */
     protected function getWriter(?string &$messages): \Closure
     {
         return function (string $data) use (&$messages): void {
@@ -95,7 +98,7 @@ class OpenAIGenerator implements GeneratorContract
             }
 
             // (正常|错误|流)响应
-            $rowResponse = (array) json_decode($this->openAI::sanitizeData($data), true);
+            $rowResponse = (array) json_decode(OpenAI::sanitizeData($data), true);
             $messages .= $text = static::extractCompletion($rowResponse);
             $this->output->write($text);
         };

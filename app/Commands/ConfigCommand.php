@@ -36,7 +36,7 @@ final class ConfigCommand extends Command
     /**
      * @var string[]
      */
-    protected $editors = ['editor', 'vim', 'vi', 'nano', 'pico', 'ed'];
+    protected const EDITORS = ['editor', 'vim', 'vi', 'nano', 'pico', 'ed'];
 
     /**
      * @var string
@@ -59,6 +59,9 @@ final class ConfigCommand extends Command
         parent::__construct();
     }
 
+    /**
+     * @throws \JsonException
+     */
     public function handle(): int
     {
         $file = value(function () {
@@ -123,7 +126,7 @@ final class ConfigCommand extends Command
                         return 'notepad';
                     }
 
-                    foreach ($this->editors as $editor) {
+                    foreach (self::EDITORS as $editor) {
                         if (exec("which $editor")) {
                             return $editor;
                         }
@@ -145,6 +148,7 @@ final class ConfigCommand extends Command
     }
 
     /**
+     * @codeCoverageIgnore
      * @psalm-suppress InvalidArgument
      */
     public function complete(CompletionInput $input, CompletionSuggestions $suggestions): void
@@ -162,7 +166,7 @@ final class ConfigCommand extends Command
         }
 
         if ($input->mustSuggestOptionValuesFor('editor')) {
-            $suggestions->suggestValues($this->editors);
+            $suggestions->suggestValues(self::EDITORS);
         }
     }
 
@@ -186,15 +190,18 @@ final class ConfigCommand extends Command
         ]);
     }
 
+    /**
+     * @throws \JsonException
+     */
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
-        if (! file_exists($this->configManager::globalPath())) {
+        if (! file_exists(ConfigManager::globalPath())) {
             $this->configManager->putGlobal();
         }
     }
 
     /**
-     * @return mixed
+     * @throws \JsonException
      */
     protected function argToValue(string $arg)
     {
@@ -225,6 +232,7 @@ final class ConfigCommand extends Command
      * @param mixed $value
      *
      * @noinspection DebugFunctionUsageInspection
+     * @noinspection JsonEncodingApiUsageInspection
      */
     protected function valueToArg($value): string
     {

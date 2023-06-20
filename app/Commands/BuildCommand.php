@@ -77,6 +77,9 @@ final class BuildCommand extends Command
 
     /**
      * @psalm-suppress UndefinedInterfaceMethod
+     * @noinspection ReturnTypeCanBeDeclaredInspection
+     * @noinspection PhpMissingReturnTypeInspection
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     public function isEnabled()
     {
@@ -84,7 +87,7 @@ final class BuildCommand extends Command
     }
 
     /**
-     * {@inheritDoc}
+     * @throws \JsonException
      */
     public function handle(): void
     {
@@ -107,8 +110,10 @@ final class BuildCommand extends Command
 
     /**
      * Builds the application into a single file.
+     *
+     * @throws \JsonException
      */
-    private function build(string $name): BuildCommand
+    private function build(string $name): self
     {
         /*
          * We prepare the application for a build, moving it to production. Then,
@@ -130,8 +135,9 @@ final class BuildCommand extends Command
      * @psalm-suppress UndefinedInterfaceMethod
      *
      * @noinspection PhpVoidFunctionResultUsedInspection
+     * @noinspection DisconnectedForeachInstructionInspection
      */
-    private function compile(string $name): BuildCommand
+    private function compile(string $name): self
     {
         if (! File::exists($this->app->buildsPath())) {
             File::makeDirectory($this->app->buildsPath());
@@ -161,7 +167,7 @@ final class BuildCommand extends Command
             $progressBar->advance();
 
             if ($this->option('verbose')) {
-                $process::OUT === $type ? $this->info("$data") : $this->error("$data");
+                $process::OUT === $type ? $this->info((string) $data) : $this->error((string) $data);
             }
         }
 
@@ -180,8 +186,11 @@ final class BuildCommand extends Command
 
     /**
      * @noinspection DebugFunctionUsageInspection
+     * @noinspection UsingInclusionReturnValueInspection
+     *
+     * @throws \JsonException
      */
-    private function prepare(): BuildCommand
+    private function prepare(): self
     {
         $configFile = $this->app->configPath('app.php');
         self::$config = File::get($configFile);
@@ -219,7 +228,7 @@ final class BuildCommand extends Command
         return $this;
     }
 
-    private function clear(): BuildCommand
+    private function clear(): self
     {
         File::put($this->app->configPath('app.php'), self::$config);
 
@@ -259,13 +268,15 @@ final class BuildCommand extends Command
 
     /**
      * Enable and listen to async signals for the process.
+     *
+     * @noinspection PhpComposerExtensionStubsInspection
      */
     private function listenForSignals(): void
     {
         pcntl_async_signals(true);
 
         pcntl_signal(SIGINT, function (): void {
-            if (null !== static::$config) {
+            if (null !== self::$config) {
                 $this->clear();
             }
 

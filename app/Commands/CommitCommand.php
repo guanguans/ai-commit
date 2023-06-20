@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Commands;
 
+use App\ConfigManager;
 use App\Exceptions\TaskException;
 use App\GeneratorManager;
 use App\Support\JsonFixer;
@@ -97,7 +98,7 @@ final class CommitCommand extends Command
             $this->newLine();
         }, 'generating...');
 
-        $this->task('2. Choosing commit message', function () use ($messages, &$message): void {
+        $this->task('2. Choosing commit message', function () use (&$message, $messages): void {
             $message = collect(json_decode($messages, true, 512, JSON_THROW_ON_ERROR))
                 ->tap(function (Collection $messages): void {
                     $this->newLine(2);
@@ -130,6 +131,7 @@ final class CommitCommand extends Command
     }
 
     /**
+     * @codeCoverageIgnore
      * @psalm-suppress InvalidArgument
      */
     public function complete(CompletionInput $input, CompletionSuggestions $suggestions): void
@@ -156,7 +158,7 @@ final class CommitCommand extends Command
     protected function configure(): void
     {
         $this->setDefinition([
-            new InputArgument('path', InputArgument::OPTIONAL, 'The working directory', $this->configManager::localPath('')),
+            new InputArgument('path', InputArgument::OPTIONAL, 'The working directory', ConfigManager::localPath('')),
             new InputOption('commit-options', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git commit` command', $this->configManager->get('commit_options', [])),
             new InputOption('diff-options', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git diff` command', $this->configManager->get('diff_options', [])),
             new InputOption('generator', 'g', InputOption::VALUE_REQUIRED, 'Specify generator name', $this->configManager->get('generator')),

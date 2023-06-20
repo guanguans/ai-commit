@@ -41,6 +41,7 @@ if (! function_exists('validate')) {
      * Validate the given data with the given rules.
      *
      * @throws \Illuminate\Validation\ValidationException
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     function validate(array $data, array $rules, array $messages = [], array $customAttributes = []): array
     {

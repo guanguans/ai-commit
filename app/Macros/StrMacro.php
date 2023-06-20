@@ -19,6 +19,7 @@ final class StrMacro
 {
     /**
      * @psalm-suppress UnusedFunctionCall
+     * @noinspection BadExceptionsProcessingInspection
      */
     public static function isJson(): \Closure
     {

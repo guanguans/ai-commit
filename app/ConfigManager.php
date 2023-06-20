@@ -51,6 +51,9 @@ final class ConfigManager extends Repository implements \JsonSerializable, Array
         resolve('config')->set('ai-commit', self::create());
     }
 
+    /**
+     * @throws \JsonException
+     */
     public static function create(?array $items = null): self
     {
         if (\is_array($items)) {
@@ -62,6 +65,9 @@ final class ConfigManager extends Repository implements \JsonSerializable, Array
         );
     }
 
+    /**
+     * @throws \JsonException
+     */
     public static function createFrom(...$files): self
     {
         return new self(self::readFrom(...$files));
@@ -71,7 +77,7 @@ final class ConfigManager extends Repository implements \JsonSerializable, Array
     {
         $path = $path ? \DIRECTORY_SEPARATOR.$path : $path;
         if (windows_os()) {
-            return sprintf('C:\\Users\\%s', get_current_user()).$path;
+            return sprintf('C:\\Users\\%s', get_current_user()).$path; // @codeCoverageIgnore
         }
 
         return exec('cd ~; pwd').$path;
@@ -133,6 +139,9 @@ final class ConfigManager extends Repository implements \JsonSerializable, Array
         return file_put_contents($file, $this->toJson($options));
     }
 
+    /**
+     * @throws \JsonException
+     */
     public function replaceFrom(string $file): void
     {
         $this->replace(self::readFrom($file));
@@ -193,12 +202,16 @@ final class ConfigManager extends Repository implements \JsonSerializable, Array
      * {@inheritDoc}
      *
      * @throws \JsonException
+     * @noinspection JsonEncodingApiUsageInspection
      */
     public function toJson($options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE): string
     {
         return json_encode($this->jsonSerialize(), $options);
     }
 
+    /**
+     * @throws \JsonException
+     */
     public static function readFrom(...$files): array
     {
         $configurations = array_reduce($files, static function (array $configurations, string $file): array {

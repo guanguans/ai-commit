@@ -17,6 +17,7 @@ use App\GeneratorManager;
 use App\Macros\StringableMacro;
 use App\Macros\StrMacro;
 use Illuminate\Console\OutputStyle;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
@@ -50,6 +51,8 @@ final class AppServiceProvider extends ServiceProvider
 
     /**
      * {@inheritDoc}
+     *
+     * @throws BindingResolutionException
      */
     public function register(): void
     {
