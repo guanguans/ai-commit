@@ -6,6 +6,7 @@
 # https://github.com/actions/labeler
 
 name: labeler
+
 on: [ pull_request ]
 
 jobs:

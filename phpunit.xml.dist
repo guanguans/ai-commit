@@ -1,56 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        backupGlobals="false"
-        backupStaticAttributes="false"
-        bootstrap="vendor/autoload.php"
-        colors="true"
-        convertErrorsToExceptions="true"
-        convertNoticesToExceptions="true"
-        convertWarningsToExceptions="true"
-        processIsolation="false"
-        stopOnFailure="false"
-        verbose="true"
-        xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.5/phpunit.xsd"
+  backupGlobals="false"
+  backupStaticAttributes="false"
+  bootstrap="vendor/autoload.php"
+  cacheResultFile="build/phpunit/.phpunit.result.cache"
+  colors="true"
+  convertErrorsToExceptions="true"
+  convertNoticesToExceptions="true"
+  convertWarningsToExceptions="true"
+  processIsolation="false"
+  stopOnFailure="false"
+  verbose="true"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 >
-    <testsuites>
-        <testsuite name="Feature">
-            <directory suffix="Test.php">./tests/Feature</directory>
-            <exclude>vendor/</exclude>
-        </testsuite>
-        <testsuite name="Unit">
-            <directory suffix="Test.php">./tests/Unit</directory>
-            <exclude>vendor/</exclude>
-        </testsuite>
-    </testsuites>
+  <testsuites>
+    <testsuite name="Feature">
+      <directory suffix="Test.php">./tests/Feature</directory>
+      <exclude>vendor/</exclude>
+    </testsuite>
+    <testsuite name="Unit">
+      <directory suffix="Test.php">./tests/Unit</directory>
+      <exclude>vendor/</exclude>
+    </testsuite>
+  </testsuites>
 
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./app</directory>
-            <exclude>
-                <!--<directory>app/Contracts</directory>-->
-                <file>app/Commands/BuildCommand.php</file>
-                <file>app/Support/JsonFixer.php</file>
-                <file>app/Support/helpers.php</file>
-            </exclude>
-        </whitelist>
-    </filter>
+  <filter>
+    <whitelist processUncoveredFilesFromWhitelist="true">
+      <directory suffix=".php">./app</directory>
+      <exclude>
+        <!--<directory>app/Contracts</directory>-->
+        <file>app/Commands/BuildCommand.php</file>
+        <file>app/Support/JsonFixer.php</file>
+        <file>app/Support/helpers.php</file>
+      </exclude>
+    </whitelist>
+  </filter>
 
-    <!--<listeners>
-        <listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener">
-            <arguments>
-                <array>
-                    <element key="slowThreshold">
-                        <integer>500</integer>
-                    </element>
-                    <element key="reportLength">
-                        <integer>10</integer>
-                    </element>
-                    <element key="stopOnSlow">
-                        <boolean>false</boolean>
-                    </element>
-                </array>
-            </arguments>
-        </listener>
-    </listeners>-->
+  <!--<listeners>
+      <listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener">
+          <arguments>
+              <array>
+                  <element key="slowThreshold">
+                      <integer>500</integer>
+                  </element>
+                  <element key="reportLength">
+                      <integer>10</integer>
+                  </element>
+                  <element key="stopOnSlow">
+                      <boolean>false</boolean>
+                  </element>
+              </array>
+          </arguments>
+      </listener>
+  </listeners>-->
 </phpunit>
