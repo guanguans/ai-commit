@@ -69,7 +69,7 @@ final class ConfigManager extends Repository implements \JsonSerializable, Array
 
     public static function globalPath(string $path = self::NAME): string
     {
-        $path = $path ? DIRECTORY_SEPARATOR.$path : $path;
+        $path = $path ? \DIRECTORY_SEPARATOR.$path : $path;
         if (windows_os()) {
             return sprintf('C:\\Users\\%s', get_current_user()).$path;
         }
@@ -84,7 +84,7 @@ final class ConfigManager extends Repository implements \JsonSerializable, Array
             $cwd = realpath('');
         }
 
-        return $cwd.($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return $cwd.($path ? \DIRECTORY_SEPARATOR.$path : $path);
     }
 
     /**

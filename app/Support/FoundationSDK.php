@@ -30,8 +30,8 @@ use Symfony\Component\VarDumper\VarDumper;
 abstract class FoundationSDK
 {
     use Conditionable;
-    use Tappable;
     use Macroable;
+    use Tappable;
 
     /**
      * @var array

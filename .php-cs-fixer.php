@@ -14,12 +14,12 @@ use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
 
 $header = <<<'header'
-This file is part of the guanguans/ai-commit.
+    This file is part of the guanguans/ai-commit.
 
-(c) guanguans <ityaozm@gmail.com>
+    (c) guanguans <ityaozm@gmail.com>
 
-This source file is subject to the MIT license that is bundled.
-header;
+    This source file is subject to the MIT license that is bundled.
+    header;
 
 /** @noinspection PhpParamsInspection */
 $finder = Finder::create()
@@ -76,11 +76,11 @@ return (new Config())
     // ->registerCustomFixers(new PhpCsFixerCustomFixers\Fixers())
     // ->registerCustomFixers(new PedroTroller\CS\Fixer\Fixers())
     ->setRules([
-        // '@PHP70Migration' => true,
-        // '@PHP70Migration:risky' => true,
-        // '@PHP71Migration' => true,
-        // '@PHP71Migration:risky' => true,
-        // '@PHP73Migration' => true,
+        '@PHP70Migration' => true,
+        '@PHP70Migration:risky' => true,
+        '@PHP71Migration' => true,
+        '@PHP71Migration:risky' => true,
+        '@PHP73Migration' => true,
         // '@PHP74Migration' => true,
         // '@PHP74Migration:risky' => true,
         // '@PHP80Migration' => true,
@@ -94,7 +94,7 @@ return (new Config())
 
         // '@DoctrineAnnotation' => true,
         '@PhpCsFixer' => true,
-        // '@PhpCsFixer:risky' => true,
+        '@PhpCsFixer:risky' => true,
 
         // alias
         // 'mb_str_functions' => true,

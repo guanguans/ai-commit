@@ -87,7 +87,7 @@ if (! function_exists('make')) {
      */
     function make($abstract, array $parameters = [])
     {
-        if (! in_array(gettype($abstract), ['string', 'array'])) {
+        if (! is_string($abstract) && ! is_array($abstract)) {
             throw new InvalidArgumentException(sprintf('Invalid argument type(string/array): %s.', gettype($abstract)));
         }
 

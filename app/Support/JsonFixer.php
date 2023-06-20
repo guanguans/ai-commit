@@ -129,7 +129,7 @@ final class JsonFixer
         /** @psalm-suppress UnusedFunctionCall */
         json_decode($json);
 
-        return \JSON_ERROR_NONE === json_last_error();
+        return JSON_ERROR_NONE === json_last_error();
     }
 
     private function quickFix(string $json): ?string
@@ -155,7 +155,7 @@ final class JsonFixer
 
     private function maybeLiteral(string $json): ?string
     {
-        if (! \in_array($json[0], ['t', 'f', 'n'])) {
+        if (! \in_array($json[0], ['t', 'f', 'n'], true)) {
             return null;
         }
 
@@ -177,7 +177,7 @@ final class JsonFixer
         while (isset($json[++$index])) {
             [$prev, $char] = [$char, $json[$index]];
 
-            if (! \in_array($char, [' ', "\n", "\r"])) {
+            if (! \in_array($char, [' ', "\n", "\r"], true)) {
                 $this->stack($prev, $char, $index);
             }
         }
@@ -196,11 +196,11 @@ final class JsonFixer
 
         $last = $this->lastToken();
 
-        if (\in_array($last, [',', ':', '"']) && preg_match('/\"|\d|\{|\[|t|f|n/', $char)) {
+        if (\in_array($last, [',', ':', '"'], true) && preg_match('/\"|\d|\{|\[|t|f|n/', $char)) {
             $this->popToken();
         }
 
-        if (\in_array($char, [',', ':', '[', '{'])) {
+        if (\in_array($char, [',', ':', '[', '{'], true)) {
             $this->stack[$index] = $char;
         }
 

@@ -86,7 +86,7 @@ final class BuildCommand extends Command
     /**
      * {@inheritDoc}
      */
-    public function handle()
+    public function handle(): void
     {
         if ($this->supportsAsyncSignals()) {
             $this->listenForSignals();
@@ -197,7 +197,7 @@ final class BuildCommand extends Command
 
         $this->task(
             '   1. Moving application to <fg=yellow>production mode</>',
-            function () use ($configFile, $config) {
+            function () use ($configFile, $config): void {
                 File::put($configFile, '<?php return '.var_export($config, true).';'.PHP_EOL);
             }
         );
@@ -264,7 +264,7 @@ final class BuildCommand extends Command
     {
         pcntl_async_signals(true);
 
-        pcntl_signal(SIGINT, function () {
+        pcntl_signal(SIGINT, function (): void {
             if (null !== static::$config) {
                 $this->clear();
             }
