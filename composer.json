@@ -125,7 +125,7 @@
         ],
         "post-autoload-dump": [],
         "ai-commit": "@php ./builds/ai-commit commit --ansi",
-        "cghooks": "@php cghooks --ansi",
+        "cghooks": "@php cghooks --ansi -v",
         "cghooks-install": [
             "@cghooks add --ignore-lock",
             "@cghooks update"
@@ -134,7 +134,7 @@
             "@php -r \"file_exists('.git/hooks/pre-commit') and rename('.git/hooks/pre-commit', '.git/hooks/pre-commit.sample');\"",
             "@php -r \"file_exists('.git/hooks/post-merge') and rename('.git/hooks/post-merge', '.git/hooks/post-merge.sample');\""
         ],
-        "changelog": "conventional-changelog --ansi",
+        "changelog": "conventional-changelog --ansi -v",
         "changelog-major": "@changelog --major",
         "changelog-minor": "@changelog --minor",
         "changelog-patch": "@changelog --patch",
@@ -153,9 +153,9 @@
             "@psalm",
             "@mark-finish"
         ],
-        "composer-check-platform-reqs": "@composer check-platform-reqs --lock --ansi",
-        "composer-unused-checker": "@php ./vendor/bin/composer-unused --ansi",
-        "composer-validate": "@composer validate --strict --ansi",
+        "composer-check-platform-reqs": "@composer check-platform-reqs --lock --ansi -v",
+        "composer-unused-checker": "@php ./vendor/bin/composer-unused --ansi -v",
+        "composer-validate": "@composer validate --strict --ansi -v",
         "haulable": "haulable --ansi -v",
         "haulable-package": "@haulable package ./builds/ai-commit",
         "lint": [
@@ -167,9 +167,9 @@
         "mark-start": "printf '\\n!\\n!\\t\\033[0;36m%s\\033[0m\\n!\\n\\n' \"Started\"",
         "md-fix": "@md-lint --fix",
         "md-lint": "lint-md --config .lintmdrc ./*.md ./.github/ ./docs/",
-        "pest": "@php ./vendor/bin/pest --cache-result-file=./build/phpunit/.phpunit.result.cache",
+        "pest": "@php ./vendor/bin/pest",
         "pest-coverage": "@pest --coverage-html=./build/phpunit/ --coverage-clover=clover.xml --coverage",
-        "phpstan": "phpstan analyse --ansi -vv",
+        "phpstan": "phpstan analyse --ansi -v",
         "phpstan-baseline": "@phpstan --generate-baseline --allow-empty-baseline",
         "post-merge": [
             "@composer install"
@@ -178,7 +178,7 @@
         "psalm-baseline": "@psalm --update-baseline",
         "rector": "rector --clear-cache --ansi -v",
         "rector-dry-run": "@rector --dry-run",
-        "style-fix": "php-cs-fixer fix --using-cache=no --config=.php-cs-fixer.php --ansi",
+        "style-fix": "php-cs-fixer fix --using-cache=no --config=.php-cs-fixer.php --ansi -v",
         "style-lint": "@style-fix --diff --dry-run",
         "test": "@pest",
         "test-coverage": "@pest-coverage",
