@@ -146,7 +146,7 @@ return static function (RectorConfig $rectorConfig): void {
         // SetList::GMAGICK_TO_IMAGICK,
         // SetList::MYSQL_TO_MYSQLI,
         SetList::NAMING,
-        // SetList::PRIVATIZATION,
+        SetList::PRIVATIZATION,
         SetList::TYPE_DECLARATION,
         SetList::EARLY_RETURN,
         SetList::INSTANCEOF,

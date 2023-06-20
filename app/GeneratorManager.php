@@ -51,12 +51,12 @@ final class GeneratorManager extends Manager
         throw new \InvalidArgumentException("Driver [$driver] not supported.");
     }
 
-    protected function createOpenAIDriver(array $config): OpenAIGenerator
+    private function createOpenAIDriver(array $config): OpenAIGenerator
     {
         return new OpenAIGenerator($config);
     }
 
-    protected function createOpenAIChatDriver(array $config): OpenAIChatGenerator
+    private function createOpenAIChatDriver(array $config): OpenAIChatGenerator
     {
         return new OpenAIChatGenerator($config);
     }

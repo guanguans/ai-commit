@@ -51,7 +51,7 @@ final class ConfigCommand extends Command
     /**
      * @var \App\ConfigManager
      */
-    protected $configManager;
+    private $configManager;
 
     public function __construct()
     {

@@ -44,12 +44,12 @@ final class CommitCommand extends Command
     /**
      * @var \App\ConfigManager
      */
-    protected $configManager;
+    private $configManager;
 
     /**
      * @var \App\GeneratorManager
      */
-    protected $generatorManager;
+    private $generatorManager;
 
     public function __construct(GeneratorManager $generatorManager)
     {
