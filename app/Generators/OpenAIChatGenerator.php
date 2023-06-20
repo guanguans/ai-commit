@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\Generators;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 final class OpenAIChatGenerator extends OpenAIGenerator
 {
@@ -23,10 +24,12 @@ final class OpenAIChatGenerator extends OpenAIGenerator
      */
     public function generate(string $prompt): string
     {
-        $parameters = Arr::get($this->config, 'completion_parameters', []);
-        $parameters['messages'] = [
-            ['role' => 'user', 'content' => $prompt],
-        ];
+        $parameters = [
+            'messages' => [
+                ['role' => 'user', 'content' => $prompt],
+            ],
+            'user' => Str::uuid()->toString(),
+        ] + Arr::get($this->config, 'completion_parameters', []);
 
         $response = $this->openAI->chatCompletions($parameters, $this->getWriter($messages));
 

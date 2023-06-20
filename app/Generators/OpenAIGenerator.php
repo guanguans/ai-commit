@@ -16,6 +16,7 @@ use App\Contracts\GeneratorContract;
 use App\Support\OpenAI;
 use Illuminate\Console\OutputStyle;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class OpenAIGenerator implements GeneratorContract
 {
@@ -66,8 +67,10 @@ class OpenAIGenerator implements GeneratorContract
      */
     public function generate(string $prompt): string
     {
-        $parameters = Arr::get($this->config, 'completion_parameters', []);
-        $parameters['prompt'] = $prompt;
+        $parameters = [
+            'prompt' => $prompt,
+            'user' => Str::uuid()->toString(),
+        ] + Arr::get($this->config, 'completion_parameters', []);
 
         $response = $this->openAI->completions($parameters, $this->getWriter($messages));
 
