@@ -49,6 +49,7 @@
         "ext-json": "*"
     },
     "require-dev": {
+        "bamarni/composer-bin-plugin": "^1.8",
         "guzzlehttp/guzzle": "^7.7",
         "illuminate/http": "^8.83 || ^9.0 || ^10.0",
         "illuminate/translation": "^8.83 || ^9.0 || ^10.0",
@@ -91,6 +92,7 @@
     "archive": {},
     "config": {
         "allow-plugins": {
+            "bamarni/composer-bin-plugin": true,
             "pestphp/pest-plugin": true
         },
         "apcu-autoloader": true,
@@ -118,10 +120,12 @@
     "scripts": {
         "post-install-cmd": [
             "@cghooks add --ignore-lock",
-            "@cghooks update"
+            "@cghooks update",
+            "@composer-bin all update"
         ],
         "post-update-cmd": [
-            "@cghooks update"
+            "@cghooks update",
+            "@composer-bin all update"
         ],
         "post-autoload-dump": [],
         "ai-commit": "@php ./builds/ai-commit commit --ansi",
@@ -153,6 +157,7 @@
             "@psalm",
             "@mark-finish"
         ],
+        "composer-bin": "@composer bin --ansi -v",
         "composer-check-platform-reqs": "@composer check-platform-reqs --lock --ansi -v",
         "composer-unused-checker": "@php ./vendor/bin/composer-unused --ansi -v",
         "composer-validate": "@composer validate --strict --ansi -v",
