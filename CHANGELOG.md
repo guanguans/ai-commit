@@ -2,6 +2,19 @@
 
 All notable changes to `guanguans/ai-commit` will be documented in this file.
 
+## v1.5.0 - 2023-06-20
+
+### What's Changed
+
+- Bump dependabot/fetch-metadata from 1.4.0 to 1.5.0 by @dependabot in https://github.com/guanguans/ai-commit/pull/18
+- Bump guzzlehttp/guzzle from 7.6.1 to 7.7.0 by @dependabot in https://github.com/guanguans/ai-commit/pull/19
+- Bump dependabot/fetch-metadata from 1.5.0 to 1.5.1 by @dependabot in https://github.com/guanguans/ai-commit/pull/20
+- Bump mockery/mockery from 1.5.1 to 1.6.0 by @dependabot in https://github.com/guanguans/ai-commit/pull/21
+- Bump mockery/mockery from 1.6.0 to 1.6.2 by @dependabot in https://github.com/guanguans/ai-commit/pull/22
+- Bump php-mock/php-mock-phpunit from 2.7.1 to 2.7.2 by @dependabot in https://github.com/guanguans/ai-commit/pull/23
+
+**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.4.4...v1.5.0
+
 ## v1.4.4 - 2023-05-16
 
 ### What's Changed
