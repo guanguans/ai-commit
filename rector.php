@@ -40,6 +40,7 @@ use Rector\Php73\Rector\FuncCall\JsonThrowOnErrorRector;
 use Rector\PHPUnit\Rector\Class_\AddSeeTestAnnotationRector;
 use Rector\PHPUnit\Set\PHPUnitLevelSetList;
 use Rector\PHPUnit\Set\PHPUnitSetList;
+use Rector\Privatization\Rector\Class_\FinalizeClassesWithoutChildrenRector;
 use Rector\Renaming\Rector\FuncCall\RenameFunctionRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
@@ -110,6 +111,9 @@ return static function (RectorConfig $rectorConfig): void {
         ],
         DisallowedShortTernaryRuleFixerRector::class => [
             __DIR__.'/app/Support/FoundationSDK.php',
+        ],
+        FinalizeClassesWithoutChildrenRector::class => [
+            __DIR__.'/app/Generators/OpenAIGenerator.php',
         ],
         JsonThrowOnErrorRector::class => [
             __DIR__.'/app/Generators/OpenAIGenerator.php',
