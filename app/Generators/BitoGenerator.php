@@ -44,10 +44,11 @@ class BitoGenerator implements GeneratorContract
     {
         file_put_contents($promptFile = ConfigManager::globalPath($this->config['prompt_filename']), $prompt);
 
-        return resolve(Process::class, ['command' => ['bito', '-p', $promptFile]] + $this->config['parameters'])
-            ->mustRun(function (string $type, string $data): void {
-                Process::OUT === $type ? $this->output->write($data) : $this->output->write("<fg=red>$data</>");
-            })
-            ->getOutput();
+        return resolve(
+            Process::class,
+            ['command' => [$this->config['path'] ?: 'bito', '-p', $promptFile]] + $this->config['parameters']
+        )->mustRun(function (string $type, string $data): void {
+            Process::OUT === $type ? $this->output->write($data) : $this->output->write("<fg=red>$data</>");
+        })->getOutput();
     }
 }

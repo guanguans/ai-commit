@@ -101,6 +101,7 @@ return [
         ],
         'bito' => [
             'driver' => 'bito',
+            'path' => null,
             'prompt_filename' => 'bito.prompt',
             'parameters' => [
                 'cwd' => null,
