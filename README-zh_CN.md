@@ -50,9 +50,9 @@ composer require guanguans/ai-commit --dev -v
 ### 快速开始
 
 ```shell
-# 配置 OpenAI API key(https://platform.openai.com/account/api-keys)
-./ai-commit config set generators.openaichat.api_key sk-... --global
-./ai-commit config set generators.openai.api_key sk-... --global
+./ai-commit config set generators.openaichat.api_key sk-... --global # 配置 OpenAI API key
+./ai-commit config set generators.openai.api_key sk-... --global # 配置 OpenAI API key
+./ai-commit config set generators.bito.path bito-path... --global # 配置 Bito 路径(可选)
 
 # 生成且提交信息
 ./ai-commit commit
