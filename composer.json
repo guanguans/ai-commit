@@ -151,8 +151,6 @@
             "@mark-separate",
             "@composer-validate",
             "@mark-separate",
-            "@composer-unused",
-            "@mark-separate",
             "@style-lint",
             "@mark-separate",
             "@test",
