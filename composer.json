@@ -57,8 +57,8 @@
         "illuminate/validation": "^8.83 || ^9.0 || ^10.0",
         "laminas/laminas-text": "^2.9",
         "laravel-zero/framework": "^8.10 || ^9.0 || ^10.0",
+        "laravel-zero/phar-updater": "^1.1",
         "mockery/mockery": "^1.5",
-        "padraic/phar-updater": "^1.0",
         "pestphp/pest": "^1.23",
         "php-mock/php-mock-phpunit": "^2.7"
     },
