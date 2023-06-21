@@ -119,6 +119,7 @@ return static function (RectorConfig $rectorConfig): void {
         ],
 
         // paths
+        __DIR__.'/.php-cs-fixer.php',
         __DIR__.'/tests/AspectMock',
         '**/Fixture*',
         '**/Fixture/*',

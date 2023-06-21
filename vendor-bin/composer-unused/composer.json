@@ -1,0 +1,10 @@
+{
+    "require-dev": {
+        "icanhazstring/composer-unused": "^0.7"
+    },
+    "config": {
+        "allow-plugins": {
+            "icanhazstring/composer-unused": true
+        }
+    }
+}

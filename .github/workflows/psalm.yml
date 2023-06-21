@@ -30,10 +30,10 @@ jobs:
           key: composer-${{ hashFiles('composer.lock') }}
 
       - name: Run composer install
-        run: composer install --prefer-dist --ansi --no-interaction --no-scripts --ansi -v
+        run: composer install --prefer-dist --ansi --no-interaction --ansi -v
 
-      - name: Install global psalm
-        run: composer global require vimeo/psalm --prefer-dist --ansi --no-interaction --no-scripts
+#      - name: Install global psalm
+#        run: composer global require vimeo/psalm --prefer-dist --ansi --no-interaction --no-scripts
 
       - name: Run psalm
         run: composer psalm

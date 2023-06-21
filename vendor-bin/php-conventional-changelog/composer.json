@@ -1,0 +1,5 @@
+{
+    "require-dev": {
+        "marcocesarato/php-conventional-changelog": "^1.17"
+    }
+}

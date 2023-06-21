@@ -23,10 +23,10 @@ jobs:
           key: composer-${{ hashFiles('composer.lock') }}
 
       - name: Run composer install
-        run: composer install --prefer-dist --ansi --no-interaction --no-scripts --ansi -v
+        run: composer install --prefer-dist --ansi --no-interaction --ansi -v
 
-      - name: Install global php-cs-fixer
-        run: composer global require friendsofphp/php-cs-fixer --prefer-dist --ansi --no-interaction --no-scripts
+#      - name: Install global php-cs-fixer
+#        run: composer global require friendsofphp/php-cs-fixer --prefer-dist --ansi --no-interaction --no-scripts
 
       - name: Run php-cs-fixer
         run: composer style-fix
