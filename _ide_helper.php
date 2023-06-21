@@ -10,14 +10,25 @@ declare(strict_types=1);
  * This source file is subject to the MIT license that is bundled.
  */
 
-namespace App {
-    class ConfigManager
+namespace Illuminate\Support {
+    /**
+     * @method static bool isJson($value)
+     *
+     * @mixin \Illuminate\Support\Str
+     */
+    class Str
+    {
+    }
+
+    /**
+     * @method bool isJson()
+     *
+     * @mixin \Illuminate\Support\Stringable
+     */
+    class Stringable
     {
     }
 }
 
 namespace App\Support {
-    class OpenAI
-    {
-    }
 }
