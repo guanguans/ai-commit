@@ -30,7 +30,7 @@ return [
     'http_options' => [
         GuzzleHttp\RequestOptions::VERIFY => false,
         GuzzleHttp\RequestOptions::CONNECT_TIMEOUT => 30,
-        GuzzleHttp\RequestOptions::TIMEOUT => 180,
+        GuzzleHttp\RequestOptions::TIMEOUT => 120,
     ],
 
     // The options of retry.
@@ -106,7 +106,7 @@ return [
                 'cwd' => null,
                 'env' => null,
                 'input' => null,
-                'timeout' => 60,
+                'timeout' => 120,
             ],
         ],
     ],
