@@ -12,8 +12,10 @@ declare(strict_types=1);
 
 namespace App\Generators;
 
+use App\ConfigManager;
 use App\Contracts\GeneratorContract;
 use Illuminate\Console\OutputStyle;
+use Symfony\Component\Process\Process;
 
 class BitoGenerator implements GeneratorContract
 {
@@ -33,8 +35,20 @@ class BitoGenerator implements GeneratorContract
         $this->output = resolve(OutputStyle::class);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @psalm-suppress UnusedClosureParam
+     */
     public function generate(string $prompt): string
     {
-        return (string) 1;
+        $globalPath = ConfigManager::globalPath('bito.prompt');
+        file_put_contents($globalPath, $prompt);
+
+        return Process::fromShellCommandline("bito -p $globalPath")
+            ->mustRun(function ($type, $data): void {
+                $this->output->write($data);
+            })
+            ->getOutput();
     }
 }

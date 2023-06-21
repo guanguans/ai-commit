@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Generators\BitoGenerator;
 use App\Generators\OpenAIChatGenerator;
 use App\Generators\OpenAIGenerator;
 use Illuminate\Support\Manager;
@@ -59,5 +60,10 @@ final class GeneratorManager extends Manager
     private function createOpenAIChatDriver(array $config): OpenAIChatGenerator
     {
         return new OpenAIChatGenerator($config);
+    }
+
+    private function createBitoDriver(array $config): BitoGenerator
+    {
+        return new BitoGenerator($config);
     }
 }
