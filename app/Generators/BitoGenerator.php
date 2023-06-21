@@ -17,22 +17,22 @@ use App\Contracts\GeneratorContract;
 use Illuminate\Console\OutputStyle;
 use Symfony\Component\Process\Process;
 
-class BitoGenerator implements GeneratorContract
+final class BitoGenerator implements GeneratorContract
 {
     /**
      * @var array
      */
-    protected $config = [];
+    private $config = [];
 
     /**
      * @var \Illuminate\Console\OutputStyle
      */
-    protected $output;
+    private $outputStyle;
 
     public function __construct(array $config)
     {
         $this->config = $config;
-        $this->output = resolve(OutputStyle::class);
+        $this->outputStyle = resolve(OutputStyle::class);
     }
 
     /**
@@ -48,7 +48,7 @@ class BitoGenerator implements GeneratorContract
             Process::class,
             ['command' => [$this->config['path'] ?: 'bito', '-p', $promptFile]] + $this->config['parameters']
         )->mustRun(function (string $type, string $data): void {
-            Process::OUT === $type ? $this->output->write($data) : $this->output->write("<fg=red>$data</>");
+            Process::OUT === $type ? $this->outputStyle->write($data) : $this->outputStyle->write("<fg=red>$data</>");
         })->getOutput();
     }
 }

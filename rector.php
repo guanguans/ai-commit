@@ -118,6 +118,9 @@ return static function (RectorConfig $rectorConfig): void {
         JsonThrowOnErrorRector::class => [
             __DIR__.'/app/Generators/OpenAIGenerator.php',
         ],
+        ChangeAndIfToEarlyReturnRector::class => [
+            __DIR__.'/app/ConfigManager.php',
+        ],
         StaticClosureRector::class => [
             __DIR__.'/tests',
         ],

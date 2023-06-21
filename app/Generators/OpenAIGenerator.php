@@ -33,13 +33,13 @@ class OpenAIGenerator implements GeneratorContract
     /**
      * @var \Illuminate\Console\OutputStyle
      */
-    protected $output;
+    protected $outputStyle;
 
     public function __construct(array $config)
     {
         $this->config = $config;
         $this->openAI = new OpenAI(Arr::only($config, ['http_options', 'retry', 'base_url', 'api_key']));
-        $this->output = resolve(OutputStyle::class);
+        $this->outputStyle = resolve(OutputStyle::class);
     }
 
     /**
@@ -100,7 +100,7 @@ class OpenAIGenerator implements GeneratorContract
             // (正常|错误|流)响应
             $rowResponse = (array) json_decode(OpenAI::sanitizeData($data), true);
             $messages .= $text = $this->extractCompletion($rowResponse);
-            $this->output->write($text);
+            $this->outputStyle->write($text);
         };
     }
 }
