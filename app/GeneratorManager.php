@@ -44,9 +44,15 @@ final class GeneratorManager extends Manager
             return $this->callCustomCreator($driver);
         }
 
+        $config = $this->config->get("ai-commit.generators.$driver");
+        $class = sprintf('App\Generators\%sGenerator', Str::studly($driver));
+        if (class_exists($class)) {
+            return new $class($config);
+        }
+
         $method = 'create'.Str::studly($driver).'Driver';
         if (method_exists($this, $method)) {
-            return $this->{$method}($this->config->get("ai-commit.generators.$driver"));
+            return $this->{$method}($config);
         }
 
         throw new \InvalidArgumentException("Driver [$driver] not supported.");
