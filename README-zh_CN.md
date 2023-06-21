@@ -14,6 +14,14 @@
 [![Total Downloads](https://poser.pugx.org/guanguans/ai-commit/downloads)](//packagist.org/packages/guanguans/ai-commit)
 [![License](https://poser.pugx.org/guanguans/ai-commit/license)](//packagist.org/packages/guanguans/ai-commit)
 
+## 支持
+
+- [x] [OpenAI Chat](https://platform.openai.com/docs/api-reference/chat)
+- [x] [OpenAI](https://platform.openai.com/docs/api-reference/completions)
+- [x] [Bito](https://github.com/gitbito/CLI)
+- [ ] [ERNIE Bot](https://yiyan.baidu.com/welcome)
+- [ ] ...
+
 ## 环境要求
 
 * PHP >= 7.3
