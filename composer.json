@@ -21,7 +21,10 @@
         "git-diff",
         "gpt",
         "keepachangelog",
-        "openai"
+        "openai",
+        "bito",
+        "ERNIE Bot",
+        "文心一言"
     ],
     "readme": "README.md",
     "authors": [
