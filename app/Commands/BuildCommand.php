@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Commands;
 
+use App\Exceptions\InvalidArgumentException;
 use Illuminate\Console\Application as Artisan;
 use Illuminate\Support\Facades\File;
 use LaravelZero\Framework\Commands\Command;
@@ -258,7 +259,7 @@ final class BuildCommand extends Command
     private function getTimeout(): ?float
     {
         if (! is_numeric($this->option('timeout'))) {
-            throw new \InvalidArgumentException('The timeout value must be a number.');
+            throw new InvalidArgumentException('The timeout value must be a number.');
         }
 
         $timeout = (float) $this->option('timeout');

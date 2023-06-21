@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Exceptions\InvalidArgumentException;
 use App\Generators\BitoGenerator;
 use App\Generators\OpenAIChatGenerator;
 use App\Generators\OpenAIGenerator;
@@ -45,17 +46,17 @@ final class GeneratorManager extends Manager
         }
 
         $config = $this->config->get("ai-commit.generators.$driver");
-        $class = sprintf('App\Generators\%sGenerator', Str::studly($driver));
-        if (class_exists($class)) {
-            return new $class($config);
-        }
+        $studlyName = Str::studly($driver);
 
-        $method = 'create'.Str::studly($driver).'Driver';
-        if (method_exists($this, $method)) {
+        if (method_exists($this, $method = "create{$studlyName}Driver")) {
             return $this->{$method}($config);
         }
 
-        throw new \InvalidArgumentException("Driver [$driver] not supported.");
+        if (class_exists($class = "App\\Generators\\{$studlyName}Generator")) {
+            return new $class($config);
+        }
+
+        throw new InvalidArgumentException("Driver [$driver] not supported.");
     }
 
     private function createOpenAIDriver(array $config): OpenAIGenerator

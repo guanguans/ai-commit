@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace App\Support;
 
+use App\Exceptions\RuntimeException;
+
 /**
  * This file is modified from https://github.com/adhocore/php-json-fixer.
  */
@@ -276,7 +278,7 @@ final class JsonFixer
             return $json;
         }
 
-        throw new \RuntimeException(sprintf('Could not fix JSON (tried padding `%s`)', substr($tmpJson, $length)));
+        throw new RuntimeException(sprintf('Could not fix JSON (tried padding `%s`)', substr($tmpJson, $length)));
     }
 
     private function padLiteral(string $tmpJson): string
