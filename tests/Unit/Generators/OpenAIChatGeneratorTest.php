@@ -21,4 +21,4 @@ it('can generate commit messages', function (): void {
     expect(app(GeneratorManager::class)->driver('openaichat'))
         ->generate('OK')->toBeString()->not->toBeEmpty();
     Http::assertSentCount(1);
-});
+})->group(__DIR__, __FILE__);
