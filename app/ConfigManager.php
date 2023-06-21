@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App;
 
 use App\Exceptions\InvalidJsonFileException;
+use App\Exceptions\RuntimeException;
 use App\Exceptions\UnsupportedConfigFileTypeException;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Support\Arrayable;
@@ -77,10 +78,10 @@ final class ConfigManager extends Repository implements \JsonSerializable, Array
     {
         $path = $path ? \DIRECTORY_SEPARATOR.$path : $path;
         if (windows_os()) {
-            return sprintf('C:\\Users\\%s', get_current_user()).$path; // @codeCoverageIgnore
+            return sprintf('C:\\Users\\%s\\.ai-commit%s', get_current_user(), $path); // @codeCoverageIgnore
         }
 
-        return exec('cd ~; pwd').$path;
+        return sprintf('%s%s.ai-commit%s', exec('cd ~; pwd'), \DIRECTORY_SEPARATOR, $path);
     }
 
     public static function localPath(string $path = self::NAME): string
@@ -135,6 +136,11 @@ final class ConfigManager extends Repository implements \JsonSerializable, Array
             ->tap(function (Collection $collection): void {
                 $this->forget($collection->all());
             });
+
+        $directory = pathinfo($file, PATHINFO_DIRNAME);
+        if (! is_dir($directory) && ! mkdir($directory, 0777, true) && ! is_dir($directory)) {
+            throw new RuntimeException("The directory [$directory] could not be created.");
+        }
 
         return file_put_contents($file, $this->toJson($options));
     }
