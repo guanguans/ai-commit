@@ -76,7 +76,7 @@ return static function (RectorConfig $rectorConfig): void {
         __DIR__.'/app',
         __DIR__.'/tests',
         __DIR__.'/.*.php',
-        __FILE__,
+        __DIR__.'/*.php',
     ]);
 
     $rectorConfig->skip([
