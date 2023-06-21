@@ -99,6 +99,16 @@ return [
                 'user' => Illuminate\Support\Str::uuid()->toString(),
             ],
         ],
+        'bito' => [
+            'driver' => 'bito',
+            'prompt_filename' => 'bito.prompt',
+            'parameters' => [
+                'cwd' => null,
+                'env' => null,
+                'input' => null,
+                'timeout' => 60,
+            ],
+        ],
     ],
 
     /**
