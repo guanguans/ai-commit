@@ -75,13 +75,13 @@ class OpenAIGenerator implements GeneratorContract
         $response = $this->openAI->completions($parameters, $this->getWriter($messages));
 
         // fake 响应
-        return (string) ($messages ?? self::extractCompletion($response));
+        return (string) ($messages ?? $this->extractCompletion($response));
     }
 
     /**
      * @param array|\ArrayAccess $response
      */
-    protected static function extractCompletion($response): string
+    protected function extractCompletion($response): string
     {
         return Arr::get($response, 'choices.0.text', '');
     }
@@ -99,7 +99,7 @@ class OpenAIGenerator implements GeneratorContract
 
             // (正常|错误|流)响应
             $rowResponse = (array) json_decode(OpenAI::sanitizeData($data), true);
-            $messages .= $text = static::extractCompletion($rowResponse);
+            $messages .= $text = $this->extractCompletion($rowResponse);
             $this->output->write($text);
         };
     }

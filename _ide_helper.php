@@ -16,7 +16,7 @@ namespace Illuminate\Support {
      *
      * @mixin \Illuminate\Support\Str
      */
-    class Str
+    final class Str
     {
     }
 
@@ -25,7 +25,7 @@ namespace Illuminate\Support {
      *
      * @mixin \Illuminate\Support\Stringable
      */
-    class Stringable
+    final class Stringable
     {
     }
 }

@@ -34,13 +34,13 @@ final class OpenAIChatGenerator extends OpenAIGenerator
         $response = $this->openAI->chatCompletions($parameters, $this->getWriter($messages));
 
         // fake 响应
-        return (string) ($messages ?? self::extractCompletion($response));
+        return (string) ($messages ?? $this->extractCompletion($response));
     }
 
     /**
      * {@inheritDoc}
      */
-    protected static function extractCompletion($response): string
+    protected function extractCompletion($response): string
     {
         return Arr::get($response, 'choices.0.delta.content', '');
     }
