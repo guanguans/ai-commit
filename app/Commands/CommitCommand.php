@@ -121,10 +121,7 @@ final class CommitCommand extends Command
 
         $this->task('3. Committing message', function () use ($message): void {
             tap($this->createProcess($this->getCommitCommand($message)), function (Process $process): void {
-                if ($this->isEditMode()) {
-                    $process->setTimeout(null);
-                    windows_os() or $process->setTty(true);
-                }
+                $this->isEditMode() and $process->setTty(true)->setTimeout(null);
             })->mustRun();
         }, 'committing...');
 
@@ -275,11 +272,11 @@ final class CommitCommand extends Command
 
     protected function isEditMode(): bool
     {
-        return ! $this->isNotEditMode();
+        return ! windows_os() && ! $this->option('no-edit') && $this->configManager->get('edit');
     }
 
     protected function isNotEditMode(): bool
     {
-        return (bool) ($this->option('no-edit') ?: ! $this->configManager->get('edit'));
+        return ! $this->isEditMode();
     }
 }

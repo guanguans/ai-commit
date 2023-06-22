@@ -117,13 +117,13 @@ final class ConfigCommand extends Command
 
                 break;
             case 'edit':
+                if (windows_os()) {
+                    throw new RuntimeException('The edit config command is not supported on Windows.');
+                }
+
                 $editor = value(function () {
                     if ($editor = $this->option('editor')) {
                         return $editor;
-                    }
-
-                    if (windows_os()) {
-                        return 'notepad';
                     }
 
                     foreach (self::EDITORS as $editor) {
@@ -135,9 +135,10 @@ final class ConfigCommand extends Command
                     throw new RuntimeException('No editor found or specified.');
                 });
 
-                tap(new Process([$editor, $file]), static function (Process $process): void {
-                    windows_os() or $process->setTty(true);
-                })->setTimeout(null)->mustRun();
+                (new Process([$editor, $file]))
+                    ->setTty(true)
+                    ->setTimeout(null)
+                    ->mustRun();
 
                 break;
             default:
@@ -204,6 +205,7 @@ final class ConfigCommand extends Command
 
     /**
      * @throws \JsonException
+     * @noinspection PhpInconsistentReturnPointsInspection
      */
     protected function argToValue(string $arg)
     {
