@@ -121,7 +121,10 @@ it('will throw RuntimeException for edit config', function (): void {
     $this->artisan(ConfigCommand::class, [
         'action' => 'edit',
     ]);
-})->group(__DIR__, __FILE__)->throws(RuntimeException::class, 'No editor found or specified.');
+})
+    ->group(__DIR__, __FILE__)
+    ->skip(windows_os())
+    ->throws(RuntimeException::class, 'No editor found or specified.');
 
 it('will throw \SymfonyRuntimeException for edit config', function (): void {
     $this->getFunctionMock(class_namespace(Process::class), 'proc_open')
@@ -132,7 +135,10 @@ it('will throw \SymfonyRuntimeException for edit config', function (): void {
         'action' => 'edit',
         '--editor' => 'foo',
     ]);
-})->skip()->group(__DIR__, __FILE__)->throws(SymfonyRuntimeException::class, 'TTY mode requires /dev/tty to be read/writable.');
+})
+    ->group(__DIR__, __FILE__)
+    ->skip()
+    ->throws(SymfonyRuntimeException::class, 'TTY mode requires /dev/tty to be read/writable.');
 
 it('will throw SymfonyRuntimeException for edit config', function (): void {
     $this->getFunctionMock(class_namespace(ConfigCommand::class), 'exec')
@@ -146,7 +152,10 @@ it('will throw SymfonyRuntimeException for edit config', function (): void {
     $this->artisan(ConfigCommand::class, [
         'action' => 'edit',
     ]);
-})->group(__DIR__, __FILE__)->throws(SymfonyRuntimeException::class, 'TTY mode requires /dev/tty to be read/writable.');
+})
+    ->group(__DIR__, __FILE__)
+    ->skip(windows_os())
+    ->throws(SymfonyRuntimeException::class, 'TTY mode requires /dev/tty to be read/writable.');
 
 it('will throw UnsupportedConfigActionException', function (): void {
     $this->artisan(ConfigCommand::class, [
