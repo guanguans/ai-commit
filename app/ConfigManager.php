@@ -13,13 +13,13 @@ declare(strict_types=1);
 namespace App;
 
 use App\Exceptions\InvalidJsonFileException;
-use App\Exceptions\RuntimeException;
 use App\Exceptions\UnsupportedConfigFileTypeException;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Traits\Tappable;
 
@@ -97,7 +97,7 @@ final class ConfigManager extends Repository implements \JsonSerializable, Array
     /**
      * @throws \JsonException
      *
-     * @return false|int
+     * @return bool|int
      */
     public function putGlobal(int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
     {
@@ -107,7 +107,7 @@ final class ConfigManager extends Repository implements \JsonSerializable, Array
     /**
      * @throws \JsonException
      *
-     * @return false|int
+     * @return bool|int
      */
     public function putLocal(int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
     {
@@ -117,7 +117,7 @@ final class ConfigManager extends Repository implements \JsonSerializable, Array
     /**
      * @throws \JsonException
      *
-     * @return false|int
+     * @return bool|int
      */
     public function putFile(string $file, int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
     {
@@ -137,12 +137,9 @@ final class ConfigManager extends Repository implements \JsonSerializable, Array
                 $this->forget($collection->all());
             });
 
-        $directory = pathinfo($file, PATHINFO_DIRNAME);
-        if (! is_dir($directory) && ! mkdir($directory, 0777, true) && ! is_dir($directory)) {
-            throw new RuntimeException("The directory [$directory] could not be created.");
-        }
+        File::ensureDirectoryExists(pathinfo($file, PATHINFO_DIRNAME));
 
-        return file_put_contents($file, $this->toJson($options));
+        return File::put($file, $this->toJson($options));
     }
 
     /**
