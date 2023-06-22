@@ -129,8 +129,8 @@ final class ConfigManager extends Repository implements \JsonSerializable, Array
             ->push(
                 'generators.openai.parameters.prompt',
                 'generators.openai.parameters.user',
-                'generators.openaichat.parameters.prompt',
-                'generators.openaichat.parameters.user',
+                'generators.openai_chat.parameters.prompt',
+                'generators.openai_chat.parameters.user',
             )
             ->unique()
             ->tap(function (Collection $collection): void {

@@ -33,7 +33,7 @@ it('can create OpenAI driver', function (): void {
 
 it('can create OpenAI chat driver', function (): void {
     expect($this->app->get(GeneratorManager::class))
-        ->driver('openaichat')->toBeInstanceOf(OpenAIChatGenerator::class);
+        ->driver('openai_chat')->toBeInstanceOf(OpenAIChatGenerator::class);
 })->group(__DIR__, __FILE__);
 
 it('can create Bito driver', function (): void {

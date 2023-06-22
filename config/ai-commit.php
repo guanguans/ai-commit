@@ -52,7 +52,7 @@ return [
     'prompt' => 'conventional',
 
     // The generator name.
-    'generator' => 'openaichat',
+    'generator' => 'openai_chat',
 
     // The list of generators.
     'generators' => [
@@ -89,7 +89,7 @@ return [
                 'user' => Illuminate\Support\Str::uuid()->toString(),
             ],
         ],
-        'openaichat' => [
+        'openai_chat' => [
             'driver' => 'openai',
             'http_options' => [
                 // guzzlehttp\requestoptions::proxy => 'https://proxy.com/v1',

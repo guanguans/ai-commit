@@ -49,8 +49,9 @@ composer require guanguans/ai-commit --dev -v # 本地
 ```shell
 ./ai-commit config set generators.bito.path bito-path... --global # 配置 Bito 路径(可选)
 ./ai-commit config set generators.openai.api_key sk-... --global # 配置 OpenAI API key
-./ai-commit config set generators.openaichat.api_key sk-... --global # 配置 OpenAI API key
+./ai-commit config set generators.openai_chat.api_key sk-... --global # 配置 OpenAI API key
 
+./ai-commit config set generator openai_chat --global # 配置默认生成器(可选)
 ./ai-commit commit # 生成且提交信息
 ```
 
@@ -178,7 +179,7 @@ Arguments:
 Options:                                 
       --commit-options[=COMMIT-OPTIONS]  Append options for the `git commit` command [default: ["--edit"]] (multiple values allowed)
       --diff-options[=DIFF-OPTIONS]      Append options for the `git diff` command [default: [":!*.lock",":!*.sum"]] (multiple values allowed)
-  -g, --generator=GENERATOR              Specify generator name [default: "openaichat"]
+  -g, --generator=GENERATOR              Specify generator name [default: "openai_chat"]
   -p, --prompt=PROMPT                    Specify prompt name of messages generated [default: "conventional"]
       --no-edit                          Force no edit mode
   -c, --config[=CONFIG]                  Specify config file

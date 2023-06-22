@@ -53,7 +53,7 @@ it('will throw RequestException when completions', function (): void {
 })->group(__DIR__, __FILE__)->throws(RequestException::class, 'HTTP request returned status code 429');
 
 it('can chat completions', function (): void {
-    $parameters = config('ai-commit.generators.openaichat.parameters');
+    $parameters = config('ai-commit.generators.openai_chat.parameters');
     $parameters['messages'] = [
         ['role' => 'user', 'content' => 'OK'],
     ];
