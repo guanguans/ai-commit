@@ -16,7 +16,7 @@
 
 ## Support
 
-- [x] [Bito](https://github.com/gitbito/CLI)
+- [x] [Bito Cli](https://github.com/gitbito/CLI)
 - [x] [OpenAI Chat](https://platform.openai.com/docs/api-reference/chat)
 - [x] [OpenAI](https://platform.openai.com/docs/api-reference/completions)
 - [ ] [ERNIE](https://yiyan.baidu.com/welcome)
@@ -47,7 +47,7 @@ composer require guanguans/ai-commit --dev -v # local
 ### Quick start
 
 ```shell
-./ai-commit config set generators.bito.path bito-path... --global # Config Bito path(Optional)
+./ai-commit config set generators.bito_cli.path bito-cli-path... --global # Config Bito Cli path(Optional)
 ./ai-commit config set generators.openai.api_key sk-... --global # Config OpenAI API key
 ./ai-commit config set generators.openai_chat.api_key sk-... --global # Config OpenAI API key
 

@@ -56,8 +56,8 @@ return [
 
     // The list of generators.
     'generators' => [
-        'bito' => [
-            'driver' => 'bito',
+        'bito_cli' => [
+            'driver' => 'bito_cli',
             'path' => null,
             'prompt_filename' => 'bito.prompt',
             'parameters' => [

@@ -17,7 +17,7 @@ use App\Contracts\GeneratorContract;
 use Illuminate\Console\OutputStyle;
 use Symfony\Component\Process\Process;
 
-final class BitoGenerator implements GeneratorContract
+final class BitoCliGenerator implements GeneratorContract
 {
     /**
      * @var array

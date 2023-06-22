@@ -11,7 +11,7 @@ declare(strict_types=1);
  */
 
 use App\GeneratorManager;
-use App\Generators\BitoGenerator;
+use App\Generators\BitoCliGenerator;
 use App\Generators\OpenAIChatGenerator;
 use App\Generators\OpenAIGenerator;
 
@@ -36,9 +36,9 @@ it('can create OpenAI chat driver', function (): void {
         ->driver('openai_chat')->toBeInstanceOf(OpenAIChatGenerator::class);
 })->group(__DIR__, __FILE__);
 
-it('can create Bito driver', function (): void {
+it('can create Bito Cli driver', function (): void {
     expect($this->app->get(GeneratorManager::class))
-        ->driver('bito')->toBeInstanceOf(BitoGenerator::class);
+        ->driver('bito_cli')->toBeInstanceOf(BitoCliGenerator::class);
 })->group(__DIR__, __FILE__);
 
 it('will throw InvalidArgumentException when run driver', function (): void {

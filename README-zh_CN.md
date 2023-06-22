@@ -16,7 +16,7 @@
 
 ## 支持
 
-- [x] [Bito](https://github.com/gitbito/CLI)
+- [x] [Bito Cli](https://github.com/gitbito/CLI)
 - [x] [OpenAI Chat](https://platform.openai.com/docs/api-reference/chat)
 - [x] [OpenAI](https://platform.openai.com/docs/api-reference/completions)
 - [ ] [ERNIE](https://yiyan.baidu.com/welcome)
@@ -47,7 +47,7 @@ composer require guanguans/ai-commit --dev -v # 本地
 ### 快速开始
 
 ```shell
-./ai-commit config set generators.bito.path bito-path... --global # 配置 Bito 路径(可选)
+./ai-commit config set generators.bito_cli.path bito-cli-path... --global # 配置 Bito Cli 路径(可选)
 ./ai-commit config set generators.openai.api_key sk-... --global # 配置 OpenAI API key
 ./ai-commit config set generators.openai_chat.api_key sk-... --global # 配置 OpenAI API key
 
