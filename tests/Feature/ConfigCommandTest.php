@@ -104,6 +104,15 @@ it('can list config', function (): void {
     ])->assertSuccessful();
 })->group(__DIR__, __FILE__);
 
+it('will throw RuntimeException for edit config on Windows', function (): void {
+    $this->artisan(ConfigCommand::class, [
+        'action' => 'edit',
+    ]);
+})
+    ->group(__DIR__, __FILE__)
+    ->skip(! windows_os())
+    ->throws(RuntimeException::class, 'The edit config command is not supported on Windows.');
+
 it('will throw RuntimeException for edit config', function (): void {
     $this->getFunctionMock(class_namespace(ConfigCommand::class), 'exec')
         ->expects($this->exactly(6))

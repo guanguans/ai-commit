@@ -45,7 +45,7 @@ return [
     // The mark of diff.
     'diff_mark' => '<diff>',
 
-    // Try to use editor to edit the commit message.
+    // Try to edit the commit message.
     'edit' => true,
 
     // The prompt name.
