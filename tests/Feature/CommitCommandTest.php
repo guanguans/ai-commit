@@ -28,7 +28,7 @@ it('will throw TaskException(not a git repository)', function (): void {
     ->group(__DIR__, __FILE__)
     ->throws(TaskException::class, 'fatal: ');
 
-it('will throw TaskException(no staged files to commit)', function (): void {
+it('will throw TaskException(no cached files to commit)', function (): void {
     // 重置暂存区
     Process::fromShellCommandline('git reset', repository_path())->mustRun();
 
@@ -39,7 +39,7 @@ it('will throw TaskException(no staged files to commit)', function (): void {
 })
     ->depends('it will throw TaskException(not a git repository)')
     ->group(__DIR__, __FILE__)
-    ->throws(TaskException::class, 'There are no staged files to commit. Try running `git add` to stage some files.');
+    ->throws(TaskException::class, 'There are no cached files to commit. Try running `git add` to stage some files.');
 
 it('will throw TaskException(The generated commit messages is an invalid JSON)', function (): void {
     // 添加文件到暂存区
@@ -74,7 +74,7 @@ it('will throw TaskException(The generated commit messages is an invalid JSON)',
         '--generator' => 'openai',
     ]);
 })
-    ->depends('it will throw TaskException(no staged files to commit)')
+    ->depends('it will throw TaskException(no cached files to commit)')
     ->group(__DIR__, __FILE__)
     ->throws(TaskException::class, 'The generated commit messages(');
 

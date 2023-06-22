@@ -71,20 +71,20 @@ final class CommitCommand extends Command
                 throw new TaskException(trim($process->getErrorOutput()));
             }
 
-            $stagedDiff = $this->createProcess($this->getDiffCommand())->mustRun()->getOutput();
-            if (str($stagedDiff)->isEmpty()) {
-                throw new TaskException('There are no staged files to commit. Try running `git add` to stage some files.');
+            $cachedDiff = $this->createProcess($this->getDiffCommand())->mustRun()->getOutput();
+            if (str($cachedDiff)->isEmpty()) {
+                throw new TaskException('There are no cached files to commit. Try running `git add` to stage some files.');
             }
 
             $this->newLine();
             $messages = retry(
                 $this->option('retry-times'),
-                function ($attempts) use ($stagedDiff): string {
+                function ($attempts) use ($cachedDiff): string {
                     if ($attempts > 1) {
                         $this->output->info('retrying...');
                     }
 
-                    $originalMessages = $this->generatorManager->driver($this->option('generator'))->generate($this->getPrompt($stagedDiff));
+                    $originalMessages = $this->generatorManager->driver($this->option('generator'))->generate($this->getPrompt($cachedDiff));
                     $messages = $this->tryFixMessages($originalMessages);
                     if (! str($messages)->isJson()) {
                         throw new TaskException(sprintf('The generated commit messages(%s) is an invalid JSON.', var_export($originalMessages, true)));
@@ -220,13 +220,13 @@ final class CommitCommand extends Command
 
     protected function getDiffCommand(): array
     {
-        return array_merge(['git', 'diff', '--staged'], $this->option('diff-options'));
+        return array_merge(['git', 'diff', '--cached'], $this->option('diff-options'));
     }
 
-    protected function getPrompt(string $stagedDiff): string
+    protected function getPrompt(string $cachedDiff): string
     {
         return (string) str($this->configManager->get("prompts.{$this->option('prompt')}"))
-            ->replace($this->configManager->get('diff_mark'), $stagedDiff)
+            ->replace($this->configManager->get('diff_mark'), $cachedDiff)
             ->when($this->option('verbose'), function (Stringable $prompt): Stringable {
                 $this->output->info((string) $prompt);
 
