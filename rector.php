@@ -106,6 +106,12 @@ return static function (RectorConfig $rectorConfig): void {
         // ReturnBinaryAndToEarlyReturnRector::class,
         // VarConstantCommentRector::class,
 
+        ChangeAndIfToEarlyReturnRector::class => [
+            __DIR__.'/app/ConfigManager.php',
+        ],
+        ReturnBinaryAndToEarlyReturnRector::class => [
+            __DIR__.'/app/Commands/CommitCommand.php',
+        ],
         CompleteDynamicPropertiesRector::class => [
             __DIR__.'/app/Support/FoundationSDK.php',
         ],
@@ -117,9 +123,6 @@ return static function (RectorConfig $rectorConfig): void {
         ],
         JsonThrowOnErrorRector::class => [
             __DIR__.'/app/Generators/OpenAIGenerator.php',
-        ],
-        ChangeAndIfToEarlyReturnRector::class => [
-            __DIR__.'/app/ConfigManager.php',
         ],
         StaticClosureRector::class => [
             __DIR__.'/tests',
