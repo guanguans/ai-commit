@@ -121,7 +121,10 @@ final class CommitCommand extends Command
 
         $this->task('3. Committing message', function () use ($message): void {
             tap($this->createProcess($this->getCommitCommand($message)), function (Process $process): void {
-                $this->isEditMode() and $process->setTty(true)->setTimeout(null);
+                if ($this->isEditMode()) {
+                    $process->setTimeout(null);
+                    windows_os() or $process->setTty(true);
+                }
             })->mustRun();
         }, 'committing...');
 

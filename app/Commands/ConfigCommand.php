@@ -135,7 +135,9 @@ final class ConfigCommand extends Command
                     throw new RuntimeException('No editor found or specified.');
                 });
 
-                Process::fromShellCommandline("$editor $file")->setTimeout(null)->setTty(true)->mustRun();
+                tap(new Process([$editor, $file]), static function (Process $process): void {
+                    windows_os() or $process->setTty(true);
+                })->setTimeout(null)->mustRun();
 
                 break;
             default:
