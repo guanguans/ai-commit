@@ -14,6 +14,7 @@ namespace PHPSTORM_META;
 
 use Illuminate\Bus\Dispatcher;
 use Illuminate\Config\Repository;
+use Illuminate\Container\Container as IlluminateContainer;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Support\Arr;
@@ -28,42 +29,34 @@ override(new Container(), map([
     'view.finder' => FileViewFinder::class,
     'config' => Repository::class,
 ]));
-
-override((new \Illuminate\Container\Container())->makeWith(0), map([
+override((new IlluminateContainer())->makeWith(0), map([
     '' => '@',
     'config' => Repository::class,
 ]));
-
 override((new Container())->get(0), map([
     '' => '@',
     'config' => Repository::class,
 ]));
-
 override((new Container())->make(0), map([
     '' => '@',
     'config' => Repository::class,
 ]));
-
 override(Container::makeWith(0), map([
     '' => '@',
     'config' => Repository::class,
 ]));
-
 override(\App::get(0), map([
     '' => '@',
     'config' => Repository::class,
 ]));
-
 override(\App::make(0), map([
     '' => '@',
     'config' => Repository::class,
 ]));
-
 override(\App::makeWith(0), map([
     '' => '@',
     'config' => Repository::class,
 ]));
-
 override(app(0), map([
     '' => '@',
     'config' => Repository::class,
@@ -72,7 +65,6 @@ override(resolve(0), map([
     '' => '@',
     'config' => Repository::class,
 ]));
-
 override((new ContainerInterface())->get(0), map([
     '' => '@',
     'config' => Repository::class,

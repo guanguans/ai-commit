@@ -16,10 +16,10 @@
 
 ## Support
 
+- [x] [Bito](https://github.com/gitbito/CLI)
 - [x] [OpenAI Chat](https://platform.openai.com/docs/api-reference/chat)
 - [x] [OpenAI](https://platform.openai.com/docs/api-reference/completions)
-- [x] [Bito](https://github.com/gitbito/CLI)
-- [ ] [ERNIE Bot](https://yiyan.baidu.com/welcome)
+- [ ] [ERNIE](https://yiyan.baidu.com/welcome)
 - [ ] ...
 
 ## Requirement
@@ -38,11 +38,8 @@ chmod +x ai-commit
 ### Install via Composer
 
 ```shell
-# global
-composer global require guanguans/ai-commit --dev -v
-
-# local
-composer require guanguans/ai-commit --dev -v
+composer global require guanguans/ai-commit --dev -v # global
+composer require guanguans/ai-commit --dev -v # local
 ```
 
 ## Usage
@@ -50,12 +47,11 @@ composer require guanguans/ai-commit --dev -v
 ### Quick start
 
 ```shell
-./ai-commit config set generators.openaichat.api_key sk-... --global # Config OpenAI API key
-./ai-commit config set generators.openai.api_key sk-... --global # Config OpenAI API key
 ./ai-commit config set generators.bito.path bito-path... --global # Config Bito path(Optional)
+./ai-commit config set generators.openai.api_key sk-... --global # Config OpenAI API key
+./ai-commit config set generators.openaichat.api_key sk-... --global # Config OpenAI API key
 
-# Generate and commit message
-./ai-commit commit
+./ai-commit commit # Generate and commit message
 ```
 
 ```shell

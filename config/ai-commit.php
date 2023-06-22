@@ -56,25 +56,15 @@ return [
 
     // The list of generators.
     'generators' => [
-        'openaichat' => [
-            'driver' => 'openai',
-            'http_options' => [
-                // guzzlehttp\requestoptions::proxy => 'https://proxy.com/v1',
-            ],
-            'api_key' => env('OPENAI_API_KEY', 'sk-...'),
+        'bito' => [
+            'driver' => 'bito',
+            'path' => null,
+            'prompt_filename' => 'bito.prompt',
             'parameters' => [
-                'model' => 'gpt-3.5-turbo', // 'gpt-4,gpt-4-0613,gpt-4-32k,gpt-4-32k-0613,gpt-3.5-turbo,gpt-3.5-turbo-0613,gpt-3.5-turbo-16k,gpt-3.5-turbo-16k-0613
-                // 'messages' => 'required|array',
-                'max_tokens' => 600,
-                'temperature' => 0.0,
-                'top_p' => 1.0,
-                'n' => 1,
-                'stream' => true,
-                'stop' => null,
-                'presence_penalty' => 0,
-                'frequency_penalty' => 0,
-                // 'logit_bias' => null,
-                'user' => Illuminate\Support\Str::uuid()->toString(),
+                'cwd' => null,
+                'env' => null,
+                'input' => null,
+                'timeout' => 120,
             ],
         ],
         'openai' => [
@@ -99,15 +89,25 @@ return [
                 'user' => Illuminate\Support\Str::uuid()->toString(),
             ],
         ],
-        'bito' => [
-            'driver' => 'bito',
-            'path' => null,
-            'prompt_filename' => 'bito.prompt',
+        'openaichat' => [
+            'driver' => 'openai',
+            'http_options' => [
+                // guzzlehttp\requestoptions::proxy => 'https://proxy.com/v1',
+            ],
+            'api_key' => env('OPENAI_API_KEY', 'sk-...'),
             'parameters' => [
-                'cwd' => null,
-                'env' => null,
-                'input' => null,
-                'timeout' => 120,
+                'model' => 'gpt-3.5-turbo', // 'gpt-4,gpt-4-0613,gpt-4-32k,gpt-4-32k-0613,gpt-3.5-turbo,gpt-3.5-turbo-0613,gpt-3.5-turbo-16k,gpt-3.5-turbo-16k-0613
+                // 'messages' => 'required|array',
+                'max_tokens' => 600,
+                'temperature' => 0.0,
+                'top_p' => 1.0,
+                'n' => 1,
+                'stream' => true,
+                'stop' => null,
+                'presence_penalty' => 0,
+                'frequency_penalty' => 0,
+                // 'logit_bias' => null,
+                'user' => Illuminate\Support\Str::uuid()->toString(),
             ],
         ],
     ],

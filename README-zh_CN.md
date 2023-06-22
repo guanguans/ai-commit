@@ -16,10 +16,10 @@
 
 ## 支持
 
+- [x] [Bito](https://github.com/gitbito/CLI)
 - [x] [OpenAI Chat](https://platform.openai.com/docs/api-reference/chat)
 - [x] [OpenAI](https://platform.openai.com/docs/api-reference/completions)
-- [x] [Bito](https://github.com/gitbito/CLI)
-- [ ] [ERNIE Bot](https://yiyan.baidu.com/welcome)
+- [ ] [ERNIE](https://yiyan.baidu.com/welcome)
 - [ ] ...
 
 ## 环境要求
@@ -38,11 +38,8 @@ chmod +x ai-commit
 ### 通过 Composer 安装
 
 ```shell
-# 全局
-composer global require guanguans/ai-commit --dev -v
-
-# 本地
-composer require guanguans/ai-commit --dev -v
+composer global require guanguans/ai-commit --dev -v # 全局
+composer require guanguans/ai-commit --dev -v # 本地
 ```
 
 ## 使用
@@ -50,12 +47,11 @@ composer require guanguans/ai-commit --dev -v
 ### 快速开始
 
 ```shell
-./ai-commit config set generators.openaichat.api_key sk-... --global # 配置 OpenAI API key
-./ai-commit config set generators.openai.api_key sk-... --global # 配置 OpenAI API key
 ./ai-commit config set generators.bito.path bito-path... --global # 配置 Bito 路径(可选)
+./ai-commit config set generators.openai.api_key sk-... --global # 配置 OpenAI API key
+./ai-commit config set generators.openaichat.api_key sk-... --global # 配置 OpenAI API key
 
-# 生成且提交信息
-./ai-commit commit
+./ai-commit commit # 生成且提交信息
 ```
 
 ```shell
