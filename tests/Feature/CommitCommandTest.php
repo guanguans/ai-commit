@@ -17,6 +17,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Helper\TableSeparator;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
 it('will throw TaskException(not a git repository)', function (): void {
@@ -26,7 +27,7 @@ it('will throw TaskException(not a git repository)', function (): void {
     ]);
 })
     ->group(__DIR__, __FILE__)
-    ->throws(TaskException::class, 'fatal: ');
+    ->throws(ProcessFailedException::class, 'fatal: ');
 
 it('will throw TaskException(no cached files to commit)', function (): void {
     // 重置暂存区

@@ -31,16 +31,16 @@ final class OpenAIChatGenerator extends OpenAIGenerator
             'user' => Str::uuid()->toString(),
         ] + Arr::get($this->config, 'parameters', []);
 
-        $response = $this->openAI->chatCompletions($parameters, $this->getWriter($messages));
+        $response = $this->openAI->chatCompletions($parameters, $this->buildWriter($messages));
 
         // fake 响应
-        return (string) ($messages ?? $this->extractCompletion($response));
+        return (string) ($messages ?? $this->getCompletionMessages($response));
     }
 
     /**
      * {@inheritDoc}
      */
-    protected function extractCompletion($response): string
+    protected function getCompletionMessages($response): string
     {
         return Arr::get($response, 'choices.0.delta.content', '');
     }

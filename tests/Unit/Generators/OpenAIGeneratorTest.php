@@ -59,7 +59,7 @@ it('can call writer', function (): void {
 
     foreach ($rowResponses as $rowResponse) {
         (function (string $rowResponse) use (&$messages): void {
-            $this->getWriter($messages)($rowResponse);
+            $this->buildWriter($messages)($rowResponse);
         })->call($openaiGenerator, $rowResponse);
     }
 

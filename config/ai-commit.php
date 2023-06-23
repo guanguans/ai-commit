@@ -45,7 +45,7 @@ return [
     // The mark of diff.
     'diff_mark' => '<diff>',
 
-    // Try to edit the commit message.
+    // Try to edit generated commit message.
     'edit' => true,
 
     // The prompt name.
@@ -58,7 +58,7 @@ return [
     'generators' => [
         'bito_cli' => [
             'driver' => 'bito_cli',
-            'path' => null,
+            'path' => 'bito',
             'prompt_filename' => 'bito.prompt',
             'parameters' => [
                 'cwd' => null,

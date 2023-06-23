@@ -66,13 +66,11 @@ final class CommitCommand extends Command
     public function handle(): int
     {
         $this->task('1. Generating commit messages', function () use (&$messages): void {
-            $process = tap($this->createProcess('git rev-parse --is-inside-work-tree'))->run();
-            if (! $process->isSuccessful()) {
-                throw new TaskException(trim($process->getErrorOutput()));
-            }
+            // Ensure git is installed and the current directory is a git repository.
+            $this->createProcess(['git', 'rev-parse', '--is-inside-work-tree'])->mustRun();
 
             $cachedDiff = $this->createProcess($this->getDiffCommand())->mustRun()->getOutput();
-            if (str($cachedDiff)->isEmpty()) {
+            if (empty($cachedDiff)) {
                 throw new TaskException('There are no cached files to commit. Try running `git add` to stage some files.');
             }
 
@@ -84,10 +82,15 @@ final class CommitCommand extends Command
                         $this->output->info('retrying...');
                     }
 
-                    $originalMessages = $this->generatorManager->driver($this->option('generator'))->generate($this->getPrompt($cachedDiff));
+                    $originalMessages = $this->generatorManager
+                        ->driver($this->option('generator'))
+                        ->generate($this->getPrompt($cachedDiff));
                     $messages = $this->tryFixMessages($originalMessages);
                     if (! str($messages)->isJson()) {
-                        throw new TaskException(sprintf('The generated commit messages(%s) is an invalid JSON.', var_export($originalMessages, true)));
+                        throw new TaskException(sprintf(
+                            'The generated commit messages(%s) is an invalid JSON.',
+                            var_export($originalMessages, true)
+                        ));
                     }
 
                     return $messages;
@@ -113,7 +116,11 @@ final class CommitCommand extends Command
                     );
                 })
                 ->pipe(function (Collection $messages) {
-                    $subject = $this->choice('Please choice a commit message', $messages->pluck('subject', 'id')->all(), '1');
+                    $subject = $this->choice(
+                        'Please choice a commit message',
+                        $messages->pluck('subject', 'id')->all(),
+                        '1'
+                    );
 
                     return $messages->firstWhere('subject', $subject) ?? [];
                 });

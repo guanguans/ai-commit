@@ -46,7 +46,7 @@ final class BitoCliGenerator implements GeneratorContract
 
         return resolve(
             Process::class,
-            ['command' => [$this->config['path'] ?: 'bito', '-p', $promptFile]] + $this->config['parameters']
+            ['command' => [$this->config['path'], '-p', $promptFile]] + $this->config['parameters']
         )->mustRun(function (string $type, string $data): void {
             Process::OUT === $type ? $this->outputStyle->write($data) : $this->outputStyle->write("<fg=red>$data</>");
         })->getOutput();
