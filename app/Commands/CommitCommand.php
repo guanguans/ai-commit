@@ -70,8 +70,8 @@ final class CommitCommand extends Command
             $this->createProcess(['git', 'rev-parse', '--is-inside-work-tree'])->mustRun();
 
             $cachedDiff = $this->createProcess($this->getDiffCommand())->mustRun()->getOutput();
-            if (empty($cachedDiff)) {
-                throw new TaskException('There are no cached files to commit. Try running `git add` to stage some files.');
+            if ('' === $cachedDiff) {
+                throw new TaskException('There are no cached files to commit. Try running `git add` to cache some files.');
             }
 
             $this->newLine();

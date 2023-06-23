@@ -47,7 +47,7 @@ it('will throw TaskException(no cached files to commit)', function (): void {
 })
     ->depends('it will throw TaskException(not a git repository)')
     ->group(__DIR__, __FILE__)
-    ->throws(TaskException::class, 'There are no cached files to commit. Try running `git add` to stage some files.');
+    ->throws(TaskException::class, 'There are no cached files to commit. Try running `git add` to cache some files.');
 
 it('will throw TaskException(The generated commit messages is an invalid JSON)', function (): void {
     // 添加文件到暂存区
