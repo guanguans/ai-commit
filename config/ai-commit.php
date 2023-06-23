@@ -58,7 +58,7 @@ return [
     'generators' => [
         'bito_cli' => [
             'driver' => 'bito_cli',
-            'path' => 'bito',
+            'path' => env('BITO_CLI_PATH', 'bito'),
             'prompt_filename' => 'bito.prompt',
             'parameters' => [
                 'cwd' => null,
