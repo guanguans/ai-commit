@@ -132,10 +132,7 @@
             "@composer-bin all update"
         ],
         "post-autoload-dump": [],
-        "ai-commit": [
-            "@php ./ai-commit config set generator bito_cli --ansi -v",
-            "@php ./ai-commit commit --ansi -v"
-        ],
+        "ai-commit": "@php ./ai-commit commit --generator=bito_cli --ansi",
         "cghooks": "@php ./vendor/bin/cghooks --ansi -v",
         "cghooks-install": [
             "@cghooks add --ignore-lock",

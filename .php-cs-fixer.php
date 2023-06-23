@@ -53,7 +53,7 @@ $finder = Finder::create()
 
 // dd(json_encode($header, JSON_UNESCAPED_SLASHES));
 
-if (! is_dir($dir = __DIR__.'/build/php-cs-fixer') && ! mkdir($dir, 0777, true) && ! is_dir($dir)) {
+if (! is_dir($dir = __DIR__.'/build/php-cs-fixer') && ! mkdir($dir, 0755, true) && ! is_dir($dir)) {
     throw new RuntimeException("The directory [$dir] was not created.");
 }
 
