@@ -92,7 +92,7 @@ return [
         'openai_chat' => [
             'driver' => 'openai',
             'http_options' => [
-                // guzzlehttp\requestoptions::proxy => 'https://proxy.com/v1',
+                // GuzzleHttp\RequestOptions::PROXY => 'https://proxy.com/v1',
             ],
             'api_key' => env('OPENAI_API_KEY', 'sk-...'),
             'parameters' => [

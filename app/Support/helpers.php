@@ -13,6 +13,7 @@ declare(strict_types=1);
 use Illuminate\Contracts\Validation\Factory;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Support\Stringable;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 if (! function_exists('clear_console_screen')) {
@@ -53,12 +54,12 @@ if (! function_exists('str')) {
     /**
      * Get a new stringable object from the given string.
      *
-     * @return \Illuminate\Support\Stringable|mixed
+     * @return Stringable|\Stringable
      */
     function str(?string $string = null)
     {
         if (0 === func_num_args()) {
-            return new class() {
+            return new class() implements \Stringable {
                 public function __call($method, $parameters)
                 {
                     return Str::$method(...$parameters);
@@ -108,7 +109,10 @@ if (! function_exists('make')) {
             return make($abstract, $parameters);
         }
 
-        throw new InvalidArgumentException(sprintf('The argument of abstract must be an array containing a `%s` element.', implode('` or `', $classes)));
+        throw new InvalidArgumentException(sprintf(
+            'The argument of abstract must be an array containing a `%s` element.',
+            implode('` or `', $classes)
+        ));
     }
 }
 

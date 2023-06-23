@@ -21,7 +21,7 @@ use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Traits\Tappable;
 
 /**
- * @method \App\Contracts\GeneratorContract driver(?string $driver = null)
+ * @mixin  \App\Contracts\GeneratorContract
  */
 final class GeneratorManager extends Manager
 {
@@ -34,9 +34,10 @@ final class GeneratorManager extends Manager
     }
 
     /**
-     * @noinspection MissingParentCallInspection
+     * {@inheritDoc}
      *
-     * @param mixed $driver
+     * @noinspection MissingParentCallInspection
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     protected function createDriver($driver)
     {

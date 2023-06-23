@@ -61,9 +61,10 @@ final class ConfigManager extends Repository implements \JsonSerializable, Array
             return new self($items);
         }
 
-        return self::createFrom(
-            ...array_filter([config_path('ai-commit.php'), self::globalPath(), self::localPath()], 'file_exists')
-        );
+        return self::createFrom(...array_filter(
+            [config_path('ai-commit.php'), self::globalPath(), self::localPath()],
+            'file_exists'
+        ));
     }
 
     /**

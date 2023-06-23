@@ -10,6 +10,7 @@ declare(strict_types=1);
  * This source file is subject to the MIT license that is bundled.
  */
 
+/** @noinspection PhpInternalEntityUsedInspection */
 return [
     /*
     |--------------------------------------------------------------------------
@@ -35,7 +36,7 @@ return [
     |
     */
 
-    'font' => \LaravelZero\Framework\Components\Logo\FigletString::DEFAULT_FONT,
+    'font' => LaravelZero\Framework\Components\Logo\FigletString::DEFAULT_FONT,
 
     /*
     |--------------------------------------------------------------------------

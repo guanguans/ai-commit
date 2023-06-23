@@ -20,6 +20,13 @@ use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
+it('can from shell commandline create process', function (): void {
+    $createProcess = function () {
+        return $this->createProcess('git status');
+    };
+    expect($createProcess->call(app(CommitCommand::class)))->toBeInstanceOf(Process::class);
+})->group(__DIR__, __FILE__)->skip();
+
 it('will throw TaskException(not a git repository)', function (): void {
     $this->artisan(CommitCommand::class, [
         'path' => $this->app->basePath('../'),

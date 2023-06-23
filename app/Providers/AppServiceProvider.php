@@ -53,6 +53,7 @@ final class AppServiceProvider extends ServiceProvider
      * {@inheritDoc}
      *
      * @throws BindingResolutionException
+     * @throws \ReflectionException
      */
     public function register(): void
     {

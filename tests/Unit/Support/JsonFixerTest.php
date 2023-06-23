@@ -15,9 +15,8 @@ declare(strict_types=1);
 use App\Support\JsonFixer;
 
 it('can fix invalid json', function (string $json, string $expect): void {
-    expect(new JsonFixer())
-        ->fix($json)->toBe($expect);
-})->group(__DIR__, __FILE__)->with('InvalidJsons')->skip();
+    expect(new JsonFixer())->fix($json)->toBe($expect);
+})->group(__DIR__, __FILE__)->with('InvalidJsons');
 
 it('can fix invalid json with missing value', function (): void {
     expect(new JsonFixer())

@@ -28,9 +28,12 @@ final class OpenAI extends FoundationSDK
 {
     public static function sanitizeData(string $data): string
     {
-        return (string) str($data)->whenStartsWith($prefix = 'data: ', static function (Stringable $data) use ($prefix): Stringable {
-            return $data->replaceFirst($prefix, '');
-        });
+        return (string) str($data)->whenStartsWith(
+            $prefix = 'data: ',
+            static function (Stringable $data) use ($prefix): Stringable {
+                return $data->replaceFirst($prefix, '');
+            }
+        );
     }
 
     /**
@@ -73,6 +76,9 @@ final class OpenAI extends FoundationSDK
      *     }
      * }
      * ```
+     *
+     * @throws BindingResolutionException
+     * @throws RequestException
      */
     public function completions(array $parameters, ?callable $writer = null): Response
     {
@@ -139,6 +145,9 @@ final class OpenAI extends FoundationSDK
      *
      * data: [DONE]
      * ```
+     *
+     * @throws BindingResolutionException
+     * @throws RequestException
      */
     public function chatCompletions(array $parameters, ?callable $writer = null): Response
     {
@@ -319,7 +328,7 @@ final class OpenAI extends FoundationSDK
             ->cloneDefaultPendingRequest()
             ->when(
                 ($parameters['stream'] ?? false) && \is_callable($writer),
-                static function (PendingRequest $pendingRequest) use ($writer, &$rowData): PendingRequest {
+                static function (PendingRequest $pendingRequest) use (&$rowData, $writer): PendingRequest {
                     return $pendingRequest->withOptions([
                         'curl' => [
                             CURLOPT_WRITEFUNCTION => static function ($ch, string $data) use (&$rowData, $writer): int {

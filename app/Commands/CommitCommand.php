@@ -178,6 +178,10 @@ final class CommitCommand extends Command
     }
 
     /**
+     * {@inheritDoc}
+     *
+     * @throws \JsonException
+     *
      * @psalm-suppress InvalidScalarArgument
      */
     protected function initialize(InputInterface $input, OutputInterface $output): void
@@ -213,9 +217,8 @@ final class CommitCommand extends Command
     protected function createProcess($command, ?string $cwd = null, ?array $env = null, $input = null, ?float $timeout = 60): Process
     {
         null === $cwd and $cwd = $this->argument('path');
-
         $process = \is_string($command)
-            ? Process::fromShellCommandline($command, $cwd, $env, $input, $timeout)
+            ? Process::fromShellCommandline($command, $cwd, $env, $input, $timeout) // @codeCoverageIgnore
             : new Process($command, $cwd, $env, $input, $timeout);
 
         if ($this->option('verbose')) {

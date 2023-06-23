@@ -116,7 +116,7 @@ final class JsonFixer
 
     private function trim(string $json): array
     {
-        preg_match('/^(\s*)([^\s]+)(\s*)$/', $json, $match);
+        preg_match('/^(\s*)(\S+)(\s*)$/', $json, $match);
 
         $match += ['', '', '', ''];
         $match[2] = trim($json);
@@ -218,7 +218,7 @@ final class JsonFixer
     }
 
     /**
-     * @noinspection OffsetOperationsInspection
+     * @noinspection PhpInconsistentReturnPointsInspection
      */
     private function popToken(?string $token = null)
     {
