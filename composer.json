@@ -191,6 +191,7 @@
         "style-lint": "@style-fix --diff --dry-run",
         "test": "@pest",
         "test-coverage": "@pest-coverage",
+        "trufflehog": "trufflehog git https://github.com/guanguans/ai-commit --only-verified",
         "var-dump-server": "@php ./vendor/bin/var-dump-server --ansi -v",
         "vhs": [
             "@cghooks-uninstall",
