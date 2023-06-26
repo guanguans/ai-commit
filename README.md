@@ -1,5 +1,8 @@
 # ai-commit
 
+<!-- https://looka.com -->
+<p align="center"><img src="art/logo.png" alt="logo" style="width: 62%; height: 62%;"></p>
+
 ![](docs/ai-commit.gif)
 
 [简体中文](README-zh_CN.md) | [ENGLISH](README.md)
