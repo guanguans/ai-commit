@@ -2,6 +2,17 @@
 
 All notable changes to `guanguans/ai-commit` will be documented in this file.
 
+## v1.6.6 - 2023-06-30
+
+### What's Changed
+
+- [ImgBot] Optimize images by @imgbot in https://github.com/guanguans/ai-commit/pull/24
+- chore(deps): bump trufflesecurity/trufflehog from 3.41.0 to 3.41.1 by @dependabot in https://github.com/guanguans/ai-commit/pull/25
+- chore(deps): bump dependabot/fetch-metadata from 1.5.1 to 1.6.0 by @dependabot in https://github.com/guanguans/ai-commit/pull/26
+- chore(deps): bump trufflesecurity/trufflehog from 3.41.1 to 3.42.0 by @dependabot in https://github.com/guanguans/ai-commit/pull/27
+
+**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.6.5...v1.6.6
+
 ## v1.6.5 - 2023-06-26
 
 **Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.6.4...v1.6.5
