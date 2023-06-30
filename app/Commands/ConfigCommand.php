@@ -207,7 +207,7 @@ final class ConfigCommand extends Command
      * @throws \JsonException
      * @noinspection PhpInconsistentReturnPointsInspection
      */
-    protected function argToValue(string $arg)
+    private function argToValue(string $arg)
     {
         if (0 === strncasecmp($arg, 'null', 4)) {
             return;
@@ -238,7 +238,7 @@ final class ConfigCommand extends Command
      * @noinspection DebugFunctionUsageInspection
      * @noinspection JsonEncodingApiUsageInspection
      */
-    protected function valueToArg($value): string
+    private function valueToArg($value): string
     {
         if (null === $value) {
             return 'null';

@@ -209,31 +209,29 @@ final class CommitCommand extends Command
     }
 
     /**
-     * @param array|string $command
      * @param null|mixed $input
      *
      * @noinspection CallableParameterUseCaseInTypeContextInspection
      */
-    protected function createProcess($command, ?string $cwd = null, ?array $env = null, $input = null, ?float $timeout = 60): Process
+    private function createProcess(array $command, ?string $cwd = null, ?array $env = null, $input = null, ?float $timeout = 60): Process
     {
-        null === $cwd and $cwd = $this->argument('path');
-        $process = \is_string($command)
-            ? Process::fromShellCommandline($command, $cwd, $env, $input, $timeout) // @codeCoverageIgnore
-            : new Process($command, $cwd, $env, $input, $timeout);
-
-        if ($this->option('verbose')) {
-            $this->output->info($process->getCommandLine());
+        if (null === $cwd) {
+            $cwd = $this->argument('path');
         }
 
-        return $process;
+        return tap(new Process($command, $cwd, $env, $input, $timeout), function (Process $process): void {
+            if ($this->option('verbose')) {
+                $this->output->info($process->getCommandLine());
+            }
+        });
     }
 
-    protected function getDiffCommand(): array
+    private function getDiffCommand(): array
     {
         return array_merge(['git', 'diff', '--cached'], $this->option('diff-options'));
     }
 
-    protected function getPrompt(string $cachedDiff): string
+    private function getPrompt(string $cachedDiff): string
     {
         return (string) str($this->configManager->get("prompts.{$this->option('prompt')}"))
             ->replace($this->configManager->get('diff_mark'), $cachedDiff)
@@ -244,7 +242,7 @@ final class CommitCommand extends Command
             });
     }
 
-    protected function tryFixMessages(string $messages): string
+    private function tryFixMessages(string $messages): string
     {
         return (new JsonFixer())
             // ->missingValue('')
@@ -257,7 +255,7 @@ final class CommitCommand extends Command
      *
      * @noinspection CallableParameterUseCaseInTypeContextInspection
      */
-    protected function getCommitCommand(array $message): array
+    private function getCommitCommand(array $message): array
     {
         $options = collect($this->option('commit-options'))
             ->push('--edit')
@@ -280,12 +278,12 @@ final class CommitCommand extends Command
         return array_merge(['git', 'commit', '--message', $message], $options);
     }
 
-    protected function isEditMode(): bool
+    private function isEditMode(): bool
     {
         return ! windows_os() && ! $this->option('no-edit') && $this->configManager->get('edit');
     }
 
-    protected function isNotEditMode(): bool
+    private function isNotEditMode(): bool
     {
         return ! $this->isEditMode();
     }
