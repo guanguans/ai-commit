@@ -145,7 +145,7 @@ final class ConfigCommand extends Command
                 throw UnsupportedConfigActionException::make($action);
         }
 
-        $this->output->success('Operate successfully.');
+        $this->output->success('Operated successfully.');
 
         return self::SUCCESS;
     }

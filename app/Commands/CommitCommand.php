@@ -132,7 +132,7 @@ final class CommitCommand extends Command
             })->mustRun();
         }, 'committing...');
 
-        $this->output->success('Generate and commit messages successfully');
+        $this->output->success('Successfully generated and committed messages.');
 
         return self::SUCCESS;
     }
