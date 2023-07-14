@@ -2,6 +2,16 @@
 
 All notable changes to `guanguans/ai-commit` will be documented in this file.
 
+## v1.6.8 - 2023-07-14
+
+### What's Changed
+
+- chore(deps): bump trufflesecurity/trufflehog from 3.42.0 to 3.43.0 by @dependabot in https://github.com/guanguans/ai-commit/pull/28
+- chore(deps): bump trufflesecurity/trufflehog from 3.43.0 to 3.44.0 by @dependabot in https://github.com/guanguans/ai-commit/pull/29
+- chore(deps-dev): bump pestphp/pest from 1.23.0 to 1.23.1 by @dependabot in https://github.com/guanguans/ai-commit/pull/30
+
+**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.6.7...v1.6.8
+
 ## v1.6.7 - 2023-06-30
 
 **Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.6.6...v1.6.7
