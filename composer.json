@@ -133,6 +133,7 @@
         ],
         "post-autoload-dump": [],
         "ai-commit": "@php ./ai-commit commit --generator=bito_cli --ansi",
+        "ai-commit-no-verify": "@ai-commit --commit-options=--no-verify",
         "cghooks": "@php ./vendor/bin/cghooks --ansi -v",
         "cghooks-install": [
             "@cghooks add --ignore-lock",
@@ -147,19 +148,12 @@
         "changelog-minor": "@changelog --minor",
         "changelog-patch": "@changelog --patch",
         "checks": [
-            "@mark-start",
-            "@md-lint",
-            "@mark-separate",
-            "@lint",
-            "@mark-separate",
             "@composer-validate",
-            "@mark-separate",
+            "@md-lint",
+            "@lint",
             "@style-lint",
-            "@mark-separate",
             "@test",
-            "@mark-separate",
-            "@psalm",
-            "@mark-finish"
+            "@psalm"
         ],
         "composer-bin": "@composer bin --ansi -v",
         "composer-check-platform-reqs": "@composer check-platform-reqs --lock --ansi -v",
