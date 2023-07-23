@@ -1,297 +1,405 @@
+<!--- BEGIN HEADER -->
 # Changelog
 
-All notable changes to `guanguans/ai-commit` will be documented in this file.
+All notable changes to this project will be documented in this file.
+<!--- END HEADER -->
 
-## v1.6.9 - 2023-07-14
+<a name="unreleased"></a>
+## [Unreleased]
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.6.8...v1.6.9
 
-## v1.6.8 - 2023-07-14
+<a name="1.7.0"></a>
+## [1.7.0] - 2023-07-23
+### Feat
+- **composer:** add guanguans/monorepo-builder-worker dependency
 
-### What's Changed
+### Refactor
+- **rector:** Remove unused rules and dependencies
 
-- chore(deps): bump trufflesecurity/trufflehog from 3.42.0 to 3.43.0 by @dependabot in https://github.com/guanguans/ai-commit/pull/28
-- chore(deps): bump trufflesecurity/trufflehog from 3.43.0 to 3.44.0 by @dependabot in https://github.com/guanguans/ai-commit/pull/29
-- chore(deps-dev): bump pestphp/pest from 1.23.0 to 1.23.1 by @dependabot in https://github.com/guanguans/ai-commit/pull/30
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.6.7...v1.6.8
+<a name="v1.6.9"></a>
+## [v1.6.9] - 2023-07-14
+### Fix
+- **commands:** Update success message in ConfigCommand
 
-## v1.6.7 - 2023-06-30
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.6.6...v1.6.7
+<a name="v1.6.8"></a>
+## [v1.6.8] - 2023-07-14
+### Feat
+- **composer.json:** add ai-commit-no-verify command
 
-## v1.6.6 - 2023-06-30
+### Fix
+- **commands:** Update commit success message
 
-### What's Changed
+### Pull Requests
+- Merge pull request [#30](https://github.com/guanguans/monorepo-builder-worker/issues/30) from guanguans/dependabot/composer/pestphp/pest-1.23.1
+- Merge pull request [#29](https://github.com/guanguans/monorepo-builder-worker/issues/29) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.44.0
+- Merge pull request [#28](https://github.com/guanguans/monorepo-builder-worker/issues/28) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.43.0
 
-- [ImgBot] Optimize images by @imgbot in https://github.com/guanguans/ai-commit/pull/24
-- chore(deps): bump trufflesecurity/trufflehog from 3.41.0 to 3.41.1 by @dependabot in https://github.com/guanguans/ai-commit/pull/25
-- chore(deps): bump dependabot/fetch-metadata from 1.5.1 to 1.6.0 by @dependabot in https://github.com/guanguans/ai-commit/pull/26
-- chore(deps): bump trufflesecurity/trufflehog from 3.41.1 to 3.42.0 by @dependabot in https://github.com/guanguans/ai-commit/pull/27
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.6.5...v1.6.6
+<a name="v1.6.7"></a>
+## [v1.6.7] - 2023-06-30
+### Refactor
+- **CommitCommand:** Change visibility of methods
 
-## v1.6.5 - 2023-06-26
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.6.4...v1.6.5
+<a name="v1.6.6"></a>
+## [v1.6.6] - 2023-06-30
+### Pull Requests
+- Merge pull request [#27](https://github.com/guanguans/monorepo-builder-worker/issues/27) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.42.0
+- Merge pull request [#26](https://github.com/guanguans/monorepo-builder-worker/issues/26) from guanguans/dependabot/github_actions/dependabot/fetch-metadata-1.6.0
+- Merge pull request [#25](https://github.com/guanguans/monorepo-builder-worker/issues/25) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.41.1
+- Merge pull request [#24](https://github.com/guanguans/monorepo-builder-worker/issues/24) from guanguans/imgbot
 
-## v1.6.4 - 2023-06-23
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.6.3...v1.6.4
+<a name="v1.6.5"></a>
+## [v1.6.5] - 2023-06-26
+### Feat
+- **README:** add logo
+- **composer:** Add trufflehog command
+- **github-actions:** add secrets check workflow
 
-## v1.6.3 - 2023-06-23
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.6.2...v1.6.3
+<a name="v1.6.4"></a>
+## [v1.6.4] - 2023-06-23
+### Fix
+- **build:** change directory permission to 0755
 
-## v1.6.2 - 2023-06-22
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.6.1...v1.6.2
+<a name="v1.6.3"></a>
+## [v1.6.3] - 2023-06-23
+### Fix
+- **commands:** update error message for no cached files to commit
 
-## v1.6.1 - 2023-06-21
+### Refactor
+- **app:** improve code readability and structure
+- **commit-command:** improve code readability and add doc comments
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.6.0...v1.6.1
 
-## v1.6.0 - 2023-06-21
+<a name="v1.6.2"></a>
+## [v1.6.2] - 2023-06-22
+### Docs
+- **README:** reorganize and update installation steps
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.5.3...v1.6.0
+### Feat
+- **app:** add ChangeAndIfToEarlyReturnRector to ConfigManager and CommitCommand
+- **tests:** add support for Windows in tests
 
-## v1.5.3 - 2023-06-21
+### Fix
+- **CommitCommand:** use --cached instead of --staged in git diff
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.5.2...v1.5.3
+### Refactor
+- **ConfigManager:** use File facade and update return types
+- **commands:** modify CommitCommand to handle Windows OS
+- **config:** update generator name to openai_chat
+- **generators:** rename Bito to Bito Cli
 
-## v1.5.2 - 2023-06-21
+### Test
+- **ConfigCommandTest:** add skip for windows_os()
+- **config:** add test for edit config on Windows
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.5.1...v1.5.2
 
-## v1.5.1 - 2023-06-20
+<a name="v1.6.1"></a>
+## [v1.6.1] - 2023-06-21
+### Docs
+- **readme:** Update README with OpenAI and Bito configuration instructions
+- **readme:** add support section
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.5.0...v1.5.1
+### Feat
+- **composer.json:** add bito and other dependencies
 
-## v1.5.0 - 2023-06-20
+### Test
+- **generators:** Add BitoGeneratorTest
 
-### What's Changed
 
-- Bump dependabot/fetch-metadata from 1.4.0 to 1.5.0 by @dependabot in https://github.com/guanguans/ai-commit/pull/18
-- Bump guzzlehttp/guzzle from 7.6.1 to 7.7.0 by @dependabot in https://github.com/guanguans/ai-commit/pull/19
-- Bump dependabot/fetch-metadata from 1.5.0 to 1.5.1 by @dependabot in https://github.com/guanguans/ai-commit/pull/20
-- Bump mockery/mockery from 1.5.1 to 1.6.0 by @dependabot in https://github.com/guanguans/ai-commit/pull/21
-- Bump mockery/mockery from 1.6.0 to 1.6.2 by @dependabot in https://github.com/guanguans/ai-commit/pull/22
-- Bump php-mock/php-mock-phpunit from 2.7.1 to 2.7.2 by @dependabot in https://github.com/guanguans/ai-commit/pull/23
+<a name="v1.6.0"></a>
+## [v1.6.0] - 2023-06-21
+### Feat
+- **config:** add Bito driver configuration
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.4.4...v1.5.0
+### Fix
+- **generator:** use configured path for bito command
 
-## v1.4.4 - 2023-05-16
+### Refactor
+- **Generators:** make BitoGenerator class final and change visibility of properties
+- **Generators:** simplify code for generating prompt file
+- **app:** use custom exceptions and update driver creation
+- **app:** update GeneratorManager.php
+- **composer:** remove unused composer script
 
-### What's Changed
 
-- Bump guzzlehttp/guzzle from 7.5.1 to 7.6.1 by @dependabot in https://github.com/guanguans/ai-commit/pull/17
+<a name="v1.5.3"></a>
+## [v1.5.3] - 2023-06-21
+### Feat
+- **rector:** add FinalizeClassesWithoutChildrenRector
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.4.3...v1.4.4
+### Refactor
+- **OpenAIGenerator:** change extractCompletion method to non-static
 
-## v1.4.3 - 2023-05-06
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.4.2...v1.4.3
+<a name="v1.5.2"></a>
+## [v1.5.2] - 2023-06-21
+### Feat
+- **dev:** Add bamarni/composer-bin-plugin to require-dev
 
-## v1.4.2 - 2023-05-04
 
-### What's Changed
+<a name="v1.5.1"></a>
+## [v1.5.1] - 2023-06-20
 
-- Bump guzzlehttp/guzzle from 7.5.0 to 7.5.1 by @dependabot in https://github.com/guanguans/ai-commit/pull/14
-- Bump dependabot/fetch-metadata from 1.3.6 to 1.4.0 by @dependabot in https://github.com/guanguans/ai-commit/pull/15
-- Bump pestphp/pest from 1.22.6 to 1.23.0 by @dependabot in https://github.com/guanguans/ai-commit/pull/16
+<a name="v1.5.0"></a>
+## [v1.5.0] - 2023-06-20
+### Pull Requests
+- Merge pull request [#23](https://github.com/guanguans/monorepo-builder-worker/issues/23) from guanguans/dependabot/composer/php-mock/php-mock-phpunit-2.7.2
+- Merge pull request [#22](https://github.com/guanguans/monorepo-builder-worker/issues/22) from guanguans/dependabot/composer/mockery/mockery-1.6.2
+- Merge pull request [#21](https://github.com/guanguans/monorepo-builder-worker/issues/21) from guanguans/dependabot/composer/mockery/mockery-1.6.0
+- Merge pull request [#20](https://github.com/guanguans/monorepo-builder-worker/issues/20) from guanguans/dependabot/github_actions/dependabot/fetch-metadata-1.5.1
+- Merge pull request [#19](https://github.com/guanguans/monorepo-builder-worker/issues/19) from guanguans/dependabot/composer/guzzlehttp/guzzle-7.7.0
+- Merge pull request [#18](https://github.com/guanguans/monorepo-builder-worker/issues/18) from guanguans/dependabot/github_actions/dependabot/fetch-metadata-1.5.0
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.4.1...v1.4.2
 
-## v1.4.1 - 2023-04-13
+<a name="v1.4.4"></a>
+## [v1.4.4] - 2023-05-16
+### Pull Requests
+- Merge pull request [#17](https://github.com/guanguans/monorepo-builder-worker/issues/17) from guanguans/dependabot/composer/guzzlehttp/guzzle-7.6.1
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.4.0...v1.4.1
 
-## v1.4.0 - 2023-04-13
+<a name="v1.4.3"></a>
+## [v1.4.3] - 2023-05-06
+### Feat
+- **config:** Update app locale to English
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.3.3...v1.4.0
 
-## v1.3.3 - 2023-04-01
+<a name="v1.4.2"></a>
+## [v1.4.2] - 2023-05-04
+### Feat
+- **config:** add reset action to ConfigCommand
 
-### What's Changed
+### Refactor
+- **commands:** use collection to set options
 
-- Bump php-mock/php-mock-phpunit from 2.6.1 to 2.7.0 by @dependabot in https://github.com/guanguans/ai-commit/pull/10
-- Bump pestphp/pest from 1.22.5 to 1.22.6 by @dependabot in https://github.com/guanguans/ai-commit/pull/11
-- Bump php-mock/php-mock-phpunit from 2.7.0 to 2.7.1 by @dependabot in https://github.com/guanguans/ai-commit/pull/12
-- Bump actions/stale from 7 to 8 by @dependabot in https://github.com/guanguans/ai-commit/pull/13
+### Pull Requests
+- Merge pull request [#16](https://github.com/guanguans/monorepo-builder-worker/issues/16) from guanguans/dependabot/composer/pestphp/pest-1.23.0
+- Merge pull request [#15](https://github.com/guanguans/monorepo-builder-worker/issues/15) from guanguans/dependabot/github_actions/dependabot/fetch-metadata-1.4.0
+- Merge pull request [#14](https://github.com/guanguans/monorepo-builder-worker/issues/14) from guanguans/dependabot/composer/guzzlehttp/guzzle-7.5.1
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.3.2...v1.3.3
 
-## v1.3.2 - 2023-03-06
+<a name="v1.4.1"></a>
+## [v1.4.1] - 2023-04-13
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.3.1...v1.3.2
+<a name="v1.4.0"></a>
+## [v1.4.0] - 2023-04-13
 
-## v1.3.1 - 2023-03-04
+<a name="v1.3.3"></a>
+## [v1.3.3] - 2023-04-01
+### Pull Requests
+- Merge pull request [#13](https://github.com/guanguans/monorepo-builder-worker/issues/13) from guanguans/dependabot/github_actions/actions/stale-8
+- Merge pull request [#12](https://github.com/guanguans/monorepo-builder-worker/issues/12) from guanguans/dependabot/composer/php-mock/php-mock-phpunit-2.7.1
+- Merge pull request [#11](https://github.com/guanguans/monorepo-builder-worker/issues/11) from guanguans/dependabot/composer/pestphp/pest-1.22.6
+- Merge pull request [#10](https://github.com/guanguans/monorepo-builder-worker/issues/10) from guanguans/dependabot/composer/php-mock/php-mock-phpunit-2.7.0
 
-### What's Changed
 
-- Bump pestphp/pest from 1.22.4 to 1.22.5 by @dependabot in https://github.com/guanguans/ai-commit/pull/9
+<a name="v1.3.2"></a>
+## [v1.3.2] - 2023-03-06
+### Fix
+- **generator:** fix JSON decoding error
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.3.0...v1.3.1
 
-## v1.3.0 - 2023-03-03
+<a name="v1.3.1"></a>
+## [v1.3.1] - 2023-03-04
+### Pull Requests
+- Merge pull request [#9](https://github.com/guanguans/monorepo-builder-worker/issues/9) from guanguans/dependabot/composer/pestphp/pest-1.22.5
 
-### What's Changed
 
-- [ImgBot] Optimize images by @imgbot in https://github.com/guanguans/ai-commit/pull/8
+<a name="v1.3.0"></a>
+## [v1.3.0] - 2023-03-03
+### Fix
+- **config:** update generator name
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.2.8...v1.3.0
+### Pull Requests
+- Merge pull request [#8](https://github.com/guanguans/monorepo-builder-worker/issues/8) from guanguans/imgbot
 
-## v1.2.8 - 2023-03-02
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.2.7...v1.2.8
+<a name="v1.2.8"></a>
+## [v1.2.8] - 2023-03-02
 
-## v1.2.7 - 2023-03-01
+<a name="v1.2.7"></a>
+## [v1.2.7] - 2023-03-01
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.2.6...v1.2.7
+<a name="v1.2.6"></a>
+## [v1.2.6] - 2023-02-28
 
-## v1.2.6 - 2023-02-28
+<a name="v1.2.5"></a>
+## [v1.2.5] - 2023-02-28
+### Fix
+- **Generator:** Hydrate data with JSON_THROW_ON_ERROR
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.2.5...v1.2.6
+### Refactor
+- **OpenAIGenerator:** Refactor response handling
 
-## v1.2.5 - 2023-02-28
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.2.4...v1.2.5
+<a name="v1.2.4"></a>
+## [v1.2.4] - 2023-02-22
 
-## v1.2.4 - 2023-02-22
+<a name="v1.2.3"></a>
+## [v1.2.3] - 2023-02-20
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.2.3...v1.2.4
+<a name="v1.2.2"></a>
+## [v1.2.2] - 2023-02-18
 
-## v1.2.3 - 2023-02-20
+<a name="v1.2.1"></a>
+## [v1.2.1] - 2023-02-18
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.2.2...v1.2.3
+<a name="v1.2.0"></a>
+## [v1.2.0] - 2023-02-17
 
-## v1.2.2 - 2023-02-18
+<a name="v1.1.5"></a>
+## [v1.1.5] - 2023-02-16
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.2.1...v1.2.2
+<a name="v1.1.4"></a>
+## [v1.1.4] - 2023-02-16
 
-## v1.2.1 - 2023-02-18
+<a name="v1.1.3"></a>
+## [v1.1.3] - 2023-02-15
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.2.0...v1.2.1
+<a name="v1.1.2"></a>
+## [v1.1.2] - 2023-02-15
 
-## v1.2.0 - 2023-02-17
+<a name="v1.1.1"></a>
+## [v1.1.1] - 2023-02-15
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.1.5...v1.2.0
+<a name="v1.1.0"></a>
+## [v1.1.0] - 2023-02-15
 
-## v1.1.5 - 2023-02-16
+<a name="v1.0.4"></a>
+## [v1.0.4] - 2023-02-15
+### Pull Requests
+- Merge pull request [#5](https://github.com/guanguans/monorepo-builder-worker/issues/5) from guanguans/imgbot
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.1.4...v1.1.5
 
-## v1.1.4 - 2023-02-16
+<a name="v1.0.3"></a>
+## [v1.0.3] - 2023-02-15
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.1.3...v1.1.4
+<a name="v1.0.2"></a>
+## [v1.0.2] - 2023-02-15
 
-## v1.1.3 - 2023-02-15
+<a name="v1.0.1"></a>
+## [v1.0.1] - 2023-02-15
+### Fix
+- **ConfigCommand:** Fix UnsupportedActionOfConfigException
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.1.2...v1.1.3
 
-## v1.1.2 - 2023-02-15
+<a name="v1.0.0"></a>
+## [v1.0.0] - 2023-02-09
+### Docs
+- Update README and CHANGELOG
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.1.1...v1.1.2
+### Fix
+- **OpenAIGenerator:** Fix is_json() call
 
-## v1.1.1 - 2023-02-15
+### Refactor
+- Apply rector
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.1.0...v1.1.1
 
-## v1.1.0 - 2023-02-15
+<a name="v0.5.0"></a>
+## [v0.5.0] - 2023-02-09
+### Feat
+- **CommitCommand:** Add config option
+- **CommitCommand:** Add InputArgument for path
+- **ConfigCommand:** Add ACTIONS constant
+- **config:** Add list actions
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.0.4...v1.1.0
+### Refactor
+- **ConfigCommand:** Transform config value
 
-## v1.0.4 - 2023-02-15
 
-### What's Changed
+<a name="v0.4.0"></a>
+## [v0.4.0] - 2023-02-08
+### Feat
+- **CommitCommand:** Add no-edit option
+- **StrMacro:** Add StrMacro class
 
-- [ImgBot] Optimize images by @imgbot in https://github.com/guanguans/ai-commit/pull/5
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.0.3...v1.0.4
+<a name="v0.3.0"></a>
+## [v0.3.0] - 2023-02-07
 
-## v1.0.3 - 2023-02-15
+<a name="v0.2.5"></a>
+## [v0.2.5] - 2023-02-07
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.0.2...v1.0.3
+<a name="v0.2.4"></a>
+## [v0.2.4] - 2023-02-07
 
-## v1.0.2 - 2023-02-15
+<a name="v0.2.3"></a>
+## [v0.2.3] - 2023-02-07
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.0.1...v1.0.2
+<a name="v0.2.2"></a>
+## [v0.2.2] - 2023-02-07
 
-## v1.0.1 - 2023-02-15
+<a name="v0.2.1"></a>
+## [v0.2.1] - 2023-02-07
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v1.0.0...v1.0.1
+<a name="v0.2.0"></a>
+## [v0.2.0] - 2023-02-06
+### Feat
+- add config command
 
-## v1.0.0 - 2023-02-14
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v0.5.0...v1.0.0
-
-## v0.5.0 - 2023-02-09
-
-### Features
-
-##### Commit Command
-
-- Add config option ([922513](https://github.com/guanguans/ai-commit/commit/922513dc801be3431c22381753bbfab6862674fe))
-- Add InputArgument for path ([5f63c6](https://github.com/guanguans/ai-commit/commit/5f63c68ee586b26ff0b866df7506aa7cff1f2599))
-
-##### Config
-
-- Add list actions ([1afd29](https://github.com/guanguans/ai-commit/commit/1afd29c64029a9d26021f990cba51fe06b08eeaf))
-
-##### Config Command
-
-- Add ACTIONS constant ([e39ba8](https://github.com/guanguans/ai-commit/commit/e39ba85b1721785650630341614a0301b3a53808))
-
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v0.4.0...v0.5.0
-
-## v0.4.0 - 2023-02-08
-
-### Features
-
-##### Commit Command
-
-- Add no-edit option ([31fb88](https://github.com/guanguans/ai-commit/commit/31fb883d8c6bd1f07326809b8a3ce01d36bacf6e))
-
-##### Str Macro
-
-- Add StrMacro class ([137ce1](https://github.com/guanguans/ai-commit/commit/137ce138a7b2f4e084830da6fc8dd5317c40888d))
-
-### Bug Fixes
-
-##### Composer
-
-- Rename pre-commit and post-merge hooks ([ebd02c](https://github.com/guanguans/ai-commit/commit/ebd02c890316768e8d3112bd0f861933188e3176))
-
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v0.3.0...v0.4.0
-
-## v0.3.0 - 2023-02-07
-
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v0.2.5...v0.3.0
-
-## v0.2.5 - 2023-02-07
-
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v0.2.4...v0.2.5
-
-## v0.2.4 - 2023-02-07
-
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v0.2.3...v0.2.4
-
-## v0.2.3 - 2023-02-07
-
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v0.2.2...v0.2.3
-
-## v0.2.2 - 2023-02-07
-
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v0.2.1...v0.2.2
-
-## v0.2.1 - 2023-02-07
-
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v0.2.0...v0.2.1
-
-## v0.2.0 - 2023-02-07
-
-**Full Changelog**: https://github.com/guanguans/ai-commit/compare/v0.1.0...v0.2.0
-
+<a name="v0.1.0"></a>
 ## v0.1.0 - 2023-02-03
+### Feat
+- add config manager
 
-**Full Changelog**: https://github.com/guanguans/ai-commit/commits/v0.1.0
+
+[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.0...HEAD
+[1.7.0]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.6.9...1.7.0
+[v1.6.9]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.6.8...v1.6.9
+[v1.6.8]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.6.7...v1.6.8
+[v1.6.7]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.6.6...v1.6.7
+[v1.6.6]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.6.5...v1.6.6
+[v1.6.5]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.6.4...v1.6.5
+[v1.6.4]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.6.3...v1.6.4
+[v1.6.3]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.6.2...v1.6.3
+[v1.6.2]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.6.1...v1.6.2
+[v1.6.1]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.6.0...v1.6.1
+[v1.6.0]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.5.3...v1.6.0
+[v1.5.3]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.5.2...v1.5.3
+[v1.5.2]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.5.1...v1.5.2
+[v1.5.1]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.5.0...v1.5.1
+[v1.5.0]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.4.4...v1.5.0
+[v1.4.4]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.4.3...v1.4.4
+[v1.4.3]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.4.2...v1.4.3
+[v1.4.2]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.4.1...v1.4.2
+[v1.4.1]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.4.0...v1.4.1
+[v1.4.0]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.3.3...v1.4.0
+[v1.3.3]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.3.2...v1.3.3
+[v1.3.2]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.3.1...v1.3.2
+[v1.3.1]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.3.0...v1.3.1
+[v1.3.0]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.2.8...v1.3.0
+[v1.2.8]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.2.7...v1.2.8
+[v1.2.7]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.2.6...v1.2.7
+[v1.2.6]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.2.5...v1.2.6
+[v1.2.5]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.2.4...v1.2.5
+[v1.2.4]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.2.3...v1.2.4
+[v1.2.3]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.2.2...v1.2.3
+[v1.2.2]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.2.1...v1.2.2
+[v1.2.1]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.2.0...v1.2.1
+[v1.2.0]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.1.5...v1.2.0
+[v1.1.5]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.1.4...v1.1.5
+[v1.1.4]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.1.3...v1.1.4
+[v1.1.3]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.1.2...v1.1.3
+[v1.1.2]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.1.1...v1.1.2
+[v1.1.1]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.1.0...v1.1.1
+[v1.1.0]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.0.4...v1.1.0
+[v1.0.4]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.0.3...v1.0.4
+[v1.0.3]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.0.2...v1.0.3
+[v1.0.2]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.0.1...v1.0.2
+[v1.0.1]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.0.0...v1.0.1
+[v1.0.0]: https://github.com/guanguans/monorepo-builder-worker/compare/v0.5.0...v1.0.0
+[v0.5.0]: https://github.com/guanguans/monorepo-builder-worker/compare/v0.4.0...v0.5.0
+[v0.4.0]: https://github.com/guanguans/monorepo-builder-worker/compare/v0.3.0...v0.4.0
+[v0.3.0]: https://github.com/guanguans/monorepo-builder-worker/compare/v0.2.5...v0.3.0
+[v0.2.5]: https://github.com/guanguans/monorepo-builder-worker/compare/v0.2.4...v0.2.5
+[v0.2.4]: https://github.com/guanguans/monorepo-builder-worker/compare/v0.2.3...v0.2.4
+[v0.2.3]: https://github.com/guanguans/monorepo-builder-worker/compare/v0.2.2...v0.2.3
+[v0.2.2]: https://github.com/guanguans/monorepo-builder-worker/compare/v0.2.1...v0.2.2
+[v0.2.1]: https://github.com/guanguans/monorepo-builder-worker/compare/v0.2.0...v0.2.1
+[v0.2.0]: https://github.com/guanguans/monorepo-builder-worker/compare/v0.1.0...v0.2.0
