@@ -8,15 +8,6 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
-<a name="1.7.0"></a>
-## [1.7.0] - 2023-07-23
-### Feat
-- **composer:** add guanguans/monorepo-builder-worker dependency
-
-### Refactor
-- **rector:** Remove unused rules and dependencies
-
-
 <a name="v1.6.9"></a>
 ## [v1.6.9] - 2023-07-14
 ### Fix
