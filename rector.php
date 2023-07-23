@@ -19,7 +19,6 @@ use Rector\CodeQuality\Rector\Identical\SimplifyBoolIdenticalTrueRector;
 use Rector\CodeQuality\Rector\If_\ExplicitBoolCompareRector;
 use Rector\CodeQuality\Rector\LogicalAnd\LogicalToBooleanRector;
 use Rector\CodingStyle\Rector\Class_\AddArrayDefaultToArrayPropertyRector;
-use Rector\CodingStyle\Rector\ClassConst\VarConstantCommentRector;
 use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
 use Rector\CodingStyle\Rector\Closure\StaticClosureRector;
 use Rector\CodingStyle\Rector\Encapsed\EncapsedStringsToSprintfRector;
@@ -31,13 +30,11 @@ use Rector\Core\ValueObject\PhpVersion;
 use Rector\DeadCode\Rector\Assign\RemoveUnusedVariableAssignRector;
 use Rector\DeadCode\Rector\ClassMethod\RemoveEmptyClassMethodRector;
 use Rector\EarlyReturn\Rector\If_\ChangeAndIfToEarlyReturnRector;
-use Rector\EarlyReturn\Rector\Return_\ReturnBinaryAndToEarlyReturnRector;
 use Rector\EarlyReturn\Rector\Return_\ReturnBinaryOrToEarlyReturnRector;
 use Rector\Naming\Rector\Assign\RenameVariableToMatchMethodCallReturnTypeRector;
 use Rector\Naming\Rector\ClassMethod\RenameParamToMatchTypeRector;
 use Rector\Php56\Rector\FunctionLike\AddDefaultValueForUndefinedVariableRector;
 use Rector\Php73\Rector\FuncCall\JsonThrowOnErrorRector;
-use Rector\PHPUnit\Rector\Class_\AddSeeTestAnnotationRector;
 use Rector\PHPUnit\Set\PHPUnitLevelSetList;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Privatization\Rector\Class_\FinalizeClassesWithoutChildrenRector;
@@ -84,7 +81,6 @@ return static function (RectorConfig $rectorConfig): void {
         // rules
         // AddArrayDefaultToArrayPropertyRector::class,
         // AddDefaultValueForUndefinedVariableRector::class,
-        // AddSeeTestAnnotationRector::class,
         // CallableThisArrayToAnonymousFunctionRector::class,
         // ChangeAndIfToEarlyReturnRector::class,
         // RemoveEmptyClassMethodRector::class,
@@ -103,14 +99,9 @@ return static function (RectorConfig $rectorConfig): void {
         UnSpreadOperatorRector::class,
         WrapEncapsedVariableInCurlyBracesRector::class,
         // NewlineAfterStatementRector::class,
-        // ReturnBinaryAndToEarlyReturnRector::class,
-        // VarConstantCommentRector::class,
 
         ChangeAndIfToEarlyReturnRector::class => [
             __DIR__.'/app/ConfigManager.php',
-        ],
-        ReturnBinaryAndToEarlyReturnRector::class => [
-            __DIR__.'/app/Commands/CommitCommand.php',
         ],
         CompleteDynamicPropertiesRector::class => [
             __DIR__.'/app/Support/FoundationSDK.php',
