@@ -79,7 +79,7 @@ final class CommitCommand extends Command
                 $this->option('retry-times'),
                 function ($attempts) use ($cachedDiff): string {
                     if ($attempts > 1) {
-                        $this->output->info('retrying...');
+                        $this->output->note('retrying...');
                     }
 
                     $originalMessages = $this->generatorManager
@@ -226,7 +226,7 @@ final class CommitCommand extends Command
 
         return tap(new Process($command, $cwd, $env, $input, $timeout), function (Process $process): void {
             if ($this->option('verbose')) {
-                $this->output->info($process->getCommandLine());
+                $this->output->note($process->getCommandLine());
             }
         });
     }
@@ -241,7 +241,7 @@ final class CommitCommand extends Command
         return (string) str($this->configManager->get("prompts.{$this->option('prompt')}"))
             ->replace($this->configManager->get('diff_mark'), $cachedDiff)
             ->when($this->option('verbose'), function (Stringable $prompt): Stringable {
-                $this->output->info((string) $prompt);
+                $this->output->note((string) $prompt);
 
                 return $prompt;
             });
