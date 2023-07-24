@@ -45,11 +45,11 @@ return [
     // The mark of diff.
     'diff_mark' => '<diff>',
 
-    // Try to edit generated commit message.
-    'edit' => true,
+    // Enable or disable git commit `--no-edit` option.
+    'no_edit' => false,
 
     // Enable or disable git commit `--no-verify` option.
-    'no-verify' => false,
+    'no_verify' => false,
 
     // The prompt name.
     'prompt' => 'conventional',

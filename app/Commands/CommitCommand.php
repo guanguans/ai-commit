@@ -133,7 +133,7 @@ final class CommitCommand extends Command
 
         $this->task('3. Committing message', function () use ($message): void {
             tap($this->createProcess($this->getCommitCommand($message)), function (Process $process): void {
-                $this->isEditMode() and $process->setTty(true)->setTimeout(null);
+                $this->shouldEdit() and $process->setTty(true)->setTimeout(null);
             })->mustRun();
         }, 'committing...');
 
@@ -175,8 +175,8 @@ final class CommitCommand extends Command
             new InputOption('diff-options', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git diff` command', $this->configManager->get('diff_options', [])),
             new InputOption('generator', 'g', InputOption::VALUE_REQUIRED, 'Specify generator name', $this->configManager->get('generator')),
             new InputOption('prompt', 'p', InputOption::VALUE_REQUIRED, 'Specify prompt name of messages generated', $this->configManager->get('prompt')),
-            new InputOption('no-edit', null, InputOption::VALUE_NONE, 'Force no edit mode'),
-            new InputOption('no-verify', null, InputOption::VALUE_NONE, 'Force no verify mode'),
+            new InputOption('no-edit', null, InputOption::VALUE_NONE, 'Enable or disable git commit `--no-edit` option'),
+            new InputOption('no-verify', null, InputOption::VALUE_NONE, 'Enable or disable git commit `--no-verify` option'),
             new InputOption('config', 'c', InputOption::VALUE_OPTIONAL, 'Specify config file'),
             new InputOption('retry-times', null, InputOption::VALUE_REQUIRED, 'Specify times of retry', $this->configManager->get('retry.times', 3)),
             new InputOption('retry-sleep', null, InputOption::VALUE_REQUIRED, 'Specify sleep milliseconds of retry', $this->configManager->get('retry.sleep', 500)),
@@ -264,11 +264,8 @@ final class CommitCommand extends Command
     private function getCommitCommand(array $message): array
     {
         $options = collect($this->option('commit-options'))
-            ->push('--edit')
-            ->when($this->isNotEditMode(), static function (Collection $collection): Collection {
-                return $collection->filter(static function (string $option): bool {
-                    return '--edit' !== $option && '-e' !== $option;
-                });
+            ->when($this->shouldntEdit(), static function (Collection $collection): Collection {
+                return $collection->add('--no-edit');
             })
             ->when($this->shouldntVerify(), static function (Collection $collection): Collection {
                 return $collection->add('--no-verify');
@@ -287,19 +284,19 @@ final class CommitCommand extends Command
         return array_merge(['git', 'commit', '--message', $message], $options);
     }
 
-    private function isEditMode(): bool
+    private function shouldntEdit(): bool
     {
-        return ! windows_os() && ! $this->option('no-edit') && $this->configManager->get('edit');
+        return windows_os() || $this->option('no-edit') || $this->configManager->get('no_edit');
     }
 
-    private function isNotEditMode(): bool
+    private function shouldEdit(): bool
     {
-        return ! $this->isEditMode();
+        return ! $this->shouldntEdit();
     }
 
     private function shouldntVerify(): bool
     {
-        return $this->option('no-verify') || $this->configManager->get('no-verify');
+        return $this->option('no-verify') || $this->configManager->get('no_verify');
     }
 
     private function shouldVerify(): bool
