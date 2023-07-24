@@ -787,16 +787,16 @@
         },
         {
             "name": "guanguans/monorepo-builder-worker",
-            "version": "1.1.9",
+            "version": "1.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guanguans/monorepo-builder-worker.git",
-                "reference": "279358173acacb7000ee0f672fa8a9abe302976b"
+                "reference": "9f28d3be51fbbfcd9b9cf10ee3fa2385a224efc5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guanguans/monorepo-builder-worker/zipball/279358173acacb7000ee0f672fa8a9abe302976b",
-                "reference": "279358173acacb7000ee0f672fa8a9abe302976b",
+                "url": "https://api.github.com/repos/guanguans/monorepo-builder-worker/zipball/9f28d3be51fbbfcd9b9cf10ee3fa2385a224efc5",
+                "reference": "9f28d3be51fbbfcd9b9cf10ee3fa2385a224efc5",
                 "shasum": ""
             },
             "require": {
@@ -809,7 +809,7 @@
                 "brainmaestro/composer-git-hooks": "^2.8 || ^3.0",
                 "ergebnis/composer-normalize": "^2.20",
                 "friendsofphp/php-cs-fixer": "^3.4",
-                "guanguans/ai-commit": "^1.6",
+                "guanguans/ai-commit": "^1.7",
                 "kubawerlos/php-cs-fixer-custom-fixers": "^3.7",
                 "mockery/mockery": "^1.5",
                 "nunomaduro/mock-final-classes": "^1.2",
@@ -886,7 +886,7 @@
                     "type": "wechat"
                 }
             ],
-            "time": "2023-07-23T11:50:19+00:00"
+            "time": "2023-07-24T09:03:04+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
