@@ -787,21 +787,22 @@
         },
         {
             "name": "guanguans/monorepo-builder-worker",
-            "version": "1.1.8",
+            "version": "1.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guanguans/monorepo-builder-worker.git",
-                "reference": "14af76f030b22fb95cf2344c410cc206ed030abb"
+                "reference": "279358173acacb7000ee0f672fa8a9abe302976b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guanguans/monorepo-builder-worker/zipball/14af76f030b22fb95cf2344c410cc206ed030abb",
-                "reference": "14af76f030b22fb95cf2344c410cc206ed030abb",
+                "url": "https://api.github.com/repos/guanguans/monorepo-builder-worker/zipball/279358173acacb7000ee0f672fa8a9abe302976b",
+                "reference": "279358173acacb7000ee0f672fa8a9abe302976b",
                 "shasum": ""
             },
             "require": {
                 "marcocesarato/php-conventional-changelog": "^1.17",
                 "php": ">=7.3",
+                "symfony/polyfill-php80": "^1.27",
                 "symplify/monorepo-builder": "^11.2"
             },
             "require-dev": {
@@ -865,7 +866,7 @@
                 }
             ],
             "description": "List of release worker collections for symplify/monorepo-builder.",
-            "homepage": "https://github.com/guanguans/monorepo-builder-worker",
+            "homepage": "https://github.com/guanguans/worker",
             "keywords": [
                 "changelog",
                 "git",
@@ -876,8 +877,8 @@
                 "workflow"
             ],
             "support": {
-                "issues": "https://github.com/guanguans/monorepo-builder-worker/issues",
-                "source": "https://github.com/guanguans/monorepo-builder-worker"
+                "issues": "https://github.com/guanguans/worker/issues",
+                "source": "https://github.com/guanguans/worker"
             },
             "funding": [
                 {
@@ -885,7 +886,7 @@
                     "type": "wechat"
                 }
             ],
-            "time": "2023-07-22T15:09:29+00:00"
+            "time": "2023-07-23T11:50:19+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",

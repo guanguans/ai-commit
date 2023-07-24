@@ -12,7 +12,19 @@
   stopOnFailure="false"
   verbose="true"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
 >
+  <coverage processUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">./app</directory>
+    </include>
+    <exclude>
+      <!--<directory>app/Contracts</directory>-->
+      <file>app/Commands/BuildCommand.php</file>
+      <file>app/Support/JsonFixer.php</file>
+      <file>app/Support/helpers.php</file>
+    </exclude>
+  </coverage>
   <testsuites>
     <testsuite name="Feature">
       <directory suffix="Test.php">./tests/Feature</directory>
@@ -23,19 +35,6 @@
       <exclude>vendor/</exclude>
     </testsuite>
   </testsuites>
-
-  <filter>
-    <whitelist processUncoveredFilesFromWhitelist="true">
-      <directory suffix=".php">./app</directory>
-      <exclude>
-        <!--<directory>app/Contracts</directory>-->
-        <file>app/Commands/BuildCommand.php</file>
-        <file>app/Support/JsonFixer.php</file>
-        <file>app/Support/helpers.php</file>
-      </exclude>
-    </whitelist>
-  </filter>
-
   <!--<listeners>
       <listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener">
           <arguments>

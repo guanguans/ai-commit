@@ -173,6 +173,7 @@
         "md-lint": "lint-md --config .lintmdrc ./*.md ./.github/ ./docs/",
         "pest": "@php ./vendor/bin/pest --coverage",
         "pest-coverage": "@pest --coverage-html=./build/phpunit/ --coverage-clover=clover.xml --coverage",
+        "pest-migrate-configuration": "@pest --migrate-configuration",
         "phpstan": "@php ./vendor/bin/phpstan analyse --ansi -v",
         "phpstan-baseline": "@phpstan --generate-baseline --allow-empty-baseline",
         "post-merge": [
@@ -193,6 +194,7 @@
         "style-lint": "@style-fix --diff --dry-run",
         "test": "@pest",
         "test-coverage": "@pest-coverage",
+        "test-migrate-configuration": "@pest-migrate-configuration",
         "trufflehog": "trufflehog git https://github.com/guanguans/ai-commit --only-verified",
         "var-dump-server": "@php ./vendor/bin/var-dump-server --ansi -v",
         "vhs": [

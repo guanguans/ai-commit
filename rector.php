@@ -155,12 +155,7 @@ return static function (RectorConfig $rectorConfig): void {
 
         PHPUnitLevelSetList::UP_TO_PHPUNIT_90,
         PHPUnitSetList::PHPUNIT_90,
-        PHPUnitSetList::PHPUNIT_91,
-        // PHPUnitSetList::PHPUNIT80_DMS,
         PHPUnitSetList::PHPUNIT_CODE_QUALITY,
-        PHPUnitSetList::PHPUNIT_EXCEPTION,
-        PHPUnitSetList::REMOVE_MOCKS,
-        PHPUnitSetList::PHPUNIT_SPECIFIC_METHOD,
         PHPUnitSetList::ANNOTATIONS_TO_ATTRIBUTES,
     ]);
 
