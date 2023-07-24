@@ -118,9 +118,14 @@ final class CommitCommand extends Command
                 ->pipe(function (Collection $messages) {
                     $subject = $this->choice(
                         'Please choice a commit message',
-                        $messages->pluck('subject', 'id')->all(),
+                        $messages->pluck('subject', 'id')->add($regeneratePhrase = '<comment>regenerate</comment>')->all(),
                         '1'
                     );
+
+                    if ($subject === $regeneratePhrase) {
+                        $this->output->note('regenerating...');
+                        $this->handle();
+                    }
 
                     return $messages->firstWhere('subject', $subject) ?? [];
                 });
