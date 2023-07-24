@@ -176,6 +176,7 @@ final class CommitCommand extends Command
             new InputOption('generator', 'g', InputOption::VALUE_REQUIRED, 'Specify generator name', $this->configManager->get('generator')),
             new InputOption('prompt', 'p', InputOption::VALUE_REQUIRED, 'Specify prompt name of messages generated', $this->configManager->get('prompt')),
             new InputOption('no-edit', null, InputOption::VALUE_NONE, 'Force no edit mode'),
+            new InputOption('no-verify', null, InputOption::VALUE_NONE, 'Force no verify mode'),
             new InputOption('config', 'c', InputOption::VALUE_OPTIONAL, 'Specify config file'),
             new InputOption('retry-times', null, InputOption::VALUE_REQUIRED, 'Specify times of retry', $this->configManager->get('retry.times', 3)),
             new InputOption('retry-sleep', null, InputOption::VALUE_REQUIRED, 'Specify sleep milliseconds of retry', $this->configManager->get('retry.sleep', 500)),
@@ -269,6 +270,9 @@ final class CommitCommand extends Command
                     return '--edit' !== $option && '-e' !== $option;
                 });
             })
+            ->when($this->shouldntVerify(), static function (Collection $collection): Collection {
+                return $collection->add('--no-verify');
+            })
             ->all();
 
         $message = collect($message)
@@ -291,5 +295,15 @@ final class CommitCommand extends Command
     private function isNotEditMode(): bool
     {
         return ! $this->isEditMode();
+    }
+
+    private function shouldntVerify(): bool
+    {
+        return $this->option('no-verify') || $this->configManager->get('no-verify');
+    }
+
+    private function shouldVerify(): bool
+    {
+        return ! $this->shouldntVerify();
     }
 }

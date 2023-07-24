@@ -48,6 +48,9 @@ return [
     // Try to edit generated commit message.
     'edit' => true,
 
+    // Enable or disable git commit `--no-verify` option.
+    'no-verify' => false,
+
     // The prompt name.
     'prompt' => 'conventional',
 
