@@ -8,6 +8,18 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.7.2"></a>
+## [1.7.2] - 2023-07-24
+### Feat
+- **commands:** add --no-verify option
+
+### Fix
+- **composer:** update ai-commit-no-verify script
+
+### Refactor
+- **CommitCommand:** change edit mode handling
+
+
 <a name="1.7.1"></a>
 ## [1.7.1] - 2023-07-24
 ### Feat
@@ -359,7 +371,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.1...HEAD
+[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.2...HEAD
+[1.7.2]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.1...1.7.2
 [1.7.1]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.0...1.7.1
 [1.7.0]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.6.9...1.7.0
 [v1.6.9]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.6.8...v1.6.9
