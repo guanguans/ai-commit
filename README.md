@@ -59,57 +59,57 @@ composer require guanguans/ai-commit --dev -v # local
 ```
 
 ```shell
-╰─ ./ai-commit commit                                                                                                   ─╯
+╰─ ./ai-commit commit --generator=bito_cli --no-edit --no-verify --ansi                                                                                             ─╯
 1. Generating commit messages: generating...
-
 [
     {
         "id": 1,
-        "subject": "Docs(README): Update README files",
-        "body": "- Update README-zh_CN.md\n- Update README.md\n- Explain how to configure OpenAI API key"
+        "subject": "chore(ai-commit): update dimensions and typing speed",
+        "body": "- Set Width to 1550\n- Set Height to 958\n- Set TypingSpeed to 50ms"
     },
     {
         "id": 2,
-        "subject": "Install(Composer): Add install instructions",
-        "body": "- Update README.md\n- Add instructions for global and local install via Composer"
+        "subject": "fix(ai-commit): adjust sleep times and navigation",
+        "body": "- Type \"git status\" with 50ms sleep\n- Enter 1 with 15s sleep\n- Down@2s 3 with 1s sleep"
     },
     {
         "id": 3,
-        "subject": "Commit Messages): Add best practices",
-        "body": "- Update README.md\n- Add best practices for writing commit messages"
+        "subject": "docs(ai-commit): update ai-commit-vhs.gif",
+        "body": "Binary files a/docs/ai-commit-vhs.gif and b/docs/ai-commit-vhs.gif differ"
     }
+]
+
+
 1. Generating commit messages: ✔
 2. Choosing commit message: choosing...
-+----+---------------------------------------------+--------------------------------------------------------------+
-| id | subject                                     | body                                                         |
-+----+---------------------------------------------+--------------------------------------------------------------+
-| 1  | Docs(README): Update README files           | - Update README-zh_CN.md                                     |
-|    |                                             | - Update README.md                                           |
-|    |                                             | - Explain how to configure OpenAI API key                    |
-+----+---------------------------------------------+--------------------------------------------------------------+
-| 2  | Install(Composer): Add install instructions | - Update README.md                                           |
-|    |                                             | - Add instructions for global and local install via Composer |
-+----+---------------------------------------------+--------------------------------------------------------------+
-| 3  | Commit Messages): Add best practices        | - Update README.md                                           |
-|    |                                             | - Add best practices for writing commit messages             |
-+----+---------------------------------------------+--------------------------------------------------------------+
 
- Please choice a commit message [Docs(README): Update README files]:
-  [1] Docs(README): Update README files
-  [2] Install(Composer): Add install instructions
-  [3] Commit Messages): Add best practices
- > Docs(README): Update README files
++----+------------------------------------------------------+---------------------------------------------------------------------------+
+| id | subject                                              | body                                                                      |
++----+------------------------------------------------------+---------------------------------------------------------------------------+
+| 1  | chore(ai-commit): update dimensions and typing speed | - Set Width to 1550                                                       |
+|    |                                                      | - Set Height to 958                                                       |
+|    |                                                      | - Set TypingSpeed to 50ms                                                 |
++----+------------------------------------------------------+---------------------------------------------------------------------------+
+| 2  | fix(ai-commit): adjust sleep times and navigation    | - Type "git status" with 50ms sleep                                       |
+|    |                                                      | - Enter 1 with 15s sleep                                                  |
+|    |                                                      | - Down@2s 3 with 1s sleep                                                 |
++----+------------------------------------------------------+---------------------------------------------------------------------------+
+| 3  | docs(ai-commit): update ai-commit-vhs.gif            | Binary files a/docs/ai-commit-vhs.gif and b/docs/ai-commit-vhs.gif differ |
++----+------------------------------------------------------+---------------------------------------------------------------------------+
+
+ Please choice a commit message [chore(ai-commit): update dimensions and typing speed]:
+  [1] chore(ai-commit): update dimensions and typing speed
+  [2] fix(ai-commit): adjust sleep times and navigation
+  [3] docs(ai-commit): update ai-commit-vhs.gif
+  [4] regenerate
+ > chore(ai-commit): update dimensions and typing speed
 
 2. Choosing commit message: ✔
-3. Committing message: committing...
-[main 8c07fa3] Docs(README): Update README files
- 1 file changed, 1 insertion(+), 29 deletions(-)
 3. Committing message: ✔
 
                                                                                                                         
- [OK] Generate and commit messages have succeeded                                                                       
-                                                                                                                        
-
+ [OK] Successfully generated and committed messages.                                                                    
+                                                                                                                                                                      
 ```
 
 ![](docs/ai-commit-vhs.gif)
@@ -169,7 +169,7 @@ Checking for a new version...
 ### Command help
 
 ```shell
-╰─ ./ai-commit commit --help                                                                                                                                        ─╯
+╰─ ./ai-commit commit --help                                                                                                               ─╯
 Description:
   Automagically generate conventional commit messages with AI.
 
@@ -178,16 +178,17 @@ Usage:
 
 Arguments:
   path                                   The working directory [default: "/Users/yaozm/Documents/develop/ai-commit"]
-                                         
-Options:                                 
+
+Options:
       --commit-options[=COMMIT-OPTIONS]  Append options for the `git commit` command [default: ["--edit"]] (multiple values allowed)
       --diff-options[=DIFF-OPTIONS]      Append options for the `git diff` command [default: [":!*.lock",":!*.sum"]] (multiple values allowed)
   -g, --generator=GENERATOR              Specify generator name [default: "openai_chat"]
   -p, --prompt=PROMPT                    Specify prompt name of messages generated [default: "conventional"]
-      --no-edit                          Force no edit mode
+      --no-edit                          Enable or disable git commit `--no-edit` option
+      --no-verify                        Enable or disable git commit `--no-verify` option
   -c, --config[=CONFIG]                  Specify config file
       --retry-times=RETRY-TIMES          Specify times of retry [default: 3]
-      --retry-sleep=RETRY-SLEEP          Specify sleep milliseconds of retry [default: 500]
+      --retry-sleep=RETRY-SLEEP          Specify sleep milliseconds of retry [default: 200]
   -h, --help                             Display help for the given command. When no command is given display help for the list command
   -q, --quiet                            Do not output any message
   -V, --version                          Display this application version
