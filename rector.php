@@ -85,11 +85,11 @@ return static function (RectorConfig $rectorConfig): void {
         // ChangeAndIfToEarlyReturnRector::class,
         // RemoveEmptyClassMethodRector::class,
         // RemoveUnusedVariableAssignRector::class,
-        // ReturnBinaryOrToEarlyReturnRector::class,
         // SimplifyBoolIdenticalTrueRector::class,
         // StaticClosureRector::class,
         // UnSpreadOperatorRector::class,
 
+        ReturnBinaryOrToEarlyReturnRector::class,
         EncapsedStringsToSprintfRector::class,
         ExplicitBoolCompareRector::class,
         InlineIfToExplicitIfRector::class,
