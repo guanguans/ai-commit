@@ -59,7 +59,7 @@ Set PlaybackSpeed 0.1
 
 Type "git status" Sleep 1s
 Enter 1 Sleep 100ms
-Type "./ai-commit commit --no-edit" Sleep 1s
+Type "./ai-commit commit --no-edit --no-verify" Sleep 1s
 Enter 1 Sleep 20s
 Down@1s 3 Sleep 1s
 Enter 1 Sleep 100ms

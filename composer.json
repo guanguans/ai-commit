@@ -134,7 +134,7 @@
         ],
         "post-autoload-dump": [],
         "ai-commit": "@php ./ai-commit commit --generator=bito_cli --ansi",
-        "ai-commit-no-verify": "@ai-commit --commit-options=--no-verify",
+        "ai-commit-no-verify": "@ai-commit --no-verify",
         "cghooks": "@php ./vendor/bin/cghooks --ansi -v",
         "cghooks-install": [
             "@cghooks add --ignore-lock",
@@ -197,11 +197,7 @@
         "test-migrate-configuration": "@pest-migrate-configuration",
         "trufflehog": "trufflehog git https://github.com/guanguans/ai-commit --only-verified",
         "var-dump-server": "@php ./vendor/bin/var-dump-server --ansi -v",
-        "vhs": [
-            "@cghooks-uninstall",
-            "vhs < ai-commit.tape",
-            "@cghooks-install"
-        ]
+        "vhs": "vhs < ai-commit.tape"
     },
     "scripts-descriptions": {}
 }
