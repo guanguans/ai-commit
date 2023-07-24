@@ -8,6 +8,16 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.7.1"></a>
+## [1.7.1] - 2023-07-24
+### Feat
+- **CommitCommand:** Add option to regenerate commit
+
+### Refactor
+- **Commands:** Use note instead of info for command line output
+- **rector.php:** remove unused PHPUnit sets
+
+
 <a name="1.7.0"></a>
 ## [1.7.0] - 2023-07-23
 ### Feat
@@ -349,7 +359,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.0...HEAD
+[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.1...HEAD
+[1.7.1]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.0...1.7.1
 [1.7.0]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.6.9...1.7.0
 [v1.6.9]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.6.8...v1.6.9
 [v1.6.8]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.6.7...v1.6.8
