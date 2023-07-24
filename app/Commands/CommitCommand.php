@@ -299,6 +299,9 @@ final class CommitCommand extends Command
         return $this->option('no-verify') || $this->configManager->get('no_verify');
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     private function shouldVerify(): bool
     {
         return ! $this->shouldntVerify();
