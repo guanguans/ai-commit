@@ -8,6 +8,15 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.7.3"></a>
+## [1.7.3] - 2023-07-24
+### Docs
+- **README:** Update command help section
+
+### Refactor
+- **CommitCommand:** add shouldVerify method
+
+
 <a name="1.7.2"></a>
 ## [1.7.2] - 2023-07-24
 ### Feat
@@ -371,7 +380,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.2...HEAD
+[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.3...HEAD
+[1.7.3]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.2...1.7.3
 [1.7.2]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.1...1.7.2
 [1.7.1]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.0...1.7.1
 [1.7.0]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.6.9...1.7.0
