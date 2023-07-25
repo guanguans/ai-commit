@@ -133,8 +133,8 @@ final class CommitCommand extends Command
 
         $this->task('3. Committing message', function () use ($message): void {
             tap($this->createProcess($this->getCommitCommand($message)), function (Process $process): void {
-                $this->shouldEdit() and $process->setTty(true)->setTimeout(null);
-            })->mustRun();
+                $this->shouldEdit() and $process->setTty(true);
+            })->setTimeout(null)->mustRun();
         }, 'committing...');
 
         $this->output->success('Successfully generated and committed messages.');
@@ -286,7 +286,7 @@ final class CommitCommand extends Command
 
     private function shouldntEdit(): bool
     {
-        return windows_os() || $this->option('no-edit') || $this->configManager->get('no_edit');
+        return ! Process::isTtySupported() || $this->option('no-edit') || $this->configManager->get('no_edit');
     }
 
     private function shouldEdit(): bool

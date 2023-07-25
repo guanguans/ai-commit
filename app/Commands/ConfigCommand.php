@@ -139,7 +139,7 @@ final class ConfigCommand extends Command
                 });
 
                 tap(new Process([$editor, $file]), static function (Process $process): void {
-                    windows_os() or $process->setTty(true);
+                    Process::isTtySupported() and $process->setTty(true);
                 })->setTimeout(null)->mustRun();
 
                 break;
