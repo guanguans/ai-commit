@@ -82,7 +82,7 @@ final class ConfigCommand extends Command
             return ConfigManager::localPath();
         });
 
-        $this->output->info("The config file($file) is being operated.");
+        $this->output->note("The config file($file) is being operated.");
         file_exists($file) or $this->configManager->putFile($file);
         $this->configManager->replaceFrom($file);
         $action = $this->argument('action');
@@ -147,7 +147,7 @@ final class ConfigCommand extends Command
                 throw UnsupportedConfigActionException::make($action);
         }
 
-        $this->output->success('Operated successfully.');
+        $this->output->success('Successfully operated!');
 
         return self::SUCCESS;
     }
