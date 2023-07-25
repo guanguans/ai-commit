@@ -107,17 +107,17 @@ it('can list config', function (): void {
 it('will throw `Command not found` ProcessFailedException for edit config', function (): void {
     $this->artisan(ConfigCommand::class, [
         'action' => 'edit',
-        '--editor' => 'no editor',
+        '--editor' => 'no-editor',
     ]);
 })
-    ->skip()
+    // ->skip()
     ->group(__DIR__, __FILE__)
     ->throws(ProcessFailedException::class);
 
 it('will throw another `Command not found` ProcessFailedException for edit config', function (): void {
     app()->singleton(ExecutableFinder::class, static function () {
         $mockExecutableFinder = \Mockery::mock(ExecutableFinder::class);
-        $mockExecutableFinder->allows('find')->andReturn('no editor');
+        $mockExecutableFinder->allows('find')->andReturn('no-editor');
 
         return $mockExecutableFinder;
     });
@@ -126,7 +126,7 @@ it('will throw another `Command not found` ProcessFailedException for edit confi
         'action' => 'edit',
     ]);
 })
-    ->skip()
+    // ->skip()
     ->group(__DIR__, __FILE__)
     ->throws(ProcessFailedException::class);
 
