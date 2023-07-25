@@ -68,7 +68,7 @@ final class ConfigCommand extends Command
     /**
      * @throws \JsonException
      */
-    public function handle(): int
+    public function handle(ExecutableFinder $executableFinder): int
     {
         $file = value(function () {
             if ($file = $this->option('file')) {
@@ -123,13 +123,12 @@ final class ConfigCommand extends Command
 
                 break;
             case 'edit':
-                $editor = value(function () {
+                $editor = value(function () use ($executableFinder) {
                     if ($editor = $this->option('editor')) {
                         return $editor;
                     }
 
                     $editors = windows_os() ? self::WINDOWS_EDITORS : self::UNIX_EDITORS;
-                    $executableFinder = new ExecutableFinder();
                     foreach ($editors as $editor) {
                         if ($executableFinder->find($editor)) {
                             return $editor;

@@ -14,8 +14,8 @@ use App\Commands\ConfigCommand;
 use App\ConfigManager;
 use App\Exceptions\RuntimeException;
 use App\Exceptions\UnsupportedConfigActionException;
-use Symfony\Component\Process\Exception\RuntimeException as SymfonyRuntimeException;
-use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\ExecutableFinder;
 
 it('can set config', function (): void {
     $this->getFunctionMock(class_namespace(ConfigCommand::class), 'file_exists')
@@ -104,58 +104,47 @@ it('can list config', function (): void {
     ])->assertSuccessful();
 })->group(__DIR__, __FILE__);
 
-it('will throw RuntimeException for edit config on Windows', function (): void {
-    $this->artisan(ConfigCommand::class, [
-        'action' => 'edit',
-    ]);
-})
-    ->group(__DIR__, __FILE__)
-    ->skip(! windows_os())
-    ->throws(RuntimeException::class, 'The edit config command is not supported on Windows.');
-
-it('will throw RuntimeException for edit config', function (): void {
-    $this->getFunctionMock(class_namespace(ConfigCommand::class), 'exec')
-        ->expects($this->exactly(6))
-        ->willReturn('');
-
-    $this->artisan(ConfigCommand::class, [
-        'action' => 'edit',
-    ]);
-})
-    ->group(__DIR__, __FILE__)
-    ->skip(windows_os())
-    ->throws(RuntimeException::class, 'No editor found or specified.');
-
-it('will throw \SymfonyRuntimeException for edit config', function (): void {
-    $this->getFunctionMock(class_namespace(Process::class), 'proc_open')
-        ->expects($this->once())
-        ->willReturn(false);
-
+it('will throw `Command not found` ProcessFailedException for edit config', function (): void {
     $this->artisan(ConfigCommand::class, [
         'action' => 'edit',
         '--editor' => 'foo',
     ]);
 })
     ->group(__DIR__, __FILE__)
-    ->skip()
-    ->throws(SymfonyRuntimeException::class, 'TTY mode requires /dev/tty to be read/writable.');
+    ->throws(ProcessFailedException::class);
 
-it('will throw SymfonyRuntimeException for edit config', function (): void {
-    $this->getFunctionMock(class_namespace(ConfigCommand::class), 'exec')
-        ->expects($this->once())
-        ->willReturn('/usr/local/bin/vim');
-
-    $this->getFunctionMock(class_namespace(Process::class), 'proc_open')
-        ->expects($this->any())
-        ->willReturn(false);
+it('will throw another `Command not found` ProcessFailedException for edit config', function (): void {
+    app()->singleton(ExecutableFinder::class, static function () {
+        return new class() extends ExecutableFinder {
+            public function find(string $name, ?string $default = null, array $extraDirs = []): string
+            {
+                return 'foo';
+            }
+        };
+    });
 
     $this->artisan(ConfigCommand::class, [
         'action' => 'edit',
     ]);
 })
     ->group(__DIR__, __FILE__)
-    ->skip(windows_os())
-    ->throws(SymfonyRuntimeException::class, 'TTY mode requires /dev/tty to be read/writable.');
+    ->throws(ProcessFailedException::class);
+
+it('will throw RuntimeException for edit config', function (): void {
+    app()->singleton(ExecutableFinder::class, static function () {
+        return new class() extends ExecutableFinder {
+            public function find(string $name, ?string $default = null, array $extraDirs = []): void
+            {
+            }
+        };
+    });
+
+    $this->artisan(ConfigCommand::class, [
+        'action' => 'edit',
+    ]);
+})
+    ->group(__DIR__, __FILE__)
+    ->throws(RuntimeException::class, 'Unable to find a default editor or specify the editor.');
 
 it('will throw UnsupportedConfigActionException', function (): void {
     $this->artisan(ConfigCommand::class, [
