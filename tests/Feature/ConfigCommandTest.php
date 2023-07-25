@@ -107,7 +107,7 @@ it('can list config', function (): void {
 it('will throw `Command not found` ProcessFailedException for edit config', function (): void {
     $this->artisan(ConfigCommand::class, [
         'action' => 'edit',
-        '--editor' => 'foo',
+        '--editor' => 'no editor',
     ]);
 })
     ->skip(! windows_os())
@@ -117,7 +117,7 @@ it('will throw `Command not found` ProcessFailedException for edit config', func
 it('will throw another `Command not found` ProcessFailedException for edit config', function (): void {
     app()->singleton(ExecutableFinder::class, static function () {
         $mockExecutableFinder = \Mockery::mock(ExecutableFinder::class);
-        $mockExecutableFinder->allows('find')->andReturn('foo');
+        $mockExecutableFinder->allows('find')->andReturn('no editor');
 
         return $mockExecutableFinder;
     });

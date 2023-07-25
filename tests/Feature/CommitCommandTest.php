@@ -115,6 +115,7 @@ it('can generate and commit messages', function (): void {
             'path' => repository_path(),
             '--generator' => 'openai',
             '--no-edit' => true,
+            '--no-verify' => true,
             '--verbose' => true,
         ])
         ->expectsTable(
@@ -127,6 +128,7 @@ it('can generate and commit messages', function (): void {
                 ->skip(1)
         )
         // ->expectsChoice('Please choice a commit message', $messages->pluck('subject', 'id')->first(), $messages->pluck('subject', 'id')->all())
+        // ->expectsQuestion('Please choice a commit message', '<comment>regenerating...</comment>')
         ->expectsQuestion('Please choice a commit message', $messages->pluck('subject', 'id')->first())
         ->assertSuccessful();
 })
