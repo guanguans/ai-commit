@@ -24,6 +24,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Process\Process;
 
 final class ConfigCommand extends Command
@@ -36,7 +37,12 @@ final class ConfigCommand extends Command
     /**
      * @var string[]
      */
-    protected const EDITORS = ['editor', 'vim', 'vi', 'nano', 'pico', 'ed'];
+    protected const WINDOWS_EDITORS = ['notepad'];
+
+    /**
+     * @var string[]
+     */
+    protected const UNIX_EDITORS = ['editor', 'vim', 'vi', 'nano', 'pico', 'ed'];
 
     /**
      * @var string
@@ -117,28 +123,25 @@ final class ConfigCommand extends Command
 
                 break;
             case 'edit':
-                if (windows_os()) {
-                    throw new RuntimeException('The edit config command is not supported on Windows.');
-                }
-
                 $editor = value(function () {
                     if ($editor = $this->option('editor')) {
                         return $editor;
                     }
 
-                    foreach (self::EDITORS as $editor) {
-                        if (exec("which $editor")) {
+                    $editors = windows_os() ? self::WINDOWS_EDITORS : self::UNIX_EDITORS;
+                    $executableFinder = new ExecutableFinder();
+                    foreach ($editors as $editor) {
+                        if ($executableFinder->find($editor)) {
                             return $editor;
                         }
                     }
 
-                    throw new RuntimeException('No editor found or specified.');
+                    throw new RuntimeException('Unable to find a default editor or specify the editor.');
                 });
 
-                (new Process([$editor, $file]))
-                    ->setTty(true)
-                    ->setTimeout(null)
-                    ->mustRun();
+                tap(new Process([$editor, $file]), static function (Process $process): void {
+                    windows_os() or $process->setTty(true);
+                })->setTimeout(null)->mustRun();
 
                 break;
             default:
@@ -169,7 +172,7 @@ final class ConfigCommand extends Command
         }
 
         if ($input->mustSuggestOptionValuesFor('editor')) {
-            $suggestions->suggestValues(self::EDITORS);
+            $suggestions->suggestValues(self::UNIX_EDITORS);
         }
     }
 
