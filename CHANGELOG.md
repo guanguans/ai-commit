@@ -8,6 +8,16 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.7.6"></a>
+## [1.7.6] - 2023-07-25
+### Refactor
+- **configcommand:** update process TTY option
+- **tests:** Remove unnecessary code in ConfigCommandTest
+
+### Test
+- **ConfigCommandTest:** Skip windows_os on edit config test
+
+
 <a name="1.7.5"></a>
 ## [1.7.5] - 2023-07-25
 ### Fix
@@ -410,7 +420,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.5...HEAD
+[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.6...HEAD
+[1.7.6]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.5...1.7.6
 [1.7.5]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.4...1.7.5
 [1.7.4]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.3...1.7.4
 [1.7.3]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.2...1.7.3
