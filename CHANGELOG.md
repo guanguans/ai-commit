@@ -8,6 +8,15 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.7.5"></a>
+## [1.7.5] - 2023-07-25
+### Fix
+- **tests:** Fix skipping of test cases
+
+### Test
+- **CommitCommandTest:** add --no-verify option
+
+
 <a name="1.7.4"></a>
 ## [1.7.4] - 2023-07-25
 ### Docs
@@ -401,7 +410,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.4...HEAD
+[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.5...HEAD
+[1.7.5]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.4...1.7.5
 [1.7.4]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.3...1.7.4
 [1.7.3]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.2...1.7.3
 [1.7.2]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.1...1.7.2
