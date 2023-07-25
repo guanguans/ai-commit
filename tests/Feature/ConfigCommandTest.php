@@ -110,7 +110,7 @@ it('will throw `Command not found` ProcessFailedException for edit config', func
         '--editor' => 'no editor',
     ]);
 })
-    ->skip(! windows_os())
+    ->skip()
     ->group(__DIR__, __FILE__)
     ->throws(ProcessFailedException::class);
 
@@ -126,7 +126,7 @@ it('will throw another `Command not found` ProcessFailedException for edit confi
         'action' => 'edit',
     ]);
 })
-    ->skip(! windows_os())
+    ->skip()
     ->group(__DIR__, __FILE__)
     ->throws(ProcessFailedException::class);
 
