@@ -54,7 +54,6 @@
     "require-dev": {
         "bamarni/composer-bin-plugin": "^1.8",
         "brainmaestro/composer-git-hooks": "^2.8",
-        "guanguans/monorepo-builder-worker": "^1.1",
         "guzzlehttp/guzzle": "^7.7",
         "illuminate/http": "^8.83 || ^9.0 || ^10.0",
         "illuminate/translation": "^8.83 || ^9.0 || ^10.0",
@@ -144,10 +143,6 @@
             "@php -r \"file_exists('.git/hooks/pre-commit') and rename('.git/hooks/pre-commit', '.git/hooks/pre-commit.sample');\"",
             "@php -r \"file_exists('.git/hooks/post-merge') and rename('.git/hooks/post-merge', '.git/hooks/post-merge.sample');\""
         ],
-        "changelog": "@php ./vendor/bin/conventional-changelog --ansi -v",
-        "changelog-major": "@changelog --major",
-        "changelog-minor": "@changelog --minor",
-        "changelog-patch": "@changelog --patch",
         "checks": [
             "@composer-validate",
             "@md-lint",
