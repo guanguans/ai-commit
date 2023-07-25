@@ -8,6 +8,27 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.7.4"></a>
+## [1.7.4] - 2023-07-25
+### Docs
+- **config:** Improve commit message guidelines
+
+### Feat
+- **ConfigCommand:** Add support for windows editors
+
+### Fix
+- **monorepo-builder:** Update autoload.php path
+- **tests:** Fix skipping tests on non-Windows OS
+
+### Refactor
+- **ConfigCommand:** use dependency injection for ExecutableFinder
+- **commands:** Update ConfigCommand.php
+- **tests:** Refactor `find` method in `ExecutableFinder`
+
+### Pull Requests
+- Merge pull request [#31](https://github.com/guanguans/monorepo-builder-worker/issues/31) from guanguans/dependabot/composer/guanguans/monorepo-builder-worker-1.1.11
+
+
 <a name="1.7.3"></a>
 ## [1.7.3] - 2023-07-24
 ### Docs
@@ -380,7 +401,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.3...HEAD
+[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.4...HEAD
+[1.7.4]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.3...1.7.4
 [1.7.3]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.2...1.7.3
 [1.7.2]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.1...1.7.2
 [1.7.1]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.0...1.7.1
