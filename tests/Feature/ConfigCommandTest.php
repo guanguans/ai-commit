@@ -115,12 +115,10 @@ it('will throw `Command not found` ProcessFailedException for edit config', func
 
 it('will throw another `Command not found` ProcessFailedException for edit config', function (): void {
     app()->singleton(ExecutableFinder::class, static function () {
-        return new class() extends ExecutableFinder {
-            public function find(string $name, ?string $default = null, array $extraDirs = []): string
-            {
-                return 'foo';
-            }
-        };
+        $mockExecutableFinder = \Mockery::mock(ExecutableFinder::class);
+        $mockExecutableFinder->allows('find')->andReturn('foo');
+
+        return $mockExecutableFinder;
     });
 
     $this->artisan(ConfigCommand::class, [
@@ -132,11 +130,10 @@ it('will throw another `Command not found` ProcessFailedException for edit confi
 
 it('will throw RuntimeException for edit config', function (): void {
     app()->singleton(ExecutableFinder::class, static function () {
-        return new class() extends ExecutableFinder {
-            public function find(string $name, ?string $default = null, array $extraDirs = []): void
-            {
-            }
-        };
+        $mockExecutableFinder = \Mockery::mock(ExecutableFinder::class);
+        $mockExecutableFinder->allows('find')->andReturnNull();
+
+        return $mockExecutableFinder;
     });
 
     $this->artisan(ConfigCommand::class, [
