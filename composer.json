@@ -61,7 +61,7 @@
         "laminas/laminas-text": "^2.9",
         "laravel-zero/framework": "^8.10 || ^9.0 || ^10.0",
         "laravel-zero/phar-updater": "^1.1",
-        "mockery/mockery": "^1.5",
+        "mockery/mockery": "^1.6",
         "pestphp/pest": "^1.23",
         "php-mock/php-mock-phpunit": "^2.7"
     },

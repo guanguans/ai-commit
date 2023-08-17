@@ -1,6 +1,11 @@
 parameters:
 	ignoreErrors:
 		-
+			message: "#^Method App\\\\Commands\\\\CommitCommand\\:\\:shouldVerify\\(\\) is unused\\.$#"
+			count: 1
+			path: app/Commands/CommitCommand.php
+
+		-
 			message: "#^Parameter \\#1 \\$times of function retry expects int, array\\|bool\\|string\\|null given\\.$#"
 			count: 1
 			path: app/Commands/CommitCommand.php

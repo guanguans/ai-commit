@@ -32,7 +32,7 @@ class ErnieBotGenerator implements GeneratorContract
     /**
      * @var \App\Support\Ernie
      */
-    private $ernie;
+    protected $ernie;
 
     /**
      * @var \Illuminate\Console\OutputStyle
