@@ -17,7 +17,6 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
-use Illuminate\Support\Stringable;
 
 /**
  * @see https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Nlks5zkzu
@@ -28,16 +27,6 @@ final class Ernie extends FoundationSDK
      * @var null|string
      */
     private static $accessToken;
-
-    public static function sanitizeData(string $data): string
-    {
-        return (string) str($data)->whenStartsWith(
-            $prefix = 'data: ',
-            static function (Stringable $data) use ($prefix): Stringable {
-                return $data->replaceFirst($prefix, '');
-            }
-        );
-    }
 
     /**
      * ```json

@@ -55,6 +55,16 @@ abstract class FoundationSDK
         $this->defaultPendingRequest = $this->buildDefaultPendingRequest($this->config);
     }
 
+    public static function sanitizeData(string $data): string
+    {
+        return (string) str($data)->whenStartsWith(
+            $prefix = 'data: ',
+            static function (Stringable $data) use ($prefix): Stringable {
+                return $data->replaceFirst($prefix, '');
+            }
+        );
+    }
+
     /**
      * @psalm-suppress UnusedClosureParam
      */

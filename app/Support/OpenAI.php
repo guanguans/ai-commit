@@ -18,7 +18,6 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
-use Illuminate\Support\Stringable;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -26,16 +25,6 @@ use Psr\Http\Message\ResponseInterface;
  */
 final class OpenAI extends FoundationSDK
 {
-    public static function sanitizeData(string $data): string
-    {
-        return (string) str($data)->whenStartsWith(
-            $prefix = 'data: ',
-            static function (Stringable $data) use ($prefix): Stringable {
-                return $data->replaceFirst($prefix, '');
-            }
-        );
-    }
-
     /**
      * ```ok
      * {
