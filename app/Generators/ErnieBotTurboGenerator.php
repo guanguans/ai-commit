@@ -12,12 +12,20 @@ declare(strict_types=1);
 
 namespace App\Generators;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Http\Client\RequestException;
+use Illuminate\Http\Client\Response;
+
 class ErnieBotTurboGenerator extends ErnieBotGenerator
 {
-    protected function getResponse(array $parameters): array
+    /**
+     * @throws RequestException
+     * @throws BindingResolutionException
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
+    protected function completion(array $parameters, ?callable $writer = null): Response
     {
-        $response = $this->ernie->ernieBotTurbo($parameters, $this->buildWriter($messages));
-
-        return [$messages, $response];
+        return $this->ernie->ernieBotTurbo($parameters, $writer);
     }
 }

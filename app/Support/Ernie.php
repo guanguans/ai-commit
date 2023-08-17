@@ -40,34 +40,32 @@ final class Ernie extends FoundationSDK
     }
 
     /**
-     * ```php
-     * [
-     *     'id' => 'chatcmpl-6pqDoRwRGQAlRvJnesR9QMG9rxpyK',
-     *     'object' => 'chat.completion',
-     *     'created' => 1677813488,
-     *     'model' => 'gpt-3.5-turbo-0301',
-     *     'usage' => [
-     *         'prompt_tokens' => 8,
-     *         'completion_tokens' => 16,
-     *         'total_tokens' => 24,
-     *     ],
-     *     'choices' => [
-     *         [
-     *             'message' => [
-     *                 'role' => 'assistant',
-     *                 'content' => 'PHP (Hypertext Preprocessor) is a server-side scripting language used',
-     *             ],
-     *             'finish_reason' => 'length',
-     *             'index' => 0,
-     *         ],
-     *     ],
-     * ];
+     * ```json
+     * {
+     *     'id': 'as-rkmymnxvrx',
+     *     'object': 'chat.completion',
+     *     'created': 1692254707,
+     *     'sentence_id': 2,
+     *     'is_end': false,
+     *     'is_truncated': false,
+     *     'result': 'PHP最初是作为HTML辅助程序开发网页。',
+     *     'need_clear_history': false,
+     *     'usage': {
+     *     'prompt_tokens': 4,
+     *         'completion_tokens': 25,
+     *         'total_tokens': 84
+     *     }
+     * }
      * ```.
      *
      * ```stream
      * data: {'id':'as-rx9g6c5sqp','object':'chat.completion','created':1692253330,'sentence_id':2,'is_end':false,'is_truncated':false,'result':'PHP的语法借鉴吸收C语言、Java和语言的特点，易于一般程序员学习。','need_clear_history':false,'usage':{'prompt_tokens':4,'completion_tokens':35,'total_tokens':87}}
      *
      * data: {'id':'as-rx9g6c5sqp','object':'chat.completion','created':1692253331,'sentence_id':3,'is_end':false,'is_truncated':false,'result':'PHP的主要目标是允许网络开发人P也被用于其他很多领域。','need_clear_history':false,'usage':{'prompt_tokens':4,'completion_tokens':35,'total_tokens':122}}
+     * ```
+     *
+     * ```error
+     * {'error_code':17,'error_msg':'Open api daily request limit reached'}
      * ```
      *
      * @throws BindingResolutionException
@@ -175,8 +173,13 @@ final class Ernie extends FoundationSDK
      * @throws RequestException
      * @throws BindingResolutionException
      */
-    private function completion(string $url, array $parameters, ?callable $writer = null, array $messages = [], array $customAttributes = []): Response
-    {
+    private function completion(
+        string $url,
+        array $parameters,
+        ?callable $writer = null,
+        array $messages = [],
+        array $customAttributes = []
+    ): Response {
         $response = $this
             ->cloneDefaultPendingRequest()
             ->when(

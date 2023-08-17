@@ -14,7 +14,11 @@ namespace App\Generators;
 
 use App\Contracts\GeneratorContract;
 use App\Support\Ernie;
+use ArrayAccess;
 use Illuminate\Console\OutputStyle;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Http\Client\RequestException;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
@@ -44,6 +48,7 @@ class ErnieBotGenerator implements GeneratorContract
 
     /**
      * @psalm-suppress RedundantCast
+     * @psalm-suppress UnusedVariable
      */
     public function generate(string $prompt): string
     {
@@ -54,14 +59,19 @@ class ErnieBotGenerator implements GeneratorContract
             'user_id' => Str::uuid()->toString(),
         ] + Arr::get($this->config, 'parameters', []);
 
-        [$messages, $response] = $this->getResponse($parameters);
+        $response = $this->completion($parameters, function (string $data) use (&$messages): void {
+            // (正常|错误|流)响应
+            $rowResponse = (array) json_decode(Ernie::sanitizeData($data), true);
+            $messages .= $text = $this->getCompletionMessages($rowResponse);
+            $this->outputStyle->write($text);
+        });
 
         // fake 响应
         return (string) ($messages ?? $this->getCompletionMessages($response));
     }
 
     /**
-     * @param array|\ArrayAccess $response
+     * @param array|ArrayAccess $response
      */
     protected function getCompletionMessages($response): string
     {
@@ -69,22 +79,11 @@ class ErnieBotGenerator implements GeneratorContract
     }
 
     /**
-     * @noinspection JsonEncodingApiUsageInspection
+     * @throws RequestException
+     * @throws BindingResolutionException
      */
-    protected function buildWriter(?string &$messages): \Closure
+    protected function completion(array $parameters, ?callable $writer = null): Response
     {
-        return function (string $data) use (&$messages): void {
-            // (正常|错误|流)响应
-            $rowResponse = (array) json_decode(Ernie::sanitizeData($data), true);
-            $messages .= $text = $this->getCompletionMessages($rowResponse);
-            $this->outputStyle->write($text);
-        };
-    }
-
-    protected function getResponse(array $parameters): array
-    {
-        $response = $this->ernie->ernieBot($parameters, $this->buildWriter($messages));
-
-        return [$messages, $response];
+        return $this->ernie->ernieBot($parameters, $writer);
     }
 }
