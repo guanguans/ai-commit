@@ -127,6 +127,20 @@ return [
                 // 'user_id' => Illuminate\Support\Str::uuid()->toString(),
             ],
         ],
+        'ernie_bot_turbo' => [
+            'driver' => 'ernie',
+            'http_options' => [],
+            'api_key' => env('ERNIE_API_KEY', '...'),
+            'secret_key' => env('ERNIE_SECRET_KEY', '...'),
+            'parameters' => [
+                // 'messages' => 'required|array',
+                'temperature' => 0.95,
+                'top_p' => 0.8,
+                'penalty_score' => 1.0,
+                'stream' => true,
+                // 'user_id' => Illuminate\Support\Str::uuid()->toString(),
+            ],
+        ],
     ],
 
     /**

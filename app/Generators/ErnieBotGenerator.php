@@ -47,16 +47,14 @@ class ErnieBotGenerator implements GeneratorContract
      */
     public function generate(string $prompt): string
     {
-        $prompt = 'PHP是什么？';
-
         $parameters = [
             'messages' => [
                 ['role' => 'user', 'content' => $prompt],
             ],
-            'user' => Str::uuid()->toString(),
+            'user_id' => Str::uuid()->toString(),
         ] + Arr::get($this->config, 'parameters', []);
 
-        $response = $this->ernie->ernieBot($parameters, $this->buildWriter($messages));
+        [$messages, $response] = $this->getResponse($parameters);
 
         // fake 响应
         return (string) ($messages ?? $this->getCompletionMessages($response));
@@ -76,15 +74,17 @@ class ErnieBotGenerator implements GeneratorContract
     protected function buildWriter(?string &$messages): \Closure
     {
         return function (string $data) use (&$messages): void {
-            // 流响应完成
-            if (str($data)->startsWith('data: [DONE]')) {
-                return;
-            }
-
             // (正常|错误|流)响应
             $rowResponse = (array) json_decode(Ernie::sanitizeData($data), true);
             $messages .= $text = $this->getCompletionMessages($rowResponse);
             $this->outputStyle->write($text);
         };
+    }
+
+    protected function getResponse(array $parameters): array
+    {
+        $response = $this->ernie->ernieBot($parameters, $this->buildWriter($messages));
+
+        return [$messages, $response];
     }
 }

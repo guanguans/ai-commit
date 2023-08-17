@@ -40,8 +40,38 @@ final class Ernie extends FoundationSDK
     }
 
     /**
-     * @throws RequestException
+     * ```php
+     * [
+     *     'id' => 'chatcmpl-6pqDoRwRGQAlRvJnesR9QMG9rxpyK',
+     *     'object' => 'chat.completion',
+     *     'created' => 1677813488,
+     *     'model' => 'gpt-3.5-turbo-0301',
+     *     'usage' => [
+     *         'prompt_tokens' => 8,
+     *         'completion_tokens' => 16,
+     *         'total_tokens' => 24,
+     *     ],
+     *     'choices' => [
+     *         [
+     *             'message' => [
+     *                 'role' => 'assistant',
+     *                 'content' => 'PHP (Hypertext Preprocessor) is a server-side scripting language used',
+     *             ],
+     *             'finish_reason' => 'length',
+     *             'index' => 0,
+     *         ],
+     *     ],
+     * ];
+     * ```.
+     *
+     * ```stream
+     * data: {'id':'as-rx9g6c5sqp','object':'chat.completion','created':1692253330,'sentence_id':2,'is_end':false,'is_truncated':false,'result':'PHP的语法借鉴吸收C语言、Java和语言的特点，易于一般程序员学习。','need_clear_history':false,'usage':{'prompt_tokens':4,'completion_tokens':35,'total_tokens':87}}
+     *
+     * data: {'id':'as-rx9g6c5sqp','object':'chat.completion','created':1692253331,'sentence_id':3,'is_end':false,'is_truncated':false,'result':'PHP的主要目标是允许网络开发人P也被用于其他很多领域。','need_clear_history':false,'usage':{'prompt_tokens':4,'completion_tokens':35,'total_tokens':122}}
+     * ```
+     *
      * @throws BindingResolutionException
+     * @throws RequestException
      */
     public function ernieBot(array $parameters, ?callable $writer = null): Response
     {
@@ -155,10 +185,7 @@ final class Ernie extends FoundationSDK
                     return $pendingRequest->withOptions([
                         'curl' => [
                             CURLOPT_WRITEFUNCTION => static function ($ch, string $data) use (&$rowData, $writer): int {
-                                if (! str($data)->startsWith('data: [DONE]')) {
-                                    $rowData = $data;
-                                }
-
+                                $rowData = $data;
                                 $writer($data, $ch);
 
                                 return \strlen($data);
