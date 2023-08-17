@@ -21,7 +21,8 @@
 - [x] [Bito Cli](https://github.com/gitbito/CLI)
 - [x] [OpenAI Chat](https://platform.openai.com/docs/api-reference/chat)
 - [x] [OpenAI](https://platform.openai.com/docs/api-reference/completions)
-- [ ] [ERNIE](https://yiyan.baidu.com/welcome)
+- [x] [ERNIE-Bot](https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Nlks5zkzu#ernie-bot)
+- [x] [ERNIE-Bot-turbo](https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Nlks5zkzu#ernie-bot-turbo)
 - [ ] ...
 
 ## 环境要求
