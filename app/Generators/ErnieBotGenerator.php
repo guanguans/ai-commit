@@ -27,17 +27,17 @@ class ErnieBotGenerator implements GeneratorContract
     /**
      * @var array
      */
-    protected $config = [];
+    private $config = [];
 
     /**
      * @var \App\Support\Ernie
      */
-    protected $ernie;
+    private $ernie;
 
     /**
      * @var \Illuminate\Console\OutputStyle
      */
-    protected $outputStyle;
+    private $outputStyle;
 
     public function __construct(array $config)
     {
@@ -61,7 +61,7 @@ class ErnieBotGenerator implements GeneratorContract
 
         $response = $this->completion($parameters, function (string $data) use (&$messages): void {
             // (正常|错误|流)响应
-            $rowResponse = (array) json_decode(Ernie::sanitizeData($data), true);
+            $rowResponse = (array) json_decode(Ernie::sanitizeData($data), true, 512, JSON_THROW_ON_ERROR);
             $messages .= $text = $this->getCompletionMessages($rowResponse);
             $this->outputStyle->write($text);
         });
@@ -73,7 +73,7 @@ class ErnieBotGenerator implements GeneratorContract
     /**
      * @param array|ArrayAccess $response
      */
-    protected function getCompletionMessages($response): string
+    private function getCompletionMessages($response): string
     {
         return Arr::get($response, 'result', '');
     }
@@ -82,7 +82,7 @@ class ErnieBotGenerator implements GeneratorContract
      * @throws RequestException
      * @throws BindingResolutionException
      */
-    protected function completion(array $parameters, ?callable $writer = null): Response
+    private function completion(array $parameters, ?callable $writer = null): Response
     {
         return $this->ernie->ernieBot($parameters, $writer);
     }

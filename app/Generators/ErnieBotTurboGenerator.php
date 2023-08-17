@@ -16,7 +16,7 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 
-class ErnieBotTurboGenerator extends ErnieBotGenerator
+final class ErnieBotTurboGenerator extends ErnieBotGenerator
 {
     /**
      * @throws RequestException

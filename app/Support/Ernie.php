@@ -94,14 +94,6 @@ final class Ernie extends FoundationSDK
     }
 
     /**
-     * @throws RequestException
-     */
-    protected function getAccessToken(): string
-    {
-        return self::$accessToken ?? self::$accessToken = $this->oauthToken()->json('access_token');
-    }
-
-    /**
      * {@inheritDoc}
      *
      * @throws BindingResolutionException
@@ -158,6 +150,14 @@ final class Ernie extends FoundationSDK
     }
 
     /**
+     * @throws RequestException
+     */
+    private function getAccessToken(): string
+    {
+        return self::$accessToken ?? self::$accessToken = $this->oauthToken()->json('access_token');
+    }
+
+    /**
      * @psalm-suppress UnusedVariable
      * @psalm-suppress UnevaluatedCode
      *
@@ -211,7 +211,7 @@ final class Ernie extends FoundationSDK
             );
         }
 
-        return tap($response->throw(), function (Response $response): void {
+        return tap($response->throw(), static function (Response $response): void {
             if (isset($response['error_code'])) {
                 throw new RequestException($response);
             }
