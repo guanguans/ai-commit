@@ -8,6 +8,31 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.8.1"></a>
+## [1.8.1] - 2023-08-18
+### Docs
+- **readme:** Update ERNIE-Bot links
+
+### Feat
+- **tests:** Add ErnieTest.php
+- **tests.Unit.Generators.ErnieBotGeneratorTest:** add test for generating commit messages
+
+### Fix
+- **Support:** Sanitize data in Ernie and OpenAI
+
+### Refactor
+- **generator:** simplify buildWriter method
+- **generator:** Change visibility of ernie property
+- **rector:** apply rector
+- **rector:** apply rector
+
+### Test
+- **ErnieBotGeneratorTest:** add test for writer function
+
+### Pull Requests
+- Merge pull request [#44](https://github.com/guanguans/monorepo-builder-worker/issues/44) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.52.1
+
+
 <a name="1.8.0"></a>
 ## [1.8.0] - 2023-08-17
 ### Docs
@@ -450,7 +475,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.8.0...HEAD
+[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.8.1...HEAD
+[1.8.1]: https://github.com/guanguans/monorepo-builder-worker/compare/1.8.0...1.8.1
 [1.8.0]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.6...1.8.0
 [1.7.6]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.5...1.7.6
 [1.7.5]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.4...1.7.5
