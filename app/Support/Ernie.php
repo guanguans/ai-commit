@@ -29,7 +29,7 @@ final class Ernie extends FoundationSDK
     private static $accessToken;
 
     /**
-     * ```json
+     * ```ok
      * {
      *     'id': 'as-rkmymnxvrx',
      *     'object': 'chat.completion',
@@ -47,17 +47,19 @@ final class Ernie extends FoundationSDK
      * }
      * ```.
      *
-     * ```stream
-     * data: {'id':'as-rx9g6c5sqp','object':'chat.completion','created':1692253330,'sentence_id':2,'is_end':false,'is_truncated':false,'result':'PHP的语法借鉴吸收C语言、Java和语言的特点，易于一般程序员学习。','need_clear_history':false,'usage':{'prompt_tokens':4,'completion_tokens':35,'total_tokens':87}}
-     *
-     * data: {'id':'as-rx9g6c5sqp','object':'chat.completion','created':1692253331,'sentence_id':3,'is_end':false,'is_truncated':false,'result':'PHP的主要目标是允许网络开发人P也被用于其他很多领域。','need_clear_history':false,'usage':{'prompt_tokens':4,'completion_tokens':35,'total_tokens':122}}
-     *
-     * {'error_code':336003,'error_msg':'the max length of current question is 2000','id':'as-fxhfe8n53r'}
-     * ```
-     *
      * ```error
      * {'error_code':17,'error_msg':'Open api daily request limit reached'}
      * ```
+     *
+     * ```stream ok
+     * data: {'id':'as-rx9g6c5sqp','object':'chat.completion','created':1692253330,'sentence_id':2,'is_end':false,'is_truncated':false,'result':'PHP的语法借鉴吸收C语言、Java和语言的特点，易于一般程序员学习。','need_clear_history':false,'usage':{'prompt_tokens':4,'completion_tokens':35,'total_tokens':87}}
+     *
+     * data: {'id':'as-rx9g6c5sqp','object':'chat.completion','created':1692253331,'sentence_id':3,'is_end':false,'is_truncated':false,'result':'PHP的主要目标是允许网络开发人P也被用于其他很多领域。','need_clear_history':false,'usage':{'prompt_tokens':4,'completion_tokens':35,'total_tokens':122}}
+     * ```
+     *
+     * ```stream error
+     * {'error_code':336003,'error_msg':'the max length of current question is 2000','id':'as-fxhfe8n53r'}
+     * ```stream
      *
      * @throws BindingResolutionException
      * @throws RequestException

@@ -52,10 +52,9 @@ final class OpenAI extends FoundationSDK
      * data: {"id": "cmpl-6n1mYrlWTmE9184S4pajlIx6JITEu", "object": "text_completion", "created": 1677142942, "choices": [{"text": "", "index": 0, "logprobs": null, "finish_reason": "stop"}], "model": "text-davinci-003"}
      *
      * data: [DONE]
-     *
      * ```
      *
-     * ```error
+     * ```error|stream error
      * {
      *     "error": {
      *         "message": "Incorrect API key provided: sk-........ You can find your API key at https://platform.openai.com/account/api-keys.",
@@ -103,31 +102,31 @@ final class OpenAI extends FoundationSDK
     }
 
     /**
-     * ```php
-     * [
-     *     'id' => 'chatcmpl-6pqDoRwRGQAlRvJnesR9QMG9rxpyK',
-     *     'object' => 'chat.completion',
-     *     'created' => 1677813488,
-     *     'model' => 'gpt-3.5-turbo-0301',
-     *     'usage' => [
-     *         'prompt_tokens' => 8,
-     *         'completion_tokens' => 16,
-     *         'total_tokens' => 24,
-     *     ],
-     *     'choices' => [
-     *         [
-     *             'message' => [
-     *                 'role' => 'assistant',
-     *                 'content' => 'PHP (Hypertext Preprocessor) is a server-side scripting language used',
-     *             ],
-     *             'finish_reason' => 'length',
-     *             'index' => 0,
-     *         ],
-     *     ],
-     * ];
+     * ```ok
+     * {
+     *     'id': 'chatcmpl-6pqDoRwRGQAlRvJnesR9QMG9rxpyK',
+     *     'object': 'chat.completion',
+     *     'created': 1677813488,
+     *     'model': 'gpt-3.5-turbo-0301',
+     *     'usage': {
+     *     'prompt_tokens': 8,
+     *         'completion_tokens': 16,
+     *         'total_tokens': 24
+     *     },
+     *     'choices': [
+     *         {
+     *             'delta': {
+     *             'role': 'assistant',
+     *                 'content': 'PHP (Hypertext Preprocessor) is a server-side scripting language used'
+     *             },
+     *             'finish_reason': 'length',
+     *             'index': 0
+     *         }
+     *     ]
+     * }
      * ```.
      *
-     * ```stream
+     * ```stream ok
      * data: {"id":"chatcmpl-6pqQB0NVBCjNcs6aPeFUi4gy1pCoj","object":"chat.completion.chunk","created":1677814255,"model":"gpt-3.5-turbo-0301","choices":[{"delta":{"content":" used"},"index":0,"finish_reason":null}]}
      *
      * data: {"id":"chatcmpl-6pqQB0NVBCjNcs6aPeFUi4gy1pCoj","object":"chat.completion.chunk","created":1677814255,"model":"gpt-3.5-turbo-0301","choices":[{"delta":{},"index":0,"finish_reason":"length"}]}
