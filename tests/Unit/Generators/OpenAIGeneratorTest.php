@@ -41,7 +41,7 @@ it('will throw unauthorized RequestException', function (): void {
  * @psalm-suppress UnusedVariable
  */
 it('can call writer', function (): void {
-    $rowResponses = [
+    foreach ([
         'data: {"id": "cmpl-6or3mHmSgvCePOlM34DK90rm6J0ec", "object": "text_completion", "created": 1677578382, "choices": [{"text": "  ", "index": 0, "logprobs": null, "finish_reason": null}], "model": "text-davinci-003"}
 
 ',
@@ -54,13 +54,10 @@ it('can call writer', function (): void {
         'data: [DONE]
 
 ',
-    ];
-    $openaiGenerator = app(GeneratorManager::class)->driver('openai');
-
-    foreach ($rowResponses as $rowResponse) {
+    ] as $rowResponse) {
         (function (string $rowResponse) use (&$messages): void {
             $this->buildWriter($messages)($rowResponse);
-        })->call($openaiGenerator, $rowResponse);
+        })->call(app(GeneratorManager::class)->driver('openai'), $rowResponse);
     }
 
     expect($messages)->toBe('  use App');
