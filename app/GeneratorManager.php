@@ -28,7 +28,7 @@ final class GeneratorManager extends Manager
     use Conditionable;
     use Tappable;
 
-    public function getDefaultDriver()
+    public function getDefaultDriver(): string
     {
         return $this->config->get('ai-commit.generator');
     }

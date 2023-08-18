@@ -65,7 +65,7 @@ if (! function_exists('str')) {
                     return Str::$method(...$parameters);
                 }
 
-                public function __toString()
+                public function __toString(): string
                 {
                     return '';
                 }

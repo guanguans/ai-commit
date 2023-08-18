@@ -33,7 +33,6 @@ use Rector\EarlyReturn\Rector\If_\ChangeAndIfToEarlyReturnRector;
 use Rector\EarlyReturn\Rector\Return_\ReturnBinaryOrToEarlyReturnRector;
 use Rector\Naming\Rector\Assign\RenameVariableToMatchMethodCallReturnTypeRector;
 use Rector\Naming\Rector\ClassMethod\RenameParamToMatchTypeRector;
-use Rector\Php56\Rector\FunctionLike\AddDefaultValueForUndefinedVariableRector;
 use Rector\Php73\Rector\FuncCall\JsonThrowOnErrorRector;
 use Rector\PHPUnit\Set\PHPUnitLevelSetList;
 use Rector\PHPUnit\Set\PHPUnitSetList;
@@ -80,7 +79,6 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->skip([
         // rules
         // AddArrayDefaultToArrayPropertyRector::class,
-        // AddDefaultValueForUndefinedVariableRector::class,
         // CallableThisArrayToAnonymousFunctionRector::class,
         // ChangeAndIfToEarlyReturnRector::class,
         // RemoveEmptyClassMethodRector::class,
@@ -111,6 +109,7 @@ return static function (RectorConfig $rectorConfig): void {
         ],
         FinalizeClassesWithoutChildrenRector::class => [
             __DIR__.'/app/Generators/OpenAIGenerator.php',
+            __DIR__.'/app/Generators/ErnieBotGenerator.php',
         ],
         JsonThrowOnErrorRector::class => [
             __DIR__.'/app/Generators/OpenAIGenerator.php',

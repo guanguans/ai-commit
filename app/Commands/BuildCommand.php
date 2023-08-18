@@ -82,7 +82,7 @@ final class BuildCommand extends Command
      * @noinspection PhpMissingReturnTypeInspection
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    public function isEnabled()
+    public function isEnabled(): bool
     {
         return ! $this->laravel->isProduction();
     }

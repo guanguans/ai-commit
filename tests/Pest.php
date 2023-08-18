@@ -86,7 +86,7 @@ function setup_http_fake(): void
                 return array_flip(Response::$statusTexts)[$prompt] ?? 200;
             });
 
-            $text = transform($prompt, function ($prompt) {
+            $text = transform($prompt, function ($prompt): string {
                 switch ($prompt) {
                     case 'empty':
                         $text = '';

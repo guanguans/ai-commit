@@ -25,14 +25,14 @@ use Illuminate\Support\Str;
 class ErnieBotGenerator implements GeneratorContract
 {
     /**
-     * @var array
-     */
-    private $config = [];
-
-    /**
      * @var \App\Support\Ernie
      */
     protected $ernie;
+
+    /**
+     * @var array
+     */
+    private $config = [];
 
     /**
      * @var \Illuminate\Console\OutputStyle
@@ -71,19 +71,19 @@ class ErnieBotGenerator implements GeneratorContract
     }
 
     /**
+     * @throws RequestException
+     * @throws BindingResolutionException
+     */
+    protected function completion(array $parameters, ?callable $writer = null): Response
+    {
+        return $this->ernie->ernieBot($parameters, $writer);
+    }
+
+    /**
      * @param array|ArrayAccess $response
      */
     private function getCompletionMessages($response): string
     {
         return Arr::get($response, 'result', '');
-    }
-
-    /**
-     * @throws RequestException
-     * @throws BindingResolutionException
-     */
-    private function completion(array $parameters, ?callable $writer = null): Response
-    {
-        return $this->ernie->ernieBot($parameters, $writer);
     }
 }

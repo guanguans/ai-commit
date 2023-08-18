@@ -38,7 +38,7 @@ final class Handler extends \Illuminate\Foundation\Exceptions\Handler
      * @noinspection ReturnTypeCanBeDeclaredInspection
      * @noinspection PhpMissingReturnTypeInspection
      */
-    protected function shouldntReport(\Throwable $e)
+    protected function shouldntReport(\Throwable $e): bool
     {
         if ($this->container->isProduction()) {
             return true;
