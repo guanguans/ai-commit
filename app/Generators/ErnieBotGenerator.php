@@ -59,12 +59,7 @@ class ErnieBotGenerator implements GeneratorContract
             'user_id' => Str::uuid()->toString(),
         ] + Arr::get($this->config, 'parameters', []);
 
-        $response = $this->completion($parameters, function (string $data) use (&$messages): void {
-            // (正常|错误|流)响应
-            $rowResponse = (array) json_decode(Ernie::sanitizeData($data), true, 512, JSON_THROW_ON_ERROR);
-            $messages .= $text = $this->getCompletionMessages($rowResponse);
-            $this->outputStyle->write($text);
-        });
+        $response = $this->completion($parameters, $this->buildWriter($messages));
 
         // fake 响应
         return (string) ($messages ?? $this->getCompletionMessages($response));
@@ -77,6 +72,16 @@ class ErnieBotGenerator implements GeneratorContract
     protected function completion(array $parameters, ?callable $writer = null): Response
     {
         return $this->ernie->ernieBot($parameters, $writer);
+    }
+
+    private function buildWriter(?string &$messages): \Closure
+    {
+        return function (string $data) use (&$messages): void {
+            // (正常|错误|流)响应
+            $rowResponse = (array) json_decode(Ernie::sanitizeData($data), true, 512, JSON_THROW_ON_ERROR);
+            $messages .= $text = $this->getCompletionMessages($rowResponse);
+            $this->outputStyle->write($text);
+        };
     }
 
     /**
