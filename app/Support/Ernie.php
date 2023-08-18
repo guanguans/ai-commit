@@ -199,7 +199,7 @@ final class Ernie extends FoundationSDK
                     'top_p' => 'numeric|between:0,1',
                     'penalty_score' => 'numeric|between:1,2',
                     'stream' => 'bool',
-                    'user_id' => 'string',
+                    'user_id' => 'string|uuid',
                 ],
                 $messages,
                 $customAttributes
