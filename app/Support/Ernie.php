@@ -181,8 +181,8 @@ final class Ernie extends FoundationSDK
                     return $pendingRequest->withOptions([
                         'curl' => [
                             CURLOPT_WRITEFUNCTION => static function ($ch, string $data) use (&$rowData, $writer): int {
-                                $rowData = $data;
-                                $writer($data, $ch);
+                                $rowData = self::sanitizeData($data);
+                                $writer($rowData, $ch);
 
                                 return \strlen($data);
                             },

@@ -93,12 +93,12 @@ class OpenAIGenerator implements GeneratorContract
     {
         return function (string $data) use (&$messages): void {
             // 流响应完成
-            if (str($data)->startsWith('data: [DONE]')) {
+            if (str($data)->startsWith('[DONE]')) {
                 return;
             }
 
             // (正常|错误|流)响应
-            $rowResponse = (array) json_decode(OpenAI::sanitizeData($data), true);
+            $rowResponse = (array) json_decode($data, true);
             $messages .= $text = $this->getCompletionMessages($rowResponse);
             $this->outputStyle->write($text);
         };

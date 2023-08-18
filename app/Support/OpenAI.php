@@ -246,11 +246,13 @@ final class OpenAI extends FoundationSDK
                     return $pendingRequest->withOptions([
                         'curl' => [
                             CURLOPT_WRITEFUNCTION => static function ($ch, string $data) use (&$rowData, $writer): int {
+                                $sanitizeData = self::sanitizeData($data);
+
                                 if (! str($data)->startsWith('data: [DONE]')) {
-                                    $rowData = $data;
+                                    $rowData = $sanitizeData;
                                 }
 
-                                $writer($data, $ch);
+                                $writer($sanitizeData, $ch);
 
                                 return \strlen($data);
                             },

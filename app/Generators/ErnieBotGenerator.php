@@ -78,7 +78,7 @@ class ErnieBotGenerator implements GeneratorContract
     {
         return function (string $data) use (&$messages): void {
             // (正常|错误|流)响应
-            $rowResponse = (array) json_decode(Ernie::sanitizeData($data), true, 512, JSON_THROW_ON_ERROR);
+            $rowResponse = (array) json_decode($data, true, 512, JSON_THROW_ON_ERROR);
             $messages .= $text = $this->getCompletionMessages($rowResponse);
             $this->outputStyle->write($text);
         };
