@@ -8,6 +8,9 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.8.2"></a>
+## [1.8.2] - 2023-08-18
+
 <a name="1.8.1"></a>
 ## [1.8.1] - 2023-08-18
 ### Docs
@@ -475,7 +478,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.8.1...HEAD
+[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.8.2...HEAD
+[1.8.2]: https://github.com/guanguans/monorepo-builder-worker/compare/1.8.1...1.8.2
 [1.8.1]: https://github.com/guanguans/monorepo-builder-worker/compare/1.8.0...1.8.1
 [1.8.0]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.6...1.8.0
 [1.7.6]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.5...1.7.6
