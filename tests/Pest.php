@@ -91,7 +91,7 @@ function setup_http_fake(): void
                         break;
                     case 'invalid':
                         $text = <<<'json'
-                            [{"id":1,"subject":"Fix(OpenAIGenerator): Debugging output","body":"- Add var_dump() for debugging output- Add var_dump() for stream response"},{"id":2,"subject":"Refactor(OpenAIGenerator): Error handling","body":"- Check for error response in JSON- Handle error response"},{"id":3,"subject":"Docs(OpenAIGenerator): Update documentation","body":"- Update documentation for OpenAIGenerator class"}]
+                            [{id":1,"subject":"Fix(OpenAIGenerator): Debugging output","body":"- Add var_dump() for debugging output- Add var_dump() for stream response"},{"id":2,"subject":"Refactor(OpenAIGenerator): Error handling","body":"- Check for error response in JSON- Handle error response"},{"id":3,"subject":"Docs(OpenAIGenerator): Update documentation","body":"- Update documentation for OpenAIGenerator class"}]
                             json;
 
                         break;

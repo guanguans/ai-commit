@@ -113,6 +113,7 @@ return static function (RectorConfig $rectorConfig): void {
         ],
         JsonThrowOnErrorRector::class => [
             __DIR__.'/app/Generators/OpenAIGenerator.php',
+            __DIR__.'/app/Generators/ErnieBotGenerator.php',
         ],
         StaticClosureRector::class => [
             __DIR__.'/tests',
