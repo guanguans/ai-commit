@@ -82,10 +82,7 @@ function setup_http_fake(): void
     Http::fake([
         '*://api.openai.com/v1/completions' => function (Request $request, array $options): PromiseInterface {
             $prompt = $options['laravel_data']['prompt'];
-            $status = transform($prompt, function ($prompt) {
-                return array_flip(Response::$statusTexts)[$prompt] ?? 200;
-            });
-
+            $status = array_flip(Response::$statusTexts)[$prompt] ?? 200;
             $text = transform($prompt, function ($prompt): string {
                 switch ($prompt) {
                     case 'empty':
@@ -93,11 +90,15 @@ function setup_http_fake(): void
 
                         break;
                     case 'invalid':
-                        $text = '[    {        "id": 1,        "subject": "Fix(OpenAIGenerator): Debugging output",        "body": "- Add var_dump() for debugging output- Add var_dump() for stream response"    },    {        "id": 2,        "subject": "Refactor(OpenAIGenerator): Error handling",        "body": "- Check for error response in JSON- Handle error response"    },    {        "id": 3,        "subject": "Docs(OpenAIGenerator): Update documentation",        "body": "- Update documentation for OpenAIGenerator class",    }]';
+                        $text = <<<'json'
+                            [{"id":1,"subject":"Fix(OpenAIGenerator): Debugging output","body":"- Add var_dump() for debugging output- Add var_dump() for stream response"},{"id":2,"subject":"Refactor(OpenAIGenerator): Error handling","body":"- Check for error response in JSON- Handle error response"},{"id":3,"subject":"Docs(OpenAIGenerator): Update documentation","body":"- Update documentation for OpenAIGenerator class"}]
+                            json;
 
                         break;
                     default:
-                        $text = '[    {        "id": 1,        "subject": "Fix(OpenAIGenerator): Debugging output",        "body": "- Add var_dump() for debugging output- Add var_dump() for stream response"    },    {        "id": 2,        "subject": "Refactor(OpenAIGenerator): Error handling",        "body": "- Check for error response in JSON- Handle error response"    },    {        "id": 3,        "subject": "Docs(OpenAIGenerator): Update documentation",        "body": "- Update documentation for OpenAIGenerator class"    }]';
+                        $text = <<<'json'
+                            [{"id":1,"subject":"Fix(OpenAIGenerator): Debugging output","body":"- Add var_dump() for debugging output- Add var_dump() for stream response"},{"id":2,"subject":"Refactor(OpenAIGenerator): Error handling","body":"- Check for error response in JSON- Handle error response"},{"id":3,"subject":"Docs(OpenAIGenerator): Update documentation","body":"- Update documentation for OpenAIGenerator class"}]
+                            json;
 
                         break;
                 }
@@ -106,17 +107,10 @@ function setup_http_fake(): void
             });
 
             $body = $status >= 400
-                ?
-                [
-                    'error' => [
-                        'message' => 'Incorrect API key provided: sk-........ You can find your API key at https://platform.openai.com/account/api-keys.',
-                        'type' => 'invalid_request_error',
-                        'param' => null,
-                        'code' => 'invalid_api_key',
-                    ],
-                ]
-                :
-                [
+                ? <<<'json'
+                    {"error":{"message":"Incorrect API key provided: sk-........ You can find your API key at https:\/\/platform.openai.com\/account\/api-keys.","type":"invalid_request_error","param":null,"code":"invalid_api_key"}}
+                    json
+                : [
                     'id' => 'cmpl-6n1qMNWwuF5SYBcS4Nev5sr4ACpEB',
                     'object' => 'text_completion',
                     'created' => 1677143178,
@@ -140,79 +134,47 @@ function setup_http_fake(): void
         },
         '*://api.openai.com/v1/chat/completions' => function (Request $request, array $options): PromiseInterface {
             $prompt = $options['laravel_data']['messages'][0]['content'];
-            $status = transform($prompt, function ($prompt) {
-                return array_flip(Response::$statusTexts)[$prompt] ?? 200;
-            });
-
+            $status = array_flip(Response::$statusTexts)[$prompt] ?? 200;
             $body = $status >= 400
-                ?
-                [
-                    'error' => [
-                        'message' => 'Incorrect API key provided: sk-........ You can find your API key at https://platform.openai.com/account/api-keys.',
-                        'type' => 'invalid_request_error',
-                        'param' => null,
-                        'code' => 'invalid_api_key',
-                    ],
-                ]
-                :
-                [
-                    'id' => 'chatcmpl-6pqDoRwRGQAlRvJnesR9QMG9rxpyK',
-                    'object' => 'chat.completion',
-                    'created' => 1677813488,
-                    'model' => 'gpt-3.5-turbo-0301',
-                    'usage' => [
-                        'prompt_tokens' => 8,
-                        'completion_tokens' => 16,
-                        'total_tokens' => 24,
-                    ],
-                    'choices' => [
-                        [
-                            'delta' => [
-                                'role' => 'assistant',
-                                'content' => 'PHP (Hypertext Preprocessor) is a server-side scripting language used',
-                            ],
-                            'finish_reason' => 'length',
-                            'index' => 0,
-                        ],
-                    ],
-                ];
+                ? <<<'json'
+                    {"error":{"message":"Incorrect API key provided: sk-........ You can find your API key at https:\/\/platform.openai.com\/account\/api-keys.","type":"invalid_request_error","param":null,"code":"invalid_api_key"}}
+                    json
+
+                : <<<'json'
+                    {"id":"chatcmpl-6pqDoRwRGQAlRvJnesR9QMG9rxpyK","object":"chat.completion","created":1677813488,"model":"gpt-3.5-turbo-0301","usage":{"prompt_tokens":8,"completion_tokens":16,"total_tokens":24},"choices":[{"delta":{"role":"assistant","content":"PHP (Hypertext Preprocessor) is a server-side scripting language used"},"finish_reason":"length","index":0}]}
+                    json;
 
             return Http::response($body, $status);
         },
-
         '*://api.openai.com/v1/models' => function (Request $request, array $options): PromiseInterface {
             return Http::response(
-                <<<'body'
-                    {
-                        "object": "list",
-                        "data": [
-                            {
-                                "id": "babbage",
-                                "object": "model",
-                                "created": 1649358449,
-                                "owned_by": "openai",
-                                "permission": [
-                                    {
-                                        "id": "modelperm-49FUp5v084tBB49tC4z8LPH5",
-                                        "object": "model_permission",
-                                        "created": 1669085501,
-                                        "allow_create_engine": false,
-                                        "allow_sampling": true,
-                                        "allow_logprobs": true,
-                                        "allow_search_indices": false,
-                                        "allow_view": true,
-                                        "allow_fine_tuning": false,
-                                        "organization": "*",
-                                        "group": null,
-                                        "is_blocking": false
-                                    }
-                                ],
-                                "root": "babbage",
-                                "parent": null
-                            }
-                        ]
-                    }
-                    body
+                <<<'json'
+                    {"object":"list","data":[{"id":"babbage","object":"model","created":1649358449,"owned_by":"openai","permission":[{"id":"modelperm-49FUp5v084tBB49tC4z8LPH5","object":"model_permission","created":1669085501,"allow_create_engine":false,"allow_sampling":true,"allow_logprobs":true,"allow_search_indices":false,"allow_view":true,"allow_fine_tuning":false,"organization":"*","group":null,"is_blocking":false}],"root":"babbage","parent":null}]}
+                    json
+            );
+        },
+    ]);
+
+    Http::fake([
+        '*://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/*' => function (Request $request, array $options): PromiseInterface {
+            $prompt = $options['laravel_data']['messages'][0]['content'];
+            $status = array_flip(Response::$statusTexts)[$prompt] ?? 200;
+            $body = $status >= 400
+                ? <<<'json'
+                    {"error_code":17,"error_msg":"Open api daily request limit reached"}
+                    json
+
+                : <<<'json'
+                    {"id":"as-rx9g6c5sqp","object":"chat.completion","created":1692253331,"sentence_id":3,"is_end":false,"is_truncated":false,"result":"PHP的主要目标是允许网络开发人P也被用于其他很多领域。","need_clear_history":false,"usage":{"prompt_tokens":4,"completion_tokens":35,"total_tokens":122}}
+                    json;
+
+            return Http::response($body);
+        },
+        '*://aip.baidubce.com/oauth/2.0/token?*' => function (Request $request, array $options): PromiseInterface {
+            return Http::response(
+                <<<'json'
+                    {"refresh_token":"25.52df6887dac3b388c94b78854d231.315360000.2007686387.282335-37780661","expires_in":2592000,"session_key":"dWr0t8VVzq5EZZUS0QyCERVJZzIVFJ9YQoDEEtzXuoFUCQ9gpDzNYinxjAt5vlLom+7QYYlZwfE89gyj6ePr9ohVeuw==","access_token":"24.6a024ba0cf6c1fd210fb1d2e7251b.2592000.1694918387.282335-37780661","scope":"public brain_all_scope ai_custom_yiyan_com ai_custom_yiyan_com_eb_instant wenxinworkshop_mgr ai_custom_yiyan_com_bloomz7b1 ai_custom_yiyan_com_emb_text wise_adapt lebo_resource_base lightservice_public hetu_basic lightcms_map_poi kaidian_kaidian ApsMisTest_Test权限 vis-classify_flower lpq_开放 cop_helloScope ApsMis_fangdi_permission smartapp_snsapi_base smartapp_mapp_dev_manage iop_autocar oauth_tp_app smartapp_smart_game_openapi oauth_sessionkey smartapp_swanid_verify smartapp_opensource_openapi smartapp_opensource_recapi fake_face_detect_开放Scope vis-ocr_虚拟人物助理 idl-video_虚拟人物助理 smartapp_component smartapp_search_plugin avatar_video_test b2b_tp_openapi b2b_tp_openapi_online smartapp_gov_aladin_to_xcx","session_secret":"940b2b2ad62ceb6dd33fc03468def"}
+                    json
             );
         },
     ]);
