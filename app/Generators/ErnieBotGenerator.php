@@ -74,11 +74,14 @@ class ErnieBotGenerator implements GeneratorContract
         return $this->ernie->ernieBot($parameters, $writer);
     }
 
+    /**
+     * @noinspection JsonEncodingApiUsageInspection
+     */
     private function buildWriter(?string &$messages): \Closure
     {
         return function (string $data) use (&$messages): void {
             // (正常|错误|流)响应
-            $rowResponse = (array) json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+            $rowResponse = (array) json_decode($data, true);
             $messages .= $text = $this->getCompletionMessages($rowResponse);
             $this->outputStyle->write($text);
         };

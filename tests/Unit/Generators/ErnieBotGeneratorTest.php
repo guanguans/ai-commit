@@ -28,10 +28,10 @@ it('can generate commit messages', function (): void {
  */
 it('can call writer', function (): void {
     foreach ([
-        'data: {"id":"as-rx9g6c5sqp","object":"chat.completion","created":1692253330,"sentence_id":2,"is_end":false,"is_truncated":false,"result":"PHP的语法借鉴吸收C语言、Java和语言的特点，易于一般程序员学习。","need_clear_history":false,"usage":{"prompt_tokens":4,"completion_tokens":35,"total_tokens":87}}
+        '{"id":"as-rx9g6c5sqp","object":"chat.completion","created":1692253330,"sentence_id":2,"is_end":false,"is_truncated":false,"result":"PHP的语法借鉴吸收C语言、Java和语言的特点，易于一般程序员学习。","need_clear_history":false,"usage":{"prompt_tokens":4,"completion_tokens":35,"total_tokens":87}}
 
 ',
-        'data: {"id":"as-rx9g6c5sqp","object":"chat.completion","created":1692253331,"sentence_id":3,"is_end":false,"is_truncated":false,"result":"PHP的主要目标是允许网络开发人P也被用于其他很多领域。","need_clear_history":false,"usage":{"prompt_tokens":4,"completion_tokens":35,"total_tokens":122}}
+        '{"id":"as-rx9g6c5sqp","object":"chat.completion","created":1692253331,"sentence_id":3,"is_end":false,"is_truncated":false,"result":"PHP的主要目标是允许网络开发人P也被用于其他很多领域。","need_clear_history":false,"usage":{"prompt_tokens":4,"completion_tokens":35,"total_tokens":122}}
 
 ',
     ] as $rowResponse) {
