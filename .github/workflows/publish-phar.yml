@@ -53,7 +53,7 @@ jobs:
         run: cp builds/ai-commit.phar builds/ai-commit
 
       - name: Commit bump
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
           branch: main
           commit_message: Bump to ${{ github.event.release.name }}
