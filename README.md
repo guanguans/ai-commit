@@ -20,10 +20,10 @@
 ## Support
 
 - [x] [Bito Cli](https://github.com/gitbito/CLI)
+- [x] [ERNIE-Bot-turbo](https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Nlks5zkzu#ernie-bot-turbo)
+- [x] [ERNIE-Bot](https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Nlks5zkzu#ernie-bot)
 - [x] [OpenAI Chat](https://platform.openai.com/docs/api-reference/chat)
 - [x] [OpenAI](https://platform.openai.com/docs/api-reference/completions)
-- [x] [ERNIE-Bot](https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Nlks5zkzu#ernie-bot)
-- [x] [ERNIE-Bot-turbo](https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Nlks5zkzu#ernie-bot-turbo)
 - [ ] ...
 
 ## Requirement
