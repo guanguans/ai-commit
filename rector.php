@@ -19,7 +19,6 @@ use Rector\CodeQuality\Rector\Identical\SimplifyBoolIdenticalTrueRector;
 use Rector\CodeQuality\Rector\If_\ExplicitBoolCompareRector;
 use Rector\CodeQuality\Rector\LogicalAnd\LogicalToBooleanRector;
 use Rector\CodingStyle\Rector\Class_\AddArrayDefaultToArrayPropertyRector;
-use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
 use Rector\CodingStyle\Rector\Closure\StaticClosureRector;
 use Rector\CodingStyle\Rector\Encapsed\EncapsedStringsToSprintfRector;
 use Rector\CodingStyle\Rector\Encapsed\WrapEncapsedVariableInCurlyBracesRector;
@@ -38,6 +37,7 @@ use Rector\PHPUnit\Set\PHPUnitLevelSetList;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Privatization\Rector\Class_\FinalizeClassesWithoutChildrenRector;
 use Rector\Renaming\Rector\FuncCall\RenameFunctionRector;
+use Rector\Set\ValueObject\DowngradeLevelSetList;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 use Rector\Strict\Rector\Ternary\DisallowedShortTernaryRuleFixerRector;
@@ -85,7 +85,6 @@ return static function (RectorConfig $rectorConfig): void {
         // RemoveUnusedVariableAssignRector::class,
         // SimplifyBoolIdenticalTrueRector::class,
         // StaticClosureRector::class,
-        // UnSpreadOperatorRector::class,
 
         ReturnBinaryOrToEarlyReturnRector::class,
         EncapsedStringsToSprintfRector::class,
@@ -94,7 +93,6 @@ return static function (RectorConfig $rectorConfig): void {
         LogicalToBooleanRector::class,
         RenameParamToMatchTypeRector::class,
         RenameVariableToMatchMethodCallReturnTypeRector::class,
-        UnSpreadOperatorRector::class,
         WrapEncapsedVariableInCurlyBracesRector::class,
         // NewlineAfterStatementRector::class,
 
@@ -108,8 +106,9 @@ return static function (RectorConfig $rectorConfig): void {
             __DIR__.'/app/Support/FoundationSDK.php',
         ],
         FinalizeClassesWithoutChildrenRector::class => [
-            __DIR__.'/app/Generators/OpenAIGenerator.php',
+            __DIR__.'/app/Exceptions/RuntimeException.php',
             __DIR__.'/app/Generators/ErnieBotGenerator.php',
+            __DIR__.'/app/Generators/OpenAIGenerator.php',
         ],
         JsonThrowOnErrorRector::class => [
             __DIR__.'/app/Generators/OpenAIGenerator.php',
@@ -139,6 +138,7 @@ return static function (RectorConfig $rectorConfig): void {
     ]);
 
     $rectorConfig->sets([
+        // DowngradeLevelSetList::DOWN_TO_PHP_73,
         LevelSetList::UP_TO_PHP_73,
         SetList::PHP_73,
         SetList::CODE_QUALITY,
