@@ -54,7 +54,7 @@
     "require-dev": {
         "bamarni/composer-bin-plugin": "^1.8",
         "brainmaestro/composer-git-hooks": "^2.8",
-        "guzzlehttp/guzzle": "^7.7",
+        "guzzlehttp/guzzle": "^7.8",
         "illuminate/http": "^8.83 || ^9.0 || ^10.0",
         "illuminate/translation": "^8.83 || ^9.0 || ^10.0",
         "illuminate/validation": "^8.83 || ^9.0 || ^10.0",
@@ -63,7 +63,7 @@
         "laravel-zero/phar-updater": "^1.1",
         "mockery/mockery": "^1.6",
         "pestphp/pest": "^1.23",
-        "php-mock/php-mock-phpunit": "^2.7"
+        "php-mock/php-mock-phpunit": "^2.8"
     },
     "replace": {},
     "conflict": {},
@@ -172,7 +172,7 @@
         "md-fix": "@md-lint --fix",
         "md-lint": "lint-md --config .lintmdrc ./*.md ./.github/ ./docs/",
         "pest": "@php ./vendor/bin/pest --coverage",
-        "pest-coverage": "@pest --coverage-html=./build/phpunit/ --coverage-clover=clover.xml --coverage",
+        "pest-coverage": "@pest --coverage-html=./build/phpunit/ --coverage-clover=clover.xml",
         "pest-migrate-configuration": "@pest --migrate-configuration",
         "phpstan": "@php ./vendor/bin/phpstan analyse --ansi -v",
         "phpstan-baseline": "@phpstan --generate-baseline --allow-empty-baseline",
