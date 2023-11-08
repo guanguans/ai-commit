@@ -137,7 +137,7 @@ it('can generate and commit messages', function (): void {
 
 afterAll(static function (): void {
     // 清理 playground 仓库
-    Process::fromShellCommandline('git reset b7a6f28', repository_path())->run();
+    Process::fromShellCommandline('git reset HEAD^', repository_path())->run();
     Process::fromShellCommandline('git checkout -- .', repository_path())->run();
     Process::fromShellCommandline('git add tests/Fixtures/repository/', base_path())->mustRun();
 });
