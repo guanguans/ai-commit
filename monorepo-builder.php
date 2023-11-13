@@ -10,7 +10,7 @@ declare(strict_types=1);
  * This source file is subject to the MIT license that is bundled.
  */
 
-use Guanguans\MonorepoBuilderWorker\CreateGithubReleaseWorker;
+use Guanguans\MonorepoBuilderWorker\CreateGithubReleaseReleaseWorker;
 use Guanguans\MonorepoBuilderWorker\Support\EnvironmentChecker;
 use Guanguans\MonorepoBuilderWorker\UpdateChangelogViaGoReleaseWorker;
 use Guanguans\MonorepoBuilderWorker\UpdateChangelogViaNodeReleaseWorker;
@@ -26,7 +26,6 @@ use Symplify\MonorepoBuilder\Release\ReleaseWorker\UpdateBranchAliasReleaseWorke
 use Symplify\MonorepoBuilder\Release\ReleaseWorker\UpdateReplaceReleaseWorker;
 
 return static function (MBConfig $mbConfig): void {
-    require __DIR__.'/vendor-bin/monorepo-builder-worker/vendor/guanguans/monorepo-builder-worker/bin/namespace-prefix-fixer.php';
     require __DIR__.'/vendor-bin/monorepo-builder-worker/vendor/autoload.php';
     $mbConfig->defaultBranch('main');
 
@@ -44,7 +43,7 @@ return static function (MBConfig $mbConfig): void {
         UpdateChangelogViaGoReleaseWorker::class,
         // UpdateChangelogViaNodeReleaseWorker::class,
         // UpdateChangelogViaPhpReleaseWorker::class,
-        CreateGithubReleaseWorker::class,
+        CreateGithubReleaseReleaseWorker::class,
         // SetNextMutualDependenciesReleaseWorker::class,
         // UpdateBranchAliasReleaseWorker::class,
         // PushNextDevReleaseWorker::class,
