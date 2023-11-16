@@ -104,7 +104,7 @@ final class CommitCommand extends Command
 
         $this->task('2. Choosing commit message', function () use (&$message, $messages): void {
             $message = collect(json_decode($messages, true, 512, JSON_THROW_ON_ERROR))
-                ->transform(function (array $message): array {
+                ->transform(static function (array $message): array {
                     if (\is_array($message['body'])) {
                         $message['body'] = collect($message['body'])
                             ->transform(static function (string $line): string {
