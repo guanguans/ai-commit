@@ -38,7 +38,7 @@ jobs:
         run: ./ai-commit app:build ai-commit.phar --build-version=${{ steps.tag.outputs.tag }} -v
 
       - name: Upload the PHAR artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ai-commit.phar
           path: builds/ai-commit.phar
