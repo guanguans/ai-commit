@@ -8,6 +8,14 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.9.1"></a>
+## [1.9.1] - 2024-01-02
+### Pull Requests
+- Merge pull request [#74](https://github.com/guanguans/monorepo-builder-worker/issues/74) from guanguans/dependabot/github_actions/actions/labeler-5
+- Merge pull request [#76](https://github.com/guanguans/monorepo-builder-worker/issues/76) from guanguans/dependabot/github_actions/actions/stale-9
+- Merge pull request [#79](https://github.com/guanguans/monorepo-builder-worker/issues/79) from guanguans/dependabot/github_actions/actions/upload-artifact-4
+
+
 <a name="1.9.0"></a>
 ## [1.9.0] - 2023-12-25
 ### Pull Requests
@@ -535,7 +543,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.9.0...HEAD
+[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.9.1...HEAD
+[1.9.1]: https://github.com/guanguans/monorepo-builder-worker/compare/1.9.0...1.9.1
 [1.9.0]: https://github.com/guanguans/monorepo-builder-worker/compare/1.8.6...1.9.0
 [1.8.6]: https://github.com/guanguans/monorepo-builder-worker/compare/1.8.5...1.8.6
 [1.8.5]: https://github.com/guanguans/monorepo-builder-worker/compare/1.8.4...1.8.5
