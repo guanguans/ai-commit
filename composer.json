@@ -63,7 +63,7 @@
         "laravel-zero/phar-updater": "^1.1",
         "mockery/mockery": "^1.6",
         "pestphp/pest": "^1.23",
-        "php-mock/php-mock-phpunit": "^2.8"
+        "php-mock/php-mock-phpunit": "^2.9"
     },
     "replace": {},
     "conflict": {},
