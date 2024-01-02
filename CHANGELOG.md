@@ -8,6 +8,22 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.9.0"></a>
+## [1.9.0] - 2023-12-25
+### Pull Requests
+- Merge pull request [#83](https://github.com/guanguans/monorepo-builder-worker/issues/83) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.7
+- Merge pull request [#82](https://github.com/guanguans/monorepo-builder-worker/issues/82) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.6
+- Merge pull request [#81](https://github.com/guanguans/monorepo-builder-worker/issues/81) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.5
+- Merge pull request [#80](https://github.com/guanguans/monorepo-builder-worker/issues/80) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.4
+- Merge pull request [#78](https://github.com/guanguans/monorepo-builder-worker/issues/78) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.3
+- Merge pull request [#77](https://github.com/guanguans/monorepo-builder-worker/issues/77) from guanguans/dependabot/composer/mockery/mockery-1.6.7
+- Merge pull request [#75](https://github.com/guanguans/monorepo-builder-worker/issues/75) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.2
+- Merge pull request [#73](https://github.com/guanguans/monorepo-builder-worker/issues/73) from guanguans/dependabot/composer/guzzlehttp/guzzle-7.8.1
+- Merge pull request [#72](https://github.com/guanguans/monorepo-builder-worker/issues/72) from guanguans/dependabot/composer/php-mock/php-mock-phpunit-2.9.0
+- Merge pull request [#71](https://github.com/guanguans/monorepo-builder-worker/issues/71) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.1
+- Merge pull request [#70](https://github.com/guanguans/monorepo-builder-worker/issues/70) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.0
+
+
 <a name="1.8.6"></a>
 ## [1.8.6] - 2023-11-16
 
@@ -519,7 +535,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.8.6...HEAD
+[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.9.0...HEAD
+[1.9.0]: https://github.com/guanguans/monorepo-builder-worker/compare/1.8.6...1.9.0
 [1.8.6]: https://github.com/guanguans/monorepo-builder-worker/compare/1.8.5...1.8.6
 [1.8.5]: https://github.com/guanguans/monorepo-builder-worker/compare/1.8.4...1.8.5
 [1.8.4]: https://github.com/guanguans/monorepo-builder-worker/compare/1.8.3...1.8.4
