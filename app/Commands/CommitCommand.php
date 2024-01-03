@@ -99,14 +99,15 @@ final class CommitCommand extends Command
             );
         }, 'generating...'.PHP_EOL);
 
-        $this->task(str_repeat(PHP_EOL, 2).'2. Confirming commit message', function () use (&$message): void {
+        $this->task(PHP_EOL.'2. Confirming commit message', function () use (&$message): void {
             $message = collect(json_decode($message, true, 512, JSON_THROW_ON_ERROR))
                 ->pipe(static function (Collection $message): Collection {
                     if (\is_array($message['body'])) {
                         $message['body'] = collect($message['body'])
                             ->transform(static function (string $line): string {
                                 return Str::start(trim($line, " \t\n\r\x0B"), '- ');
-                            })->implode(PHP_EOL);
+                            })
+                            ->implode(PHP_EOL);
                     }
 
                     return $message;
@@ -125,10 +126,10 @@ final class CommitCommand extends Command
                 });
         }, 'confirming...'.PHP_EOL);
 
-        $this->task(str_repeat(PHP_EOL, 2).'3. Committing message', function () use ($message): void {
+        $this->task(PHP_EOL.'3. Committing message', function () use ($message): void {
             tap($this->createProcess($this->getCommitCommand($message)), function (Process $process): void {
                 $this->shouldEdit() and $process->setTty(true);
-            })->setTimeout(null)->run();
+            })->setTimeout(null)->mustRun();
         }, 'committing...'.PHP_EOL);
 
         $this->output->success('Successfully generated and committed message.');
