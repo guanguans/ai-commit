@@ -8,6 +8,19 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.9.2"></a>
+## [1.9.2] - 2024-01-03
+### Feat
+- **commands:** add new line before and after commit tasks
+
+### Fix
+- **CommitCommand:** add newLine(3) before and after confirming commit message
+- **commands:** Automagically generate conventional commit message with AI
+
+### Refactor
+- **CommitCommand:** Refactor CommitCommand class
+
+
 <a name="1.9.1"></a>
 ## [1.9.1] - 2024-01-02
 ### Pull Requests
@@ -543,7 +556,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.9.1...HEAD
+[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.9.2...HEAD
+[1.9.2]: https://github.com/guanguans/monorepo-builder-worker/compare/1.9.1...1.9.2
 [1.9.1]: https://github.com/guanguans/monorepo-builder-worker/compare/1.9.0...1.9.1
 [1.9.0]: https://github.com/guanguans/monorepo-builder-worker/compare/1.8.6...1.9.0
 [1.8.6]: https://github.com/guanguans/monorepo-builder-worker/compare/1.8.5...1.8.6
