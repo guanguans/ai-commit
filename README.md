@@ -3,11 +3,9 @@
 <!-- https://looka.com -->
 <p align="center"><img src="art/logo.png" alt="logo" style="width: 62%; height: 62%;"></p>
 
-![](docs/ai-commit.gif)
-
 [简体中文](README-zh_CN.md) | [ENGLISH](README.md)
 
-> Automagically generate conventional git commit messages with AI. - 使用 AI 自动生成约定式 git 提交信息。
+> Automagically generate conventional git commit message with AI. - 使用 AI 自动生成约定式 git 提交信息。
 
 [![tests](https://github.com/guanguans/ai-commit/workflows/tests/badge.svg)](https://github.com/guanguans/ai-commit/actions)
 [![check & fix styling](https://github.com/guanguans/ai-commit/actions/workflows/php-cs-fixer.yml/badge.svg)](https://github.com/guanguans/ai-commit/actions)
@@ -115,7 +113,7 @@ composer require guanguans/ai-commit --dev -v # local
 
   USAGE: ai-commit <command> [options] [arguments]
 
-  commit      Automagically generate conventional commit messages with AI.
+  commit      Automagically generate conventional commit message with AI.
   completion  Dump the shell completion script
   config      Manage config options.
   self-update Allows to self-update a build application
@@ -153,7 +151,7 @@ Checking for a new version...
 ```shell
 ╰─ ./ai-commit commit --help                                                                                                               ─╯
 Description:
-  Automagically generate conventional commit messages with AI.
+  Automagically generate conventional commit message with AI.
 
 Usage:
   commit [options] [--] [<path>]
@@ -165,7 +163,7 @@ Options:
       --commit-options[=COMMIT-OPTIONS]  Append options for the `git commit` command [default: ["--edit"]] (multiple values allowed)
       --diff-options[=DIFF-OPTIONS]      Append options for the `git diff` command [default: [":!*.lock",":!*.sum"]] (multiple values allowed)
   -g, --generator=GENERATOR              Specify generator name [default: "openai_chat"]
-  -p, --prompt=PROMPT                    Specify prompt name of messages generated [default: "conventional"]
+  -p, --prompt=PROMPT                    Specify prompt name of message generated [default: "conventional"]
       --no-edit                          Enable or disable git commit `--no-edit` option
       --no-verify                        Enable or disable git commit `--no-verify` option
   -c, --config[=CONFIG]                  Specify config file
