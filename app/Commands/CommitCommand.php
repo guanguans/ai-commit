@@ -128,7 +128,7 @@ final class CommitCommand extends Command
         $this->task(str_repeat(PHP_EOL, 2).'3. Committing message', function () use ($message): void {
             tap($this->createProcess($this->getCommitCommand($message)), function (Process $process): void {
                 $this->shouldEdit() and $process->setTty(true);
-            })->setTimeout(null)->mustRun();
+            })->setTimeout(null)->run();
         }, 'committing...'.PHP_EOL);
 
         $this->output->success('Successfully generated and committed message.');
