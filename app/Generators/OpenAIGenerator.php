@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\Generators;
 
 use App\Contracts\GeneratorContract;
+use App\Support\FoundationSDK;
 use App\Support\OpenAI;
 use Illuminate\Console\OutputStyle;
 use Illuminate\Support\Arr;
@@ -92,15 +93,12 @@ class OpenAIGenerator implements GeneratorContract
     protected function buildWriter(?string &$messages): \Closure
     {
         return function (string $data) use (&$messages): void {
-            // 流响应完成
-            if (str($data)->startsWith('[DONE]')) {
-                return;
-            }
-
-            // (正常|错误|流)响应
-            $rowResponse = (array) json_decode($data, true);
-            $messages .= $text = $this->getCompletionMessages($rowResponse);
-            $this->outputStyle->write($text);
+            str($data)->explode(PHP_EOL)->each(function (string $rowData) use (&$messages): void {
+                // (正常|错误|流)响应
+                $rowResponse = (array) json_decode(FoundationSDK::sanitizeData($rowData), true);
+                $messages .= $text = $this->getCompletionMessages($rowResponse);
+                $this->outputStyle->write($text);
+            });
         };
     }
 }

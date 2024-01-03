@@ -60,7 +60,7 @@ abstract class FoundationSDK
         return (string) str($data)->whenStartsWith(
             $prefix = 'data: ',
             static function (Stringable $data) use ($prefix): Stringable {
-                return $data->replaceFirst($prefix, '');
+                return $data->after($prefix);
             }
         );
     }
