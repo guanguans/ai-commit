@@ -18,7 +18,6 @@ use App\GeneratorManager;
 use App\Support\JsonFixer;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
 use LaravelZero\Framework\Commands\Command;
 use Symfony\Component\Console\Completion\CompletionInput;
@@ -101,16 +100,16 @@ final class CommitCommand extends Command
 
         $this->task(PHP_EOL.'2. Confirming commit message', function () use (&$message): void {
             $message = collect(json_decode($message, true, 512, JSON_THROW_ON_ERROR))
-                ->pipe(static function (Collection $message): Collection {
-                    if (\is_array($message['body'])) {
-                        $message['body'] = collect($message['body'])
+                ->map(static function ($content) {
+                    if (\is_array($content)) {
+                        return collect($content)
                             ->transform(static function (string $line): string {
-                                return Str::start(trim($line, " \t\n\r\x0B"), '- ');
+                                return (string) str($line)->trim(" \t\n\r\x0B")->start('- ');
                             })
                             ->implode(PHP_EOL);
                     }
 
-                    return $message;
+                    return $content;
                 })
                 ->tap(function (Collection $message): void {
                     $this->table(
