@@ -52,18 +52,17 @@ Require php
 
 Set Framerate 120
 Set FontSize 18
-Set Width 1550
-Set Height 958
-Set TypingSpeed 50ms
-Set PlaybackSpeed 0.1
+Set Width 1200
+Set Height 742
+Set TypingSpeed 10ms
+Set PlaybackSpeed 0.2
 
-Type "git status" Sleep 50ms
-Enter 1 Sleep 1s
-Type "./ai-commit commit --generator=bito_cli --no-edit --no-verify --ansi" Sleep 1s
-Enter 1 Sleep 15s
-Down@2s 3 Sleep 1s
-Enter 1 Sleep 1s
-Type "git status" Sleep 50ms
-Enter 1 Sleep 1s
-Type "git log -1" Sleep 50ms
-Enter 1 Sleep 3s
+Type "git status" Sleep 500ms
+Enter@500ms Sleep 500ms
+Type "./ai-commit commit --generator=openai_chat --no-edit --no-verify --ansi" Sleep 500ms
+Enter@500ms Sleep 5s
+Enter@500ms Sleep 500ms
+Type "git status" Sleep 500ms
+Enter@500ms Sleep 500ms
+Type "git log -1" Sleep 500ms
+Enter@500ms Sleep 2s

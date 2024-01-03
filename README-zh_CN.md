@@ -59,57 +59,38 @@ composer require guanguans/ai-commit --dev -v # 本地
 ```
 
 ```shell
-╰─ ./ai-commit commit --generator=bito_cli --no-edit --no-verify --ansi                                                                                             ─╯
-1. Generating commit messages: generating...
-[
-    {
-        "id": 1,
-        "subject": "chore(ai-commit): update dimensions and typing speed",
-        "body": "- Set Width to 1550\n- Set Height to 958\n- Set TypingSpeed to 50ms"
-    },
-    {
-        "id": 2,
-        "subject": "fix(ai-commit): adjust sleep times and navigation",
-        "body": "- Type \"git status\" with 50ms sleep\n- Enter 1 with 15s sleep\n- Down@2s 3 with 1s sleep"
-    },
-    {
-        "id": 3,
-        "subject": "docs(ai-commit): update ai-commit-vhs.gif",
-        "body": "Binary files a/docs/ai-commit-vhs.gif and b/docs/ai-commit-vhs.gif differ"
-    }
-]
+╰─ ./ai-commit commit --generator=openai_chat --no-edit --no-verify --ansi                                           ─╯
+1. Generating commit message: generating...
+{
+    "subject": "chore(ai-commit): update settings and commands",
+    "body": "- Set Width to 1200\n- Set Height to 742\n- Set TypingSpeed to 10ms\n- Set PlaybackSpeed to 0.2\n- Update git commands and sleep times"
+}
+1. Generating commit message: ✔
+
+2. Confirming commit message: confirming...
++------------------------------------------------+---------------------------------------+
+| subject                                        | body                                  |
++------------------------------------------------+---------------------------------------+
+| chore(ai-commit): update settings and commands | - Set Width to 1200                   |
+|                                                | - Set Height to 742                   |
+|                                                | - Set TypingSpeed to 10ms             |
+|                                                | - Set PlaybackSpeed to 0.2            |
+|                                                | - Update git commands and sleep times |
++------------------------------------------------+---------------------------------------+
+
+ Do you want to commit this message? (yes/no) [yes]:
+ > 
 
 
-1. Generating commit messages: ✔
-2. Choosing commit message: choosing...
+2. Confirming commit message: ✔
 
-+----+------------------------------------------------------+---------------------------------------------------------------------------+
-| id | subject                                              | body                                                                      |
-+----+------------------------------------------------------+---------------------------------------------------------------------------+
-| 1  | chore(ai-commit): update dimensions and typing speed | - Set Width to 1550                                                       |
-|    |                                                      | - Set Height to 958                                                       |
-|    |                                                      | - Set TypingSpeed to 50ms                                                 |
-+----+------------------------------------------------------+---------------------------------------------------------------------------+
-| 2  | fix(ai-commit): adjust sleep times and navigation    | - Type "git status" with 50ms sleep                                       |
-|    |                                                      | - Enter 1 with 15s sleep                                                  |
-|    |                                                      | - Down@2s 3 with 1s sleep                                                 |
-+----+------------------------------------------------------+---------------------------------------------------------------------------+
-| 3  | docs(ai-commit): update ai-commit-vhs.gif            | Binary files a/docs/ai-commit-vhs.gif and b/docs/ai-commit-vhs.gif differ |
-+----+------------------------------------------------------+---------------------------------------------------------------------------+
+3. Committing message: committing...
 
- Please choice a commit message [chore(ai-commit): update dimensions and typing speed]:
-  [1] chore(ai-commit): update dimensions and typing speed
-  [2] fix(ai-commit): adjust sleep times and navigation
-  [3] docs(ai-commit): update ai-commit-vhs.gif
-  [4] regenerate
- > chore(ai-commit): update dimensions and typing speed
-
-2. Choosing commit message: ✔
 3. Committing message: ✔
 
                                                                                                                         
- [OK] Successfully generated and committed messages.                                                                    
-                                                                                                                                                                      
+ [OK] Successfully generated and committed message.                                                                     
+                                                                                                                                                                                                                                                                                        
 ```
 
 ![](docs/ai-commit-vhs.gif)
