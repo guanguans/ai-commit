@@ -8,6 +8,9 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.9.4"></a>
+## [1.9.4] - 2024-01-03
+
 <a name="1.9.3"></a>
 ## [1.9.3] - 2024-01-03
 ### Fix
@@ -569,7 +572,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.9.3...HEAD
+[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.9.4...HEAD
+[1.9.4]: https://github.com/guanguans/monorepo-builder-worker/compare/1.9.3...1.9.4
 [1.9.3]: https://github.com/guanguans/monorepo-builder-worker/compare/1.9.2...1.9.3
 [1.9.2]: https://github.com/guanguans/monorepo-builder-worker/compare/1.9.1...1.9.2
 [1.9.1]: https://github.com/guanguans/monorepo-builder-worker/compare/1.9.0...1.9.1
