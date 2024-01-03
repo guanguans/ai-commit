@@ -264,7 +264,7 @@ final class OpenAI extends FoundationSDK
             //         $contents = $response->getBody()->getContents();
             //
             //         // $parameters['stream'] === true && $writer === null
-            //         if ($contents && ! \str($contents)->isJson()) {
+            //         if ($contents && ! \str($contents)->jsonValidate()) {
             //             $data = \str($contents)
             //                 ->explode("\n\n")
             //                 ->reverse()

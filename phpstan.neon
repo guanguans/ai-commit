@@ -31,5 +31,5 @@ parameters:
 #        noVariableVariables: false
     ignoreErrors:
         - "#^Call to an undefined method #"
-        - "#^Call to an undefined static method Illuminate\\\\Support\\\\Str\\:\\:isJson\\(\\)\\.$#"
+        - "#^Call to an undefined static method Illuminate\\\\Support\\\\Str\\:\\:jsonValidate\\(\\)\\.$#"
         - "#^Undefined variable\\: \\$this$#"

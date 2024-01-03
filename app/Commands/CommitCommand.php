@@ -84,7 +84,7 @@ final class CommitCommand extends Command
                         ->driver($this->option('generator'))
                         ->generate($this->getPrompt($cachedDiff));
                     $message = $this->tryFixMessage($originalMessage);
-                    if (! str($message)->isJson()) {
+                    if (! str($message)->jsonValidate()) {
                         throw new TaskException(sprintf(
                             'The generated commit message(%s) is an invalid JSON.',
                             var_export($originalMessage, true)

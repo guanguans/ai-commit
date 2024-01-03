@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Illuminate\Support {
     /**
-     * @method static bool isJson($value)
+     * @method static bool jsonValidate(string $json, int $depth = 512, int $flags = 0)
      *
      * @mixin \Illuminate\Support\Str
      */
@@ -21,7 +21,7 @@ namespace Illuminate\Support {
     }
 
     /**
-     * @method bool isJson()
+     * @method bool jsonValidate(int $depth = 512, int $flags = 0)
      *
      * @mixin \Illuminate\Support\Stringable
      */

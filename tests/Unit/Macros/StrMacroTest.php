@@ -13,5 +13,5 @@ declare(strict_types=1);
 use Illuminate\Support\Str;
 
 it('will return false', function (): void {
-    expect(Str::isJson(null))->toBeFalse();
+    expect(Str::jsonValidate(''))->toBeFalse();
 })->group(__DIR__, __FILE__);

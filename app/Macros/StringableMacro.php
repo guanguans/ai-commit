@@ -22,10 +22,10 @@ final class StringableMacro
     /**
      * @psalm-suppress InaccessibleProperty
      */
-    public function isJson(): \Closure
+    public function jsonValidate(): \Closure
     {
-        return function (): bool {
-            return Str::isJson($this->value);
+        return function (int $depth = 512, int $flags = 0): bool {
+            return Str::jsonValidate($this->value, $depth, $flags);
         };
     }
 }
