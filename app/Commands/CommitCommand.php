@@ -66,6 +66,8 @@ final class CommitCommand extends Command
     public function handle(): int
     {
         $this->task('1. Generating commit message', function () use (&$message): void {
+            $this->newLine();
+
             // Ensure git is installed and the current directory is a git repository.
             $this->createProcess(['git', 'rev-parse', '--is-inside-work-tree'])->mustRun();
 
@@ -74,7 +76,6 @@ final class CommitCommand extends Command
                 throw new TaskException('There are no cached files to commit. Try running `git add` to cache some files.');
             }
 
-            $this->newLine();
             $message = retry(
                 $this->option('retry-times'),
                 function ($attempts) use ($cachedDiff): string {
@@ -98,10 +99,11 @@ final class CommitCommand extends Command
                 $this->option('retry-sleep'),
                 $this->configManager->get('retry.when')
             );
-            $this->newLine();
         }, 'generating...');
 
         $this->task('2. Confirming commit message', function () use (&$message): void {
+            $this->newLine();
+
             $message = collect(json_decode($message, true, 512, JSON_THROW_ON_ERROR))
                 ->pipe(static function (Collection $message): Collection {
                     if (\is_array($message['body'])) {
@@ -114,7 +116,6 @@ final class CommitCommand extends Command
                     return $message;
                 })
                 ->tap(function (Collection $message): void {
-                    $this->newLine(2);
                     $this->table(
                         $message->keys()->all(),
                         [$message->all()]
@@ -129,6 +130,7 @@ final class CommitCommand extends Command
         }, 'confirming...');
 
         $this->task('3. Committing message', function () use ($message): void {
+            $this->newLine();
             tap($this->createProcess($this->getCommitCommand($message)), function (Process $process): void {
                 $this->shouldEdit() and $process->setTty(true);
             })->setTimeout(null)->mustRun();
