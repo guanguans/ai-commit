@@ -39,7 +39,7 @@ final class CommitCommand extends Command
     /**
      * @var string
      */
-    protected $description = 'Automagically generate conventional commit messages with AI.';
+    protected $description = 'Automagically generate conventional commit message with AI.';
 
     /**
      * @var \App\ConfigManager
@@ -65,7 +65,7 @@ final class CommitCommand extends Command
      */
     public function handle(): int
     {
-        $this->task('1. Generating commit messages', function () use (&$messages): void {
+        $this->task('1. Generating commit message', function () use (&$message): void {
             // Ensure git is installed and the current directory is a git repository.
             $this->createProcess(['git', 'rev-parse', '--is-inside-work-tree'])->mustRun();
 
@@ -75,25 +75,25 @@ final class CommitCommand extends Command
             }
 
             $this->newLine();
-            $messages = retry(
+            $message = retry(
                 $this->option('retry-times'),
                 function ($attempts) use ($cachedDiff): string {
                     if ($attempts > 1) {
                         $this->output->note('retrying...');
                     }
 
-                    $originalMessages = $this->generatorManager
+                    $originalMessage = $this->generatorManager
                         ->driver($this->option('generator'))
                         ->generate($this->getPrompt($cachedDiff));
-                    $messages = $this->tryFixMessages($originalMessages);
-                    if (! str($messages)->isJson()) {
+                    $message = $this->tryFixMessage($originalMessage);
+                    if (! str($message)->isJson()) {
                         throw new TaskException(sprintf(
-                            'The generated commit messages(%s) is an invalid JSON.',
-                            var_export($originalMessages, true)
+                            'The generated commit message(%s) is an invalid JSON.',
+                            var_export($originalMessage, true)
                         ));
                     }
 
-                    return $messages;
+                    return $message;
                 },
                 $this->option('retry-sleep'),
                 $this->configManager->get('retry.when')
@@ -101,8 +101,8 @@ final class CommitCommand extends Command
             $this->newLine();
         }, 'generating...');
 
-        $this->task('2. Choosing commit message', function () use (&$message, $messages): void {
-            $message = collect(json_decode($messages, true, 512, JSON_THROW_ON_ERROR))
+        $this->task('2. Confirming commit message', function () use (&$message): void {
+            $message = collect(json_decode($message, true, 512, JSON_THROW_ON_ERROR))
                 ->pipe(static function (Collection $message): Collection {
                     if (\is_array($message['body'])) {
                         $message['body'] = collect($message['body'])
@@ -113,22 +113,20 @@ final class CommitCommand extends Command
 
                     return $message;
                 })
-                ->tap(function (Collection $messages): void {
+                ->tap(function (Collection $message): void {
                     $this->newLine(2);
                     $this->table(
-                        $messages->keys()->all(),
-                        [$messages->all()]
+                        $message->keys()->all(),
+                        [$message->all()]
                     );
                 })
-                ->pipe(function (Collection $messages) {
+                ->tap(function (): void {
                     if (! $this->confirm('Do you want to commit this message?', true)) {
                         $this->output->note('regenerating...');
                         $this->handle();
                     }
-
-                    return $messages;
                 });
-        }, 'choosing...');
+        }, 'confirming...');
 
         $this->task('3. Committing message', function () use ($message): void {
             tap($this->createProcess($this->getCommitCommand($message)), function (Process $process): void {
@@ -136,7 +134,7 @@ final class CommitCommand extends Command
             })->setTimeout(null)->mustRun();
         }, 'committing...');
 
-        $this->output->success('Successfully generated and committed messages.');
+        $this->output->success('Successfully generated and committed message.');
 
         return self::SUCCESS;
     }
@@ -195,7 +193,7 @@ final class CommitCommand extends Command
                 'prompt',
                 'p',
                 InputOption::VALUE_REQUIRED,
-                'Specify prompt name of messages generated',
+                'Specify prompt name of message generated',
                 $this->configManager->get('prompt')
             ),
             new InputOption(
@@ -298,22 +296,20 @@ final class CommitCommand extends Command
             });
     }
 
-    private function tryFixMessages(string $messages): string
+    private function tryFixMessage(string $message): string
     {
         return (new JsonFixer())
             // ->missingValue('')
             ->silent()
-            ->fix(substr($messages, (int) strpos($messages, '[')));
+            ->fix(substr($message, (int) strpos($message, '[')));
     }
 
     /**
      * @psalm-suppress RedundantCondition
      *
      * @noinspection CallableParameterUseCaseInTypeContextInspection
-     *
-     * @param mixed $message
      */
-    private function getCommitCommand($message): array
+    private function getCommitCommand(Collection $message): array
     {
         $options = collect($this->option('commit-options'))
             ->when($this->shouldntEdit(), static function (Collection $collection): Collection {
@@ -324,12 +320,12 @@ final class CommitCommand extends Command
             })
             ->all();
 
-        $message = collect($message)
-            ->filter(static function ($val): bool {
-                return $val && ! is_numeric($val);
-            })
+        $message = $message
             ->map(static function (string $val): string {
                 return trim($val, " \t\n\r\x0B");
+            })
+            ->filter(static function ($val) {
+                return $val;
             })
             ->implode(str_repeat(PHP_EOL, 2));
 
