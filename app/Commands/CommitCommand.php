@@ -65,6 +65,7 @@ final class CommitCommand extends Command
      */
     public function handle(): int
     {
+        $this->newLine();
         $this->task('1. Generating commit message', function () use (&$message): void {
             $this->newLine();
 
@@ -101,6 +102,7 @@ final class CommitCommand extends Command
             );
         }, 'generating...');
 
+        $this->newLine();
         $this->task('2. Confirming commit message', function () use (&$message): void {
             $this->newLine();
 
@@ -129,6 +131,7 @@ final class CommitCommand extends Command
                 });
         }, 'confirming...');
 
+        $this->newLine();
         $this->task('3. Committing message', function () use ($message): void {
             $this->newLine();
             tap($this->createProcess($this->getCommitCommand($message)), function (Process $process): void {
