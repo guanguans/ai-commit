@@ -20,6 +20,8 @@ final class StrMacro
     /**
      * @psalm-suppress UnusedFunctionCall
      * @noinspection BadExceptionsProcessingInspection
+     *
+     * @see https://github.com/symfony/polyfill-php83
      */
     public static function jsonValidate(): \Closure
     {
