@@ -13,10 +13,8 @@ declare(strict_types=1);
 use App\Commands\CommitCommand;
 use App\Exceptions\TaskException;
 use GuzzleHttp\Promise\PromiseInterface;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
-use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
@@ -49,7 +47,7 @@ it('will throw TaskException(no cached files to commit)', function (): void {
     ->group(__DIR__, __FILE__)
     ->throws(TaskException::class, 'There are no cached files to commit. Try running `git add` to cache some files.');
 
-it('will throw TaskException(The generated commit messages is an invalid JSON)', function (): void {
+it('will throw TaskException(The generated commit message is an invalid JSON)', function (): void {
     // 添加文件到暂存区
     file_put_contents(repository_path('playground.random'), Str::random());
     Process::fromShellCommandline('git rm -rf --cached repository/', fixtures_path())->mustRun();
@@ -84,30 +82,17 @@ it('will throw TaskException(The generated commit messages is an invalid JSON)',
 })
     ->depends('it will throw TaskException(no cached files to commit)')
     ->group(__DIR__, __FILE__)
-    ->throws(TaskException::class, 'The generated commit messages(');
+    ->throws(TaskException::class, 'The generated commit message(');
 
-it('can generate and commit messages', function (): void {
+it('can generate and commit message', function (): void {
     // 设置 git 信息
     Process::fromShellCommandline('git config user.email yaozm', repository_path())->mustRun();
     Process::fromShellCommandline('git config user.name ityaozm@gmail.com', repository_path())->mustRun();
     setup_http_fake();
 
-    $messages = collect([
-        [
-            'id' => 1,
-            'subject' => 'Fix(OpenAIGenerator): Debugging output',
-            'body' => '- Add var_dump() for debugging output- Add var_dump() for stream response',
-        ],
-        [
-            'id' => 2,
-            'subject' => 'Refactor(OpenAIGenerator): Error handling',
-            'body' => '- Check for error response in JSON- Handle error response',
-        ],
-        [
-            'id' => 3,
-            'subject' => 'Docs(OpenAIGenerator): Update documentation',
-            'body' => '- Update documentation for OpenAIGenerator class',
-        ],
+    $message = collect([
+        'subject' => 'Fix(OpenAIGenerator): Debugging output',
+        'body' => '- Add var_dump() for debugging output- Add var_dump() for stream response',
     ]);
 
     $this
@@ -119,20 +104,15 @@ it('can generate and commit messages', function (): void {
             '--verbose' => true,
         ])
         ->expectsTable(
-            array_keys($messages->first()),
-            $messages->chunk(1)
-                ->transform(function (Collection $messages) {
-                    return $messages->prepend(new TableSeparator());
-                })
-                ->flatten(1)
-                ->skip(1)
+            $message->keys()->all(),
+            [$message->all()]
         )
-        // ->expectsChoice('Please choice a commit message', $messages->pluck('subject', 'id')->first(), $messages->pluck('subject', 'id')->all())
+        // ->expectsChoice('Please choice a commit message', $message->pluck('subject', 'id')->first(), $message->pluck('subject', 'id')->all())
         // ->expectsQuestion('Please choice a commit message', '<comment>regenerating...</comment>')
-        ->expectsQuestion('Please choice a commit message', $messages->pluck('subject', 'id')->first())
+        ->expectsConfirmation('Do you want to commit this message?', 'yes')
         ->assertSuccessful();
 })
-    ->depends('it will throw TaskException(The generated commit messages is an invalid JSON)')
+    ->depends('it will throw TaskException(The generated commit message is an invalid JSON)')
     ->group(__DIR__, __FILE__);
 
 afterAll(static function (): void {
