@@ -23,7 +23,6 @@ use Illuminate\Support\Stringable;
 use LaravelZero\Framework\Commands\Command;
 use Symfony\Component\Console\Completion\CompletionInput;
 use Symfony\Component\Console\Completion\CompletionSuggestions;
-use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -104,7 +103,7 @@ final class CommitCommand extends Command
 
         $this->task('2. Choosing commit message', function () use (&$message, $messages): void {
             $message = collect(json_decode($messages, true, 512, JSON_THROW_ON_ERROR))
-                ->transform(static function (array $message): array {
+                ->pipe(static function (Collection $message): Collection {
                     if (\is_array($message['body'])) {
                         $message['body'] = collect($message['body'])
                             ->transform(static function (string $line): string {
@@ -117,28 +116,17 @@ final class CommitCommand extends Command
                 ->tap(function (Collection $messages): void {
                     $this->newLine(2);
                     $this->table(
-                        array_keys($messages->first()),
-                        $messages->chunk(1)
-                            ->transform(static function (Collection $messages): Collection {
-                                return $messages->prepend(new TableSeparator());
-                            })
-                            ->flatten(1)
-                            ->skip(1)
+                        $messages->keys()->all(),
+                        [$messages->all()]
                     );
                 })
                 ->pipe(function (Collection $messages) {
-                    $subject = $this->choice(
-                        'Please choice a commit message',
-                        $messages->pluck('subject', 'id')->add($regeneratePhrase = '<comment>regenerate</comment>')->all(),
-                        '1'
-                    );
-
-                    if ($subject === $regeneratePhrase) {
+                    if (! $this->confirm('Do you want to commit this message?', true)) {
                         $this->output->note('regenerating...');
                         $this->handle();
                     }
 
-                    return $messages->firstWhere('subject', $subject) ?? [];
+                    return $messages;
                 });
         }, 'choosing...');
 
@@ -182,15 +170,61 @@ final class CommitCommand extends Command
     {
         $this->setDefinition([
             new InputArgument('path', InputArgument::OPTIONAL, 'The working directory', ConfigManager::localPath('')),
-            new InputOption('commit-options', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git commit` command', $this->configManager->get('commit_options', [])),
-            new InputOption('diff-options', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Append options for the `git diff` command', $this->configManager->get('diff_options', [])),
-            new InputOption('generator', 'g', InputOption::VALUE_REQUIRED, 'Specify generator name', $this->configManager->get('generator')),
-            new InputOption('prompt', 'p', InputOption::VALUE_REQUIRED, 'Specify prompt name of messages generated', $this->configManager->get('prompt')),
-            new InputOption('no-edit', null, InputOption::VALUE_NONE, 'Enable or disable git commit `--no-edit` option'),
-            new InputOption('no-verify', null, InputOption::VALUE_NONE, 'Enable or disable git commit `--no-verify` option'),
+            new InputOption(
+                'commit-options',
+                null,
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+                'Append options for the `git commit` command',
+                $this->configManager->get('commit_options', [])
+            ),
+            new InputOption(
+                'diff-options',
+                null,
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+                'Append options for the `git diff` command',
+                $this->configManager->get('diff_options', [])
+            ),
+            new InputOption(
+                'generator',
+                'g',
+                InputOption::VALUE_REQUIRED,
+                'Specify generator name',
+                $this->configManager->get('generator')
+            ),
+            new InputOption(
+                'prompt',
+                'p',
+                InputOption::VALUE_REQUIRED,
+                'Specify prompt name of messages generated',
+                $this->configManager->get('prompt')
+            ),
+            new InputOption(
+                'no-edit',
+                null,
+                InputOption::VALUE_NONE,
+                'Enable or disable git commit `--no-edit` option'
+            ),
+            new InputOption(
+                'no-verify',
+                null,
+                InputOption::VALUE_NONE,
+                'Enable or disable git commit `--no-verify` option'
+            ),
             new InputOption('config', 'c', InputOption::VALUE_OPTIONAL, 'Specify config file'),
-            new InputOption('retry-times', null, InputOption::VALUE_REQUIRED, 'Specify times of retry', $this->configManager->get('retry.times', 3)),
-            new InputOption('retry-sleep', null, InputOption::VALUE_REQUIRED, 'Specify sleep milliseconds of retry', $this->configManager->get('retry.sleep', 500)),
+            new InputOption(
+                'retry-times',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Specify times of retry',
+                $this->configManager->get('retry.times', 3)
+            ),
+            new InputOption(
+                'retry-sleep',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Specify sleep milliseconds of retry',
+                $this->configManager->get('retry.sleep', 500)
+            ),
         ]);
     }
 
@@ -230,8 +264,13 @@ final class CommitCommand extends Command
      *
      * @noinspection CallableParameterUseCaseInTypeContextInspection
      */
-    private function createProcess(array $command, ?string $cwd = null, ?array $env = null, $input = null, ?float $timeout = 60): Process
-    {
+    private function createProcess(
+        array $command,
+        ?string $cwd = null,
+        ?array $env = null,
+        $input = null,
+        ?float $timeout = 60
+    ): Process {
         if (null === $cwd) {
             $cwd = $this->argument('path');
         }
@@ -271,8 +310,10 @@ final class CommitCommand extends Command
      * @psalm-suppress RedundantCondition
      *
      * @noinspection CallableParameterUseCaseInTypeContextInspection
+     *
+     * @param mixed $message
      */
-    private function getCommitCommand(array $message): array
+    private function getCommitCommand($message): array
     {
         $options = collect($this->option('commit-options'))
             ->when($this->shouldntEdit(), static function (Collection $collection): Collection {

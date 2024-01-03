@@ -167,19 +167,10 @@ return [
             - Use a hyphen (-) for the bullet points in the body of the message.
             Write 1 commit messages that accurately summarizes the changes made in the given `git diff` output, following the best practices listed above and the conventional commit format.
             Please provide a response in the form of a valid JSON object and do not include "Output:", "Response:" or anything similar to those two before it, in the following format:
-            [
-                {
-                    "id": 1,
-                    "subject": "<type>(<scope>): <subject>",
-                    "body": "<BODY (bullet points)>"
-                },
-                ...
-                {
-                    "id": n,
-                    "subject": "<type>(<scope>): <subject>",
-                    "body": "<BODY (bullet points)>"
-                }
-            ]
+            {
+                "subject": "<type>(<scope>): <subject>",
+                "body": "<BODY (bullet points)>"
+            }
 
             Here is the output of the `git diff`:
             <diff>
