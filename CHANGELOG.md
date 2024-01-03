@@ -8,6 +8,19 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.9.3"></a>
+## [1.9.3] - 2024-01-03
+### Fix
+- **Commands:** Fix issue in CommitCommand
+- **commands:** Fix formatting issue in CommitCommand
+
+### Refactor
+- **CommitCommand:** refactor commit message generation and confirmation
+- **OpenAIGenerator:** Improve data handling
+- **commands:** update commit message generation
+- **commit:** refactor CommitCommand.php
+
+
 <a name="1.9.2"></a>
 ## [1.9.2] - 2024-01-03
 ### Feat
@@ -556,7 +569,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.9.2...HEAD
+[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.9.3...HEAD
+[1.9.3]: https://github.com/guanguans/monorepo-builder-worker/compare/1.9.2...1.9.3
 [1.9.2]: https://github.com/guanguans/monorepo-builder-worker/compare/1.9.1...1.9.2
 [1.9.1]: https://github.com/guanguans/monorepo-builder-worker/compare/1.9.0...1.9.1
 [1.9.0]: https://github.com/guanguans/monorepo-builder-worker/compare/1.8.6...1.9.0
