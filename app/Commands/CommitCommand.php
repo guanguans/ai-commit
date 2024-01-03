@@ -65,7 +65,7 @@ final class CommitCommand extends Command
      */
     public function handle(): int
     {
-        $this->task(str_repeat(PHP_EOL, 1).'1. Generating commit message', function () use (&$message): void {
+        $this->task('1. Generating commit message', function () use (&$message): void {
             // Ensure git is installed and the current directory is a git repository.
             $this->createProcess(['git', 'rev-parse', '--is-inside-work-tree'])->mustRun();
 
