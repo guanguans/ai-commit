@@ -65,10 +65,7 @@ final class CommitCommand extends Command
      */
     public function handle(): int
     {
-        $this->newLine();
-        $this->task('1. Generating commit message', function () use (&$message): void {
-            $this->newLine();
-
+        $this->task(str_repeat(PHP_EOL, 1).'1. Generating commit message', function () use (&$message): void {
             // Ensure git is installed and the current directory is a git repository.
             $this->createProcess(['git', 'rev-parse', '--is-inside-work-tree'])->mustRun();
 
@@ -100,12 +97,9 @@ final class CommitCommand extends Command
                 $this->option('retry-sleep'),
                 $this->configManager->get('retry.when')
             );
-        }, 'generating...');
+        }, 'generating...'.PHP_EOL);
 
-        $this->newLine(2);
-        $this->task('2. Confirming commit message', function () use (&$message): void {
-            $this->newLine();
-
+        $this->task(str_repeat(PHP_EOL, 2).'2. Confirming commit message', function () use (&$message): void {
             $message = collect(json_decode($message, true, 512, JSON_THROW_ON_ERROR))
                 ->pipe(static function (Collection $message): Collection {
                     if (\is_array($message['body'])) {
@@ -129,15 +123,13 @@ final class CommitCommand extends Command
                         $this->handle();
                     }
                 });
-        }, 'confirming...');
+        }, 'confirming...'.PHP_EOL);
 
-        $this->newLine(2);
-        $this->task('3. Committing message', function () use ($message): void {
-            $this->newLine();
+        $this->task(str_repeat(PHP_EOL, 2).'3. Committing message', function () use ($message): void {
             tap($this->createProcess($this->getCommitCommand($message)), function (Process $process): void {
                 $this->shouldEdit() and $process->setTty(true);
             })->setTimeout(null)->mustRun();
-        }, 'committing...');
+        }, 'committing...'.PHP_EOL);
 
         $this->output->success('Successfully generated and committed message.');
 
