@@ -25,6 +25,12 @@ use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
 require __DIR__.'/vendor/autoload.php';
+require __DIR__.'/vendor-bin/composer-unused/vendor/autoload.php';
+require __DIR__.'/vendor-bin/monorepo-builder-worker/vendor/autoload.php';
+require __DIR__.'/vendor-bin/php-cs-fixer/vendor/autoload.php';
+require __DIR__.'/vendor-bin/phpstan/vendor/autoload.php';
+require __DIR__.'/vendor-bin/psalm/vendor/autoload.php';
+require __DIR__.'/vendor-bin/rector/vendor/autoload.php';
 
 /** @noinspection PhpUnhandledExceptionInspection */
 $status = (new SingleCommandApplication())

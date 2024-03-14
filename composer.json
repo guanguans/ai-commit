@@ -124,11 +124,11 @@
         "post-install-cmd": [
             "@cghooks add --ignore-lock",
             "@cghooks update",
-            "@composer-bin all update"
+            "@composer-bin-all-update"
         ],
         "post-update-cmd": [
             "@cghooks update",
-            "@composer-bin all update"
+            "@composer-bin-all-update"
         ],
         "post-autoload-dump": [],
         "ai-commit": "@php ./ai-commit commit --generator=bito_cli --ansi",
@@ -144,16 +144,34 @@
         ],
         "checks": [
             "@composer-validate",
+            "@composer-unused",
             "@md-lint",
             "@lint",
             "@style-lint",
             "@test",
-            "@psalm"
+            "@psalm",
+            "@rector-dry-run"
         ],
-        "composer-bin": "@composer bin --ansi -v",
+        "composer-bin-all-update": "@composer bin all update --ansi -v",
         "composer-check-platform-reqs": "@composer check-platform-reqs --lock --ansi -v",
         "composer-unused": "@php ./vendor/bin/composer-unused --ansi -v",
-        "composer-updater": "@php ./composer-updater --highest-php-binary=/opt/homebrew/opt/php@8.3/bin/php --except-packages=guanguans/notify --except-packages=laravel/lumen-framework --except-packages=orchestra/testbench --except-packages=pestphp/pest-plugin-laravel --ansi",
+        "composer-updater": "@php ./composer-updater --highest-php-binary=/opt/homebrew/opt/php@8.3/bin/php --except-packages=pestphp/pest-plugin-laravel --ansi",
+        "composer-updater-bin": [
+            "@composer-updater --composer-json-path=vendor-bin/composer-unused/composer.json",
+            "@composer-updater --composer-json-path=vendor-bin/monorepo-builder-worker/composer.json",
+            "@composer-updater --composer-json-path=vendor-bin/php-cs-fixer/composer.json",
+            "@composer-updater --composer-json-path=vendor-bin/phpstan/composer.json",
+            "@composer-updater --composer-json-path=vendor-bin/psalm/composer.json",
+            "@composer-updater --composer-json-path=vendor-bin/rector/composer.json"
+        ],
+        "composer-updater-bin-dry-run": [
+            "@composer-updater-dry-run --composer-json-path=vendor-bin/composer-unused/composer.json",
+            "@composer-updater-dry-run --composer-json-path=vendor-bin/monorepo-builder-worker/composer.json",
+            "@composer-updater-dry-run --composer-json-path=vendor-bin/php-cs-fixer/composer.json",
+            "@composer-updater-dry-run --composer-json-path=vendor-bin/phpstan/composer.json",
+            "@composer-updater-dry-run --composer-json-path=vendor-bin/psalm/composer.json",
+            "@composer-updater-dry-run --composer-json-path=vendor-bin/rector/composer.json"
+        ],
         "composer-updater-dry-run": "@composer-updater --dry-run",
         "composer-validate": "@composer validate --strict --ansi -v",
         "haulable": "haulable --ansi -v",
