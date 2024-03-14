@@ -32,7 +32,7 @@
 ### 直接下载 [ai-commit](./builds/ai-commit) 文件
 
 ```shell
-curl 'https://raw.githubusercontent.com/guanguans/ai-commit/main/builds/ai-commit' -o ai-commit --progress
+curl 'https://raw.githubusercontent.com/guanguans/ai-commit/main/builds/ai-commit' -o ai-commit -#
 chmod +x ai-commit
 ```
 

@@ -33,7 +33,7 @@
 ### Download the [ai-commit](./builds/ai-commit) file
 
 ```shell
-curl 'https://raw.githubusercontent.com/guanguans/ai-commit/main/builds/ai-commit' -o ai-commit --progress
+curl 'https://raw.githubusercontent.com/guanguans/ai-commit/main/builds/ai-commit' -o ai-commit -#
 chmod +x ai-commit
 ```
 
