@@ -37,6 +37,9 @@ $finder = Finder::create()
         'vendor/',
     ])
     ->append(glob(__DIR__.'/{*.php,.*.php}', GLOB_BRACE))
+    ->append([
+        __DIR__.'/composer-updater',
+    ])
     ->notPath([
         'bootstrap/*',
         'storage/*',

@@ -159,6 +159,8 @@
         "composer-bin": "@composer bin --ansi -v",
         "composer-check-platform-reqs": "@composer check-platform-reqs --lock --ansi -v",
         "composer-unused": "@php ./vendor/bin/composer-unused --ansi -v",
+        "composer-updater": "@php ./composer-updater --highest-php-binary=/opt/homebrew/opt/php@8.3/bin/php --except-packages=guanguans/notify --except-packages=laravel/lumen-framework --except-packages=orchestra/testbench --except-packages=pestphp/pest-plugin-laravel --ansi",
+        "composer-updater-dry-run": "@composer-updater --dry-run",
         "composer-validate": "@composer validate --strict --ansi -v",
         "haulable": "haulable --ansi -v",
         "haulable-package": "@haulable package ./builds/ai-commit",
