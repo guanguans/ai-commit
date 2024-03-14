@@ -251,6 +251,8 @@ final class OpenAI extends FoundationSDK
                                 //     $rowData = $sanitizeData;
                                 // }
 
+                                $rowData .= $data;
+
                                 $writer($data, $ch);
 
                                 return \strlen($data);
@@ -304,9 +306,7 @@ final class OpenAI extends FoundationSDK
 ;
 
         if ($rowData && empty($response->body())) {
-            $response = new Response(
-                $response->toPsrResponse()->withBody(Utils::streamFor(self::sanitizeData($rowData)))
-            );
+            $response = new Response($response->toPsrResponse()->withBody(Utils::streamFor(($rowData))));
         }
 
         return $response->throw();
