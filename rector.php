@@ -18,14 +18,12 @@ use Rector\CodeQuality\Rector\Expression\InlineIfToExplicitIfRector;
 use Rector\CodeQuality\Rector\Identical\SimplifyBoolIdenticalTrueRector;
 use Rector\CodeQuality\Rector\If_\ExplicitBoolCompareRector;
 use Rector\CodeQuality\Rector\LogicalAnd\LogicalToBooleanRector;
-use Rector\CodingStyle\Rector\Class_\AddArrayDefaultToArrayPropertyRector;
 use Rector\CodingStyle\Rector\Closure\StaticClosureRector;
 use Rector\CodingStyle\Rector\Encapsed\EncapsedStringsToSprintfRector;
 use Rector\CodingStyle\Rector\Encapsed\WrapEncapsedVariableInCurlyBracesRector;
 use Rector\CodingStyle\Rector\Stmt\NewlineAfterStatementRector;
 use Rector\Config\RectorConfig;
-use Rector\Core\Configuration\Option;
-use Rector\Core\ValueObject\PhpVersion;
+use Rector\Configuration\Option;
 use Rector\DeadCode\Rector\Assign\RemoveUnusedVariableAssignRector;
 use Rector\DeadCode\Rector\ClassMethod\RemoveEmptyClassMethodRector;
 use Rector\EarlyReturn\Rector\If_\ChangeAndIfToEarlyReturnRector;
@@ -33,14 +31,13 @@ use Rector\EarlyReturn\Rector\Return_\ReturnBinaryOrToEarlyReturnRector;
 use Rector\Naming\Rector\Assign\RenameVariableToMatchMethodCallReturnTypeRector;
 use Rector\Naming\Rector\ClassMethod\RenameParamToMatchTypeRector;
 use Rector\Php73\Rector\FuncCall\JsonThrowOnErrorRector;
-use Rector\PHPUnit\Set\PHPUnitLevelSetList;
 use Rector\PHPUnit\Set\PHPUnitSetList;
-use Rector\Privatization\Rector\Class_\FinalizeClassesWithoutChildrenRector;
 use Rector\Renaming\Rector\FuncCall\RenameFunctionRector;
 use Rector\Set\ValueObject\DowngradeLevelSetList;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 use Rector\Strict\Rector\Ternary\DisallowedShortTernaryRuleFixerRector;
+use Rector\ValueObject\PhpVersion;
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->importNames(true, false);
@@ -78,7 +75,6 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->skip([
         // rules
-        // AddArrayDefaultToArrayPropertyRector::class,
         // CallableThisArrayToAnonymousFunctionRector::class,
         // ChangeAndIfToEarlyReturnRector::class,
         // RemoveEmptyClassMethodRector::class,
@@ -104,11 +100,6 @@ return static function (RectorConfig $rectorConfig): void {
         ],
         DisallowedShortTernaryRuleFixerRector::class => [
             __DIR__.'/app/Support/FoundationSDK.php',
-        ],
-        FinalizeClassesWithoutChildrenRector::class => [
-            __DIR__.'/app/Exceptions/RuntimeException.php',
-            __DIR__.'/app/Generators/ErnieBotGenerator.php',
-            __DIR__.'/app/Generators/OpenAIGenerator.php',
         ],
         JsonThrowOnErrorRector::class => [
             __DIR__.'/app/Generators/OpenAIGenerator.php',
@@ -153,7 +144,6 @@ return static function (RectorConfig $rectorConfig): void {
         SetList::EARLY_RETURN,
         SetList::INSTANCEOF,
 
-        PHPUnitLevelSetList::UP_TO_PHPUNIT_90,
         PHPUnitSetList::PHPUNIT_90,
         PHPUnitSetList::PHPUNIT_CODE_QUALITY,
         PHPUnitSetList::ANNOTATIONS_TO_ATTRIBUTES,
