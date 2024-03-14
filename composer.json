@@ -55,25 +55,20 @@
         "bamarni/composer-bin-plugin": "^1.8",
         "brainmaestro/composer-git-hooks": "^2.8",
         "guzzlehttp/guzzle": "^7.8",
-        "illuminate/http": "^8.83 || ^9.0 || ^10.0",
-        "illuminate/translation": "^8.83 || ^9.0 || ^10.0",
-        "illuminate/validation": "^8.83 || ^9.0 || ^10.0",
+        "illuminate/http": "^8.83 || ^9.0 || ^10.0 || ^11.0",
+        "illuminate/translation": "^8.83 || ^9.0 || ^10.0 || ^11.0",
+        "illuminate/validation": "^8.83 || ^9.0 || ^10.0 || ^11.0",
         "laminas/laminas-text": "^2.9",
         "laravel-zero/framework": "^8.10 || ^9.0 || ^10.0",
         "laravel-zero/phar-updater": "^1.1",
         "mockery/mockery": "^1.6",
-        "pestphp/pest": "^1.23",
-        "php-mock/php-mock-phpunit": "^2.9"
+        "pestphp/pest": "^1.23 || ^2.0",
+        "php-mock/php-mock-phpunit": "^2.10"
     },
-    "replace": {},
-    "conflict": {},
-    "provide": {},
-    "suggest": {},
-    "repositories": {},
+    "repositories": [],
     "minimum-stability": "dev",
     "prefer-stable": true,
     "autoload": {
-        "psr-0": {},
         "psr-4": {
             "App\\": "app/"
         },
@@ -93,7 +88,6 @@
     "bin": [
         "builds/ai-commit"
     ],
-    "archive": {},
     "config": {
         "allow-plugins": {
             "bamarni/composer-bin-plugin": true,
@@ -200,6 +194,5 @@
         "trufflehog": "trufflehog git https://github.com/guanguans/ai-commit --only-verified",
         "var-dump-server": "@php ./vendor/bin/var-dump-server --ansi -v",
         "vhs": "vhs < ai-commit.tape"
-    },
-    "scripts-descriptions": {}
+    }
 }
