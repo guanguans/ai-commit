@@ -11,16 +11,16 @@ All notable changes to this project will be documented in this file.
 <a name="1.10.2"></a>
 ## [1.10.2] - 2024-04-07
 ### Pull Requests
-- Merge pull request [#118](https://github.com/guanguans/monorepo-builder-worker/issues/118) from guanguans/dependabot/github_actions/dependabot/fetch-metadata-2.0.0
-- Merge pull request [#122](https://github.com/guanguans/monorepo-builder-worker/issues/122) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.72.0
-- Merge pull request [#121](https://github.com/guanguans/monorepo-builder-worker/issues/121) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.71.2
-- Merge pull request [#120](https://github.com/guanguans/monorepo-builder-worker/issues/120) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.71.1
-- Merge pull request [#119](https://github.com/guanguans/monorepo-builder-worker/issues/119) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.71.0
-- Merge pull request [#117](https://github.com/guanguans/monorepo-builder-worker/issues/117) from guanguans/dependabot/composer/mockery/mockery-1.6.11
-- Merge pull request [#116](https://github.com/guanguans/monorepo-builder-worker/issues/116) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.70.3
-- Merge pull request [#114](https://github.com/guanguans/monorepo-builder-worker/issues/114) from guanguans/dependabot/composer/mockery/mockery-1.6.10
-- Merge pull request [#113](https://github.com/guanguans/monorepo-builder-worker/issues/113) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.70.2
-- Merge pull request [#111](https://github.com/guanguans/monorepo-builder-worker/issues/111) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.70.0
+- Merge pull request [#118](https://github.com/guanguans/ai-commit/issues/118) from guanguans/dependabot/github_actions/dependabot/fetch-metadata-2.0.0
+- Merge pull request [#122](https://github.com/guanguans/ai-commit/issues/122) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.72.0
+- Merge pull request [#121](https://github.com/guanguans/ai-commit/issues/121) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.71.2
+- Merge pull request [#120](https://github.com/guanguans/ai-commit/issues/120) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.71.1
+- Merge pull request [#119](https://github.com/guanguans/ai-commit/issues/119) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.71.0
+- Merge pull request [#117](https://github.com/guanguans/ai-commit/issues/117) from guanguans/dependabot/composer/mockery/mockery-1.6.11
+- Merge pull request [#116](https://github.com/guanguans/ai-commit/issues/116) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.70.3
+- Merge pull request [#114](https://github.com/guanguans/ai-commit/issues/114) from guanguans/dependabot/composer/mockery/mockery-1.6.10
+- Merge pull request [#113](https://github.com/guanguans/ai-commit/issues/113) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.70.2
+- Merge pull request [#111](https://github.com/guanguans/ai-commit/issues/111) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.70.0
 
 
 <a name="1.10.1"></a>
@@ -38,32 +38,32 @@ All notable changes to this project will be documented in this file.
 - **openai:** Improve data handling and response creation
 
 ### Pull Requests
-- Merge pull request [#109](https://github.com/guanguans/monorepo-builder-worker/issues/109) from guanguans/dependabot/composer/mockery/mockery-1.6.9
-- Merge pull request [#108](https://github.com/guanguans/monorepo-builder-worker/issues/108) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.69.0
-- Merge pull request [#107](https://github.com/guanguans/monorepo-builder-worker/issues/107) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.68.5
-- Merge pull request [#94](https://github.com/guanguans/monorepo-builder-worker/issues/94) from guanguans/dependabot/github_actions/codecov/codecov-action-4
-- Merge pull request [#106](https://github.com/guanguans/monorepo-builder-worker/issues/106) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.68.4
-- Merge pull request [#105](https://github.com/guanguans/monorepo-builder-worker/issues/105) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.68.3
-- Merge pull request [#104](https://github.com/guanguans/monorepo-builder-worker/issues/104) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.68.2
-- Merge pull request [#103](https://github.com/guanguans/monorepo-builder-worker/issues/103) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.68.0
-- Merge pull request [#102](https://github.com/guanguans/monorepo-builder-worker/issues/102) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.67.7
-- Merge pull request [#101](https://github.com/guanguans/monorepo-builder-worker/issues/101) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.67.6
-- Merge pull request [#100](https://github.com/guanguans/monorepo-builder-worker/issues/100) from guanguans/dependabot/composer/php-mock/php-mock-phpunit-2.10.0
-- Merge pull request [#99](https://github.com/guanguans/monorepo-builder-worker/issues/99) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.67.5
-- Merge pull request [#98](https://github.com/guanguans/monorepo-builder-worker/issues/98) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.67.4
-- Merge pull request [#97](https://github.com/guanguans/monorepo-builder-worker/issues/97) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.67.2
-- Merge pull request [#96](https://github.com/guanguans/monorepo-builder-worker/issues/96) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.67.1
-- Merge pull request [#95](https://github.com/guanguans/monorepo-builder-worker/issues/95) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.66.3
-- Merge pull request [#93](https://github.com/guanguans/monorepo-builder-worker/issues/93) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.66.2
-- Merge pull request [#92](https://github.com/guanguans/monorepo-builder-worker/issues/92) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.66.1
-- Merge pull request [#88](https://github.com/guanguans/monorepo-builder-worker/issues/88) from guanguans/dependabot/github_actions/actions/cache-4
-- Merge pull request [#84](https://github.com/guanguans/monorepo-builder-worker/issues/84) from guanguans/imgbot
-- Merge pull request [#91](https://github.com/guanguans/monorepo-builder-worker/issues/91) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.65.0
-- Merge pull request [#90](https://github.com/guanguans/monorepo-builder-worker/issues/90) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.64.0
-- Merge pull request [#89](https://github.com/guanguans/monorepo-builder-worker/issues/89) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.11
-- Merge pull request [#87](https://github.com/guanguans/monorepo-builder-worker/issues/87) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.10
-- Merge pull request [#86](https://github.com/guanguans/monorepo-builder-worker/issues/86) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.9
-- Merge pull request [#85](https://github.com/guanguans/monorepo-builder-worker/issues/85) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.8
+- Merge pull request [#109](https://github.com/guanguans/ai-commit/issues/109) from guanguans/dependabot/composer/mockery/mockery-1.6.9
+- Merge pull request [#108](https://github.com/guanguans/ai-commit/issues/108) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.69.0
+- Merge pull request [#107](https://github.com/guanguans/ai-commit/issues/107) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.68.5
+- Merge pull request [#94](https://github.com/guanguans/ai-commit/issues/94) from guanguans/dependabot/github_actions/codecov/codecov-action-4
+- Merge pull request [#106](https://github.com/guanguans/ai-commit/issues/106) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.68.4
+- Merge pull request [#105](https://github.com/guanguans/ai-commit/issues/105) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.68.3
+- Merge pull request [#104](https://github.com/guanguans/ai-commit/issues/104) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.68.2
+- Merge pull request [#103](https://github.com/guanguans/ai-commit/issues/103) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.68.0
+- Merge pull request [#102](https://github.com/guanguans/ai-commit/issues/102) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.67.7
+- Merge pull request [#101](https://github.com/guanguans/ai-commit/issues/101) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.67.6
+- Merge pull request [#100](https://github.com/guanguans/ai-commit/issues/100) from guanguans/dependabot/composer/php-mock/php-mock-phpunit-2.10.0
+- Merge pull request [#99](https://github.com/guanguans/ai-commit/issues/99) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.67.5
+- Merge pull request [#98](https://github.com/guanguans/ai-commit/issues/98) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.67.4
+- Merge pull request [#97](https://github.com/guanguans/ai-commit/issues/97) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.67.2
+- Merge pull request [#96](https://github.com/guanguans/ai-commit/issues/96) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.67.1
+- Merge pull request [#95](https://github.com/guanguans/ai-commit/issues/95) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.66.3
+- Merge pull request [#93](https://github.com/guanguans/ai-commit/issues/93) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.66.2
+- Merge pull request [#92](https://github.com/guanguans/ai-commit/issues/92) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.66.1
+- Merge pull request [#88](https://github.com/guanguans/ai-commit/issues/88) from guanguans/dependabot/github_actions/actions/cache-4
+- Merge pull request [#84](https://github.com/guanguans/ai-commit/issues/84) from guanguans/imgbot
+- Merge pull request [#91](https://github.com/guanguans/ai-commit/issues/91) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.65.0
+- Merge pull request [#90](https://github.com/guanguans/ai-commit/issues/90) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.64.0
+- Merge pull request [#89](https://github.com/guanguans/ai-commit/issues/89) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.11
+- Merge pull request [#87](https://github.com/guanguans/ai-commit/issues/87) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.10
+- Merge pull request [#86](https://github.com/guanguans/ai-commit/issues/86) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.9
+- Merge pull request [#85](https://github.com/guanguans/ai-commit/issues/85) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.8
 
 
 <a name="1.9.4"></a>
@@ -98,25 +98,25 @@ All notable changes to this project will be documented in this file.
 <a name="1.9.1"></a>
 ## [1.9.1] - 2024-01-02
 ### Pull Requests
-- Merge pull request [#74](https://github.com/guanguans/monorepo-builder-worker/issues/74) from guanguans/dependabot/github_actions/actions/labeler-5
-- Merge pull request [#76](https://github.com/guanguans/monorepo-builder-worker/issues/76) from guanguans/dependabot/github_actions/actions/stale-9
-- Merge pull request [#79](https://github.com/guanguans/monorepo-builder-worker/issues/79) from guanguans/dependabot/github_actions/actions/upload-artifact-4
+- Merge pull request [#74](https://github.com/guanguans/ai-commit/issues/74) from guanguans/dependabot/github_actions/actions/labeler-5
+- Merge pull request [#76](https://github.com/guanguans/ai-commit/issues/76) from guanguans/dependabot/github_actions/actions/stale-9
+- Merge pull request [#79](https://github.com/guanguans/ai-commit/issues/79) from guanguans/dependabot/github_actions/actions/upload-artifact-4
 
 
 <a name="1.9.0"></a>
 ## [1.9.0] - 2023-12-25
 ### Pull Requests
-- Merge pull request [#83](https://github.com/guanguans/monorepo-builder-worker/issues/83) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.7
-- Merge pull request [#82](https://github.com/guanguans/monorepo-builder-worker/issues/82) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.6
-- Merge pull request [#81](https://github.com/guanguans/monorepo-builder-worker/issues/81) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.5
-- Merge pull request [#80](https://github.com/guanguans/monorepo-builder-worker/issues/80) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.4
-- Merge pull request [#78](https://github.com/guanguans/monorepo-builder-worker/issues/78) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.3
-- Merge pull request [#77](https://github.com/guanguans/monorepo-builder-worker/issues/77) from guanguans/dependabot/composer/mockery/mockery-1.6.7
-- Merge pull request [#75](https://github.com/guanguans/monorepo-builder-worker/issues/75) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.2
-- Merge pull request [#73](https://github.com/guanguans/monorepo-builder-worker/issues/73) from guanguans/dependabot/composer/guzzlehttp/guzzle-7.8.1
-- Merge pull request [#72](https://github.com/guanguans/monorepo-builder-worker/issues/72) from guanguans/dependabot/composer/php-mock/php-mock-phpunit-2.9.0
-- Merge pull request [#71](https://github.com/guanguans/monorepo-builder-worker/issues/71) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.1
-- Merge pull request [#70](https://github.com/guanguans/monorepo-builder-worker/issues/70) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.0
+- Merge pull request [#83](https://github.com/guanguans/ai-commit/issues/83) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.7
+- Merge pull request [#82](https://github.com/guanguans/ai-commit/issues/82) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.6
+- Merge pull request [#81](https://github.com/guanguans/ai-commit/issues/81) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.5
+- Merge pull request [#80](https://github.com/guanguans/ai-commit/issues/80) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.4
+- Merge pull request [#78](https://github.com/guanguans/ai-commit/issues/78) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.3
+- Merge pull request [#77](https://github.com/guanguans/ai-commit/issues/77) from guanguans/dependabot/composer/mockery/mockery-1.6.7
+- Merge pull request [#75](https://github.com/guanguans/ai-commit/issues/75) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.2
+- Merge pull request [#73](https://github.com/guanguans/ai-commit/issues/73) from guanguans/dependabot/composer/guzzlehttp/guzzle-7.8.1
+- Merge pull request [#72](https://github.com/guanguans/ai-commit/issues/72) from guanguans/dependabot/composer/php-mock/php-mock-phpunit-2.9.0
+- Merge pull request [#71](https://github.com/guanguans/ai-commit/issues/71) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.1
+- Merge pull request [#70](https://github.com/guanguans/ai-commit/issues/70) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.63.0
 
 
 <a name="1.8.6"></a>
@@ -134,30 +134,30 @@ All notable changes to this project will be documented in this file.
 <a name="1.8.3"></a>
 ## [1.8.3] - 2023-11-01
 ### Pull Requests
-- Merge pull request [#69](https://github.com/guanguans/monorepo-builder-worker/issues/69) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.62.1
-- Merge pull request [#68](https://github.com/guanguans/monorepo-builder-worker/issues/68) from guanguans/dependabot/composer/php-mock/php-mock-phpunit-2.8.0
-- Merge pull request [#67](https://github.com/guanguans/monorepo-builder-worker/issues/67) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.62.0
-- Merge pull request [#66](https://github.com/guanguans/monorepo-builder-worker/issues/66) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.60.4
-- Merge pull request [#65](https://github.com/guanguans/monorepo-builder-worker/issues/65) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.60.3
-- Merge pull request [#64](https://github.com/guanguans/monorepo-builder-worker/issues/64) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.60.2
-- Merge pull request [#60](https://github.com/guanguans/monorepo-builder-worker/issues/60) from guanguans/dependabot/github_actions/stefanzweifel/git-auto-commit-action-5
-- Merge pull request [#63](https://github.com/guanguans/monorepo-builder-worker/issues/63) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.60.1
-- Merge pull request [#62](https://github.com/guanguans/monorepo-builder-worker/issues/62) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.60.0
-- Merge pull request [#59](https://github.com/guanguans/monorepo-builder-worker/issues/59) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.59.0
-- Merge pull request [#58](https://github.com/guanguans/monorepo-builder-worker/issues/58) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.58.0
-- Merge pull request [#57](https://github.com/guanguans/monorepo-builder-worker/issues/57) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.57.0
-- Merge pull request [#54](https://github.com/guanguans/monorepo-builder-worker/issues/54) from guanguans/dependabot/github_actions/codecov/codecov-action-4
-- Merge pull request [#51](https://github.com/guanguans/monorepo-builder-worker/issues/51) from guanguans/dependabot/github_actions/actions/checkout-4
-- Merge pull request [#56](https://github.com/guanguans/monorepo-builder-worker/issues/56) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.56.1
-- Merge pull request [#55](https://github.com/guanguans/monorepo-builder-worker/issues/55) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.56.0
-- Merge pull request [#53](https://github.com/guanguans/monorepo-builder-worker/issues/53) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.55.1
-- Merge pull request [#52](https://github.com/guanguans/monorepo-builder-worker/issues/52) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.54.4
-- Merge pull request [#50](https://github.com/guanguans/monorepo-builder-worker/issues/50) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.54.3
-- Merge pull request [#49](https://github.com/guanguans/monorepo-builder-worker/issues/49) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.54.2
-- Merge pull request [#48](https://github.com/guanguans/monorepo-builder-worker/issues/48) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.54.1
-- Merge pull request [#47](https://github.com/guanguans/monorepo-builder-worker/issues/47) from guanguans/dependabot/composer/guzzlehttp/guzzle-7.8.0
-- Merge pull request [#46](https://github.com/guanguans/monorepo-builder-worker/issues/46) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.54.0
-- Merge pull request [#45](https://github.com/guanguans/monorepo-builder-worker/issues/45) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.53.0
+- Merge pull request [#69](https://github.com/guanguans/ai-commit/issues/69) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.62.1
+- Merge pull request [#68](https://github.com/guanguans/ai-commit/issues/68) from guanguans/dependabot/composer/php-mock/php-mock-phpunit-2.8.0
+- Merge pull request [#67](https://github.com/guanguans/ai-commit/issues/67) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.62.0
+- Merge pull request [#66](https://github.com/guanguans/ai-commit/issues/66) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.60.4
+- Merge pull request [#65](https://github.com/guanguans/ai-commit/issues/65) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.60.3
+- Merge pull request [#64](https://github.com/guanguans/ai-commit/issues/64) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.60.2
+- Merge pull request [#60](https://github.com/guanguans/ai-commit/issues/60) from guanguans/dependabot/github_actions/stefanzweifel/git-auto-commit-action-5
+- Merge pull request [#63](https://github.com/guanguans/ai-commit/issues/63) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.60.1
+- Merge pull request [#62](https://github.com/guanguans/ai-commit/issues/62) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.60.0
+- Merge pull request [#59](https://github.com/guanguans/ai-commit/issues/59) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.59.0
+- Merge pull request [#58](https://github.com/guanguans/ai-commit/issues/58) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.58.0
+- Merge pull request [#57](https://github.com/guanguans/ai-commit/issues/57) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.57.0
+- Merge pull request [#54](https://github.com/guanguans/ai-commit/issues/54) from guanguans/dependabot/github_actions/codecov/codecov-action-4
+- Merge pull request [#51](https://github.com/guanguans/ai-commit/issues/51) from guanguans/dependabot/github_actions/actions/checkout-4
+- Merge pull request [#56](https://github.com/guanguans/ai-commit/issues/56) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.56.1
+- Merge pull request [#55](https://github.com/guanguans/ai-commit/issues/55) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.56.0
+- Merge pull request [#53](https://github.com/guanguans/ai-commit/issues/53) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.55.1
+- Merge pull request [#52](https://github.com/guanguans/ai-commit/issues/52) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.54.4
+- Merge pull request [#50](https://github.com/guanguans/ai-commit/issues/50) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.54.3
+- Merge pull request [#49](https://github.com/guanguans/ai-commit/issues/49) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.54.2
+- Merge pull request [#48](https://github.com/guanguans/ai-commit/issues/48) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.54.1
+- Merge pull request [#47](https://github.com/guanguans/ai-commit/issues/47) from guanguans/dependabot/composer/guzzlehttp/guzzle-7.8.0
+- Merge pull request [#46](https://github.com/guanguans/ai-commit/issues/46) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.54.0
+- Merge pull request [#45](https://github.com/guanguans/ai-commit/issues/45) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.53.0
 
 
 <a name="1.8.2"></a>
@@ -185,7 +185,7 @@ All notable changes to this project will be documented in this file.
 - **ErnieBotGeneratorTest:** add test for writer function
 
 ### Pull Requests
-- Merge pull request [#44](https://github.com/guanguans/monorepo-builder-worker/issues/44) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.52.1
+- Merge pull request [#44](https://github.com/guanguans/ai-commit/issues/44) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.52.1
 
 
 <a name="1.8.0"></a>
@@ -204,18 +204,18 @@ All notable changes to this project will be documented in this file.
 - **app:** improve GeneratorManager
 
 ### Pull Requests
-- Merge pull request [#43](https://github.com/guanguans/monorepo-builder-worker/issues/43) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.50.0
-- Merge pull request [#42](https://github.com/guanguans/monorepo-builder-worker/issues/42) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.48.0
-- Merge pull request [#41](https://github.com/guanguans/monorepo-builder-worker/issues/41) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.47.0
-- Merge pull request [#40](https://github.com/guanguans/monorepo-builder-worker/issues/40) from guanguans/dependabot/composer/mockery/mockery-1.6.6
-- Merge pull request [#39](https://github.com/guanguans/monorepo-builder-worker/issues/39) from guanguans/dependabot/composer/mockery/mockery-1.6.5
-- Merge pull request [#38](https://github.com/guanguans/monorepo-builder-worker/issues/38) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.46.3
-- Merge pull request [#37](https://github.com/guanguans/monorepo-builder-worker/issues/37) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.46.2
-- Merge pull request [#36](https://github.com/guanguans/monorepo-builder-worker/issues/36) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.46.1
-- Merge pull request [#35](https://github.com/guanguans/monorepo-builder-worker/issues/35) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.45.3
-- Merge pull request [#34](https://github.com/guanguans/monorepo-builder-worker/issues/34) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.45.2
-- Merge pull request [#33](https://github.com/guanguans/monorepo-builder-worker/issues/33) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.45.1
-- Merge pull request [#32](https://github.com/guanguans/monorepo-builder-worker/issues/32) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.45.0
+- Merge pull request [#43](https://github.com/guanguans/ai-commit/issues/43) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.50.0
+- Merge pull request [#42](https://github.com/guanguans/ai-commit/issues/42) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.48.0
+- Merge pull request [#41](https://github.com/guanguans/ai-commit/issues/41) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.47.0
+- Merge pull request [#40](https://github.com/guanguans/ai-commit/issues/40) from guanguans/dependabot/composer/mockery/mockery-1.6.6
+- Merge pull request [#39](https://github.com/guanguans/ai-commit/issues/39) from guanguans/dependabot/composer/mockery/mockery-1.6.5
+- Merge pull request [#38](https://github.com/guanguans/ai-commit/issues/38) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.46.3
+- Merge pull request [#37](https://github.com/guanguans/ai-commit/issues/37) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.46.2
+- Merge pull request [#36](https://github.com/guanguans/ai-commit/issues/36) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.46.1
+- Merge pull request [#35](https://github.com/guanguans/ai-commit/issues/35) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.45.3
+- Merge pull request [#34](https://github.com/guanguans/ai-commit/issues/34) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.45.2
+- Merge pull request [#33](https://github.com/guanguans/ai-commit/issues/33) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.45.1
+- Merge pull request [#32](https://github.com/guanguans/ai-commit/issues/32) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.45.0
 
 
 <a name="1.7.6"></a>
@@ -255,7 +255,7 @@ All notable changes to this project will be documented in this file.
 - **tests:** Refactor `find` method in `ExecutableFinder`
 
 ### Pull Requests
-- Merge pull request [#31](https://github.com/guanguans/monorepo-builder-worker/issues/31) from guanguans/dependabot/composer/guanguans/monorepo-builder-worker-1.1.11
+- Merge pull request [#31](https://github.com/guanguans/ai-commit/issues/31) from guanguans/dependabot/composer/guanguans/monorepo-builder-worker-1.1.11
 
 
 <a name="1.7.3"></a>
@@ -313,9 +313,9 @@ All notable changes to this project will be documented in this file.
 - **commands:** Update commit success message
 
 ### Pull Requests
-- Merge pull request [#30](https://github.com/guanguans/monorepo-builder-worker/issues/30) from guanguans/dependabot/composer/pestphp/pest-1.23.1
-- Merge pull request [#29](https://github.com/guanguans/monorepo-builder-worker/issues/29) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.44.0
-- Merge pull request [#28](https://github.com/guanguans/monorepo-builder-worker/issues/28) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.43.0
+- Merge pull request [#30](https://github.com/guanguans/ai-commit/issues/30) from guanguans/dependabot/composer/pestphp/pest-1.23.1
+- Merge pull request [#29](https://github.com/guanguans/ai-commit/issues/29) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.44.0
+- Merge pull request [#28](https://github.com/guanguans/ai-commit/issues/28) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.43.0
 
 
 <a name="v1.6.7"></a>
@@ -327,10 +327,10 @@ All notable changes to this project will be documented in this file.
 <a name="v1.6.6"></a>
 ## [v1.6.6] - 2023-06-30
 ### Pull Requests
-- Merge pull request [#27](https://github.com/guanguans/monorepo-builder-worker/issues/27) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.42.0
-- Merge pull request [#26](https://github.com/guanguans/monorepo-builder-worker/issues/26) from guanguans/dependabot/github_actions/dependabot/fetch-metadata-1.6.0
-- Merge pull request [#25](https://github.com/guanguans/monorepo-builder-worker/issues/25) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.41.1
-- Merge pull request [#24](https://github.com/guanguans/monorepo-builder-worker/issues/24) from guanguans/imgbot
+- Merge pull request [#27](https://github.com/guanguans/ai-commit/issues/27) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.42.0
+- Merge pull request [#26](https://github.com/guanguans/ai-commit/issues/26) from guanguans/dependabot/github_actions/dependabot/fetch-metadata-1.6.0
+- Merge pull request [#25](https://github.com/guanguans/ai-commit/issues/25) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.41.1
+- Merge pull request [#24](https://github.com/guanguans/ai-commit/issues/24) from guanguans/imgbot
 
 
 <a name="v1.6.5"></a>
@@ -430,18 +430,18 @@ All notable changes to this project will be documented in this file.
 <a name="v1.5.0"></a>
 ## [v1.5.0] - 2023-06-20
 ### Pull Requests
-- Merge pull request [#23](https://github.com/guanguans/monorepo-builder-worker/issues/23) from guanguans/dependabot/composer/php-mock/php-mock-phpunit-2.7.2
-- Merge pull request [#22](https://github.com/guanguans/monorepo-builder-worker/issues/22) from guanguans/dependabot/composer/mockery/mockery-1.6.2
-- Merge pull request [#21](https://github.com/guanguans/monorepo-builder-worker/issues/21) from guanguans/dependabot/composer/mockery/mockery-1.6.0
-- Merge pull request [#20](https://github.com/guanguans/monorepo-builder-worker/issues/20) from guanguans/dependabot/github_actions/dependabot/fetch-metadata-1.5.1
-- Merge pull request [#19](https://github.com/guanguans/monorepo-builder-worker/issues/19) from guanguans/dependabot/composer/guzzlehttp/guzzle-7.7.0
-- Merge pull request [#18](https://github.com/guanguans/monorepo-builder-worker/issues/18) from guanguans/dependabot/github_actions/dependabot/fetch-metadata-1.5.0
+- Merge pull request [#23](https://github.com/guanguans/ai-commit/issues/23) from guanguans/dependabot/composer/php-mock/php-mock-phpunit-2.7.2
+- Merge pull request [#22](https://github.com/guanguans/ai-commit/issues/22) from guanguans/dependabot/composer/mockery/mockery-1.6.2
+- Merge pull request [#21](https://github.com/guanguans/ai-commit/issues/21) from guanguans/dependabot/composer/mockery/mockery-1.6.0
+- Merge pull request [#20](https://github.com/guanguans/ai-commit/issues/20) from guanguans/dependabot/github_actions/dependabot/fetch-metadata-1.5.1
+- Merge pull request [#19](https://github.com/guanguans/ai-commit/issues/19) from guanguans/dependabot/composer/guzzlehttp/guzzle-7.7.0
+- Merge pull request [#18](https://github.com/guanguans/ai-commit/issues/18) from guanguans/dependabot/github_actions/dependabot/fetch-metadata-1.5.0
 
 
 <a name="v1.4.4"></a>
 ## [v1.4.4] - 2023-05-16
 ### Pull Requests
-- Merge pull request [#17](https://github.com/guanguans/monorepo-builder-worker/issues/17) from guanguans/dependabot/composer/guzzlehttp/guzzle-7.6.1
+- Merge pull request [#17](https://github.com/guanguans/ai-commit/issues/17) from guanguans/dependabot/composer/guzzlehttp/guzzle-7.6.1
 
 
 <a name="v1.4.3"></a>
@@ -459,9 +459,9 @@ All notable changes to this project will be documented in this file.
 - **commands:** use collection to set options
 
 ### Pull Requests
-- Merge pull request [#16](https://github.com/guanguans/monorepo-builder-worker/issues/16) from guanguans/dependabot/composer/pestphp/pest-1.23.0
-- Merge pull request [#15](https://github.com/guanguans/monorepo-builder-worker/issues/15) from guanguans/dependabot/github_actions/dependabot/fetch-metadata-1.4.0
-- Merge pull request [#14](https://github.com/guanguans/monorepo-builder-worker/issues/14) from guanguans/dependabot/composer/guzzlehttp/guzzle-7.5.1
+- Merge pull request [#16](https://github.com/guanguans/ai-commit/issues/16) from guanguans/dependabot/composer/pestphp/pest-1.23.0
+- Merge pull request [#15](https://github.com/guanguans/ai-commit/issues/15) from guanguans/dependabot/github_actions/dependabot/fetch-metadata-1.4.0
+- Merge pull request [#14](https://github.com/guanguans/ai-commit/issues/14) from guanguans/dependabot/composer/guzzlehttp/guzzle-7.5.1
 
 
 <a name="v1.4.1"></a>
@@ -473,10 +473,10 @@ All notable changes to this project will be documented in this file.
 <a name="v1.3.3"></a>
 ## [v1.3.3] - 2023-04-01
 ### Pull Requests
-- Merge pull request [#13](https://github.com/guanguans/monorepo-builder-worker/issues/13) from guanguans/dependabot/github_actions/actions/stale-8
-- Merge pull request [#12](https://github.com/guanguans/monorepo-builder-worker/issues/12) from guanguans/dependabot/composer/php-mock/php-mock-phpunit-2.7.1
-- Merge pull request [#11](https://github.com/guanguans/monorepo-builder-worker/issues/11) from guanguans/dependabot/composer/pestphp/pest-1.22.6
-- Merge pull request [#10](https://github.com/guanguans/monorepo-builder-worker/issues/10) from guanguans/dependabot/composer/php-mock/php-mock-phpunit-2.7.0
+- Merge pull request [#13](https://github.com/guanguans/ai-commit/issues/13) from guanguans/dependabot/github_actions/actions/stale-8
+- Merge pull request [#12](https://github.com/guanguans/ai-commit/issues/12) from guanguans/dependabot/composer/php-mock/php-mock-phpunit-2.7.1
+- Merge pull request [#11](https://github.com/guanguans/ai-commit/issues/11) from guanguans/dependabot/composer/pestphp/pest-1.22.6
+- Merge pull request [#10](https://github.com/guanguans/ai-commit/issues/10) from guanguans/dependabot/composer/php-mock/php-mock-phpunit-2.7.0
 
 
 <a name="v1.3.2"></a>
@@ -488,7 +488,7 @@ All notable changes to this project will be documented in this file.
 <a name="v1.3.1"></a>
 ## [v1.3.1] - 2023-03-04
 ### Pull Requests
-- Merge pull request [#9](https://github.com/guanguans/monorepo-builder-worker/issues/9) from guanguans/dependabot/composer/pestphp/pest-1.22.5
+- Merge pull request [#9](https://github.com/guanguans/ai-commit/issues/9) from guanguans/dependabot/composer/pestphp/pest-1.22.5
 
 
 <a name="v1.3.0"></a>
@@ -497,7 +497,7 @@ All notable changes to this project will be documented in this file.
 - **config:** update generator name
 
 ### Pull Requests
-- Merge pull request [#8](https://github.com/guanguans/monorepo-builder-worker/issues/8) from guanguans/imgbot
+- Merge pull request [#8](https://github.com/guanguans/ai-commit/issues/8) from guanguans/imgbot
 
 
 <a name="v1.2.8"></a>
@@ -554,7 +554,7 @@ All notable changes to this project will be documented in this file.
 <a name="v1.0.4"></a>
 ## [v1.0.4] - 2023-02-15
 ### Pull Requests
-- Merge pull request [#5](https://github.com/guanguans/monorepo-builder-worker/issues/5) from guanguans/imgbot
+- Merge pull request [#5](https://github.com/guanguans/ai-commit/issues/5) from guanguans/imgbot
 
 
 <a name="v1.0.3"></a>
@@ -630,78 +630,78 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.10.2...HEAD
-[1.10.2]: https://github.com/guanguans/monorepo-builder-worker/compare/1.10.1...1.10.2
-[1.10.1]: https://github.com/guanguans/monorepo-builder-worker/compare/1.10.0...1.10.1
-[1.10.0]: https://github.com/guanguans/monorepo-builder-worker/compare/1.9.4...1.10.0
-[1.9.4]: https://github.com/guanguans/monorepo-builder-worker/compare/1.9.3...1.9.4
-[1.9.3]: https://github.com/guanguans/monorepo-builder-worker/compare/1.9.2...1.9.3
-[1.9.2]: https://github.com/guanguans/monorepo-builder-worker/compare/1.9.1...1.9.2
-[1.9.1]: https://github.com/guanguans/monorepo-builder-worker/compare/1.9.0...1.9.1
-[1.9.0]: https://github.com/guanguans/monorepo-builder-worker/compare/1.8.6...1.9.0
-[1.8.6]: https://github.com/guanguans/monorepo-builder-worker/compare/1.8.5...1.8.6
-[1.8.5]: https://github.com/guanguans/monorepo-builder-worker/compare/1.8.4...1.8.5
-[1.8.4]: https://github.com/guanguans/monorepo-builder-worker/compare/1.8.3...1.8.4
-[1.8.3]: https://github.com/guanguans/monorepo-builder-worker/compare/1.8.2...1.8.3
-[1.8.2]: https://github.com/guanguans/monorepo-builder-worker/compare/1.8.1...1.8.2
-[1.8.1]: https://github.com/guanguans/monorepo-builder-worker/compare/1.8.0...1.8.1
-[1.8.0]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.6...1.8.0
-[1.7.6]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.5...1.7.6
-[1.7.5]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.4...1.7.5
-[1.7.4]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.3...1.7.4
-[1.7.3]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.2...1.7.3
-[1.7.2]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.1...1.7.2
-[1.7.1]: https://github.com/guanguans/monorepo-builder-worker/compare/1.7.0...1.7.1
-[1.7.0]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.6.9...1.7.0
-[v1.6.9]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.6.8...v1.6.9
-[v1.6.8]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.6.7...v1.6.8
-[v1.6.7]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.6.6...v1.6.7
-[v1.6.6]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.6.5...v1.6.6
-[v1.6.5]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.6.4...v1.6.5
-[v1.6.4]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.6.3...v1.6.4
-[v1.6.3]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.6.2...v1.6.3
-[v1.6.2]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.6.1...v1.6.2
-[v1.6.1]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.6.0...v1.6.1
-[v1.6.0]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.5.3...v1.6.0
-[v1.5.3]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.5.2...v1.5.3
-[v1.5.2]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.5.1...v1.5.2
-[v1.5.1]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.5.0...v1.5.1
-[v1.5.0]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.4.4...v1.5.0
-[v1.4.4]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.4.3...v1.4.4
-[v1.4.3]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.4.2...v1.4.3
-[v1.4.2]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.4.1...v1.4.2
-[v1.4.1]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.4.0...v1.4.1
-[v1.4.0]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.3.3...v1.4.0
-[v1.3.3]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.3.2...v1.3.3
-[v1.3.2]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.3.1...v1.3.2
-[v1.3.1]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.3.0...v1.3.1
-[v1.3.0]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.2.8...v1.3.0
-[v1.2.8]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.2.7...v1.2.8
-[v1.2.7]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.2.6...v1.2.7
-[v1.2.6]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.2.5...v1.2.6
-[v1.2.5]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.2.4...v1.2.5
-[v1.2.4]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.2.3...v1.2.4
-[v1.2.3]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.2.2...v1.2.3
-[v1.2.2]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.2.1...v1.2.2
-[v1.2.1]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.2.0...v1.2.1
-[v1.2.0]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.1.5...v1.2.0
-[v1.1.5]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.1.4...v1.1.5
-[v1.1.4]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.1.3...v1.1.4
-[v1.1.3]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.1.2...v1.1.3
-[v1.1.2]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.1.1...v1.1.2
-[v1.1.1]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.1.0...v1.1.1
-[v1.1.0]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.0.4...v1.1.0
-[v1.0.4]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.0.3...v1.0.4
-[v1.0.3]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.0.2...v1.0.3
-[v1.0.2]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.0.1...v1.0.2
-[v1.0.1]: https://github.com/guanguans/monorepo-builder-worker/compare/v1.0.0...v1.0.1
-[v1.0.0]: https://github.com/guanguans/monorepo-builder-worker/compare/v0.5.0...v1.0.0
-[v0.5.0]: https://github.com/guanguans/monorepo-builder-worker/compare/v0.4.0...v0.5.0
-[v0.4.0]: https://github.com/guanguans/monorepo-builder-worker/compare/v0.3.0...v0.4.0
-[v0.3.0]: https://github.com/guanguans/monorepo-builder-worker/compare/v0.2.5...v0.3.0
-[v0.2.5]: https://github.com/guanguans/monorepo-builder-worker/compare/v0.2.4...v0.2.5
-[v0.2.4]: https://github.com/guanguans/monorepo-builder-worker/compare/v0.2.3...v0.2.4
-[v0.2.3]: https://github.com/guanguans/monorepo-builder-worker/compare/v0.2.2...v0.2.3
-[v0.2.2]: https://github.com/guanguans/monorepo-builder-worker/compare/v0.2.1...v0.2.2
-[v0.2.1]: https://github.com/guanguans/monorepo-builder-worker/compare/v0.2.0...v0.2.1
-[v0.2.0]: https://github.com/guanguans/monorepo-builder-worker/compare/v0.1.0...v0.2.0
+[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.10.2...HEAD
+[1.10.2]: https://github.com/guanguans/ai-commit/compare/1.10.1...1.10.2
+[1.10.1]: https://github.com/guanguans/ai-commit/compare/1.10.0...1.10.1
+[1.10.0]: https://github.com/guanguans/ai-commit/compare/1.9.4...1.10.0
+[1.9.4]: https://github.com/guanguans/ai-commit/compare/1.9.3...1.9.4
+[1.9.3]: https://github.com/guanguans/ai-commit/compare/1.9.2...1.9.3
+[1.9.2]: https://github.com/guanguans/ai-commit/compare/1.9.1...1.9.2
+[1.9.1]: https://github.com/guanguans/ai-commit/compare/1.9.0...1.9.1
+[1.9.0]: https://github.com/guanguans/ai-commit/compare/1.8.6...1.9.0
+[1.8.6]: https://github.com/guanguans/ai-commit/compare/1.8.5...1.8.6
+[1.8.5]: https://github.com/guanguans/ai-commit/compare/1.8.4...1.8.5
+[1.8.4]: https://github.com/guanguans/ai-commit/compare/1.8.3...1.8.4
+[1.8.3]: https://github.com/guanguans/ai-commit/compare/1.8.2...1.8.3
+[1.8.2]: https://github.com/guanguans/ai-commit/compare/1.8.1...1.8.2
+[1.8.1]: https://github.com/guanguans/ai-commit/compare/1.8.0...1.8.1
+[1.8.0]: https://github.com/guanguans/ai-commit/compare/1.7.6...1.8.0
+[1.7.6]: https://github.com/guanguans/ai-commit/compare/1.7.5...1.7.6
+[1.7.5]: https://github.com/guanguans/ai-commit/compare/1.7.4...1.7.5
+[1.7.4]: https://github.com/guanguans/ai-commit/compare/1.7.3...1.7.4
+[1.7.3]: https://github.com/guanguans/ai-commit/compare/1.7.2...1.7.3
+[1.7.2]: https://github.com/guanguans/ai-commit/compare/1.7.1...1.7.2
+[1.7.1]: https://github.com/guanguans/ai-commit/compare/1.7.0...1.7.1
+[1.7.0]: https://github.com/guanguans/ai-commit/compare/v1.6.9...1.7.0
+[v1.6.9]: https://github.com/guanguans/ai-commit/compare/v1.6.8...v1.6.9
+[v1.6.8]: https://github.com/guanguans/ai-commit/compare/v1.6.7...v1.6.8
+[v1.6.7]: https://github.com/guanguans/ai-commit/compare/v1.6.6...v1.6.7
+[v1.6.6]: https://github.com/guanguans/ai-commit/compare/v1.6.5...v1.6.6
+[v1.6.5]: https://github.com/guanguans/ai-commit/compare/v1.6.4...v1.6.5
+[v1.6.4]: https://github.com/guanguans/ai-commit/compare/v1.6.3...v1.6.4
+[v1.6.3]: https://github.com/guanguans/ai-commit/compare/v1.6.2...v1.6.3
+[v1.6.2]: https://github.com/guanguans/ai-commit/compare/v1.6.1...v1.6.2
+[v1.6.1]: https://github.com/guanguans/ai-commit/compare/v1.6.0...v1.6.1
+[v1.6.0]: https://github.com/guanguans/ai-commit/compare/v1.5.3...v1.6.0
+[v1.5.3]: https://github.com/guanguans/ai-commit/compare/v1.5.2...v1.5.3
+[v1.5.2]: https://github.com/guanguans/ai-commit/compare/v1.5.1...v1.5.2
+[v1.5.1]: https://github.com/guanguans/ai-commit/compare/v1.5.0...v1.5.1
+[v1.5.0]: https://github.com/guanguans/ai-commit/compare/v1.4.4...v1.5.0
+[v1.4.4]: https://github.com/guanguans/ai-commit/compare/v1.4.3...v1.4.4
+[v1.4.3]: https://github.com/guanguans/ai-commit/compare/v1.4.2...v1.4.3
+[v1.4.2]: https://github.com/guanguans/ai-commit/compare/v1.4.1...v1.4.2
+[v1.4.1]: https://github.com/guanguans/ai-commit/compare/v1.4.0...v1.4.1
+[v1.4.0]: https://github.com/guanguans/ai-commit/compare/v1.3.3...v1.4.0
+[v1.3.3]: https://github.com/guanguans/ai-commit/compare/v1.3.2...v1.3.3
+[v1.3.2]: https://github.com/guanguans/ai-commit/compare/v1.3.1...v1.3.2
+[v1.3.1]: https://github.com/guanguans/ai-commit/compare/v1.3.0...v1.3.1
+[v1.3.0]: https://github.com/guanguans/ai-commit/compare/v1.2.8...v1.3.0
+[v1.2.8]: https://github.com/guanguans/ai-commit/compare/v1.2.7...v1.2.8
+[v1.2.7]: https://github.com/guanguans/ai-commit/compare/v1.2.6...v1.2.7
+[v1.2.6]: https://github.com/guanguans/ai-commit/compare/v1.2.5...v1.2.6
+[v1.2.5]: https://github.com/guanguans/ai-commit/compare/v1.2.4...v1.2.5
+[v1.2.4]: https://github.com/guanguans/ai-commit/compare/v1.2.3...v1.2.4
+[v1.2.3]: https://github.com/guanguans/ai-commit/compare/v1.2.2...v1.2.3
+[v1.2.2]: https://github.com/guanguans/ai-commit/compare/v1.2.1...v1.2.2
+[v1.2.1]: https://github.com/guanguans/ai-commit/compare/v1.2.0...v1.2.1
+[v1.2.0]: https://github.com/guanguans/ai-commit/compare/v1.1.5...v1.2.0
+[v1.1.5]: https://github.com/guanguans/ai-commit/compare/v1.1.4...v1.1.5
+[v1.1.4]: https://github.com/guanguans/ai-commit/compare/v1.1.3...v1.1.4
+[v1.1.3]: https://github.com/guanguans/ai-commit/compare/v1.1.2...v1.1.3
+[v1.1.2]: https://github.com/guanguans/ai-commit/compare/v1.1.1...v1.1.2
+[v1.1.1]: https://github.com/guanguans/ai-commit/compare/v1.1.0...v1.1.1
+[v1.1.0]: https://github.com/guanguans/ai-commit/compare/v1.0.4...v1.1.0
+[v1.0.4]: https://github.com/guanguans/ai-commit/compare/v1.0.3...v1.0.4
+[v1.0.3]: https://github.com/guanguans/ai-commit/compare/v1.0.2...v1.0.3
+[v1.0.2]: https://github.com/guanguans/ai-commit/compare/v1.0.1...v1.0.2
+[v1.0.1]: https://github.com/guanguans/ai-commit/compare/v1.0.0...v1.0.1
+[v1.0.0]: https://github.com/guanguans/ai-commit/compare/v0.5.0...v1.0.0
+[v0.5.0]: https://github.com/guanguans/ai-commit/compare/v0.4.0...v0.5.0
+[v0.4.0]: https://github.com/guanguans/ai-commit/compare/v0.3.0...v0.4.0
+[v0.3.0]: https://github.com/guanguans/ai-commit/compare/v0.2.5...v0.3.0
+[v0.2.5]: https://github.com/guanguans/ai-commit/compare/v0.2.4...v0.2.5
+[v0.2.4]: https://github.com/guanguans/ai-commit/compare/v0.2.3...v0.2.4
+[v0.2.3]: https://github.com/guanguans/ai-commit/compare/v0.2.2...v0.2.3
+[v0.2.2]: https://github.com/guanguans/ai-commit/compare/v0.2.1...v0.2.2
+[v0.2.1]: https://github.com/guanguans/ai-commit/compare/v0.2.0...v0.2.1
+[v0.2.0]: https://github.com/guanguans/ai-commit/compare/v0.1.0...v0.2.0
