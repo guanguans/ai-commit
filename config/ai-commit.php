@@ -97,6 +97,25 @@ return [
                 'stream' => true,
             ],
         ],
+        'moonshot' => [
+            'driver' => 'moonshot',
+            'http_options' => [
+                // GuzzleHttp\RequestOptions::PROXY => 'https://proxy.com/v1',
+            ],
+            'api_key' => env('MOONSHOT_API_KEY', 'sk-...'),
+            'parameters' => [
+                'model' => 'moonshot-v1-8k', // moonshot-v1-8k,moonshot-v1-32k,moonshot-v1-128k
+                // 'messages' => 'required|array',
+                'max_tokens' => 600,
+                'temperature' => 0.0,
+                'top_p' => 1.0,
+                'n' => 1,
+                'stream' => true,
+                'stop' => null,
+                'presence_penalty' => 0,
+                'frequency_penalty' => 0,
+            ],
+        ],
         'openai' => [
             'driver' => 'openai',
             'api_key' => env('OPENAI_API_KEY', 'sk-...'),
@@ -125,7 +144,7 @@ return [
             ],
             'api_key' => env('OPENAI_API_KEY', 'sk-...'),
             'parameters' => [
-                'model' => 'gpt-3.5-turbo', // 'gpt-4,gpt-4-0613,gpt-4-32k,gpt-4-32k-0613,gpt-3.5-turbo,gpt-3.5-turbo-0613,gpt-3.5-turbo-16k,gpt-3.5-turbo-16k-0613
+                'model' => 'gpt-3.5-turbo', // gpt-4,gpt-4-0613,gpt-4-32k,gpt-4-32k-0613,gpt-3.5-turbo,gpt-3.5-turbo-0613,gpt-3.5-turbo-16k,gpt-3.5-turbo-16k-0613
                 // 'messages' => 'required|array',
                 'max_tokens' => 600,
                 'temperature' => 0.0,

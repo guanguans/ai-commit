@@ -12,18 +12,16 @@ declare(strict_types=1);
 
 namespace App\Support;
 
-use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Utils;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
-use Psr\Http\Message\ResponseInterface;
 
 /**
  * @see https://platform.moonshot.cn/docs/api-reference
  */
-final class Kimi extends FoundationSDK
+final class Moonshot extends FoundationSDK
 {
     /**
      * ```ok
@@ -89,38 +87,6 @@ final class Kimi extends FoundationSDK
                     ]);
                 }
             )
-            // ->withMiddleware(
-            //     Middleware::mapResponse(static function (ResponseInterface $response): ResponseInterface {
-            //         $contents = $response->getBody()->getContents();
-            //
-            //         // $parameters['stream'] === true && $writer === null
-            //         if ($contents && ! \str($contents)->jsonValidate()) {
-            //             $data = \str($contents)
-            //                 ->explode("\n\n")
-            //                 ->reverse()
-            //                 ->skip(2)
-            //                 ->reverse()
-            //                 ->map(static function (string $rowData): array {
-            //                     return json_decode(self::sanitizeData($rowData), true);
-            //                 })
-            //                 ->reduce(static function (array $data, array $rowData): array {
-            //                     if (empty($data)) {
-            //                         return $rowData;
-            //                     }
-            //
-            //                     foreach ($data['choices'] as $index => $choice) {
-            //                         $data['choices'][$index]['text'] .= $rowData['choices'][$index]['text'];
-            //                     }
-            //
-            //                     return $data;
-            //                 }, []);
-            //
-            //             return $response->withBody(Utils::streamFor(json_encode($data)));
-            //         }
-            //
-            //         return $response;
-            //     })
-            // )
             ->post('chat/completions', validate($parameters, [
                 'model' => [
                     'required',
@@ -137,19 +103,9 @@ final class Kimi extends FoundationSDK
                 'max_tokens' => 'integer',
                 'presence_penalty' => 'numeric|between:-2,2',
                 'frequency_penalty' => 'numeric|between:-2,2',
-                'logit_bias' => 'array', // map
-                'user' => 'string|uuid',
-            ]))
-            // ->onError(function (Response $response) use ($rowData) {
-            //     if ($rowData && empty($response->body())) {
-            //         (function (Response $response) use ($rowData): void {
-            //             $this->response = $response->toPsrResponse()->withBody(
-            //                 Utils::streamFor(OpenAI::sanitizeData($rowData))
-            //             );
-            //         })->call($response, $response);
-            //     }
-            // })
-;
+                // 'logit_bias' => 'array', // map
+                // 'user' => 'string|uuid',
+            ]));
 
         if ($rowData && empty($response->body())) {
             $response = new Response($response->toPsrResponse()->withBody(Utils::streamFor(($rowData))));
