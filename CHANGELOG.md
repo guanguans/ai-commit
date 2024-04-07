@@ -8,6 +8,21 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.10.2"></a>
+## [1.10.2] - 2024-04-07
+### Pull Requests
+- Merge pull request [#118](https://github.com/guanguans/monorepo-builder-worker/issues/118) from guanguans/dependabot/github_actions/dependabot/fetch-metadata-2.0.0
+- Merge pull request [#122](https://github.com/guanguans/monorepo-builder-worker/issues/122) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.72.0
+- Merge pull request [#121](https://github.com/guanguans/monorepo-builder-worker/issues/121) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.71.2
+- Merge pull request [#120](https://github.com/guanguans/monorepo-builder-worker/issues/120) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.71.1
+- Merge pull request [#119](https://github.com/guanguans/monorepo-builder-worker/issues/119) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.71.0
+- Merge pull request [#117](https://github.com/guanguans/monorepo-builder-worker/issues/117) from guanguans/dependabot/composer/mockery/mockery-1.6.11
+- Merge pull request [#116](https://github.com/guanguans/monorepo-builder-worker/issues/116) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.70.3
+- Merge pull request [#114](https://github.com/guanguans/monorepo-builder-worker/issues/114) from guanguans/dependabot/composer/mockery/mockery-1.6.10
+- Merge pull request [#113](https://github.com/guanguans/monorepo-builder-worker/issues/113) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.70.2
+- Merge pull request [#111](https://github.com/guanguans/monorepo-builder-worker/issues/111) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.70.0
+
+
 <a name="1.10.1"></a>
 ## [1.10.1] - 2024-03-14
 
@@ -615,7 +630,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.10.1...HEAD
+[Unreleased]: https://github.com/guanguans/monorepo-builder-worker/compare/1.10.2...HEAD
+[1.10.2]: https://github.com/guanguans/monorepo-builder-worker/compare/1.10.1...1.10.2
 [1.10.1]: https://github.com/guanguans/monorepo-builder-worker/compare/1.10.0...1.10.1
 [1.10.0]: https://github.com/guanguans/monorepo-builder-worker/compare/1.9.4...1.10.0
 [1.9.4]: https://github.com/guanguans/monorepo-builder-worker/compare/1.9.3...1.9.4
