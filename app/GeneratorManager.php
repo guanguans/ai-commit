@@ -46,18 +46,15 @@ final class GeneratorManager extends Manager
         }
 
         $config = $this->config->get("ai-commit.generators.$driver");
-        $drivers = array_filter([$driver, $config['driver'] ?? null]);
 
-        foreach ($drivers as $d) {
-            $studlyName = Str::studly($d);
+        $studlyName = Str::studly($config['driver'] ?? $driver);
 
-            if (method_exists($this, $method = "create{$studlyName}Driver")) {
-                return $this->{$method}($config);
-            }
+        if (method_exists($this, $method = "create{$studlyName}Driver")) {
+            return $this->{$method}($config);
+        }
 
-            if (class_exists($class = "App\\Generators\\{$studlyName}Generator")) {
-                return new $class($config);
-            }
+        if (class_exists($class = "App\\Generators\\{$studlyName}Generator")) {
+            return new $class($config);
         }
 
         throw new InvalidArgumentException("Driver [$driver] not supported.");
