@@ -5,4 +5,10 @@
       <code>isProduction</code>
     </UndefinedInterfaceMethod>
   </file>
+  <file src="tests/Feature/ConfigCommandTest.php">
+    <UndefinedMagicMethod occurrences="2">
+      <code>andReturn</code>
+      <code>andReturnNull</code>
+    </UndefinedMagicMethod>
+  </file>
 </files>
