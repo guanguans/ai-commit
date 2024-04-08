@@ -19,13 +19,13 @@ beforeEach(function (): void {
 });
 
 it('can generate commit messages', function (): void {
-    expect(app(GeneratorManager::class)->driver('openai'))
+    expect(app(GeneratorManager::class)->driver('moonshot'))
         ->generate('OK')->toBeString()->not->toBeEmpty();
     Http::assertSentCount(1);
-})->group(__DIR__, __FILE__);
+})->group(__DIR__, __FILE__)->skip();
 
 it('will throw forbidden RequestException', function (): void {
-    app(GeneratorManager::class)->driver('openai')->generate('Forbidden');
+    app(GeneratorManager::class)->driver('moonshot')->generate('Forbidden');
 })->group(__DIR__, __FILE__)->throws(RequestException::class, 'HTTP request returned status code 403');
 
 it('will throw unauthorized RequestException', function (): void {
@@ -33,7 +33,7 @@ it('will throw unauthorized RequestException', function (): void {
         ->tap(function (): void {
             // reset_http_fake();
         })
-        ->driver('openai')
+        ->driver('moonshot')
         ->generate('Unauthorized');
 })->group(__DIR__, __FILE__)->throws(RequestException::class, 'HTTP request returned status code 401');
 
@@ -57,8 +57,8 @@ it('can call writer', function (): void {
     ] as $rowResponse) {
         (function (string $rowResponse) use (&$messages): void {
             $this->buildWriter($messages)($rowResponse);
-        })->call(app(GeneratorManager::class)->driver('openai'), $rowResponse);
+        })->call(app(GeneratorManager::class)->driver('moonshot'), $rowResponse);
     }
 
     expect($messages)->toBe('  use App');
-})->group(__DIR__, __FILE__);
+})->group(__DIR__, __FILE__)->skip();

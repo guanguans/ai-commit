@@ -11,7 +11,6 @@ declare(strict_types=1);
  */
 
 use App\Support\Moonshot;
-use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
@@ -37,23 +36,8 @@ it('can sanitize data', function (): void {
         ->and(Moonshot::sanitizeData($data))->toBeJson();
 })->group(__DIR__, __FILE__);
 
-it('can completions', function (): void {
-    $parameters = config('ai-commit.generators.moonshot.parameters');
-    $parameters['prompt'] = 'OK';
-    $response = $this->moonshot->completions($parameters, function (): void {});
-
-    expect($response->json('choices.0.text'))->toBeString()->not->toBeEmpty();
-    Http::assertSentCount(1);
-})->group(__DIR__, __FILE__)->skip();
-
-it('will throw RequestException when completions', function (): void {
-    $parameters = config('ai-commit.generators.moonshot.parameters');
-    $parameters['prompt'] = 'Too Many Requests';
-    $this->moonshot->completions($parameters, function (): void {});
-})->group(__DIR__, __FILE__)->throws(RequestException::class, 'HTTP request returned status code 429')->skip();
-
 it('can chat completions', function (): void {
-    $parameters = config('ai-commit.generators.moonshot_chat.parameters');
+    $parameters = config('ai-commit.generators.moonshot.parameters');
     $parameters['messages'] = [
         ['role' => 'user', 'content' => 'OK'],
     ];
@@ -61,7 +45,7 @@ it('can chat completions', function (): void {
     expect($this->moonshot->chatCompletions($parameters, function (): void {}))->toBeInstanceOf(Response::class)
         ->body()->toBeJson();
     Http::assertSentCount(1);
-})->group(__DIR__, __FILE__)->skip();
+})->group(__DIR__, __FILE__);
 
 it('can models', function (): void {
     expect($this->moonshot->models())->toBeInstanceOf(Response::class)
