@@ -22,7 +22,7 @@ it('can generate commit messages', function (): void {
     expect(app(GeneratorManager::class)->driver('moonshot'))
         ->generate('OK')->toBeString()->not->toBeEmpty();
     Http::assertSentCount(1);
-})->group(__DIR__, __FILE__)->skip();
+})->group(__DIR__, __FILE__);
 
 it('will throw forbidden RequestException', function (): void {
     app(GeneratorManager::class)->driver('moonshot')->generate('Forbidden');
@@ -42,13 +42,13 @@ it('will throw unauthorized RequestException', function (): void {
  */
 it('can call writer', function (): void {
     foreach ([
-        '{"id": "cmpl-6or3mHmSgvCePOlM34DK90rm6J0ec", "object": "text_completion", "created": 1677578382, "choices": [{"text": "  ", "index": 0, "logprobs": null, "finish_reason": null}], "model": "text-davinci-003"}
+        '{"id":"cmpl-bacb10e1f94a491eb55064b467587065","object":"chat.completion.chunk","created":4114970,"model":"moonshot-v1-8k","choices":[{"index":0,"delta":{"content":" to"},"finish_reason":null}]}
 
 ',
-        '{"id": "cmpl-6or3mHmSgvCePOlM34DK90rm6J0ec", "object": "text_completion", "created": 1677578382, "choices": [{"text": "use", "index": 0, "logprobs": null, "finish_reason": null}], "model": "text-davinci-003"}
+        '{"id":"cmpl-bacb10e1f94a491eb55064b467587065","object":"chat.completion.chunk","created":4114970,"model":"moonshot-v1-8k","choices":[{"index":0,"delta":{"content":" display"},"finish_reason":null}]}
 
 ',
-        '{"id": "cmpl-6or3mHmSgvCePOlM34DK90rm6J0ec", "object": "text_completion", "created": 1677578382, "choices": [{"text": " App", "index": 0, "logprobs": null, "finish_reason": "length"}], "model": "text-davinci-003"}
+        '{"id":"cmpl-bacb10e1f94a491eb55064b467587065","object":"chat.completion.chunk","created":4114970,"model":"moonshot-v1-8k","choices":[{"index":0,"delta":{},"finish_reason":"stop","usage":{"prompt_tokens":492,"completion_tokens":49,"total_tokens":541}}]}
 
 ',
         '[DONE]
@@ -60,5 +60,5 @@ it('can call writer', function (): void {
         })->call(app(GeneratorManager::class)->driver('moonshot'), $rowResponse);
     }
 
-    expect($messages)->toBe('  use App');
-})->group(__DIR__, __FILE__)->skip();
+    expect($messages)->toBe(' to display');
+})->group(__DIR__, __FILE__);
