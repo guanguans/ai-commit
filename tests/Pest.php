@@ -113,7 +113,7 @@ function setup_http_fake(): void
                     json
 
                 : <<<'json'
-                    {"id":"cmpl-64d18ab895224e74b9c78a9a8c233585","object":"chat.completion","created":3943160,"model":"moonshot-v1-8k","choices":[{"index":0,"delta":{"role":"assistant","content":"你好，李雷！1+1等于2。如果你有更复杂的数学问题或者其他问题，也可以随时问我。"},"finish_reason":"stop"}],"usage":{"prompt_tokens":83,"completion_tokens":25,"total_tokens":108}}
+                    {"id":"cmpl-64d18ab895224e74b9c78a9a8c233585","object":"chat.completion","created":3943160,"model":"moonshot-v1-8k","choices":[{"index":0,"message":{"role":"assistant","content":"你好，李雷！1+1等于2。如果你有更复杂的数学问题或者其他问题，也可以随时问我。"},"finish_reason":"stop"}],"usage":{"prompt_tokens":83,"completion_tokens":25,"total_tokens":108}}
                     json;
 
             return Http::response($body, $status);

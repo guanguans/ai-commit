@@ -45,8 +45,6 @@ final class MoonshotGenerator implements GeneratorContract
 
     /**
      * @psalm-suppress RedundantCast
-     *
-     * @noinspection MissingParentCallInspection
      */
     public function generate(string $prompt): string
     {
@@ -54,7 +52,7 @@ final class MoonshotGenerator implements GeneratorContract
             'messages' => [
                 ['role' => 'user', 'content' => $prompt],
             ],
-            'user' => Str::uuid()->toString(),
+            // 'user' => Str::uuid()->toString(),
         ] + Arr::get($this->config, 'parameters', []);
 
         $response = $this->moonshot->chatCompletions($parameters, $this->buildWriter($messages));
@@ -63,12 +61,11 @@ final class MoonshotGenerator implements GeneratorContract
         return (string) ($messages ?? $this->getCompletionMessages($response));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     private function getCompletionMessages($response): string
     {
-        return Arr::get($response, 'choices.0.delta.content', '');
+        return Arr::get($this->config, 'parameters.stream', false)
+            ? Arr::get($response, 'choices.0.delta.content', '')
+            : Arr::get($response, 'choices.0.message.content', '');
     }
 
     /**
