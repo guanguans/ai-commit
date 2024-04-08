@@ -8,6 +8,16 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.11.1"></a>
+## [1.11.1] - 2024-04-08
+### Feat
+- **tests:** Add HTTP fake setup for Moonshot and chat completions
+
+### Test
+- **Pest:** Update API response mock data
+- **Unit:** Add MoonshotGeneratorTest.php and OpenAIGeneratorTest.php
+
+
 <a name="1.11.0"></a>
 ## [1.11.0] - 2024-04-08
 ### Feat
@@ -640,7 +650,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.11.0...HEAD
+[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.11.1...HEAD
+[1.11.1]: https://github.com/guanguans/ai-commit/compare/1.11.0...1.11.1
 [1.11.0]: https://github.com/guanguans/ai-commit/compare/1.10.2...1.11.0
 [1.10.2]: https://github.com/guanguans/ai-commit/compare/1.10.1...1.10.2
 [1.10.1]: https://github.com/guanguans/ai-commit/compare/1.10.0...1.10.1
