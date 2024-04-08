@@ -8,6 +8,16 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.11.0"></a>
+## [1.11.0] - 2024-04-08
+### Feat
+- **Generators:** Add KimiGenerator class for AI completion
+- **Kimi:** Add chatCompletions method to Kimi class
+
+### Refactor
+- **generator:** Refactor GeneratorManager to improve readability and maintainability
+
+
 <a name="1.10.2"></a>
 ## [1.10.2] - 2024-04-07
 ### Pull Requests
@@ -630,7 +640,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.10.2...HEAD
+[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.11.0...HEAD
+[1.11.0]: https://github.com/guanguans/ai-commit/compare/1.10.2...1.11.0
 [1.10.2]: https://github.com/guanguans/ai-commit/compare/1.10.1...1.10.2
 [1.10.1]: https://github.com/guanguans/ai-commit/compare/1.10.0...1.10.1
 [1.10.0]: https://github.com/guanguans/ai-commit/compare/1.9.4...1.10.0
