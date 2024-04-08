@@ -109,11 +109,11 @@ function setup_http_fake(): void
             $status = array_flip(Response::$statusTexts)[$prompt] ?? 200;
             $body = $status >= 400
                 ? <<<'json'
-                    {"error":{"message":"Incorrect API key provided: sk-........ You can find your API key at https:\/\/platform.openai.com\/account\/api-keys.","type":"invalid_request_error","param":null,"code":"invalid_api_key"}}
+                    {"error":{"message":"auth failed","type":"invalid_authentication_error"}}
                     json
 
                 : <<<'json'
-                    {"id":"chatcmpl-6pqDoRwRGQAlRvJnesR9QMG9rxpyK","object":"chat.completion","created":1677813488,"model":"gpt-3.5-turbo-0301","usage":{"prompt_tokens":8,"completion_tokens":16,"total_tokens":24},"choices":[{"delta":{"role":"assistant","content":"PHP (Hypertext Preprocessor) is a server-side scripting language used"},"finish_reason":"length","index":0}]}
+                    {"id":"cmpl-64d18ab895224e74b9c78a9a8c233585","object":"chat.completion","created":3943160,"model":"moonshot-v1-8k","choices":[{"index":0,"message":{"role":"assistant","content":"你好，李雷！1+1等于2。如果你有更复杂的数学问题或者其他问题，也可以随时问我。"},"finish_reason":"stop"}],"usage":{"prompt_tokens":83,"completion_tokens":25,"total_tokens":108}}
                     json;
 
             return Http::response($body, $status);
@@ -121,7 +121,7 @@ function setup_http_fake(): void
         '*://api.moonshot.cn/v1/models' => function (Request $request, array $options): PromiseInterface {
             return Http::response(
                 <<<'json'
-                    {"object":"list","data":[{"id":"babbage","object":"model","created":1649358449,"owned_by":"openai","permission":[{"id":"modelperm-49FUp5v084tBB49tC4z8LPH5","object":"model_permission","created":1669085501,"allow_create_engine":false,"allow_sampling":true,"allow_logprobs":true,"allow_search_indices":false,"allow_view":true,"allow_fine_tuning":false,"organization":"*","group":null,"is_blocking":false}],"root":"babbage","parent":null}]}
+                    {"object":"list","data":[{"created":1712151494,"id":"moonshot-v1-8k","object":"model","owned_by":"moonshot","permission":[{"created":0,"id":"","object":"","allow_create_engine":false,"allow_sampling":false,"allow_logprobs":false,"allow_search_indices":false,"allow_view":false,"allow_fine_tuning":false,"organization":"public","group":"public","is_blocking":false}],"root":"","parent":""},{"created":1712151494,"id":"moonshot-v1-32k","object":"model","owned_by":"moonshot","permission":[{"created":0,"id":"","object":"","allow_create_engine":false,"allow_sampling":false,"allow_logprobs":false,"allow_search_indices":false,"allow_view":false,"allow_fine_tuning":false,"organization":"public","group":"public","is_blocking":false}],"root":"","parent":""},{"created":1712151494,"id":"moonshot-v1-128k","object":"model","owned_by":"moonshot","permission":[{"created":0,"id":"","object":"","allow_create_engine":false,"allow_sampling":false,"allow_logprobs":false,"allow_search_indices":false,"allow_view":false,"allow_fine_tuning":false,"organization":"public","group":"public","is_blocking":false}],"root":"","parent":""}]}
                     json
             );
         },
