@@ -19,6 +19,7 @@ beforeEach(function (): void {
 });
 
 it('can generate commit messages', function (): void {
+    config('ai-commit')->set('generators.moonshot.parameters.stream', false);
     expect(app(GeneratorManager::class)->driver('moonshot'))
         ->generate('OK')->toBeString()->not->toBeEmpty();
     Http::assertSentCount(1);

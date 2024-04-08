@@ -21,6 +21,7 @@ uses(TestCase::class)
     ->beforeAll(function (): void {
     })
     ->beforeEach(function (): void {
+        // setup_http_fake();
     })
     ->afterEach(function (): void {
     })
