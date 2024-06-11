@@ -46,6 +46,15 @@ return [
     // The mark of diff.
     'diff_mark' => '<diff>',
 
+    // The mark of type.
+    'type_mark' => '<type>',
+
+    // The mark of type prompt.
+    'type_prompt_mark' => '<type-prompt>',
+
+    // The type prompt.
+    'type_prompt' => '- Use commit type `%s`.',
+
     // Enable or disable git commit `--no-edit` option.
     'no_edit' => false,
 
@@ -184,6 +193,7 @@ return [
             - The details about what was done in the body of the message.
             - Any useful details concerning the change in the body of the message.
             - Use a hyphen (-) for the bullet points in the body of the message.
+            <type-prompt>
             Write 1 commit messages that accurately summarizes the changes made in the given `git diff` output, following the best practices listed above and the conventional commit format.
             Please provide a response in the form of a valid JSON object and do not include "Output:", "Response:" or anything similar to those two before it, in the following format:
             {
