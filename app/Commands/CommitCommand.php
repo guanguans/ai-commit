@@ -73,7 +73,11 @@ final class CommitCommand extends Command
                 throw new TaskException('There are no cached files to commit. Try running `git add` to cache some files.');
             }
 
-            $type = $this->choice('Please choice commit type', $types = $this->configManager->get('types'), array_key_first($types));
+            $type = $this->choice(
+                'Please choice commit type',
+                $types = $this->configManager->get('types'),
+                array_key_first($types)
+            );
 
             $message = retry(
                 $this->option('retry-times'),
@@ -287,9 +291,10 @@ final class CommitCommand extends Command
     private function getPrompt(string $cachedDiff, string $type): string
     {
         $typePrompt = sprintf($this->configManager->get('type_prompt'), $type);
+
         if (array_key_first($this->configManager->get('types')) === $type) {
-            $type = $this->configManager->get('type_mark');
-            $typePrompt = '';
+            $type = $this->configManager->get('type_mark'); // Reset type.
+            $typePrompt = ''; // Clear type prompt.
         }
 
         return (string) str($this->configManager->get("prompts.{$this->option('prompt')}"))
