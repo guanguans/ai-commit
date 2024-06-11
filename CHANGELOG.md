@@ -8,6 +8,23 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.11.2"></a>
+## [1.11.2] - 2024-06-11
+### Pull Requests
+- Merge pull request [#135](https://github.com/guanguans/ai-commit/issues/135) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.78.0
+- Merge pull request [#134](https://github.com/guanguans/ai-commit/issues/134) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.77.0
+- Merge pull request [#133](https://github.com/guanguans/ai-commit/issues/133) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.76.3
+- Merge pull request [#132](https://github.com/guanguans/ai-commit/issues/132) from guanguans/dependabot/composer/mockery/mockery-1.6.12
+- Merge pull request [#131](https://github.com/guanguans/ai-commit/issues/131) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.76.2
+- Merge pull request [#130](https://github.com/guanguans/ai-commit/issues/130) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.76.1
+- Merge pull request [#129](https://github.com/guanguans/ai-commit/issues/129) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.76.0
+- Merge pull request [#127](https://github.com/guanguans/ai-commit/issues/127) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.75.1
+- Merge pull request [#126](https://github.com/guanguans/ai-commit/issues/126) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.75.0
+- Merge pull request [#125](https://github.com/guanguans/ai-commit/issues/125) from guanguans/dependabot/github_actions/dependabot/fetch-metadata-2.1.0
+- Merge pull request [#124](https://github.com/guanguans/ai-commit/issues/124) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.74.0
+- Merge pull request [#123](https://github.com/guanguans/ai-commit/issues/123) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.73.0
+
+
 <a name="1.11.1"></a>
 ## [1.11.1] - 2024-04-08
 ### Feat
@@ -650,7 +667,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.11.1...HEAD
+[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.11.2...HEAD
+[1.11.2]: https://github.com/guanguans/ai-commit/compare/1.11.1...1.11.2
 [1.11.1]: https://github.com/guanguans/ai-commit/compare/1.11.0...1.11.1
 [1.11.0]: https://github.com/guanguans/ai-commit/compare/1.10.2...1.11.0
 [1.10.2]: https://github.com/guanguans/ai-commit/compare/1.10.1...1.10.2
