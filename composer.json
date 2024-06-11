@@ -59,7 +59,7 @@
         "illuminate/translation": "^8.83 || ^9.0 || ^10.0 || ^11.0",
         "illuminate/validation": "^8.83 || ^9.0 || ^10.0 || ^11.0",
         "laminas/laminas-text": "^2.9",
-        "laravel-zero/framework": "^8.10 || ^9.0 || ^10.0",
+        "laravel-zero/framework": "^8.10 || ^9.0 || ^10.0 || ^11.0",
         "laravel-zero/phar-updater": "^1.1",
         "mockery/mockery": "^1.6",
         "pestphp/pest": "^1.23 || ^2.0",
