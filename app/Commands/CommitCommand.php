@@ -73,16 +73,18 @@ final class CommitCommand extends Command
                 throw new TaskException('There are no cached files to commit. Try running `git add` to cache some files.');
             }
 
+            $type = $this->choice('Please choice commit type', $types = $this->configManager->get('types'), array_key_first($types));
+
             $message = retry(
                 $this->option('retry-times'),
-                function ($attempts) use ($cachedDiff): string {
+                function ($attempts) use ($cachedDiff, $type): string {
                     if ($attempts > 1) {
                         $this->output->note('retrying...');
                     }
 
                     $originalMessage = $this->generatorManager
                         ->driver($this->option('generator'))
-                        ->generate($this->getPrompt($cachedDiff));
+                        ->generate($this->getPrompt($cachedDiff, $type));
                     $message = $this->tryFixMessage($originalMessage);
                     if (! str($message)->jsonValidate()) {
                         throw new TaskException(sprintf(
@@ -282,9 +284,17 @@ final class CommitCommand extends Command
         return array_merge(['git', 'diff', '--cached'], $this->option('diff-options'));
     }
 
-    private function getPrompt(string $cachedDiff): string
+    private function getPrompt(string $cachedDiff, string $type): string
     {
+        $typePrompt = sprintf($this->configManager->get('type_prompt'), $type);
+        if (array_key_first($this->configManager->get('types')) === $type) {
+            $type = $this->configManager->get('type_mark');
+            $typePrompt = '';
+        }
+
         return (string) str($this->configManager->get("prompts.{$this->option('prompt')}"))
+            ->replace($this->configManager->get('type_mark'), $type)
+            ->replace($this->configManager->get('type_prompt_mark'), $typePrompt)
             ->replace($this->configManager->get('diff_mark'), $cachedDiff)
             ->when($this->option('verbose'), function (Stringable $prompt): Stringable {
                 $this->output->note((string) $prompt);
