@@ -34,9 +34,6 @@ final class Handler extends \Illuminate\Foundation\Exceptions\Handler
 
     /**
      * {@inheritDoc}
-     *
-     * @noinspection ReturnTypeCanBeDeclaredInspection
-     * @noinspection PhpMissingReturnTypeInspection
      */
     protected function shouldntReport(\Throwable $e): bool
     {

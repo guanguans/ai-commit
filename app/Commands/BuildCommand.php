@@ -78,8 +78,6 @@ final class BuildCommand extends Command
 
     /**
      * @psalm-suppress UndefinedInterfaceMethod
-     * @noinspection ReturnTypeCanBeDeclaredInspection
-     * @noinspection PhpMissingReturnTypeInspection
      * @noinspection PhpMissingParentCallCommonInspection
      */
     public function isEnabled(): bool
@@ -186,7 +184,6 @@ final class BuildCommand extends Command
     }
 
     /**
-     * @noinspection DebugFunctionUsageInspection
      * @noinspection UsingInclusionReturnValueInspection
      *
      * @throws \JsonException

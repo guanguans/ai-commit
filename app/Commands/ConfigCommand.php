@@ -237,7 +237,6 @@ final class ConfigCommand extends Command
     /**
      * @param mixed $value
      *
-     * @noinspection DebugFunctionUsageInspection
      * @noinspection JsonEncodingApiUsageInspection
      */
     private function valueToArg($value): string
