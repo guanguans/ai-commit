@@ -8,6 +8,25 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.12.0"></a>
+## [1.12.0] - 2024-06-12
+### Docs
+- **config:** Add commit type prompt in ai-commit.php
+
+### Feat
+- add ability to select commit type
+- **CommitCommand.php:** Modify commit type selection logic
+
+### Perf
+- **app:** improve handle method performance
+
+### Test
+- **test:** improve commit command test coverage
+
+### Pull Requests
+- Merge pull request [#136](https://github.com/guanguans/ai-commit/issues/136) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.78.1
+
+
 <a name="1.11.2"></a>
 ## [1.11.2] - 2024-06-11
 ### Pull Requests
@@ -667,7 +686,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.11.2...HEAD
+[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.12.0...HEAD
+[1.12.0]: https://github.com/guanguans/ai-commit/compare/1.11.2...1.12.0
 [1.11.2]: https://github.com/guanguans/ai-commit/compare/1.11.1...1.11.2
 [1.11.1]: https://github.com/guanguans/ai-commit/compare/1.11.0...1.11.1
 [1.11.0]: https://github.com/guanguans/ai-commit/compare/1.10.2...1.11.0
