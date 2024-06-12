@@ -31,7 +31,7 @@ final class ThanksCommand extends Command
      */
     protected $description = 'Thanks for using this tool.';
 
-    public function handle(): int
+    public function handle(): void
     {
         $wantsToSupport = $this->ask('Can you quickly <options=bold>star our GitHub repository</>? 🙏🏻', 'yes');
 
@@ -46,8 +46,6 @@ final class ThanksCommand extends Command
             sprintf('  - Star or contribute to <comment>%s</comment>:', config('app.name')),
             '    <options=bold>https://github.com/guanguans/ai-commit</>',
         ]);
-
-        return self::SUCCESS;
     }
 
     public function schedule(Schedule $schedule): void

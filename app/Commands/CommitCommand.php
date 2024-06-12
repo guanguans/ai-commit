@@ -58,11 +58,9 @@ final class CommitCommand extends Command
     }
 
     /**
-     * @noinspection DebugFunctionUsageInspection
-     *
      * @psalm-suppress InvalidArgument
      */
-    public function handle(): int
+    public function handle(): void
     {
         $this->task('1. Generating commit message', function () use (&$message): void {
             // Ensure git is installed and the current directory is a git repository.
@@ -138,8 +136,6 @@ final class CommitCommand extends Command
         }, 'committing...'.PHP_EOL);
 
         $this->output->success('Successfully generated and committed message.');
-
-        return self::SUCCESS;
     }
 
     /**
