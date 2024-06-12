@@ -75,10 +75,13 @@ it('will throw TaskException(The generated commit message is an invalid JSON)', 
         ]);
     });
 
-    $this->artisan(CommitCommand::class, [
-        'path' => repository_path(),
-        '--generator' => 'openai',
-    ]);
+    $this
+        ->artisan(CommitCommand::class, [
+            'path' => repository_path(),
+            '--generator' => 'openai',
+        ])
+        // ->expectsChoice('Please choice commit type', array_key_first($types = config('ai-commit.types')), $types)
+        ->expectsQuestion('Please choice commit type', array_key_first(config('ai-commit.types')));
 })
     ->depends('it will throw TaskException(no cached files to commit)')
     ->group(__DIR__, __FILE__)
@@ -107,6 +110,8 @@ it('can generate and commit message', function (): void {
             $message->keys()->all(),
             [$message->all()]
         )
+        // ->expectsChoice('Please choice commit type', array_key_first($types = config('ai-commit.types')), $types)
+        ->expectsQuestion('Please choice commit type', array_key_first(config('ai-commit.types')))
         // ->expectsChoice('Please choice a commit message', $message->pluck('subject', 'id')->first(), $message->pluck('subject', 'id')->all())
         // ->expectsQuestion('Please choice a commit message', '<comment>regenerating...</comment>')
         ->expectsConfirmation('Do you want to commit this message?', 'yes')
@@ -118,6 +123,7 @@ it('can generate and commit message', function (): void {
 afterAll(static function (): void {
     // 清理 playground 仓库
     Process::fromShellCommandline('git reset HEAD^', repository_path())->run();
-    Process::fromShellCommandline('git checkout -- .', repository_path())->run();
+    // Process::fromShellCommandline('git checkout -- .', repository_path())->run();
+    Process::fromShellCommandline('git checkout HEAD -- .', repository_path())->run();
     Process::fromShellCommandline('git add tests/Fixtures/repository/', base_path())->mustRun();
 });
