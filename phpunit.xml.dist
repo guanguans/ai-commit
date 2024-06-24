@@ -19,18 +19,18 @@
       <exclude>vendor/</exclude>
     </testsuite>
   </testsuites>
-  <!--<coverage processUncoveredFiles="true">
+  <coverage processUncoveredFiles="true">
     <include>
       <directory suffix=".php">./app</directory>
     </include>
     <exclude>
-      &lt;!&ndash;<directory>app/Contracts</directory>&ndash;&gt;
+      <!--<directory>app/Contracts</directory>-->
       <file>app/Commands/BuildCommand.php</file>
       <file>app/Support/JsonFixer.php</file>
       <file>app/Support/helpers.php</file>
       <file>app/Macros/StrMacro.php</file>
     </exclude>
-  </coverage>-->
+  </coverage>
   <source>
     <include>
       <directory suffix=".php">./app</directory>
