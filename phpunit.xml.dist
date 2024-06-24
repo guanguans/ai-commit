@@ -1,31 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
   backupGlobals="false"
-  backupStaticAttributes="false"
   bootstrap="vendor/autoload.php"
   cacheResultFile="build/phpunit/.phpunit.result.cache"
   colors="true"
-  convertErrorsToExceptions="true"
-  convertNoticesToExceptions="true"
-  convertWarningsToExceptions="true"
   processIsolation="false"
   stopOnFailure="false"
-  verbose="true"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
 >
-  <coverage processUncoveredFiles="true">
-    <include>
-      <directory suffix=".php">./app</directory>
-    </include>
-    <exclude>
-      <!--<directory>app/Contracts</directory>-->
-      <file>app/Commands/BuildCommand.php</file>
-      <file>app/Support/JsonFixer.php</file>
-      <file>app/Support/helpers.php</file>
-      <file>app/Macros/StrMacro.php</file>
-    </exclude>
-  </coverage>
   <testsuites>
     <testsuite name="Feature">
       <directory suffix="Test.php">./tests/Feature</directory>
@@ -36,6 +19,30 @@
       <exclude>vendor/</exclude>
     </testsuite>
   </testsuites>
+  <!--<coverage processUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">./app</directory>
+    </include>
+    <exclude>
+      &lt;!&ndash;<directory>app/Contracts</directory>&ndash;&gt;
+      <file>app/Commands/BuildCommand.php</file>
+      <file>app/Support/JsonFixer.php</file>
+      <file>app/Support/helpers.php</file>
+      <file>app/Macros/StrMacro.php</file>
+    </exclude>
+  </coverage>-->
+  <source>
+    <include>
+      <directory suffix=".php">./app</directory>
+    </include>
+    <exclude>
+      <!--<directory>app/Contracts</directory>-->
+      <file>app/Commands/BuildCommand.php</file>
+      <file>app/Support/JsonFixer.php</file>
+      <file>app/Support/helpers.php</file>
+      <file>app/Macros/StrMacro.php</file>
+    </exclude>
+  </source>
   <!--<listeners>
       <listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener">
           <arguments>
