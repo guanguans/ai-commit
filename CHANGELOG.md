@@ -8,6 +8,9 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.12.3"></a>
+## [1.12.3] - 2024-06-24
+
 <a name="1.12.2"></a>
 ## [1.12.2] - 2024-06-24
 ### Fix
@@ -698,7 +701,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.12.2...HEAD
+[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.12.3...HEAD
+[1.12.3]: https://github.com/guanguans/ai-commit/compare/1.12.2...1.12.3
 [1.12.2]: https://github.com/guanguans/ai-commit/compare/1.12.1...1.12.2
 [1.12.1]: https://github.com/guanguans/ai-commit/compare/1.12.0...1.12.1
 [1.12.0]: https://github.com/guanguans/ai-commit/compare/1.11.2...1.12.0
