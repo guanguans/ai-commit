@@ -8,6 +8,16 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.12.4"></a>
+## [1.12.4] - 2024-06-24
+### CI
+- **phpunit:** Fix coverage exclusion in phpunit.xml.dist
+- **phpunit:** Remove coverage settings and add source settings
+
+### Fix
+- **config:** Update logo font class conditionally
+
+
 <a name="1.12.3"></a>
 ## [1.12.3] - 2024-06-24
 
@@ -701,7 +711,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.12.3...HEAD
+[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.12.4...HEAD
+[1.12.4]: https://github.com/guanguans/ai-commit/compare/1.12.3...1.12.4
 [1.12.3]: https://github.com/guanguans/ai-commit/compare/1.12.2...1.12.3
 [1.12.2]: https://github.com/guanguans/ai-commit/compare/1.12.1...1.12.2
 [1.12.1]: https://github.com/guanguans/ai-commit/compare/1.12.0...1.12.1
