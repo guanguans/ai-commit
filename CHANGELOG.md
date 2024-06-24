@@ -8,6 +8,15 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.12.2"></a>
+## [1.12.2] - 2024-06-24
+### Fix
+- **app:** Remove outdated OpenAI model options
+
+### Pull Requests
+- Merge pull request [#137](https://github.com/guanguans/ai-commit/issues/137) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.78.2
+
+
 <a name="1.12.1"></a>
 ## [1.12.1] - 2024-06-12
 
@@ -689,7 +698,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.12.1...HEAD
+[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.12.2...HEAD
+[1.12.2]: https://github.com/guanguans/ai-commit/compare/1.12.1...1.12.2
 [1.12.1]: https://github.com/guanguans/ai-commit/compare/1.12.0...1.12.1
 [1.12.0]: https://github.com/guanguans/ai-commit/compare/1.11.2...1.12.0
 [1.11.2]: https://github.com/guanguans/ai-commit/compare/1.11.1...1.11.2
