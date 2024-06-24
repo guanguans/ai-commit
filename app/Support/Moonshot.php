@@ -91,7 +91,7 @@ final class Moonshot extends FoundationSDK
                 'model' => [
                     'required',
                     'string',
-                    'in:moonshot-v1-8k,moonshot-v1-32k,moonshot-v1-128k',
+                    // 'in:moonshot-v1-8k,moonshot-v1-32k,moonshot-v1-128k',
                 ],
                 'messages' => 'required|array',
                 'temperature' => 'numeric|between:0,2',
