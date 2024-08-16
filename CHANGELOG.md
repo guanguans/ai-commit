@@ -8,6 +8,33 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.12.5"></a>
+## [1.12.5] - 2024-08-16
+### CI
+- **rector:** Remove unused rector and update configurations
+
+### Pull Requests
+- Merge pull request [#159](https://github.com/guanguans/ai-commit/issues/159) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.81.9
+- Merge pull request [#158](https://github.com/guanguans/ai-commit/issues/158) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.81.8
+- Merge pull request [#157](https://github.com/guanguans/ai-commit/issues/157) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.81.7
+- Merge pull request [#156](https://github.com/guanguans/ai-commit/issues/156) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.81.6
+- Merge pull request [#155](https://github.com/guanguans/ai-commit/issues/155) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.81.5
+- Merge pull request [#154](https://github.com/guanguans/ai-commit/issues/154) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.81.4
+- Merge pull request [#153](https://github.com/guanguans/ai-commit/issues/153) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.80.5
+- Merge pull request [#152](https://github.com/guanguans/ai-commit/issues/152) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.80.4
+- Merge pull request [#151](https://github.com/guanguans/ai-commit/issues/151) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.80.3
+- Merge pull request [#150](https://github.com/guanguans/ai-commit/issues/150) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.80.2
+- Merge pull request [#149](https://github.com/guanguans/ai-commit/issues/149) from guanguans/dependabot/composer/guzzlehttp/guzzle-7.9.2
+- Merge pull request [#148](https://github.com/guanguans/ai-commit/issues/148) from guanguans/dependabot/composer/guzzlehttp/guzzle-7.9.1
+- Merge pull request [#147](https://github.com/guanguans/ai-commit/issues/147) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.80.1
+- Merge pull request [#146](https://github.com/guanguans/ai-commit/issues/146) from guanguans/dependabot/composer/guzzlehttp/guzzle-7.9.0
+- Merge pull request [#144](https://github.com/guanguans/ai-commit/issues/144) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.80.0
+- Merge pull request [#143](https://github.com/guanguans/ai-commit/issues/143) from guanguans/dependabot/composer/laravel-zero/phar-updater-1.4.0
+- Merge pull request [#141](https://github.com/guanguans/ai-commit/issues/141) from guanguans/dependabot/composer/laminas/laminas-text-2.11.0
+- Merge pull request [#140](https://github.com/guanguans/ai-commit/issues/140) from guanguans/dependabot/github_actions/dependabot/fetch-metadata-2.2.0
+- Merge pull request [#139](https://github.com/guanguans/ai-commit/issues/139) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.79.0
+
+
 <a name="1.12.4"></a>
 ## [1.12.4] - 2024-06-24
 ### CI
@@ -711,7 +738,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.12.4...HEAD
+[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.12.5...HEAD
+[1.12.5]: https://github.com/guanguans/ai-commit/compare/1.12.4...1.12.5
 [1.12.4]: https://github.com/guanguans/ai-commit/compare/1.12.3...1.12.4
 [1.12.3]: https://github.com/guanguans/ai-commit/compare/1.12.2...1.12.3
 [1.12.2]: https://github.com/guanguans/ai-commit/compare/1.12.1...1.12.2
