@@ -27,7 +27,6 @@ use Rector\Config\RectorConfig;
 use Rector\Configuration\Option;
 use Rector\DeadCode\Rector\Assign\RemoveUnusedVariableAssignRector;
 use Rector\DeadCode\Rector\ClassMethod\RemoveEmptyClassMethodRector;
-use Rector\EarlyReturn\Rector\If_\ChangeAndIfToEarlyReturnRector;
 use Rector\EarlyReturn\Rector\Return_\ReturnBinaryOrToEarlyReturnRector;
 use Rector\Naming\Rector\Assign\RenameVariableToMatchMethodCallReturnTypeRector;
 use Rector\Naming\Rector\ClassMethod\RenameParamToMatchTypeRector;
@@ -77,7 +76,6 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->skip([
         // rules
         // CallableThisArrayToAnonymousFunctionRector::class,
-        // ChangeAndIfToEarlyReturnRector::class,
         // RemoveEmptyClassMethodRector::class,
         // RemoveUnusedVariableAssignRector::class,
         // SimplifyBoolIdenticalTrueRector::class,
@@ -94,9 +92,6 @@ return static function (RectorConfig $rectorConfig): void {
         WrapEncapsedVariableInCurlyBracesRector::class,
         // NewlineAfterStatementRector::class,
 
-        ChangeAndIfToEarlyReturnRector::class => [
-            __DIR__.'/app/ConfigManager.php',
-        ],
         CompleteDynamicPropertiesRector::class => [
             __DIR__.'/app/Support/FoundationSDK.php',
         ],
@@ -104,8 +99,9 @@ return static function (RectorConfig $rectorConfig): void {
             __DIR__.'/app/Support/FoundationSDK.php',
         ],
         JsonThrowOnErrorRector::class => [
-            __DIR__.'/app/Generators/OpenAIGenerator.php',
             __DIR__.'/app/Generators/ErnieBotGenerator.php',
+            __DIR__.'/app/Generators/MoonshotGenerator.php',
+            __DIR__.'/app/Generators/OpenAIGenerator.php',
         ],
         StaticClosureRector::class => [
             __DIR__.'/tests',
@@ -152,7 +148,10 @@ return static function (RectorConfig $rectorConfig): void {
     ]);
 
     $rectorConfig->rules([
+        DisallowedShortTernaryRuleFixerRector::class,
         InlineConstructorDefaultToPropertyRector::class,
+        JsonThrowOnErrorRector::class,
+        StaticClosureRector::class,
     ]);
 
     $rectorConfig->ruleWithConfiguration(RenameFunctionRector::class, [
