@@ -66,7 +66,7 @@ final class CommitCommand extends Command
             // Ensure git is installed and the current directory is a git repository.
             $this->createProcess(['git', 'rev-parse', '--is-inside-work-tree'])->mustRun();
 
-            $cachedDiff = $this->createProcess($this->getDiffCommand())->mustRun()->getOutput();
+            $cachedDiff = $this->option('diff') ?: $this->createProcess($this->getDiffCommand())->mustRun()->getOutput();
             if ('' === $cachedDiff) {
                 throw new TaskException('There are no cached files to commit. Try running `git add` to cache some files.');
             }
@@ -233,6 +233,12 @@ final class CommitCommand extends Command
                 null,
                 InputOption::VALUE_NONE,
                 'Only generate message without commit',
+            ),
+            new InputOption(
+                'diff',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Specify diff content',
             ),
         ]);
     }
