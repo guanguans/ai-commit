@@ -8,6 +8,22 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.13.0"></a>
+## [1.13.0] - 2024-09-26
+### Feat
+- **command:** add dry-run option for commit messages
+- **commit:** add optional diff parameter for commit command
+
+### Pull Requests
+- Merge pull request [#166](https://github.com/guanguans/ai-commit/issues/166) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.82.5
+- Merge pull request [#165](https://github.com/guanguans/ai-commit/issues/165) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.82.3
+- Merge pull request [#164](https://github.com/guanguans/ai-commit/issues/164) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.82.2
+- Merge pull request [#163](https://github.com/guanguans/ai-commit/issues/163) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.82.1
+- Merge pull request [#162](https://github.com/guanguans/ai-commit/issues/162) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.81.10
+- Merge pull request [#161](https://github.com/guanguans/ai-commit/issues/161) from guanguans/dependabot/composer/laravel-zero/phar-updater-1.4.0
+- Merge pull request [#160](https://github.com/guanguans/ai-commit/issues/160) from guanguans/dependabot/composer/laminas/laminas-text-2.11.0
+
+
 <a name="1.12.5"></a>
 ## [1.12.5] - 2024-08-16
 ### CI
@@ -738,7 +754,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.12.5...HEAD
+[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.13.0...HEAD
+[1.13.0]: https://github.com/guanguans/ai-commit/compare/1.12.5...1.13.0
 [1.12.5]: https://github.com/guanguans/ai-commit/compare/1.12.4...1.12.5
 [1.12.4]: https://github.com/guanguans/ai-commit/compare/1.12.3...1.12.4
 [1.12.3]: https://github.com/guanguans/ai-commit/compare/1.12.2...1.12.3
