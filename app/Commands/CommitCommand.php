@@ -130,6 +130,12 @@ final class CommitCommand extends Command
         }, 'confirming...'.PHP_EOL);
 
         $this->task(PHP_EOL.'3. Committing message', function () use ($message): void {
+            if ($this->option('dry-run')) {
+                $this->info($this->hydrateMessage($message));
+
+                return;
+            }
+
             tap($this->createProcess($this->getCommitCommand($message)), function (Process $process): void {
                 $this->shouldEdit() and $process->setTty(true);
             })->setTimeout(null)->mustRun();
@@ -221,6 +227,12 @@ final class CommitCommand extends Command
                 InputOption::VALUE_REQUIRED,
                 'Specify sleep milliseconds of retry',
                 $this->configManager->get('retry.sleep', 500)
+            ),
+            new InputOption(
+                'dry-run',
+                null,
+                InputOption::VALUE_NONE,
+                'Only generate message without commit',
             ),
         ]);
     }
@@ -328,16 +340,7 @@ final class CommitCommand extends Command
             })
             ->all();
 
-        $message = $message
-            ->map(static function (string $val): string {
-                return trim($val, " \t\n\r\x0B");
-            })
-            ->filter(static function ($val) {
-                return $val;
-            })
-            ->implode(str_repeat(PHP_EOL, 2));
-
-        return array_merge(['git', 'commit', '--message', $message], $options);
+        return array_merge(['git', 'commit', '--message', $this->hydrateMessage($message)], $options);
     }
 
     private function shouldntEdit(): bool
@@ -361,5 +364,17 @@ final class CommitCommand extends Command
     private function shouldVerify(): bool
     {
         return ! $this->shouldntVerify();
+    }
+
+    private function hydrateMessage(Collection $message): string
+    {
+        return $message
+            ->map(static function (string $val): string {
+                return trim($val, " \t\n\r\x0B");
+            })
+            ->filter(static function ($val) {
+                return $val;
+            })
+            ->implode(str_repeat(PHP_EOL, 2));
     }
 }
