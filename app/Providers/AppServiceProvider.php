@@ -21,6 +21,8 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
@@ -51,11 +53,18 @@ final class AppServiceProvider extends ServiceProvider
         Str::mixin($this->app->make(StrMacro::class));
     }
 
+    /**
+     * @throws \JsonException
+     */
     public function boot(): void
     {
         /** @see \Symfony\Component\VarDumper\VarDumper */
         /** @noinspection GlobalVariableUsageInspection */
         $_SERVER['VAR_DUMPER_FORMAT'] = 'server';
+
+        $this->app->extend(LoggerInterface::class, static function (LoggerInterface $logger): NullLogger {
+            return $logger instanceof NullLogger ? $logger : new NullLogger();
+        });
 
         ConfigManager::load();
     }
