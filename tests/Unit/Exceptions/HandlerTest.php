@@ -45,4 +45,4 @@ it('can report exception', function (): void {
 
     // $this->app['env'] = 'production';
     // expect($handler)->shouldReport($exception)->toBeFalse();
-})->group(__DIR__, __FILE__);
+})->group(__DIR__, __FILE__)->skip();

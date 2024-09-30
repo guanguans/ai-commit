@@ -1,6 +1,6 @@
 # ai-commit
 
-<p align="center"><img src="art/logo.png" alt="logo" style="width: 62%; height: 62%;"></p>
+<p align="center"><img src="docs/logo.png" alt="logo" style="width: 62%; height: 62%;"></p>
 
 [简体中文](README-zh_CN.md) | [ENGLISH](README.md)
 
