@@ -8,6 +8,19 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.13.2"></a>
+## [1.13.2] - 2024-09-30
+### Docs
+- update logo path and clean up files
+
+### Fix
+- **tests:** remove commented parameters in InvalidJsons.php
+
+### Perf
+- **AppServiceProvider:** extend logger to use NullLogger
+- **exceptions:** Improve error reporting behavior
+
+
 <a name="1.13.1"></a>
 ## [1.13.1] - 2024-09-30
 ### Fix
@@ -773,7 +786,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.13.1...HEAD
+[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.13.2...HEAD
+[1.13.2]: https://github.com/guanguans/ai-commit/compare/1.13.1...1.13.2
 [1.13.1]: https://github.com/guanguans/ai-commit/compare/1.13.0...1.13.1
 [1.13.0]: https://github.com/guanguans/ai-commit/compare/1.12.5...1.13.0
 [1.12.5]: https://github.com/guanguans/ai-commit/compare/1.12.4...1.12.5
