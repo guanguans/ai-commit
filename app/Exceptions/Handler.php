@@ -21,13 +21,19 @@ use Illuminate\Validation\ValidationException;
 final class Handler extends \Illuminate\Foundation\Exceptions\Handler
 {
     /**
+     * @var array<int, class-string<\Throwable>>
+     */
+    protected $dontReport = [
+        \Throwable::class,
+    ];
+
+    /**
      * @psalm-suppress InvalidReturnType
      * @psalm-suppress UndefinedThisPropertyAssignment
      * @psalm-suppress UndefinedThisPropertyFetch
      * @psalm-suppress InvalidReturnStatement
      * @psalm-suppress UnusedClosureParam
      *
-     * @noinspection PhpPossiblePolymorphicInvocationInspection
      * @noinspection PhpUnusedParameterInspection
      */
     public function register(): void
@@ -41,8 +47,6 @@ final class Handler extends \Illuminate\Foundation\Exceptions\Handler
             })->call($validationException);
         });
 
-        $this->reportable(function (\Throwable $throwable): bool {
-            return ! $this->container->isProduction();
-        });
+        $this->reportable(static function (\Throwable $throwable): bool {return false; })->stop();
     }
 }
