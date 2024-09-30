@@ -34,7 +34,7 @@ final class Handler extends \Illuminate\Foundation\Exceptions\Handler
     {
         $this->map(ValidationException::class, function (ValidationException $validationException) {
             return (function (): ValidationException {
-                $this->message = ($prefix = '- ').implode(PHP_EOL.$prefix, $this->validator->errors()->all());
+                $this->message = PHP_EOL.($prefix = '- ').implode(PHP_EOL.$prefix, $this->validator->errors()->all());
 
                 /** @noinspection PhpIncompatibleReturnTypeInspection */
                 return $this;
