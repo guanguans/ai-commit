@@ -18,15 +18,11 @@ use LaravelZero\Framework\Commands\Command;
 final class ThanksCommand extends Command
 {
     /**
-     * The signature of the command.
-     *
      * @var string
      */
     protected $signature = 'thanks';
 
     /**
-     * The description of the command.
-     *
      * @var string
      */
     protected $description = 'Thanks for using this tool.';

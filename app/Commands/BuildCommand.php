@@ -59,7 +59,7 @@ final class BuildCommand extends Command
     /**
      * Holds the command original output.
      *
-     * @var \Symfony\Component\Console\Output\OutputInterface
+     * @var null|\Symfony\Component\Console\Output\OutputInterface
      */
     private $originalOutput;
 

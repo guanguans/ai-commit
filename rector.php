@@ -11,7 +11,6 @@ declare(strict_types=1);
  */
 
 use Rector\Caching\ValueObject\Storage\FileCacheStorage;
-use Rector\CodeQuality\Rector\Array_\CallableThisArrayToAnonymousFunctionRector;
 use Rector\CodeQuality\Rector\Class_\CompleteDynamicPropertiesRector;
 use Rector\CodeQuality\Rector\Class_\InlineConstructorDefaultToPropertyRector;
 use Rector\CodeQuality\Rector\ClassMethod\ExplicitReturnNullRector;
@@ -75,7 +74,6 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->skip([
         // rules
-        // CallableThisArrayToAnonymousFunctionRector::class,
         // RemoveEmptyClassMethodRector::class,
         // RemoveUnusedVariableAssignRector::class,
         // SimplifyBoolIdenticalTrueRector::class,

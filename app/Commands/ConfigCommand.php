@@ -88,7 +88,7 @@ final class ConfigCommand extends Command
         $action = $this->argument('action');
         $key = $this->argument('key');
 
-        if (\in_array($action, ['set', 'unset'], true) && null === $key) {
+        if (null === $key && \in_array($action, ['set', 'unset'], true)) {
             $this->output->error('Please specify the parameter key.');
 
             return self::FAILURE;
@@ -206,8 +206,11 @@ final class ConfigCommand extends Command
     }
 
     /**
-     * @throws \JsonException
      * @noinspection PhpInconsistentReturnPointsInspection
+     *
+     * @throws \JsonException
+     *
+     * @return mixed
      */
     private function argToValue(string $arg)
     {
@@ -241,13 +244,13 @@ final class ConfigCommand extends Command
      */
     private function valueToArg($value): string
     {
-        if (null === $value) {
-            return 'null';
-        }
-
-        if (\is_scalar($value)) {
-            return var_export($value, true);
-        }
+        // if (null === $value) {
+        //     return 'null';
+        // }
+        //
+        // if (\is_scalar($value)) {
+        //     return var_export($value, true);
+        // }
 
         return (string) json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }

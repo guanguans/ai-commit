@@ -349,6 +349,18 @@ final class CommitCommand extends Command
         return array_merge(['git', 'commit', '--message', $this->hydrateMessage($message)], $options);
     }
 
+    private function hydrateMessage(Collection $message): string
+    {
+        return $message
+            ->map(static function (string $val): string {
+                return trim($val, " \t\n\r\x0B");
+            })
+            ->filter(static function ($val) {
+                return $val;
+            })
+            ->implode(str_repeat(PHP_EOL, 2));
+    }
+
     private function shouldntEdit(): bool
     {
         return ! Process::isTtySupported() || $this->option('no-edit') || $this->configManager->get('no_edit');
@@ -370,17 +382,5 @@ final class CommitCommand extends Command
     private function shouldVerify(): bool
     {
         return ! $this->shouldntVerify();
-    }
-
-    private function hydrateMessage(Collection $message): string
-    {
-        return $message
-            ->map(static function (string $val): string {
-                return trim($val, " \t\n\r\x0B");
-            })
-            ->filter(static function ($val) {
-                return $val;
-            })
-            ->implode(str_repeat(PHP_EOL, 2));
     }
 }
