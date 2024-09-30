@@ -208,9 +208,7 @@ final class Ernie extends FoundationSDK
             ));
 
         if ($rowData && empty($response->body())) {
-            $response = new Response(
-                $response->toPsrResponse()->withBody(Utils::streamFor(self::sanitizeData($rowData)))
-            );
+            $response = new Response($response->toPsrResponse()->withBody(Utils::streamFor(self::sanitizeData($rowData))));
         }
 
         return tap($response->throw(), static function (Response $response): void {

@@ -1,5 +1,13 @@
 <?php
 
+/** @noinspection AnonymousFunctionStaticInspection */
+/** @noinspection JsonEncodingApiUsageInspection */
+/** @noinspection NullPointerExceptionInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpUnused */
+/** @noinspection PhpUnusedAliasInspection */
+/** @noinspection StaticClosureCanBeUsedInspection */
+
 declare(strict_types=1);
 
 /**
@@ -60,7 +68,7 @@ it('will throw TaskException(The generated commit message is an invalid JSON)', 
             'created' => 1677143178,
             'model' => 'text-davinci-003',
             'choices' => [
-                0 => [
+                [
                     'text' => 'invalid json', // 无效响应
                     'index' => 0,
                     'logprobs' => null,
@@ -87,7 +95,12 @@ it('will throw TaskException(The generated commit message is an invalid JSON)', 
     ->group(__DIR__, __FILE__)
     ->throws(TaskException::class, 'The generated commit message(');
 
-it('can generate and commit message', function (): void {
+it('can generate and commit message', function (array $parameters): void {
+    // 添加文件到暂存区
+    file_put_contents(repository_path('playground.random'), Str::random());
+    Process::fromShellCommandline('git rm -rf --cached repository/', fixtures_path())->run();
+    Process::fromShellCommandline('git add playground.random', repository_path())->mustRun();
+
     // 设置 git 信息
     Process::fromShellCommandline('git config user.email yaozm', repository_path())->mustRun();
     Process::fromShellCommandline('git config user.name ityaozm@gmail.com', repository_path())->mustRun();
@@ -99,7 +112,7 @@ it('can generate and commit message', function (): void {
     ]);
 
     $this
-        ->artisan(CommitCommand::class, [
+        ->artisan(CommitCommand::class, $parameters + [
             'path' => repository_path(),
             '--generator' => 'openai',
             '--no-edit' => true,
@@ -117,12 +130,13 @@ it('can generate and commit message', function (): void {
         ->expectsConfirmation('Do you want to commit this message?', 'yes')
         ->assertSuccessful();
 })
+    ->with('commit command parameters')
     ->depends('it will throw TaskException(The generated commit message is an invalid JSON)')
     ->group(__DIR__, __FILE__);
 
 afterAll(static function (): void {
     // 清理 playground 仓库
-    Process::fromShellCommandline('git reset HEAD^', repository_path())->run();
+    Process::fromShellCommandline('git reset $(git rev-list --max-parents=0 HEAD)', repository_path())->run();
     // Process::fromShellCommandline('git checkout -- .', repository_path())->run();
     Process::fromShellCommandline('git checkout HEAD -- .', repository_path())->run();
     Process::fromShellCommandline('git add tests/Fixtures/repository/', base_path())->mustRun();

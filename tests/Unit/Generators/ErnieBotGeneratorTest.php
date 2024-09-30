@@ -1,5 +1,13 @@
 <?php
 
+/** @noinspection AnonymousFunctionStaticInspection */
+/** @noinspection JsonEncodingApiUsageInspection */
+/** @noinspection NullPointerExceptionInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpUnused */
+/** @noinspection PhpUnusedAliasInspection */
+/** @noinspection StaticClosureCanBeUsedInspection */
+
 declare(strict_types=1);
 
 /**

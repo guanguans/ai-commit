@@ -1,5 +1,13 @@
 <?php
 
+/** @noinspection AnonymousFunctionStaticInspection */
+/** @noinspection JsonEncodingApiUsageInspection */
+/** @noinspection NullPointerExceptionInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpUnused */
+/** @noinspection PhpUnusedAliasInspection */
+/** @noinspection StaticClosureCanBeUsedInspection */
+
 declare(strict_types=1);
 
 /**
@@ -62,7 +70,7 @@ it('can set/get special config value', function ($value): void {
     ])->assertSuccessful();
 })
     ->group(__DIR__, __FILE__)
-    ->with(['null', 'true', 'false', '0.0', '0', json_encode(['foo' => 'bar'])]);
+    ->with(['null', 'true', 'false', '0.0', '0', json_encode(['foo' => 'bar'], JSON_THROW_ON_ERROR)]);
 
 it('can get config', function (): void {
     $this->artisan(ConfigCommand::class, [

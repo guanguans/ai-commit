@@ -37,6 +37,8 @@ abstract class TestCase extends BaseTestCase
 
     /**
      * This method is called before each test.
+     *
+     * @throws \JsonException
      */
     protected function setUp(): void
     {

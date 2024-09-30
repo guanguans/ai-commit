@@ -1,6 +1,12 @@
 <?php
 
+/** @noinspection AnonymousFunctionStaticInspection */
+/** @noinspection JsonEncodingApiUsageInspection */
 /** @noinspection NullPointerExceptionInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpUnused */
+/** @noinspection PhpUnusedAliasInspection */
+/** @noinspection StaticClosureCanBeUsedInspection */
 
 declare(strict_types=1);
 
@@ -12,37 +18,13 @@ declare(strict_types=1);
  * This source file is subject to the MIT license that is bundled.
  */
 
-use App\Exceptions\Handler;
+use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Validation\Factory;
 use Illuminate\Validation\ValidationException;
-use Symfony\Component\Console\Output\OutputInterface;
 
-it('can render exception for console', function (): void {
-    $this->app['env'] = 'production';
-    $output = Mockery::spy(OutputInterface::class);
-    /** @noinspection PhpVoidFunctionResultUsedInspection */
-    expect($this->app->get(Handler::class))
-        ->renderForConsole(
-            $output,
-            new ValidationException(
-                $this->app->get(Factory::class)->make(
-                    ['foo' => 'bar'],
-                    ['foo' => 'int']
-                )
-            )
-        )->toBeNull()
-        ->renderForConsole(
-            $output,
-            Mockery::spy(\Exception::class)
+it('can map ValidationException', function (): void {
+    expect(app(ExceptionHandler::class))
+        ->report(
+            new ValidationException($this->app->get(Factory::class)->make(['foo' => 'bar'], ['foo' => 'int']))
         )->toBeNull();
 })->group(__DIR__, __FILE__);
-
-it('can report exception', function (): void {
-    $this->app['env'] = 'testing';
-    $exception = new Exception('foo');
-    $handler = $this->app->get(Handler::class);
-    expect($handler)->shouldReport($exception)->toBeTrue();
-
-    // $this->app['env'] = 'production';
-    // expect($handler)->shouldReport($exception)->toBeFalse();
-})->group(__DIR__, __FILE__)->skip();

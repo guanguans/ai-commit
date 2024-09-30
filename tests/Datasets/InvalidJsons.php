@@ -1,5 +1,13 @@
 <?php
 
+/** @noinspection AnonymousFunctionStaticInspection */
+/** @noinspection JsonEncodingApiUsageInspection */
+/** @noinspection NullPointerExceptionInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpUnused */
+/** @noinspection PhpUnusedAliasInspection */
+/** @noinspection StaticClosureCanBeUsedInspection */
+
 declare(strict_types=1);
 
 /**
@@ -10,7 +18,27 @@ declare(strict_types=1);
  * This source file is subject to the MIT license that is bundled.
  */
 
-dataset('InvalidJsons', [
+dataset('commit command parameters', [
+    [
+        'parameters' => [],
+    ],
+    [
+        'parameters' => [
+            '--dry-run' => true,
+        ],
+    ],
+    [
+        'parameters' => [
+            // '--diff' => <<<'DIFF'
+            //      tests/Pest.php                        |  1 +
+            //      tests/Unit/ConfigManagerTest.php      |  2 +-
+            //     DIFF
+            // ,
+        ],
+    ],
+]);
+
+dataset('invalid jsons', [
     [
         'json' => '',
         'expect' => '',

@@ -1,5 +1,13 @@
 <?php
 
+/** @noinspection AnonymousFunctionStaticInspection */
+/** @noinspection JsonEncodingApiUsageInspection */
+/** @noinspection NullPointerExceptionInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpUnused */
+/** @noinspection PhpUnusedAliasInspection */
+/** @noinspection StaticClosureCanBeUsedInspection */
+
 declare(strict_types=1);
 
 /**
@@ -26,7 +34,7 @@ it('can get local path', function (): void {
         ->expects($this->once())
         ->willReturn(false);
     expect(ConfigManager::localPath())->toBeString();
-})->skip()->group(__DIR__, __FILE__);
+})->group(__DIR__, __FILE__)->skip();
 
 it('can put local config file', function (): void {
     expect(ConfigManager::create())->putLocal()->toBeInt();

@@ -1,5 +1,13 @@
 <?php
 
+/** @noinspection AnonymousFunctionStaticInspection */
+/** @noinspection JsonEncodingApiUsageInspection */
+/** @noinspection NullPointerExceptionInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpUnused */
+/** @noinspection PhpUnusedAliasInspection */
+/** @noinspection StaticClosureCanBeUsedInspection */
+
 declare(strict_types=1);
 
 /**
@@ -22,6 +30,7 @@ uses(TestCase::class)
     })
     ->beforeEach(function (): void {
         // setup_http_fake();
+        config()->set('app.version', 'v'.config('app.version'));
     })
     ->afterEach(function (): void {
     })
@@ -40,8 +49,8 @@ uses(TestCase::class)
 |
 */
 
-expect()->extend('toBeOne', function () {
-    return $this->toBe(1);
+expect()->extend('toBeTwo', function () {
+    return $this->toBe(2);
 });
 
 /*
@@ -57,6 +66,8 @@ expect()->extend('toBeOne', function () {
 
 /**
  * @param object|string $class
+ *
+ * @throws \ReflectionException
  */
 function class_namespace($class): string
 {
@@ -165,7 +176,7 @@ function setup_http_fake(): void
                     'created' => 1677143178,
                     'model' => 'text-davinci-003',
                     'choices' => [
-                        0 => [
+                        [
                             'text' => $text,
                             'index' => 0,
                             'logprobs' => null,
