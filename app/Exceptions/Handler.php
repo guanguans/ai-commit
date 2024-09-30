@@ -14,33 +14,29 @@ namespace App\Exceptions;
 
 use Illuminate\Validation\ValidationException;
 
+/**
+ * @property string $message
+ * @property \Illuminate\Validation\Validator $validator
+ */
 final class Handler extends \Illuminate\Foundation\Exceptions\Handler
 {
     /**
-     * {@inheritDoc}
-     *
-     * @psalm-suppress UndefinedThisPropertyAssignment
+     * @noinspection PhpPossiblePolymorphicInvocationInspection
+     * @noinspection PhpUnusedParameterInspection
      */
-    public function renderForConsole($output, \Throwable $e): void
+    public function register(): void
     {
-        if ($e instanceof ValidationException) {
-            (function (ValidationException $e): void {
-                $this->message = ($prefix = '- ').implode(PHP_EOL.$prefix, $e->validator->errors()->all());
-            })->call($e, $e);
-        }
+        $this->map(ValidationException::class, function (ValidationException $validationException) {
+            return (function (): ValidationException {
+                $this->message = ($prefix = '- ').implode(PHP_EOL.$prefix, $this->validator->errors()->all());
 
-        parent::renderForConsole($output, $e);
-    }
+                /** @noinspection PhpIncompatibleReturnTypeInspection */
+                return $this;
+            })->call($validationException);
+        });
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function shouldntReport(\Throwable $e): bool
-    {
-        if ($this->container->isProduction()) {
-            return true;
-        }
-
-        return parent::shouldntReport($e);
+        $this->reportable(function (\Throwable $throwable): bool {
+            return ! $this->container->isProduction();
+        });
     }
 }
