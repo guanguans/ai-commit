@@ -44,8 +44,6 @@ class OpenAIGenerator implements GeneratorContract
     }
 
     /**
-     * @psalm-suppress RedundantCast
-     *
      * ```return
      * [
      *     {
@@ -65,6 +63,13 @@ class OpenAIGenerator implements GeneratorContract
      *     }
      * ]
      * ```
+     *
+     * @psalm-suppress RedundantCast
+     *
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws \Illuminate\Http\Client\RequestException
+     *
+     * @noinspection PhpCastIsUnnecessaryInspection
      */
     public function generate(string $prompt): string
     {

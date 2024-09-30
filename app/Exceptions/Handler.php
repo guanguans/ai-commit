@@ -21,6 +21,12 @@ use Illuminate\Validation\ValidationException;
 final class Handler extends \Illuminate\Foundation\Exceptions\Handler
 {
     /**
+     * @psalm-suppress InvalidReturnType
+     * @psalm-suppress UndefinedThisPropertyAssignment
+     * @psalm-suppress UndefinedThisPropertyFetch
+     * @psalm-suppress InvalidReturnStatement
+     * @psalm-suppress UnusedClosureParam
+     *
      * @noinspection PhpPossiblePolymorphicInvocationInspection
      * @noinspection PhpUnusedParameterInspection
      */

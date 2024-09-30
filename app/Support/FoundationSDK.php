@@ -27,6 +27,9 @@ use Illuminate\Support\Traits\Tappable;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\VarDumper\VarDumper;
 
+/**
+ * @property $stubCallbacks
+ */
 abstract class FoundationSDK
 {
     use Conditionable;

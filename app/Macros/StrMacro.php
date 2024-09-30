@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpUnused */
+
 declare(strict_types=1);
 
 /**
@@ -18,10 +20,12 @@ namespace App\Macros;
 final class StrMacro
 {
     /**
-     * @psalm-suppress UnusedFunctionCall
-     * @noinspection BadExceptionsProcessingInspection
-     *
      * @see https://github.com/symfony/polyfill-php83
+     *
+     * @psalm-suppress UnusedFunctionCall
+     *
+     * @noinspection JsonEncodingApiUsageInspection
+     * @noinspection BadExceptionsProcessingInspection
      */
     public static function jsonValidate(): \Closure
     {

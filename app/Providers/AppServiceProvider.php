@@ -21,15 +21,12 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
-use LaravelZero\Framework\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 final class AppServiceProvider extends ServiceProvider
 {
     /**
-     * All of the container singletons that should be registered.
-     *
      * @var array<array-key, string>
      */
     public $singletons = [
@@ -37,17 +34,6 @@ final class AppServiceProvider extends ServiceProvider
         StrMacro::class => StrMacro::class,
         GeneratorManager::class => GeneratorManager::class,
     ];
-
-    /**
-     * Bootstrap any application services.
-     */
-    public function boot(): void
-    {
-        /** @see \Symfony\Component\VarDumper\VarDumper */
-        $_SERVER['VAR_DUMPER_FORMAT'] = 'server';
-
-        ConfigManager::load();
-    }
 
     /**
      * {@inheritDoc}
@@ -63,5 +49,14 @@ final class AppServiceProvider extends ServiceProvider
 
         Stringable::mixin($this->app->make(StringableMacro::class));
         Str::mixin($this->app->make(StrMacro::class));
+    }
+
+    public function boot(): void
+    {
+        /** @see \Symfony\Component\VarDumper\VarDumper */
+        /** @noinspection GlobalVariableUsageInspection */
+        $_SERVER['VAR_DUMPER_FORMAT'] = 'server';
+
+        ConfigManager::load();
     }
 }

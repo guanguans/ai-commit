@@ -22,7 +22,7 @@ final class BitoCliGenerator implements GeneratorContract
     /**
      * @var array
      */
-    private $config = [];
+    private $config;
 
     /**
      * @var \Illuminate\Console\OutputStyle
@@ -36,8 +36,6 @@ final class BitoCliGenerator implements GeneratorContract
     }
 
     /**
-     * {@inheritDoc}
-     *
      * @psalm-suppress UnusedClosureParam
      */
     public function generate(string $prompt): string

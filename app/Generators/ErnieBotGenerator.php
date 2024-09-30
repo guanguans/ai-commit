@@ -32,7 +32,7 @@ class ErnieBotGenerator implements GeneratorContract
     /**
      * @var array
      */
-    private $config = [];
+    private $config;
 
     /**
      * @var \Illuminate\Console\OutputStyle
@@ -49,6 +49,11 @@ class ErnieBotGenerator implements GeneratorContract
     /**
      * @psalm-suppress RedundantCast
      * @psalm-suppress UnusedVariable
+     *
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws \Illuminate\Http\Client\RequestException
+     *
+     * @noinspection PhpCastIsUnnecessaryInspection
      */
     public function generate(string $prompt): string
     {

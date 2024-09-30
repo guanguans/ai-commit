@@ -17,14 +17,13 @@ use App\Support\FoundationSDK;
 use App\Support\Moonshot;
 use Illuminate\Console\OutputStyle;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
 final class MoonshotGenerator implements GeneratorContract
 {
     /**
      * @var array
      */
-    private $config = [];
+    private $config;
 
     /**
      * @var \App\Support\Moonshot
@@ -45,6 +44,11 @@ final class MoonshotGenerator implements GeneratorContract
 
     /**
      * @psalm-suppress RedundantCast
+     *
+     * @throws \Illuminate\Http\Client\RequestException
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     *
+     * @noinspection PhpCastIsUnnecessaryInspection
      */
     public function generate(string $prompt): string
     {
@@ -52,7 +56,6 @@ final class MoonshotGenerator implements GeneratorContract
             'messages' => [
                 ['role' => 'user', 'content' => $prompt],
             ],
-            // 'user' => Str::uuid()->toString(),
         ] + Arr::get($this->config, 'parameters', []);
 
         $response = $this->moonshot->chatCompletions($parameters, $this->buildWriter($messages));

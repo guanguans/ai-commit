@@ -60,6 +60,13 @@ if (! function_exists('str')) {
     {
         if (0 === func_num_args()) {
             return new class() implements \Stringable {
+                /**
+                 * @noinspection MissingReturnTypeInspection
+                 * @noinspection MissingParameterTypeDeclarationInspection
+                 *
+                 * @param mixed $method
+                 * @param mixed $parameters
+                 */
                 public function __call($method, $parameters)
                 {
                     return Str::$method(...$parameters);

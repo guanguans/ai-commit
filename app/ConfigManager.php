@@ -47,6 +47,9 @@ final class ConfigManager extends Repository implements \JsonSerializable, Array
         return $this->toJson();
     }
 
+    /**
+     * @throws \JsonException
+     */
     public static function load(): void
     {
         resolve('config')->set('ai-commit', self::create());
@@ -207,6 +210,7 @@ final class ConfigManager extends Repository implements \JsonSerializable, Array
      *
      * @throws \JsonException
      * @noinspection JsonEncodingApiUsageInspection
+     * @noinspection MissingParameterTypeDeclarationInspection
      */
     public function toJson($options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE): string
     {

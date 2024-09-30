@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpUnusedPrivateMethodInspection */
+
 declare(strict_types=1);
 
 /**
@@ -12,6 +14,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Contracts\GeneratorContract;
 use App\Exceptions\InvalidArgumentException;
 use App\Generators\OpenAIChatGenerator;
 use App\Generators\OpenAIGenerator;
@@ -39,7 +42,7 @@ final class GeneratorManager extends Manager
      * @noinspection MissingParentCallInspection
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    protected function createDriver($driver)
+    protected function createDriver($driver): GeneratorContract
     {
         if (isset($this->customCreators[$driver])) {
             return $this->callCustomCreator($driver);
