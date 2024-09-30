@@ -8,6 +8,25 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.13.1"></a>
+## [1.13.1] - 2024-09-30
+### Fix
+- **Exceptions:** Correct error message formatting
+- **deps:** update laminas and other dependencies
+
+### Perf
+- **JsonFixer:** Improve readability of conditional statements
+- **commands:** Improve null handling and code clarity
+
+### Refactor
+- **exceptions:** simplify exception handling logic
+
+### Pull Requests
+- Merge pull request [#170](https://github.com/guanguans/ai-commit/issues/170) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.82.6
+- Merge pull request [#169](https://github.com/guanguans/ai-commit/issues/169) from guanguans/dependabot/composer/laravel-zero/phar-updater-1.4.0
+- Merge pull request [#168](https://github.com/guanguans/ai-commit/issues/168) from guanguans/dependabot/composer/laminas/laminas-text-2.11.0
+
+
 <a name="1.13.0"></a>
 ## [1.13.0] - 2024-09-26
 ### Feat
@@ -754,7 +773,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.13.0...HEAD
+[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.13.1...HEAD
+[1.13.1]: https://github.com/guanguans/ai-commit/compare/1.13.0...1.13.1
 [1.13.0]: https://github.com/guanguans/ai-commit/compare/1.12.5...1.13.0
 [1.12.5]: https://github.com/guanguans/ai-commit/compare/1.12.4...1.12.5
 [1.12.4]: https://github.com/guanguans/ai-commit/compare/1.12.3...1.12.4
