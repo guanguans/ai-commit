@@ -214,21 +214,21 @@ final class ConfigCommand extends Command
      */
     private function argToValue(string $arg)
     {
-        if (0 === strncasecmp($arg, 'null', 4)) {
-            return;
-        }
-
-        if (0 === strncasecmp($arg, 'true', 4)) {
-            return true;
-        }
-
-        if (0 === strncasecmp($arg, 'false', 5)) {
-            return false;
-        }
-
-        if (is_numeric($arg)) {
-            return str_contains($arg, '.') ? (float) $arg : (int) $arg;
-        }
+        // if (0 === strncasecmp($arg, 'null', 4)) {
+        //     return;
+        // }
+        //
+        // if (0 === strncasecmp($arg, 'true', 4)) {
+        //     return true;
+        // }
+        //
+        // if (0 === strncasecmp($arg, 'false', 5)) {
+        //     return false;
+        // }
+        //
+        // if (is_numeric($arg)) {
+        //     return str_contains($arg, '.') ? (float) $arg : (int) $arg;
+        // }
 
         if (str($arg)->jsonValidate()) {
             return json_decode($arg, true, 512, JSON_THROW_ON_ERROR);
