@@ -8,6 +8,15 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.13.3"></a>
+## [1.13.3] - 2024-10-01
+### Refactor
+- **ConfigCommand:** simplify argToValue function
+
+### Pull Requests
+- Merge pull request [#171](https://github.com/guanguans/ai-commit/issues/171) from guanguans/dependabot/composer/laminas/laminas-text-2.11.0
+
+
 <a name="1.13.2"></a>
 ## [1.13.2] - 2024-09-30
 ### Docs
@@ -786,7 +795,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.13.2...HEAD
+[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.13.3...HEAD
+[1.13.3]: https://github.com/guanguans/ai-commit/compare/1.13.2...1.13.3
 [1.13.2]: https://github.com/guanguans/ai-commit/compare/1.13.1...1.13.2
 [1.13.1]: https://github.com/guanguans/ai-commit/compare/1.13.0...1.13.1
 [1.13.0]: https://github.com/guanguans/ai-commit/compare/1.12.5...1.13.0
