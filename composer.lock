@@ -2547,28 +2547,29 @@
         },
         {
             "name": "laravel-zero/phar-updater",
-            "version": "v1.1.1",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-zero/phar-updater.git",
-                "reference": "ac583f0983f91df9ca18c31ef6fd44dd51820495"
+                "reference": "700fafcde3b59e261f896b1bdb0f5657f5d46f99"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-zero/phar-updater/zipball/ac583f0983f91df9ca18c31ef6fd44dd51820495",
-                "reference": "ac583f0983f91df9ca18c31ef6fd44dd51820495",
+                "url": "https://api.github.com/repos/laravel-zero/phar-updater/zipball/700fafcde3b59e261f896b1bdb0f5657f5d46f99",
+                "reference": "700fafcde3b59e261f896b1bdb0f5657f5d46f99",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.3|^8.0"
+                "php": "^8.1"
             },
             "conflict": {
                 "padraic/phar-updater": "*"
             },
             "require-dev": {
                 "ext-json": "*",
-                "phpstan/phpstan": "^0.12.85",
-                "phpunit/phpunit": "^9.4"
+                "laravel/pint": "^1.12",
+                "phpstan/phpstan": "^1.10.32",
+                "phpunit/phpunit": "^9.6.11"
             },
             "type": "library",
             "autoload": {
@@ -2585,6 +2586,11 @@
                     "name": "Padraic Brady",
                     "email": "padraic.brady@gmail.com",
                     "homepage": "http://blog.astrumfutura.com"
+                },
+                {
+                    "name": "Owen Voke",
+                    "email": "development@voke.dev",
+                    "homepage": "https://voke.dev"
                 }
             ],
             "description": "A thing to make PHAR self-updating easy and secure.",
@@ -2596,9 +2602,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel-zero/phar-updater/issues",
-                "source": "https://github.com/laravel-zero/phar-updater/tree/v1.1.1"
+                "source": "https://github.com/laravel-zero/phar-updater/tree/v1.4.0"
             },
-            "time": "2021-08-03T08:29:40+00:00"
+            "time": "2023-09-01T10:40:10+00:00"
         },
         {
             "name": "league/flysystem",
