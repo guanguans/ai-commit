@@ -3,7 +3,7 @@
 <!-- https://looka.com -->
 <p align="center"><img src="docs/logo.png" alt="logo" style="width: 62%; height: 62%;"></p>
 
-[简体中文](README-zh_CN.md) | [ENGLISH](README.md)
+[简体中文](README-zh_CN.md) | [ENGLISH](README.md) | [日本語](README-ja_JP.md)
 
 > Automagically generate conventional git commit message with AI. - 使用 AI 自动生成约定式 git 提交信息。
 
