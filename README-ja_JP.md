@@ -14,7 +14,7 @@
 [![Total Downloads](https://poser.pugx.org/guanguans/ai-commit/downloads)](https://packagist.org/packages/guanguans/ai-commit)
 [![License](https://poser.pugx.org/guanguans/ai-commit/license)](https://packagist.org/packages/guanguans/ai-commit)
 
-## 支持
+## サポート
 
 - [x] [Bito Cli](https://github.com/gitbito/CLI)
 - [x] [ERNIE-Bot-turbo](https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Nlks5zkzu#ernie-bot-turbo)
@@ -24,37 +24,37 @@
 - [x] [OpenAI](https://platform.openai.com/docs/api-reference/completions)
 - [ ] ...
 
-## 环境要求
+## 必要条件
 
 * PHP >= 7.3
 
-## 安装
+## インストール
 
-### 直接下载 [ai-commit](./builds/ai-commit) 文件
+### [ai-commit](./builds/ai-commit) ファイルを直接ダウンロード
 
 ```shell
 curl 'https://raw.githubusercontent.com/guanguans/ai-commit/main/builds/ai-commit' -o ai-commit -#
 chmod +x ai-commit
 ```
 
-### 通过 Composer 安装
+### Composer を使用してインストール
 
 ```shell
-composer global require guanguans/ai-commit --dev -v # 全局
-composer require guanguans/ai-commit --dev -v # 本地
+composer global require guanguans/ai-commit --dev -v # グローバル
+composer require guanguans/ai-commit --dev -v # ローカル
 ```
 
-## 使用
+## 使用方法
 
-### 快速开始
+### クイックスタート
 
 ```shell
-./ai-commit config set generators.bito_cli.path bito-cli-path... --global # 配置 Bito Cli 路径(可选)
-./ai-commit config set generators.openai.api_key sk-... --global # 配置 OpenAI API key
-./ai-commit config set generators.openai_chat.api_key sk-... --global # 配置 OpenAI API key
+./ai-commit config set generators.bito_cli.path bito-cli-path... --global # Bito Cli パスを設定 (オプション)
+./ai-commit config set generators.openai.api_key sk-... --global # OpenAI API キーを設定
+./ai-commit config set generators.openai_chat.api_key sk-... --global # OpenAI API キーを設定
 
-./ai-commit config set generator openai_chat --global # 配置默认生成器(可选)
-./ai-commit commit # 生成且提交信息
+./ai-commit config set generator openai_chat --global # デフォルトのジェネレーターを設定 (オプション)
+./ai-commit commit # メッセージを生成してコミット
 ```
 
 ```shell
@@ -94,7 +94,7 @@ composer require guanguans/ai-commit --dev -v # 本地
 
 ![](docs/ai-commit-vhs.gif)
 
-### 列出命令
+### コマンドの一覧
 
 ```shell
 ╰─ ./ai-commit list                                                     ─╯
@@ -120,7 +120,7 @@ composer require guanguans/ai-commit --dev -v # 本地
   thanks      Thanks for using this tool.
 ```
 
-### 操作配置
+### 設定の操作
 
 ```shell
 ./ai-commit config [set, get, unset, reset, list, edit] key value --global
@@ -133,7 +133,7 @@ composer require guanguans/ai-commit --dev -v # 本地
 ./ai-commit config edit
 ```
 
-### 自我更新
+### 自己更新
 
 ```shell
 ╰─ ./ai-commit self-update                                        ─╯
@@ -146,7 +146,7 @@ Checking for a new version...
                                                                      
 ```
 
-### 命令帮助
+### コマンドヘルプ
 
 ```shell
 ╰─ ./ai-commit commit --help                                                                                                               ─╯
@@ -178,29 +178,29 @@ Options:
   -v|vv|vvv, --verbose                   Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 ```
 
-## 测试
+## テスト
 
 ```shell
 composer test
 ```
 
-## 变更日志
+## 変更履歴
 
-请参阅 [CHANGELOG](CHANGELOG.md) 获取最近有关更改的更多信息。
+最近の変更については、[CHANGELOG](CHANGELOG.md) を参照してください。
 
-## 贡献指南
+## 貢献
 
-请参阅 [CONTRIBUTING](.github/CONTRIBUTING.md) 有关详细信息。
+詳細については、[CONTRIBUTING](.github/CONTRIBUTING.md) を参照してください。
 
-## 安全漏洞
+## セキュリティ脆弱性
 
-请查看[我们的安全政策](../../security/policy)了解如何报告安全漏洞。
+セキュリティ脆弱性の報告方法については、[セキュリティポリシー](../../security/policy) をご覧ください。
 
-## 贡献者
+## クレジット
 
 * [guanguans](https://github.com/guanguans)
-* [所有贡献者](../../contributors)
+* [すべての貢献者](../../contributors)
 
-## 协议
+## ライセンス
 
-MIT 许可证（MIT）。有关更多信息，请参见[协议文件](LICENSE)。
+MIT ライセンス（MIT）。詳細については、[ライセンスファイル](LICENSE) を参照してください。
