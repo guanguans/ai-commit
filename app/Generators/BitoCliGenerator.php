@@ -15,6 +15,8 @@ namespace App\Generators;
 use App\ConfigManager;
 use App\Contracts\GeneratorContract;
 use Illuminate\Console\OutputStyle;
+use Illuminate\Support\Facades\Artisan;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
 final class BitoCliGenerator implements GeneratorContract
@@ -29,10 +31,22 @@ final class BitoCliGenerator implements GeneratorContract
      */
     private $outputStyle;
 
+    /**
+     * @var \Symfony\Component\Console\Helper\ProcessHelper
+     */
+    private $processHelper;
+
+    /**
+     * @psalm-suppress UndefinedMethod
+     */
     public function __construct(array $config)
     {
         $this->config = $config;
-        $this->outputStyle = resolve(OutputStyle::class);
+        $this->outputStyle = tap(clone resolve(OutputStyle::class))->setVerbosity(OutputInterface::VERBOSITY_DEBUG);
+        $this->processHelper = (function () {
+            /** @noinspection PhpUndefinedMethodInspection */
+            return $this->getArtisan()->getHelperSet()->get('process');
+        })->call(Artisan::getFacadeRoot());
     }
 
     /**
@@ -41,12 +55,23 @@ final class BitoCliGenerator implements GeneratorContract
     public function generate(string $prompt): string
     {
         // file_put_contents($promptFile = ConfigManager::globalPath($this->config['prompt_filename']), $prompt);
+        //
+        // return resolve(
+        //     Process::class,
+        //     ['command' => [$this->config['path'] ?: 'bito', '-p', $promptFile]] + $this->config['parameters']
+        // )->mustRun(function (string $type, string $data): void {
+        //     Process::OUT === $type ? $this->outputStyle->write($data) : $this->outputStyle->write("<fg=red>$data</>");
+        // })->getOutput();
 
-        return resolve(Process::class, ['command' => [$this->config['path']]] + $this->config['parameters'])
-            ->setInput($prompt)
-            ->mustRun(function (string $type, string $data): void {
-                Process::OUT === $type ? $this->outputStyle->write($data) : $this->outputStyle->write("<fg=red>$data</>");
-            })
+        return $this
+            ->processHelper
+            ->mustRun(
+                $this->outputStyle,
+                resolve(
+                    Process::class,
+                    ['command' => [$this->config['path']]] + $this->config['parameters']
+                )->setInput($prompt)
+            )
             ->getOutput();
     }
 }
