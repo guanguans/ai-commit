@@ -8,6 +8,13 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.13.5"></a>
+## [1.13.5] - 2024-10-13
+### Refactor
+- **BitoCliGenerator:** improve code structure and readability
+- **logging:** replace NullLogger with ConsoleLogger for verbose output
+
+
 <a name="1.13.4"></a>
 ## [1.13.4] - 2024-10-13
 ### Docs
@@ -817,7 +824,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.13.4...HEAD
+[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.13.5...HEAD
+[1.13.5]: https://github.com/guanguans/ai-commit/compare/1.13.4...1.13.5
 [1.13.4]: https://github.com/guanguans/ai-commit/compare/1.13.3...1.13.4
 [1.13.3]: https://github.com/guanguans/ai-commit/compare/1.13.2...1.13.3
 [1.13.2]: https://github.com/guanguans/ai-commit/compare/1.13.1...1.13.2
