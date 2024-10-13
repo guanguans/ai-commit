@@ -8,6 +8,28 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.13.4"></a>
+## [1.13.4] - 2024-10-13
+### Docs
+- Move images to resources directory
+- add Japanese README
+
+### Fix
+- **composer-updater:** remove --ansi option from commands
+
+### Refactor
+- **Generators:** update BitoCliGenerator to improve process handling
+
+### Pull Requests
+- Merge pull request [#177](https://github.com/guanguans/ai-commit/issues/177) from eltociear/add-japanese-readme
+- Merge pull request [#178](https://github.com/guanguans/ai-commit/issues/178) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.82.8
+- Merge pull request [#176](https://github.com/guanguans/ai-commit/issues/176) from guanguans/dependabot/composer/laravel-zero/phar-updater-1.4.0
+- Merge pull request [#175](https://github.com/guanguans/ai-commit/issues/175) from guanguans/dependabot/composer/laminas/laminas-text-2.11.0
+- Merge pull request [#174](https://github.com/guanguans/ai-commit/issues/174) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.82.7
+- Merge pull request [#173](https://github.com/guanguans/ai-commit/issues/173) from guanguans/dependabot/composer/laravel-zero/phar-updater-1.4.0
+- Merge pull request [#172](https://github.com/guanguans/ai-commit/issues/172) from guanguans/dependabot/composer/laminas/laminas-text-2.11.0
+
+
 <a name="1.13.3"></a>
 ## [1.13.3] - 2024-10-01
 ### Refactor
@@ -795,7 +817,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.13.3...HEAD
+[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.13.4...HEAD
+[1.13.4]: https://github.com/guanguans/ai-commit/compare/1.13.3...1.13.4
 [1.13.3]: https://github.com/guanguans/ai-commit/compare/1.13.2...1.13.3
 [1.13.2]: https://github.com/guanguans/ai-commit/compare/1.13.1...1.13.2
 [1.13.1]: https://github.com/guanguans/ai-commit/compare/1.13.0...1.13.1
