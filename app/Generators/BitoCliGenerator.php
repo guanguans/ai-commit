@@ -40,13 +40,13 @@ final class BitoCliGenerator implements GeneratorContract
      */
     public function generate(string $prompt): string
     {
-        file_put_contents($promptFile = ConfigManager::globalPath($this->config['prompt_filename']), $prompt);
+        // file_put_contents($promptFile = ConfigManager::globalPath($this->config['prompt_filename']), $prompt);
 
-        return resolve(
-            Process::class,
-            ['command' => [$this->config['path'], '-p', $promptFile]] + $this->config['parameters']
-        )->mustRun(function (string $type, string $data): void {
-            Process::OUT === $type ? $this->outputStyle->write($data) : $this->outputStyle->write("<fg=red>$data</>");
-        })->getOutput();
+        return resolve(Process::class, ['command' => [$this->config['path']]] + $this->config['parameters'])
+            ->setInput($prompt)
+            ->mustRun(function (string $type, string $data): void {
+                Process::OUT === $type ? $this->outputStyle->write($data) : $this->outputStyle->write("<fg=red>$data</>");
+            })
+            ->getOutput();
     }
 }
