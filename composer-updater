@@ -114,7 +114,7 @@ $status = (new SingleCommandApplication())
 
             private function updateComposerPackages(): self
             {
-                $this->mustRunCommand("$this->composerBinary update -W --ansi");
+                $this->mustRunCommand("$this->composerBinary update -W");
 
                 return $this;
             }
@@ -147,7 +147,7 @@ $status = (new SingleCommandApplication())
 
             private function normalizeComposerJson(): self
             {
-                $this->mustRunCommand("$this->composerBinary normalize --diff --ansi");
+                $this->mustRunCommand("$this->composerBinary normalize --diff");
 
                 return $this;
             }
@@ -202,7 +202,7 @@ $status = (new SingleCommandApplication())
                 return array_reduce(
                     json_decode(
                         $this
-                            ->mustRunCommand("$this->highestComposerBinary outdated --format=json --direct --ansi")
+                            ->mustRunCommand("$this->highestComposerBinary outdated --format=json --direct")
                             ->getOutput(),
                         true
                     )['installed'],
@@ -252,9 +252,16 @@ $status = (new SingleCommandApplication())
                 $input = null,
                 ?float $timeout = 300
             ): Process {
+                $additionalOptions = [
+                    '--no-interaction',
+                    // '--no-plugins',
+                    '--no-scripts',
+                    '--ansi',
+                ];
+
                 $process = is_string($command)
-                    ? Process::fromShellCommandline($command, $cwd, $env, $input, $timeout)
-                    : new Process($command, $cwd, $env, $input, $timeout);
+                    ? Process::fromShellCommandline(sprintf("$command %s", implode(' ', $additionalOptions)), $cwd, $env, $input, $timeout)
+                    : new Process($command + $additionalOptions, $cwd, $env, $input, $timeout);
 
                 $this->symfonyStyle->warning($process->getCommandLine());
 
