@@ -46,7 +46,7 @@
 
 # https://github.com/charmbracelet/vhs
 
-Output ./docs/ai-commit-vhs.gif
+Output ./resources/docs/ai-commit-vhs.gif
 
 Require php
 

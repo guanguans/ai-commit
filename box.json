@@ -4,7 +4,7 @@
         "app",
         "bootstrap",
         "config",
-        "resources",
+        "resources/lang",
         "vendor"
     ],
     "files": [

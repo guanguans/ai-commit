@@ -1,6 +1,6 @@
 # ai-commit
 
-<p align="center"><img src="docs/logo.png" alt="logo" style="width: 62%; height: 62%;"></p>
+<p align="center"><img src="resources/docs/logo.png" alt="logo" style="width: 62%; height: 62%;"></p>
 
 [简体中文](README-zh_CN.md) | [ENGLISH](README.md) | [日本語](README-ja_JP.md)
 
@@ -92,7 +92,7 @@ composer require guanguans/ai-commit --dev -v # ローカル
                                                                                                                                                                                                                                                                                         
 ```
 
-![](docs/ai-commit-vhs.gif)
+![](resources/docs/ai-commit-vhs.gif)
 
 ### コマンドの一覧
 
