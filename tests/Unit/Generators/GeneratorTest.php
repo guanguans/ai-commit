@@ -26,6 +26,10 @@ beforeEach(function (): void {
     $this->generator = $generator;
 });
 
+it('can run string cmd', function (): void {
+    expect($this->generator->processHelperRun('echo foo'))->isSuccessful()->toBeTrue();
+})->group(__DIR__, __FILE__);
+
 it('can sanitize output to JSON', function (): void {
     $output = <<<'OUTPUT'
         {
