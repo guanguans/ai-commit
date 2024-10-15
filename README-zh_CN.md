@@ -19,6 +19,7 @@
 - [x] [Bito Cli](https://github.com/gitbito/CLI)
 - [x] [ERNIE-Bot-turbo](https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Nlks5zkzu#ernie-bot-turbo)
 - [x] [ERNIE-Bot](https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Nlks5zkzu#ernie-bot)
+- [x] [GitHub Copilot CLI](https://github.com/github/gh-copilot)
 - [x] [Moonshot](https://platform.moonshot.cn/docs/api-reference)
 - [x] [OpenAI Chat](https://platform.openai.com/docs/api-reference/chat)
 - [x] [OpenAI](https://platform.openai.com/docs/api-reference/completions)

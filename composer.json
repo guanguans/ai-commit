@@ -21,10 +21,16 @@
         "git-diff",
         "gpt",
         "keepachangelog",
-        "openai",
         "bito",
-        "ERNIE Bot",
-        "文心一言"
+        "cli",
+        "copilot",
+        "github",
+        "ernie",
+        "bot",
+        "文心一言",
+        "kimi",
+        "moonshot",
+        "openai"
     ],
     "readme": "README.md",
     "authors": [
