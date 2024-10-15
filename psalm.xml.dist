@@ -1,49 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <psalm
-    errorLevel="4"
-    findUnusedVariablesAndParams="true"
-    resolveFromConfigFile="true"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns="https://getpsalm.org/schema/config"
-    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
-    cacheDirectory="./build/psalm/"
-    errorBaseline="psalm-baseline.xml"
+  cacheDirectory="./build/psalm/"
+  errorBaseline="psalm-baseline.xml"
+  errorLevel="4"
+  findUnusedBaselineEntry="true"
+  findUnusedCode="false"
+  findUnusedVariablesAndParams="true"
+  resolveFromConfigFile="true"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="https://getpsalm.org/schema/config"
+  xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
 >
-    <projectFiles>
-        <directory name="app"/>
+  <projectFiles>
+    <directory name="app"/>
+    <directory name="tests"/>
+    <ignoreFiles allowMissingFiles="true">
+      <directory name="vendor"/>
+      <file name="app/xxx.php"/>
+    </ignoreFiles>
+  </projectFiles>
+
+  <issueHandlers>
+    <PropertyNotSetInConstructor errorLevel="info"/>
+    <UnusedVariable>
+      <errorLevel type="suppress">
+        <file name="app/Commands/CommitCommand.php"/>
+        <file name="app/Generators/OpenAIGenerator.php"/>
+      </errorLevel>
+    </UnusedVariable>
+    <InternalMethod>
+      <errorLevel type="suppress">
         <directory name="tests"/>
-        <ignoreFiles allowMissingFiles="true">
-            <directory name="vendor"/>
-            <file name="app/xxx.php"/>
-        </ignoreFiles>
-    </projectFiles>
+      </errorLevel>
+    </InternalMethod>
+    <InvalidScope>
+      <errorLevel type="suppress">
+        <directory name="tests"/>
+      </errorLevel>
+    </InvalidScope>
+    <UndefinedFunction>
+      <errorLevel type="suppress">
+        <directory name="tests"/>
+      </errorLevel>
+    </UndefinedFunction>
+    <UndefinedPropertyFetch>
+      <errorLevel type="suppress">
+        <directory name="tests"/>
+      </errorLevel>
+    </UndefinedPropertyFetch>
+  </issueHandlers>
 
-    <issueHandlers>
-        <PropertyNotSetInConstructor errorLevel="info"/>
-        <UnusedVariable>
-            <errorLevel type="suppress">
-                <file name="app/Commands/CommitCommand.php"/>
-                <file name="app/Generators/OpenAIGenerator.php"/>
-            </errorLevel>
-        </UnusedVariable>
-        <InternalMethod>
-            <errorLevel type="suppress">
-                <directory name="tests"/>
-            </errorLevel>
-        </InternalMethod>
-        <InvalidScope>
-            <errorLevel type="suppress">
-                <directory name="tests"/>
-            </errorLevel>
-        </InvalidScope>
-        <UndefinedFunction>
-            <errorLevel type="suppress">
-                <directory name="tests"/>
-            </errorLevel>
-        </UndefinedFunction>
-    </issueHandlers>
-
-    <plugins>
-        <!--<pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>-->
-    </plugins>
+  <plugins>
+    <!--<pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>-->
+  </plugins>
 </psalm>
