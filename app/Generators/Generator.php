@@ -35,6 +35,11 @@ abstract class Generator implements GeneratorContract
     protected $output;
 
     /**
+     * @var \Symfony\Component\Console\Logger\ConsoleLogger
+     */
+    protected $logger;
+
+    /**
      * @var \Symfony\Component\Console\Helper\HelperSet
      */
     protected $helperSet;
@@ -52,6 +57,7 @@ abstract class Generator implements GeneratorContract
     {
         $this->config = $config;
         $this->output = tap(clone resolve(OutputStyle::class))->setVerbosity(OutputInterface::VERBOSITY_DEBUG);
+        $this->logger = $this->newConsoleLogger();
         $this->helperSet = (function () {
             return $this->getArtisan()->getHelperSet();
         })->call(Artisan::getFacadeRoot());
@@ -97,11 +103,9 @@ abstract class Generator implements GeneratorContract
 
     public function defaultRunningCallback(): callable
     {
-        $logger = $this->newConsoleLogger();
-
-        return static function (string $type, string $data) use ($logger): void {
-            // Process::OUT === $type ? $this->output->write($data) : $this->output->write("<fg=red>$data</>");
-            Process::OUT === $type ? $logger->info($data) : $logger->error($data);
+        return function (string $type, string $data): void {
+            // Process::OUT === $type ? $this->logger->info($data) : $this->logger->error($data);
+            Process::OUT === $type ? $this->output->write($data) : $this->output->write("<fg=red>$data</>");
         };
     }
 
