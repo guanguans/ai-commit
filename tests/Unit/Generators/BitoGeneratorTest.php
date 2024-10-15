@@ -25,5 +25,6 @@ beforeEach(function (): void {
 });
 
 it('throws `ProcessFailedException`', function (): void {
+    config('ai-commit')->set('generators.bito_cli.binary', 'bito-cli');
     expect(app(GeneratorManager::class)->driver('bito_cli'))->generate('error');
 })->group(__DIR__, __FILE__)->throws(ProcessFailedException::class);

@@ -86,7 +86,7 @@ return [
     'generators' => [
         'bito_cli' => [
             'driver' => 'bito_cli',
-            'path' => env('BITO_CLI_PATH', 'bito'),
+            'binary' => env('BITO_CLI_BINARY', 'bito'),
             'prompt_filename' => 'bito.prompt',
             'parameters' => [
                 'cwd' => null,
@@ -123,7 +123,7 @@ return [
         ],
         'github_copilot_cli' => [
             'driver' => 'github_copilot_cli',
-            'path' => env('GITHUB_COPILOT_CLI_PATH', 'gh'),
+            'binary' => env('GITHUB_COPILOT_CLI_BINARY', 'gh'),
             'parameters' => [
                 'cwd' => null,
                 'env' => null,

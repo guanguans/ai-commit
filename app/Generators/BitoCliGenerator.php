@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\Generators;
 
-use App\ConfigManager;
 use App\Contracts\GeneratorContract;
 use Illuminate\Console\OutputStyle;
 use Illuminate\Support\Facades\Artisan;
@@ -54,22 +53,13 @@ final class BitoCliGenerator implements GeneratorContract
      */
     public function generate(string $prompt): string
     {
-        // file_put_contents($promptFile = ConfigManager::globalPath($this->config['prompt_filename']), $prompt);
-        //
-        // return resolve(
-        //     Process::class,
-        //     ['command' => [$this->config['path'] ?: 'bito', '-p', $promptFile]] + $this->config['parameters']
-        // )->mustRun(function (string $type, string $data): void {
-        //     Process::OUT === $type ? $this->outputStyle->write($data) : $this->outputStyle->write("<fg=red>$data</>");
-        // })->getOutput();
-
         return $this
             ->processHelper
             ->mustRun(
                 $this->outputStyle,
                 resolve(
                     Process::class,
-                    ['command' => [$this->config['path']]] + $this->config['parameters']
+                    ['command' => [$this->config['binary']]] + $this->config['parameters']
                 )->setInput($prompt)
             )
             ->getOutput();
