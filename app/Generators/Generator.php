@@ -94,6 +94,13 @@ abstract class Generator implements GeneratorContract
         return $this->processHelper->run($output ?? $this->output, $cmd, $error, $callback, $verbosity);
     }
 
+    public function defaultRunningCallback(): callable
+    {
+        return function (string $type, string $data): void {
+            Process::OUT === $type ? $this->output->write($data) : $this->output->write("<fg=red>$data</>");
+        };
+    }
+
     /**
      * @throws InvalidArgumentException if the helper is not defined
      */

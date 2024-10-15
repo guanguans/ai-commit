@@ -24,9 +24,7 @@ final class GithubCopilotCliGenerator extends Generator
         $output = resolve(
             Process::class,
             ['command' => [$this->config['binary'], 'copilot', 'explain', $prompt]] + $this->config['parameters']
-        )->mustRun(function (string $type, string $data): void {
-            Process::OUT === $type ? $this->output->write($data) : $this->output->write("<fg=red>$data</>");
-        })->getOutput();
+        )->mustRun($this->defaultRunningCallback())->getOutput();
 
         return $this->sanitize($output);
     }
