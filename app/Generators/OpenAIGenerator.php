@@ -89,7 +89,7 @@ class OpenAIGenerator extends Generator
                 // (正常|错误|流)响应
                 $rowResponse = (array) json_decode(FoundationSDK::sanitizeData($rowData), true);
                 $messages .= $text = $this->getCompletionMessages($rowResponse);
-                $this->outputStyle->write($text);
+                $this->output->write($text);
             });
         };
     }

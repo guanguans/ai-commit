@@ -75,7 +75,7 @@ class ErnieBotGenerator extends Generator
             // (正常|错误|流)响应
             $rowResponse = (array) json_decode($data, true);
             $messages .= $text = $this->getCompletionMessages($rowResponse);
-            $this->outputStyle->write($text);
+            $this->output->write($text);
         };
     }
 

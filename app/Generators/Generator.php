@@ -29,7 +29,7 @@ abstract class Generator implements GeneratorContract
     /**
      * @var \Illuminate\Console\OutputStyle
      */
-    protected $outputStyle;
+    protected $output;
 
     /**
      * @var \Symfony\Component\Console\Helper\ProcessHelper
@@ -43,7 +43,7 @@ abstract class Generator implements GeneratorContract
     public function __construct(array $config)
     {
         $this->config = $config;
-        $this->outputStyle = tap(clone resolve(OutputStyle::class))->setVerbosity(OutputInterface::VERBOSITY_DEBUG);
+        $this->output = tap(clone resolve(OutputStyle::class))->setVerbosity(OutputInterface::VERBOSITY_DEBUG);
         $this->processHelper = (function () {
             return $this->getArtisan()->getHelperSet()->get('process');
         })->call(Artisan::getFacadeRoot());
@@ -52,7 +52,7 @@ abstract class Generator implements GeneratorContract
     /**
      * @param array|string|\Symfony\Component\Process\Process $cmd
      */
-    public function processHelperMustRun(
+    protected function processHelperMustRun(
         $cmd,
         ?string $error = null,
         ?callable $callback = null,
@@ -71,7 +71,7 @@ abstract class Generator implements GeneratorContract
     /**
      * @param array|string|\Symfony\Component\Process\Process $cmd
      */
-    public function processHelperRun(
+    protected function processHelperRun(
         $cmd,
         ?string $error = null,
         ?callable $callback = null,

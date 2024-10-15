@@ -24,7 +24,7 @@ final class BitoCliGenerator extends Generator
         return $this
             ->processHelper
             ->mustRun(
-                $this->outputStyle,
+                $this->output,
                 resolve(
                     Process::class,
                     ['command' => [$this->config['binary']]] + $this->config['parameters']
