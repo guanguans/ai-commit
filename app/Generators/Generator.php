@@ -17,6 +17,7 @@ use Illuminate\Console\OutputStyle;
 use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Helper\HelperInterface;
+use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
@@ -96,9 +97,20 @@ abstract class Generator implements GeneratorContract
 
     public function defaultRunningCallback(): callable
     {
-        return function (string $type, string $data): void {
-            Process::OUT === $type ? $this->output->write($data) : $this->output->write("<fg=red>$data</>");
+        $logger = $this->newConsoleLogger();
+
+        return static function (string $type, string $data) use ($logger): void {
+            // Process::OUT === $type ? $this->output->write($data) : $this->output->write("<fg=red>$data</>");
+            Process::OUT === $type ? $logger->info($data) : $logger->error($data);
         };
+    }
+
+    public function newConsoleLogger(
+        array $verbosityLevelMap = [],
+        array $formatLevelMap = [],
+        ?OutputInterface $output = null
+    ): ConsoleLogger {
+        return new ConsoleLogger($output ?? $this->output, $verbosityLevelMap, $formatLevelMap);
     }
 
     /**
