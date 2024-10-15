@@ -62,12 +62,12 @@ final class GithubCopilotCliGenerator implements GeneratorContract
 
 
             EOF;
-        // $output = resolve(
-        //     Process::class,
-        //     ['command' => [$this->config['binary'], 'copilot', 'explain', $prompt]] + $this->config['parameters']
-        // )->mustRun(function (string $type, string $data): void {
-        //     Process::OUT === $type ? $this->outputStyle->write($data) : $this->outputStyle->write("<fg=red>$data</>");
-        // })->getOutput();
+        $output = resolve(
+            Process::class,
+            ['command' => [$this->config['binary'], 'copilot', 'explain', $prompt]] + $this->config['parameters']
+        )->mustRun(function (string $type, string $data): void {
+            Process::OUT === $type ? $this->outputStyle->write($data) : $this->outputStyle->write("<fg=red>$data</>");
+        })->getOutput();
 
         return str($output)->match('/\{.*\}/s')->__toString();
     }
