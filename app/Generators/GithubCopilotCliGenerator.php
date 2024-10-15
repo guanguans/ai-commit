@@ -54,12 +54,12 @@ final class GithubCopilotCliGenerator implements GeneratorContract
             ->dump()
             ->match('/\{.*\}/s')
             ->dump()
-            // ->replace(
-            //     ["\\'", PHP_EOL],
-            //     ["'", '']
-            // )
+            ->replace(
+                ["\\'", PHP_EOL],
+                ["'", '']
+            )
             ->dump()
-            ->replaceMatches('/[[:cntrl:]]/mu', '')
+            // ->replaceMatches('/[[:cntrl:]]/mu', '')
             ->dump();
     }
 }
