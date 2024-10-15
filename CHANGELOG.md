@@ -8,6 +8,27 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.14.0"></a>
+## [1.14.0] - 2024-10-15
+### Docs
+- **commit:** Update dependencies in README files
+
+### Feat
+- **generator:** Support for github copilot CLI driver
+
+### Fix
+- **Generators:** 修复 GithubCopilotCliGenerator 输出格式
+- **Generators:** update GithubCopilotCliGenerator to include output message
+- **app:** Fix dumping issue
+- **app:** Fix copilot explain command output
+
+### Refactor
+- **generators:** update CLI binary configuration
+
+### Pull Requests
+- Merge pull request [#179](https://github.com/guanguans/ai-commit/issues/179) from guanguans/dependabot/composer/laminas/laminas-text-2.11.0
+
+
 <a name="1.13.5"></a>
 ## [1.13.5] - 2024-10-13
 ### Refactor
@@ -824,7 +845,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.13.5...HEAD
+[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.14.0...HEAD
+[1.14.0]: https://github.com/guanguans/ai-commit/compare/1.13.5...1.14.0
 [1.13.5]: https://github.com/guanguans/ai-commit/compare/1.13.4...1.13.5
 [1.13.4]: https://github.com/guanguans/ai-commit/compare/1.13.3...1.13.4
 [1.13.3]: https://github.com/guanguans/ai-commit/compare/1.13.2...1.13.3
