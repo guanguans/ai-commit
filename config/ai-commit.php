@@ -121,6 +121,16 @@ return [
                 'stream' => true,
             ],
         ],
+        'github_copilot_cli' => [
+            'driver' => 'github_copilot_cli',
+            'path' => env('GITHUB_COPILOT_CLI_PATH', 'gh'),
+            'parameters' => [
+                'cwd' => null,
+                'env' => null,
+                'input' => null,
+                'timeout' => 120,
+            ],
+        ],
         'moonshot' => [
             'driver' => 'moonshot',
             'http_options' => [
