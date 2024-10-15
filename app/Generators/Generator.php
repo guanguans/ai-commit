@@ -15,6 +15,8 @@ namespace App\Generators;
 use App\Contracts\GeneratorContract;
 use Illuminate\Console\OutputStyle;
 use Illuminate\Support\Facades\Artisan;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
+use Symfony\Component\Console\Helper\HelperInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
@@ -32,6 +34,11 @@ abstract class Generator implements GeneratorContract
     protected $output;
 
     /**
+     * @var \Symfony\Component\Console\Helper\HelperSet
+     */
+    protected $helperSet;
+
+    /**
      * @var \Symfony\Component\Console\Helper\ProcessHelper
      */
     protected $processHelper;
@@ -44,22 +51,23 @@ abstract class Generator implements GeneratorContract
     {
         $this->config = $config;
         $this->output = tap(clone resolve(OutputStyle::class))->setVerbosity(OutputInterface::VERBOSITY_DEBUG);
-        $this->processHelper = (function () {
-            return $this->getArtisan()->getHelperSet()->get('process');
+        $this->helperSet = (function () {
+            return $this->getArtisan()->getHelperSet();
         })->call(Artisan::getFacadeRoot());
+        $this->processHelper = $this->getHelper('process');
     }
 
     /**
      * @param array|string|\Symfony\Component\Process\Process $cmd
+     * @noinspection MissingParameterTypeDeclarationInspection
      */
-    protected function processHelperMustRun(
+    public function processHelperMustRun(
         $cmd,
         ?string $error = null,
         ?callable $callback = null,
         int $verbosity = OutputInterface::VERBOSITY_VERY_VERBOSE,
         ?OutputInterface $output = null
     ): Process {
-        /** @var Process $process */
         $process = $this->processHelperRun($cmd, $error, $callback, $verbosity, $output);
         if (! $process->isSuccessful()) {
             throw new ProcessFailedException($process);
@@ -70,8 +78,9 @@ abstract class Generator implements GeneratorContract
 
     /**
      * @param array|string|\Symfony\Component\Process\Process $cmd
+     * @noinspection MissingParameterTypeDeclarationInspection
      */
-    protected function processHelperRun(
+    public function processHelperRun(
         $cmd,
         ?string $error = null,
         ?callable $callback = null,
@@ -82,13 +91,18 @@ abstract class Generator implements GeneratorContract
             $cmd = Process::fromShellCommandline($cmd);
         }
 
-        /** @var \Symfony\Component\Console\Helper\ProcessHelper $helper */
-        $helper = $this->getHelper('process');
-
-        return $helper->run($output ?? $this->output, $cmd, $error, $callback, $verbosity);
+        return $this->processHelper->run($output ?? $this->output, $cmd, $error, $callback, $verbosity);
     }
 
-    protected function sanitize(string $output): string
+    /**
+     * @throws InvalidArgumentException if the helper is not defined
+     */
+    public function getHelper(string $name): HelperInterface
+    {
+        return $this->helperSet->get($name);
+    }
+
+    public function sanitize(string $output): string
     {
         return (string) str($output)
             ->match('/\{.*\}/s')
