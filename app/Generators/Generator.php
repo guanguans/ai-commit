@@ -109,9 +109,9 @@ abstract class Generator implements GeneratorContract
         return $this->helperSet->get($name);
     }
 
-    public function sanitize(string $output): string
+    public function sanitizeJson(string $json): string
     {
-        return (string) str($output)
+        return (string) str($json)
             ->match('/\{.*\}/s')
             // ->replaceMatches('/[[:cntrl:]]/mu', '')
             ->replace(

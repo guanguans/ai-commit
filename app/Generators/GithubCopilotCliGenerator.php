@@ -26,6 +26,6 @@ final class GithubCopilotCliGenerator extends Generator
             ['command' => [$this->config['binary'], 'copilot', 'explain', $prompt]] + $this->config['parameters']
         )->mustRun($this->defaultRunningCallback())->getOutput();
 
-        return $this->sanitize($output);
+        return $this->sanitizeJson($output);
     }
 }

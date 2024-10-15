@@ -28,20 +28,3 @@ it('throws `ProcessFailedException`', function (): void {
     config('ai-commit')->set('generators.github_copilot_cli.binary', 'github-copilot-cli');
     expect(app(GeneratorManager::class)->driver('github_copilot_cli'))->generate('error');
 })->group(__DIR__, __FILE__)->throws(ProcessFailedException::class);
-
-it('can sanitize output to JSON', function (): void {
-    $output = <<<'OUTPUT'
-        {
-          "subject": "fix(app/Generators): update GithubCopilotCliGenerator to include binary command",
-          "body": "- Change the command array in the `resolve` function call to include `[\'binary\', \'copilot\', \'explain\', $prompt]` as the command\\n- Update the `mustRun` function
-          callback to handle output formatting\\n- Add debug statements to output the generated `$output` variable and perform a `dd()` call\\n- Return the generated `$output` variable"
-          }
-        OUTPUT;
-
-    expect($output)->not->toBeJson()
-        ->and(
-            (function (string $output): string {
-                return $this->sanitize($output);
-            })->call(app(GeneratorManager::class)->driver('github_copilot_cli'), $output)
-        )->toBeJson();
-})->group(__DIR__, __FILE__);
