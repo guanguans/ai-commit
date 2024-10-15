@@ -50,6 +50,11 @@ final class GithubCopilotCliGenerator implements GeneratorContract
             Process::OUT === $type ? $this->outputStyle->write($data) : $this->outputStyle->write("<fg=red>$data</>");
         })->getOutput();
 
+        return $this->sanitize($output);
+    }
+
+    private function sanitize(string $output): string
+    {
         return (string) str($output)
             ->match('/\{.*\}/s')
             // ->replaceMatches('/[[:cntrl:]]/mu', '')
