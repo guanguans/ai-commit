@@ -30,15 +30,4 @@ final class GithubCopilotCliGenerator extends Generator
 
         return $this->sanitize($output);
     }
-
-    private function sanitize(string $output): string
-    {
-        return (string) str($output)
-            ->match('/\{.*\}/s')
-            // ->replaceMatches('/[[:cntrl:]]/mu', '')
-            ->replace(
-                ["\\'", PHP_EOL],
-                ["'", '']
-            );
-    }
 }

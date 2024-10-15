@@ -16,6 +16,8 @@ use App\Contracts\GeneratorContract;
 use Illuminate\Console\OutputStyle;
 use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
 abstract class Generator implements GeneratorContract
 {
@@ -45,5 +47,55 @@ abstract class Generator implements GeneratorContract
         $this->processHelper = (function () {
             return $this->getArtisan()->getHelperSet()->get('process');
         })->call(Artisan::getFacadeRoot());
+    }
+
+    /**
+     * @param array|string|\Symfony\Component\Process\Process $cmd
+     */
+    public function processHelperMustRun(
+        $cmd,
+        ?string $error = null,
+        ?callable $callback = null,
+        int $verbosity = OutputInterface::VERBOSITY_VERY_VERBOSE,
+        ?OutputInterface $output = null
+    ): Process {
+        /** @var Process $process */
+        $process = $this->processHelperRun($cmd, $error, $callback, $verbosity, $output);
+        if (! $process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+
+        return $process;
+    }
+
+    /**
+     * @param array|string|\Symfony\Component\Process\Process $cmd
+     */
+    public function processHelperRun(
+        $cmd,
+        ?string $error = null,
+        ?callable $callback = null,
+        int $verbosity = OutputInterface::VERBOSITY_VERY_VERBOSE,
+        ?OutputInterface $output = null
+    ): Process {
+        if (\is_string($cmd)) {
+            $cmd = Process::fromShellCommandline($cmd);
+        }
+
+        /** @var \Symfony\Component\Console\Helper\ProcessHelper $helper */
+        $helper = $this->getHelper('process');
+
+        return $helper->run($output ?? $this->output, $cmd, $error, $callback, $verbosity);
+    }
+
+    protected function sanitize(string $output): string
+    {
+        return (string) str($output)
+            ->match('/\{.*\}/s')
+            // ->replaceMatches('/[[:cntrl:]]/mu', '')
+            ->replace(
+                ["\\'", PHP_EOL],
+                ["'", '']
+            );
     }
 }
