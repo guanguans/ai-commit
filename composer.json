@@ -131,7 +131,11 @@
             "@composer-bin-all-update"
         ],
         "post-autoload-dump": [],
-        "ai-commit": "@php ./ai-commit commit --generator=bito_cli --ansi",
+        "ai-commit": "@php ./ai-commit commit --ansi",
+        "ai-commit-bito": "@ai-commit --generator=bito_cli",
+        "ai-commit-bito-no-verify": "@ai-commit-bito --no-verify",
+        "ai-commit-github-copilot": "@ai-commit --generator=github_copilot_cli",
+        "ai-commit-github-copilot-no-verify": "@ai-commit-github-copilot --no-verify",
         "ai-commit-no-verify": "@ai-commit --no-verify",
         "cghooks": "@php ./vendor/bin/cghooks --ansi -v",
         "cghooks-install": [
