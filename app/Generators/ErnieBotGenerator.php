@@ -12,38 +12,25 @@ declare(strict_types=1);
 
 namespace App\Generators;
 
-use App\Contracts\GeneratorContract;
 use App\Support\Ernie;
 use ArrayAccess;
-use Illuminate\Console\OutputStyle;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-class ErnieBotGenerator implements GeneratorContract
+class ErnieBotGenerator extends Generator
 {
     /**
      * @var \App\Support\Ernie
      */
     protected $ernie;
 
-    /**
-     * @var array
-     */
-    private $config;
-
-    /**
-     * @var \Illuminate\Console\OutputStyle
-     */
-    private $outputStyle;
-
     public function __construct(array $config)
     {
-        $this->config = $config;
+        parent::__construct($config);
         $this->ernie = new Ernie(Arr::only($config, ['http_options', 'retry', 'base_url', 'api_key', 'secret_key']));
-        $this->outputStyle = resolve(OutputStyle::class);
     }
 
     /**

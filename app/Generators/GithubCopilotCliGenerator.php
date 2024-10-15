@@ -12,32 +12,10 @@ declare(strict_types=1);
 
 namespace App\Generators;
 
-use App\Contracts\GeneratorContract;
-use Illuminate\Console\OutputStyle;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
-final class GithubCopilotCliGenerator implements GeneratorContract
+final class GithubCopilotCliGenerator extends Generator
 {
-    /**
-     * @var array
-     */
-    private $config;
-
-    /**
-     * @var \Illuminate\Console\OutputStyle
-     */
-    private $outputStyle;
-
-    /**
-     * @psalm-suppress UndefinedMethod
-     */
-    public function __construct(array $config)
-    {
-        $this->config = $config;
-        $this->outputStyle = tap(clone resolve(OutputStyle::class))->setVerbosity(OutputInterface::VERBOSITY_DEBUG);
-    }
-
     /**
      * @psalm-suppress UnusedClosureParam
      */

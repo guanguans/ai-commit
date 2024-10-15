@@ -12,42 +12,10 @@ declare(strict_types=1);
 
 namespace App\Generators;
 
-use App\Contracts\GeneratorContract;
-use Illuminate\Console\OutputStyle;
-use Illuminate\Support\Facades\Artisan;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
-final class BitoCliGenerator implements GeneratorContract
+final class BitoCliGenerator extends Generator
 {
-    /**
-     * @var array
-     */
-    private $config;
-
-    /**
-     * @var \Illuminate\Console\OutputStyle
-     */
-    private $outputStyle;
-
-    /**
-     * @var \Symfony\Component\Console\Helper\ProcessHelper
-     */
-    private $processHelper;
-
-    /**
-     * @psalm-suppress UndefinedMethod
-     */
-    public function __construct(array $config)
-    {
-        $this->config = $config;
-        $this->outputStyle = tap(clone resolve(OutputStyle::class))->setVerbosity(OutputInterface::VERBOSITY_DEBUG);
-        $this->processHelper = (function () {
-            /** @noinspection PhpUndefinedMethodInspection */
-            return $this->getArtisan()->getHelperSet()->get('process');
-        })->call(Artisan::getFacadeRoot());
-    }
-
     /**
      * @psalm-suppress UnusedClosureParam
      */

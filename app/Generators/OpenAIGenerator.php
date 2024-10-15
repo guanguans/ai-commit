@@ -12,35 +12,22 @@ declare(strict_types=1);
 
 namespace App\Generators;
 
-use App\Contracts\GeneratorContract;
 use App\Support\FoundationSDK;
 use App\Support\OpenAI;
-use Illuminate\Console\OutputStyle;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-class OpenAIGenerator implements GeneratorContract
+class OpenAIGenerator extends Generator
 {
-    /**
-     * @var array
-     */
-    protected $config = [];
-
     /**
      * @var \App\Support\OpenAI
      */
     protected $openAI;
 
-    /**
-     * @var \Illuminate\Console\OutputStyle
-     */
-    protected $outputStyle;
-
     public function __construct(array $config)
     {
-        $this->config = $config;
+        parent::__construct($config);
         $this->openAI = new OpenAI(Arr::only($config, ['http_options', 'retry', 'base_url', 'api_key']));
-        $this->outputStyle = resolve(OutputStyle::class);
     }
 
     /**

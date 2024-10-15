@@ -12,34 +12,21 @@ declare(strict_types=1);
 
 namespace App\Generators;
 
-use App\Contracts\GeneratorContract;
 use App\Support\FoundationSDK;
 use App\Support\Moonshot;
-use Illuminate\Console\OutputStyle;
 use Illuminate\Support\Arr;
 
-final class MoonshotGenerator implements GeneratorContract
+final class MoonshotGenerator extends Generator
 {
-    /**
-     * @var array
-     */
-    private $config;
-
     /**
      * @var \App\Support\Moonshot
      */
     private $moonshot;
 
-    /**
-     * @var \Illuminate\Console\OutputStyle
-     */
-    private $outputStyle;
-
     public function __construct(array $config)
     {
-        $this->config = $config;
+        parent::__construct($config);
         $this->moonshot = new Moonshot(Arr::only($config, ['http_options', 'retry', 'base_url', 'api_key']));
-        $this->outputStyle = resolve(OutputStyle::class);
     }
 
     /**
