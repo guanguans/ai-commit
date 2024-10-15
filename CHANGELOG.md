@@ -8,6 +8,24 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.14.1"></a>
+## [1.14.1] - 2024-10-15
+### Feat
+- **Generator:** add logger property
+- **generators:** Add processHelperMustRun and processHelperRun methods
+
+### Refactor
+- **Generators:** refactor generate method in BitoCliGenerator
+- **app:** Refactor Generator.php and GithubCopilotCliGenerator.php
+- **generators:** improve process helper management
+- **generators:** Refactor generator classes
+
+### Test
+- **Generators:** add string cmd test
+- **Generators:** Update Generator.php and GithubCopilotCliGenerator.php
+- **Unit:** Add GithubCopilotCliGeneratorTest
+
+
 <a name="1.14.0"></a>
 ## [1.14.0] - 2024-10-15
 ### Docs
@@ -845,7 +863,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.14.0...HEAD
+[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.14.1...HEAD
+[1.14.1]: https://github.com/guanguans/ai-commit/compare/1.14.0...1.14.1
 [1.14.0]: https://github.com/guanguans/ai-commit/compare/1.13.5...1.14.0
 [1.13.5]: https://github.com/guanguans/ai-commit/compare/1.13.4...1.13.5
 [1.13.4]: https://github.com/guanguans/ai-commit/compare/1.13.3...1.13.4
