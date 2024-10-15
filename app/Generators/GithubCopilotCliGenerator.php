@@ -43,25 +43,6 @@ final class GithubCopilotCliGenerator implements GeneratorContract
      */
     public function generate(string $prompt): string
     {
-        $output = <<<'EOF'
-
-            Welcome to GitHub Copilot in the CLI!
-            version 1.0.5 (2024-09-12)
-
-            I'm powered by AI, so surprises and mistakes are possible. Make sure to verify any generated code or suggestions, and share feedback so that we can learn and improve. For more information, see https://gh.io/gh-copilot-transparency
-
-
-              # Explanation:
-
-              {
-              "subject": "feat(Generators): update GithubCopilotCliGenerator to include binary command",
-              "body": "- Change the command array in the `resolve` function call to include `['binary', 'copilot', 'explain', $prompt]` as the command\n- Update the `mustRun` function
-              callback to handle output formatting\n- Add debug statements to output the generated `$output` variable and perform a `dd()` call\n- Return the generated `$output` variable"
-              }
-
-
-
-            EOF;
         $output = resolve(
             Process::class,
             ['command' => [$this->config['binary'], 'copilot', 'explain', $prompt]] + $this->config['parameters']
@@ -69,6 +50,16 @@ final class GithubCopilotCliGenerator implements GeneratorContract
             Process::OUT === $type ? $this->outputStyle->write($data) : $this->outputStyle->write("<fg=red>$data</>");
         })->getOutput();
 
-        return str($output)->match('/\{.*\}/s')->__toString();
+        return (string) str($output)
+            ->dump()
+            ->match('/\{.*\}/s')
+            ->dump()
+            // ->replace(
+            //     ["\\'", PHP_EOL],
+            //     ["'", '']
+            // )
+            ->dump()
+            ->replaceMatches('/[[:cntrl:]]/mu', '')
+            ->dump();
     }
 }
