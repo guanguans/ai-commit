@@ -21,11 +21,9 @@ final class GithubCopilotCliGenerator extends Generator
      */
     public function generate(string $prompt): string
     {
-        $output = resolve(
+        return resolve(
             Process::class,
             ['command' => [$this->config['binary'], 'copilot', 'explain', $prompt]] + $this->config['parameters']
         )->mustRun($this->defaultRunningCallback())->getOutput();
-
-        return $this->sanitizeJson($output);
     }
 }

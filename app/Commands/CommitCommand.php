@@ -327,7 +327,16 @@ final class CommitCommand extends Command
         return (new JsonFixer())
             // ->missingValue('')
             ->silent()
-            ->fix(substr($message, (int) strpos($message, '[')));
+            ->fix(
+                str(substr($message, (int) strpos($message, '{')))
+                    // ->match('/\{.*\}/s')
+                    ->replaceMatches('/[[:cntrl:]]/mu', '')
+                    ->replace(
+                        ["\\'", PHP_EOL],
+                        ["'", '']
+                    )
+                    ->jsonSerialize()
+            );
     }
 
     /**
