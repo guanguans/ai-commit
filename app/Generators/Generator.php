@@ -40,6 +40,7 @@ abstract class Generator implements GeneratorContract
 
     /**
      * @psalm-suppress UndefinedMethod
+     *
      * @noinspection PhpUndefinedMethodInspection
      */
     public function __construct(array $config)
@@ -53,9 +54,10 @@ abstract class Generator implements GeneratorContract
 
     /**
      * @param array|string|\Symfony\Component\Process\Process $cmd
+     *
      * @noinspection MissingParameterTypeDeclarationInspection
      */
-    public function mustRunProcess(
+    protected function mustRunProcess(
         $cmd,
         ?string $error = null,
         ?callable $callback = null,
@@ -72,10 +74,13 @@ abstract class Generator implements GeneratorContract
 
     /**
      * @param array|string|\Symfony\Component\Process\Process $cmd
-     * @noinspection MissingParameterTypeDeclarationInspection
+     *
      * @psalm-suppress UndefinedInterfaceMethod
+     *
+     * @noinspection MissingParameterTypeDeclarationInspection
+     * @noinspection PhpPossiblePolymorphicInvocationInspection
      */
-    public function runProcess(
+    protected function runProcess(
         $cmd,
         ?string $error = null,
         ?callable $callback = null,
@@ -89,18 +94,18 @@ abstract class Generator implements GeneratorContract
         return $this->getHelper('process')->run($output ?? $this->output, $cmd, $error, $callback, $verbosity);
     }
 
-    public function defaultRunningCallback(): callable
+    /**
+     * @throws InvalidArgumentException if the helper is not defined
+     */
+    protected function getHelper(string $name): HelperInterface
+    {
+        return $this->helperSet->get($name);
+    }
+
+    protected function defaultRunningCallback(): callable
     {
         return function (string $type, string $data): void {
             Process::OUT === $type ? $this->output->write($data) : $this->output->write("<fg=red>$data</>");
         };
-    }
-
-    /**
-     * @throws InvalidArgumentException if the helper is not defined
-     */
-    public function getHelper(string $name): HelperInterface
-    {
-        return $this->helperSet->get($name);
     }
 }

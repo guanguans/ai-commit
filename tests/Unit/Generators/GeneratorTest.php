@@ -27,5 +27,9 @@ beforeEach(function (): void {
 });
 
 it('can run string cmd', function (): void {
-    expect($this->generator->runProcess('echo foo'))->isSuccessful()->toBeTrue();
+    expect(
+        (function () {
+            return $this->runProcess('echo foo');
+        })->call($this->generator)
+    )->isSuccessful()->toBeTrue();
 })->group(__DIR__, __FILE__);
