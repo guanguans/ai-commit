@@ -22,7 +22,7 @@ final class BitoCliGenerator extends Generator
     public function generate(string $prompt): string
     {
         return $this
-            ->processHelperMustRun(
+            ->mustRunProcess(
                 resolve(
                     Process::class,
                     ['command' => [$this->config['binary']]] + $this->config['parameters']

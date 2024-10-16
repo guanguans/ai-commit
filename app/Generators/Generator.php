@@ -68,14 +68,14 @@ abstract class Generator implements GeneratorContract
      * @param array|string|\Symfony\Component\Process\Process $cmd
      * @noinspection MissingParameterTypeDeclarationInspection
      */
-    public function processHelperMustRun(
+    public function mustRunProcess(
         $cmd,
         ?string $error = null,
         ?callable $callback = null,
         int $verbosity = OutputInterface::VERBOSITY_VERY_VERBOSE,
         ?OutputInterface $output = null
     ): Process {
-        $process = $this->processHelperRun($cmd, $error, $callback, $verbosity, $output);
+        $process = $this->runProcess($cmd, $error, $callback, $verbosity, $output);
         if (! $process->isSuccessful()) {
             throw new ProcessFailedException($process);
         }
@@ -87,7 +87,7 @@ abstract class Generator implements GeneratorContract
      * @param array|string|\Symfony\Component\Process\Process $cmd
      * @noinspection MissingParameterTypeDeclarationInspection
      */
-    public function processHelperRun(
+    public function runProcess(
         $cmd,
         ?string $error = null,
         ?callable $callback = null,
