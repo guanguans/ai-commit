@@ -23,6 +23,7 @@ declare(strict_types=1);
  */
 
 use App\Commands\CommitCommand;
+use Pest\Expectation;
 
 it('can try fix message', function (string $message): void {
     expect($message)->not->toBeJson()
@@ -31,7 +32,7 @@ it('can try fix message', function (string $message): void {
                 return $this->tryFixMessage($message);
             })->call(app(CommitCommand::class), $message)
         )
-        ->when(true, function (Pest\Expectation $expect) use ($message): void {
+        ->when(true, function (Expectation $expect) use ($message): void {
             dump($message, $expect->value);
         })
         ->toBeJson();

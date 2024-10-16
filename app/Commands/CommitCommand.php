@@ -103,7 +103,7 @@ final class CommitCommand extends Command
         }, 'generating...'.PHP_EOL);
 
         $this->task(PHP_EOL.'2. Confirming commit message', function () use (&$message): void {
-            $message = collect(json_decode($message, true, 512, JSON_THROW_ON_ERROR))
+            $message = collect(json_decode($message, true, 512, JSON_THROW_ON_ERROR | JSON_PARTIAL_OUTPUT_ON_ERROR))
                 ->map(static function ($content) {
                     if (\is_array($content)) {
                         return collect($content)
@@ -348,7 +348,16 @@ final class CommitCommand extends Command
                     )
                     ->pipe(static function (Stringable $message): Stringable {
                         return collect([
-                            '/[[:cntrl:]]/mu' => '',
+                            // '/,\s*]/' => ']', // 数组中最后一个元素后的逗号
+                            // '/,\s*}/' => '}', // 对象中最后一个属性后的逗号
+                            // '/:\s*[\[\{]/' => ':[]', // 对象的属性值如果是数组或对象，确保有正确的格式
+                            // '/:\s*null\s*,/' => ':null,', // null 后面不应有逗号
+                            // '/:\s*true\s*,/' => ':true,', // true 后面不应有逗号
+                            // '/:\s*false\s*,/' => ':false,', // false 后面不应有逗号
+                            // '/:\s*"[^"]*"\s*,/' => ':"",', // 字符串后面不应有逗号
+                            // '/,\s*,/' => ',', // 连续的逗号
+                            // '/[\x00-\x1F\x7F-\x9F]/mu' => '', // 控制字符
+                            '/[[:cntrl:]]/mu' => '', // 控制字符
                         ])->reduce(static function (Stringable $message, string $replace, string $pattern): Stringable {
                             return $message->replaceMatches($pattern, $replace);
                         }, $message);
