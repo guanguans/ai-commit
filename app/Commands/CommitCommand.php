@@ -333,13 +333,27 @@ final class CommitCommand extends Command
             ->silent()
             ->fix(
                 str($message)
-                    ->substr((int) strpos($message, '{'))
-                    // ->match('/\{.*\}/s')
-                    ->replaceMatches('/[[:cntrl:]]/mu', '')
+                    // ->substr((int) strpos($message, '{'))
+                    ->after($flag = '{')
+                    ->start($flag)
+                    ->trim()
+                    ->remove([
+                        // PHP_EOL,
+                    ])
                     ->replace(
-                        ["\\'", PHP_EOL],
-                        ["'", '']
+                        array_keys($replaceRules = [
+                            "\\'" => "'",
+                        ]),
+                        $replaceRules
                     )
+                    ->pipe(static function (Stringable $message): Stringable {
+                        return collect([
+                            '/[[:cntrl:]]/mu' => '',
+                        ])->reduce(static function (Stringable $message, string $replace, string $pattern): Stringable {
+                            return $message->replaceMatches($pattern, $replace);
+                        }, $message);
+                    })
+                    // ->dd()
                     ->jsonSerialize()
             );
     }
