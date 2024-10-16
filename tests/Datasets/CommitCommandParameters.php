@@ -18,14 +18,21 @@ declare(strict_types=1);
  * This source file is subject to the MIT license that is bundled.
  */
 
-use App\GeneratorManager;
-
-beforeEach(function (): void {
-    /** @var \App\Generators\GithubCopilotCliGenerator $generator */
-    $generator = app(GeneratorManager::class)->driver('github_copilot_cli');
-    $this->generator = $generator;
-});
-
-it('can run string cmd', function (): void {
-    expect($this->generator->runProcess('echo foo'))->isSuccessful()->toBeTrue();
-})->group(__DIR__, __FILE__);
+dataset('commit command parameters', [
+    [
+        /*'parameters' =>*/ [],
+    ],
+    [
+        /*'parameters' =>*/ [
+            '--dry-run' => true,
+        ],
+    ],
+    [
+        /*'parameters' =>*/ [
+            '--diff' => <<<'DIFF'
+                tests/Pest.php                        |  1 +
+                tests/Unit/ConfigManagerTest.php      |  2 +-
+                DIFF,
+        ],
+    ],
+]);

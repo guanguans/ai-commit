@@ -322,13 +322,18 @@ final class CommitCommand extends Command
             });
     }
 
+    /**
+     * @see https://github.com/josdejong/jsonrepair
+     * @see https://github.com/adhocore/php-json-fixer
+     */
     private function tryFixMessage(string $message): string
     {
         return (new JsonFixer())
             // ->missingValue('')
             ->silent()
             ->fix(
-                str(substr($message, (int) strpos($message, '{')))
+                str($message)
+                    ->substr((int) strpos($message, '{'))
                     // ->match('/\{.*\}/s')
                     ->replaceMatches('/[[:cntrl:]]/mu', '')
                     ->replace(

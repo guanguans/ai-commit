@@ -18,14 +18,13 @@ declare(strict_types=1);
  * This source file is subject to the MIT license that is bundled.
  */
 
-use App\GeneratorManager;
+use App\Commands\CommitCommand;
 
-beforeEach(function (): void {
-    /** @var \App\Generators\GithubCopilotCliGenerator $generator */
-    $generator = app(GeneratorManager::class)->driver('github_copilot_cli');
-    $this->generator = $generator;
-});
-
-it('can run string cmd', function (): void {
-    expect($this->generator->runProcess('echo foo'))->isSuccessful()->toBeTrue();
-})->group(__DIR__, __FILE__);
+it('can try fix message', function (string $message): void {
+    expect($message)->not->toBeJson()
+        ->and(
+            (function (string $message): string {
+                return $this->tryFixMessage($message);
+            })->call(app(CommitCommand::class), $message)
+        )->toBeJson();
+})->group(__DIR__, __FILE__)->with('invalid messages');
