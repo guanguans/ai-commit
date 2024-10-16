@@ -18,6 +18,7 @@ declare(strict_types=1);
  * This source file is subject to the MIT license that is bundled.
  */
 
+use App\Commands\CommitCommand;
 use App\GeneratorManager;
 
 beforeEach(function (): void {
@@ -40,5 +41,9 @@ it('can sanitize output to JSON', function (): void {
         OUTPUT;
 
     expect($output)->not->toBeJson()
-        ->and($this->generator->sanitizeJson($output))->toBeJson();
+        ->and(
+            (function (string $message): string {
+                return $this->tryFixMessage($message);
+            })->call(app(CommitCommand::class), $output)
+        )->toBeJson();
 })->group(__DIR__, __FILE__);

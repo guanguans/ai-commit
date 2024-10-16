@@ -16,9 +16,6 @@ use Symfony\Component\Process\Process;
 
 final class BitoCliGenerator extends Generator
 {
-    /**
-     * @psalm-suppress UnusedClosureParam
-     */
     public function generate(string $prompt): string
     {
         return $this

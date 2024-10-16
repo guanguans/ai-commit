@@ -73,6 +73,7 @@ abstract class Generator implements GeneratorContract
     /**
      * @param array|string|\Symfony\Component\Process\Process $cmd
      * @noinspection MissingParameterTypeDeclarationInspection
+     * @psalm-suppress UndefinedInterfaceMethod
      */
     public function runProcess(
         $cmd,
@@ -101,16 +102,5 @@ abstract class Generator implements GeneratorContract
     public function getHelper(string $name): HelperInterface
     {
         return $this->helperSet->get($name);
-    }
-
-    public function sanitizeJson(string $json): string
-    {
-        return (string) str($json)
-            ->match('/\{.*\}/s')
-            // ->replaceMatches('/[[:cntrl:]]/mu', '')
-            ->replace(
-                ["\\'", PHP_EOL],
-                ["'", '']
-            );
     }
 }
