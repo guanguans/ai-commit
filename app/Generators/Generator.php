@@ -17,7 +17,6 @@ use Illuminate\Console\OutputStyle;
 use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Helper\HelperInterface;
-use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
@@ -35,19 +34,9 @@ abstract class Generator implements GeneratorContract
     protected $output;
 
     /**
-     * @var \Symfony\Component\Console\Logger\ConsoleLogger
-     */
-    protected $logger;
-
-    /**
      * @var \Symfony\Component\Console\Helper\HelperSet
      */
     protected $helperSet;
-
-    /**
-     * @var \Symfony\Component\Console\Helper\ProcessHelper
-     */
-    protected $processHelper;
 
     /**
      * @psalm-suppress UndefinedMethod
@@ -57,11 +46,9 @@ abstract class Generator implements GeneratorContract
     {
         $this->config = $config;
         $this->output = tap(clone resolve(OutputStyle::class))->setVerbosity(OutputInterface::VERBOSITY_DEBUG);
-        $this->logger = $this->newConsoleLogger();
         $this->helperSet = (function () {
             return $this->getArtisan()->getHelperSet();
         })->call(Artisan::getFacadeRoot());
-        $this->processHelper = $this->getHelper('process');
     }
 
     /**
@@ -98,23 +85,14 @@ abstract class Generator implements GeneratorContract
             $cmd = Process::fromShellCommandline($cmd);
         }
 
-        return $this->processHelper->run($output ?? $this->output, $cmd, $error, $callback, $verbosity);
+        return $this->getHelper('process')->run($output ?? $this->output, $cmd, $error, $callback, $verbosity);
     }
 
     public function defaultRunningCallback(): callable
     {
         return function (string $type, string $data): void {
-            // Process::OUT === $type ? $this->logger->info($data) : $this->logger->error($data);
             Process::OUT === $type ? $this->output->write($data) : $this->output->write("<fg=red>$data</>");
         };
-    }
-
-    public function newConsoleLogger(
-        array $verbosityLevelMap = [],
-        array $formatLevelMap = [],
-        ?OutputInterface $output = null
-    ): ConsoleLogger {
-        return new ConsoleLogger($output ?? $this->output, $verbosityLevelMap, $formatLevelMap);
     }
 
     /**
