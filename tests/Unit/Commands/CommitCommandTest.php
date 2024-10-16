@@ -1,5 +1,9 @@
 <?php
 
+/** @noinspection PhpInternalEntityUsedInspection */
+/** @noinspection DebugFunctionUsageInspection */
+/** @noinspection ForgottenDebugOutputInspection */
+
 /** @noinspection AnonymousFunctionStaticInspection */
 /** @noinspection JsonEncodingApiUsageInspection */
 /** @noinspection NullPointerExceptionInspection */
@@ -26,5 +30,9 @@ it('can try fix message', function (string $message): void {
             (function (string $message): string {
                 return $this->tryFixMessage($message);
             })->call(app(CommitCommand::class), $message)
-        )->toBeJson();
+        )
+        ->when(true, function (Pest\Expectation $expect) use ($message): void {
+            dump($message, $expect->value);
+        })
+        ->toBeJson();
 })->group(__DIR__, __FILE__)->with('invalid messages');
