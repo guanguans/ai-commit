@@ -8,6 +8,25 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.14.2"></a>
+## [1.14.2] - 2024-10-16
+### Fix
+- **commands:** fix handling of JSON decoding errors
+
+### Perf
+- **Generator.php:** improve process handling
+
+### Refactor
+- **Generator:** Refactor Generator class
+- **Generator.php:** refactor Generator class
+- **app:** refactor CommitCommand.php and GithubCopilotCliGenerator.php
+- **generator:** refactor processHelperMustRun and processHelperRun
+
+### Pull Requests
+- Merge pull request [#181](https://github.com/guanguans/ai-commit/issues/181) from guanguans/dependabot/composer/laminas/laminas-text-2.11.0
+- Merge pull request [#180](https://github.com/guanguans/ai-commit/issues/180) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.82.9
+
+
 <a name="1.14.1"></a>
 ## [1.14.1] - 2024-10-15
 ### Feat
@@ -863,7 +882,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.14.1...HEAD
+[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.14.2...HEAD
+[1.14.2]: https://github.com/guanguans/ai-commit/compare/1.14.1...1.14.2
 [1.14.1]: https://github.com/guanguans/ai-commit/compare/1.14.0...1.14.1
 [1.14.0]: https://github.com/guanguans/ai-commit/compare/1.13.5...1.14.0
 [1.13.5]: https://github.com/guanguans/ai-commit/compare/1.13.4...1.13.5
