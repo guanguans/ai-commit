@@ -144,6 +144,11 @@ final class CommitCommand extends Command
         $this->output->success('Successfully generated and committed message.');
     }
 
+    public function schedule(Schedule $schedule): void
+    {
+        // $schedule->command(static::class)->everyMinute();
+    }
+
     /**
      * @codeCoverageIgnore
      * @psalm-suppress InvalidArgument
@@ -159,11 +164,6 @@ final class CommitCommand extends Command
         if ($input->mustSuggestOptionValuesFor('prompt')) {
             $suggestions->suggestValues(array_keys($this->configManager->get('prompts', [])));
         }
-    }
-
-    public function schedule(Schedule $schedule): void
-    {
-        // $schedule->command(static::class)->everyMinute();
     }
 
     /**
@@ -274,32 +274,28 @@ final class CommitCommand extends Command
         }
     }
 
-    /**
-     * @param null|mixed $input
-     *
-     * @noinspection CallableParameterUseCaseInTypeContextInspection
-     */
-    private function createProcess(
-        array $command,
-        ?string $cwd = null,
-        ?array $env = null,
-        $input = null,
-        ?float $timeout = 60
-    ): Process {
-        if (null === $cwd) {
-            $cwd = $this->argument('path');
-        }
-
-        return tap(new Process($command, $cwd, $env, $input, $timeout), function (Process $process): void {
-            if ($this->option('verbose')) {
-                $this->output->note($process->getCommandLine());
-            }
-        });
-    }
-
     private function diffCommand(): array
     {
         return array_merge(['git', 'diff', '--cached'], $this->option('diff-options'));
+    }
+
+    /**
+     * @psalm-suppress RedundantCondition
+     *
+     * @noinspection CallableParameterUseCaseInTypeContextInspection
+     */
+    private function commitCommandFor(Collection $message): array
+    {
+        $options = collect($this->option('commit-options'))
+            ->when($this->shouldntEdit(), static function (Collection $collection): Collection {
+                return $collection->add('--no-edit');
+            })
+            ->when($this->shouldntVerify(), static function (Collection $collection): Collection {
+                return $collection->add('--no-verify');
+            })
+            ->all();
+
+        return array_merge(['git', 'commit', '--message', $this->hydrateMessage($message)], $options);
     }
 
     private function promptFor(string $cachedDiff, string $type): string
@@ -367,25 +363,6 @@ final class CommitCommand extends Command
             );
     }
 
-    /**
-     * @psalm-suppress RedundantCondition
-     *
-     * @noinspection CallableParameterUseCaseInTypeContextInspection
-     */
-    private function commitCommandFor(Collection $message): array
-    {
-        $options = collect($this->option('commit-options'))
-            ->when($this->shouldntEdit(), static function (Collection $collection): Collection {
-                return $collection->add('--no-edit');
-            })
-            ->when($this->shouldntVerify(), static function (Collection $collection): Collection {
-                return $collection->add('--no-verify');
-            })
-            ->all();
-
-        return array_merge(['git', 'commit', '--message', $this->hydrateMessage($message)], $options);
-    }
-
     private function hydrateMessage(Collection $message): string
     {
         return $message
@@ -396,6 +373,29 @@ final class CommitCommand extends Command
                 return $val;
             })
             ->implode(str_repeat(PHP_EOL, 2));
+    }
+
+    /**
+     * @param null|mixed $input
+     *
+     * @noinspection CallableParameterUseCaseInTypeContextInspection
+     */
+    private function createProcess(
+        array $command,
+        ?string $cwd = null,
+        ?array $env = null,
+        $input = null,
+        ?float $timeout = 60
+    ): Process {
+        if (null === $cwd) {
+            $cwd = $this->argument('path');
+        }
+
+        return tap(new Process($command, $cwd, $env, $input, $timeout), function (Process $process): void {
+            if ($this->option('verbose')) {
+                $this->output->note($process->getCommandLine());
+            }
+        });
     }
 
     private function shouldntEdit(): bool
