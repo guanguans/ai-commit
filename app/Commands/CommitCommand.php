@@ -66,7 +66,7 @@ final class CommitCommand extends Command
             // Ensure git is installed and the current directory is a git repository.
             $this->createProcess(['git', 'rev-parse', '--is-inside-work-tree'])->mustRun();
 
-            $cachedDiff = $this->option('diff') ?: $this->createProcess($this->getDiffCommand())->mustRun()->getOutput();
+            $cachedDiff = $this->option('diff') ?: $this->createProcess($this->diffCommand())->mustRun()->getOutput();
             if ('' === $cachedDiff) {
                 throw new TaskException('There are no cached files to commit. Try running `git add` to cache some files.');
             }
@@ -86,7 +86,7 @@ final class CommitCommand extends Command
 
                     $originalMessage = $this->generatorManager
                         ->driver($this->option('generator'))
-                        ->generate($this->getPrompt($cachedDiff, $type));
+                        ->generate($this->promptFor($cachedDiff, $type));
                     $message = $this->tryFixMessage($originalMessage);
                     if (! str($message)->jsonValidate()) {
                         throw new TaskException(sprintf(
@@ -136,7 +136,7 @@ final class CommitCommand extends Command
                 return;
             }
 
-            tap($this->createProcess($this->getCommitCommand($message)), function (Process $process): void {
+            tap($this->createProcess($this->commitCommandFor($message)), function (Process $process): void {
                 $this->shouldEdit() and $process->setTty(true);
             })->setTimeout(null)->mustRun();
         }, 'committing...'.PHP_EOL);
@@ -297,12 +297,12 @@ final class CommitCommand extends Command
         });
     }
 
-    private function getDiffCommand(): array
+    private function diffCommand(): array
     {
         return array_merge(['git', 'diff', '--cached'], $this->option('diff-options'));
     }
 
-    private function getPrompt(string $cachedDiff, string $type): string
+    private function promptFor(string $cachedDiff, string $type): string
     {
         $typePrompt = sprintf($this->configManager->get('type_prompt'), $type);
 
@@ -372,7 +372,7 @@ final class CommitCommand extends Command
      *
      * @noinspection CallableParameterUseCaseInTypeContextInspection
      */
-    private function getCommitCommand(Collection $message): array
+    private function commitCommandFor(Collection $message): array
     {
         $options = collect($this->option('commit-options'))
             ->when($this->shouldntEdit(), static function (Collection $collection): Collection {
@@ -415,6 +415,8 @@ final class CommitCommand extends Command
 
     /**
      * @codeCoverageIgnore
+     *
+     * @noinspection PhpUnusedPrivateMethodInspection
      */
     private function shouldVerify(): bool
     {
