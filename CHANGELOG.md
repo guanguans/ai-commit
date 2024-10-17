@@ -8,6 +8,12 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.14.3"></a>
+## [1.14.3] - 2024-10-17
+### Pull Requests
+- Merge pull request [#182](https://github.com/guanguans/ai-commit/issues/182) from guanguans/dependabot/composer/laminas/laminas-text-2.11.0
+
+
 <a name="1.14.2"></a>
 ## [1.14.2] - 2024-10-16
 ### Fix
@@ -882,7 +888,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.14.2...HEAD
+[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.14.3...HEAD
+[1.14.3]: https://github.com/guanguans/ai-commit/compare/1.14.2...1.14.3
 [1.14.2]: https://github.com/guanguans/ai-commit/compare/1.14.1...1.14.2
 [1.14.1]: https://github.com/guanguans/ai-commit/compare/1.14.0...1.14.1
 [1.14.0]: https://github.com/guanguans/ai-commit/compare/1.13.5...1.14.0
