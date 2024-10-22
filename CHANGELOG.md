@@ -8,6 +8,14 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.14.4"></a>
+## [1.14.4] - 2024-10-22
+### Pull Requests
+- Merge pull request [#186](https://github.com/guanguans/ai-commit/issues/186) from guanguans/dependabot/composer/laravel-zero/phar-updater-1.4.0
+- Merge pull request [#184](https://github.com/guanguans/ai-commit/issues/184) from guanguans/dependabot/composer/laminas/laminas-text-2.11.0
+- Merge pull request [#183](https://github.com/guanguans/ai-commit/issues/183) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.82.11
+
+
 <a name="1.14.3"></a>
 ## [1.14.3] - 2024-10-17
 ### Pull Requests
@@ -888,7 +896,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.14.3...HEAD
+[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.14.4...HEAD
+[1.14.4]: https://github.com/guanguans/ai-commit/compare/1.14.3...1.14.4
 [1.14.3]: https://github.com/guanguans/ai-commit/compare/1.14.2...1.14.3
 [1.14.2]: https://github.com/guanguans/ai-commit/compare/1.14.1...1.14.2
 [1.14.1]: https://github.com/guanguans/ai-commit/compare/1.14.0...1.14.1
