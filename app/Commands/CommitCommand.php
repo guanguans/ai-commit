@@ -354,6 +354,7 @@ final class CommitCommand extends Command
                             // '/,\s*,/' => ',', // 连续的逗号
                             // '/[\x00-\x1F\x7F-\x9F]/mu' => '', // 控制字符
                             '/[[:cntrl:]]/mu' => '', // 控制字符
+                            '/\s+/' => ' ', // 连续的空格
                         ])->reduce(static function (Stringable $message, string $replace, string $pattern): Stringable {
                             return $message->replaceMatches($pattern, $replace);
                         }, $message);

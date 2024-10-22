@@ -40,7 +40,7 @@ dataset('invalid messages', [
               # Explanation:
 
               {
-              "subject": "fix(app/Commands): fix CommitCommand message parsing",
+              "subject": "fix(app/Commands): fix     CommitCommand   message parsing",
               "body": "- Update message parsing logic in CommitCommand\n- Trim leading and trailing whitespace\n- Remove control characters from the message"
               }
 
