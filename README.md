@@ -51,12 +51,17 @@ composer require guanguans/ai-commit --dev -v # local
 ### Quick start
 
 ```shell
-./ai-commit config set generators.bito_cli.path bito-cli-path... --global # Config Bito Cli path(Optional)
+./ai-commit config set generators.bito_cli.binary bito-cli-binary... --global # Config Bito cli binary(Optional)
+./ai-commit config set generators.ernie_bot.api_key api-key... --global # Config Ernie API key
+./ai-commit config set generators.ernie_bot_turbo.api_key api-key... --global # Config Ernie API key
+./ai-commit config set generators.github_copilot_cli.binary gh-cli-binary... --global # Config Github cli binary(Optional)
+./ai-commit config set generators.moonshot.api_key sk-... --global # Config Moonshot API key
 ./ai-commit config set generators.openai.api_key sk-... --global # Config OpenAI API key
 ./ai-commit config set generators.openai_chat.api_key sk-... --global # Config OpenAI API key
 
 ./ai-commit config set generator openai_chat --global # Config default generator(Optional)
-./ai-commit commit # Generate and commit message
+./ai-commit commit # Generate and commit message using the default generator
+./ai-commit commit --generator=github_copilot_cli # Generate and commit message using the specified generator
 ```
 
 ```shell

@@ -10,7 +10,7 @@
 [![check & fix styling](https://github.com/guanguans/ai-commit/actions/workflows/php-cs-fixer.yml/badge.svg)](https://github.com/guanguans/ai-commit/actions)
 [![codecov](https://codecov.io/gh/guanguans/ai-commit/branch/main/graph/badge.svg?token=URGFAWS6S4)](https://codecov.io/gh/guanguans/ai-commit)
 [![Latest Stable Version](https://poser.pugx.org/guanguans/ai-commit/v)](https://packagist.org/packages/guanguans/ai-commit)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/guanguans/ai-commit)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/guanguans/ai-commit)](https://github.com/guanguans/ai-commit/releases/latest)
 [![Total Downloads](https://poser.pugx.org/guanguans/ai-commit/downloads)](https://packagist.org/packages/guanguans/ai-commit)
 [![License](https://poser.pugx.org/guanguans/ai-commit/license)](https://packagist.org/packages/guanguans/ai-commit)
 
@@ -50,12 +50,17 @@ composer require guanguans/ai-commit --dev -v # 本地
 ### 快速开始
 
 ```shell
-./ai-commit config set generators.bito_cli.path bito-cli-path... --global # 配置 Bito Cli 路径(可选)
-./ai-commit config set generators.openai.api_key sk-... --global # 配置 OpenAI API key
-./ai-commit config set generators.openai_chat.api_key sk-... --global # 配置 OpenAI API key
+./ai-commit config set generators.bito_cli.binary bito-cli-binary... --global # Config Bito cli binary(Optional)
+./ai-commit config set generators.ernie_bot.api_key api-key... --global # Config Ernie API key
+./ai-commit config set generators.ernie_bot_turbo.api_key api-key... --global # Config Ernie API key
+./ai-commit config set generators.github_copilot_cli.binary gh-cli-binary... --global # Config Github cli binary(Optional)
+./ai-commit config set generators.moonshot.api_key sk-... --global # Config Moonshot API key
+./ai-commit config set generators.openai.api_key sk-... --global # Config OpenAI API key
+./ai-commit config set generators.openai_chat.api_key sk-... --global # Config OpenAI API key
 
-./ai-commit config set generator openai_chat --global # 配置默认生成器(可选)
-./ai-commit commit # 生成且提交信息
+./ai-commit config set generator openai_chat --global # Config default generator(Optional)
+./ai-commit commit # Generate and commit message using the default generator
+./ai-commit commit --generator=github_copilot_cli # Generate and commit message using the specified generator
 ```
 
 ```shell
