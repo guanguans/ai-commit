@@ -1,8 +1,9 @@
 # ai-commit
 
-<p align="center"><img src="resources/docs/logo.png" alt="logo" style="width: 62%; height: 62%;"></p>
+[//]: # (<p align="center"><img src="resources/docs/logo.png" alt="logo" style="width: 62%; height: 62%;"></p>)
+<p align="center"><img src="resources/docs/ai-commit-vhs.gif" alt="ai-commit-vhs"></p>
 
-[简体中文](README-zh_CN.md) | [ENGLISH](README.md) | [日本語](README-ja_JP.md)
+[简体中文](README-zh_CN.md) | [ENGLISH](README.md) | [日本語](README-ja.md)
 
 > Automagically generate conventional git commit message with AI. - 使用 AI 自动生成约定式 git 提交信息。
 
@@ -64,24 +65,45 @@ composer require guanguans/ai-commit --dev -v # 本地
 ```
 
 ```shell
-╰─ ./ai-commit commit --generator=openai_chat --no-edit --no-verify --ansi                                           ─╯
+╰─ ./ai-commit commit --generator=bito_cli --no-edit --no-verify --ansi                                                                                                      ─╯
 1. Generating commit message: generating...
-{
-    "subject": "chore(ai-commit): update settings and commands",
-    "body": "- Set Width to 1200\n- Set Height to 742\n- Set TypingSpeed to 10ms\n- Set PlaybackSpeed to 0.2\n- Update git commands and sleep times"
-}
+
+ Please choice commit type [Automatically generate commit type]:
+  [auto    ] Automatically generate commit type
+  [feat    ] A new feature
+  [fix     ] A bug fix
+  [docs    ] Documentation only changes
+  [style   ] Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+  [refactor] A code change that neither fixes a bug nor adds a feature
+  [perf    ] A code change that improves performance
+  [test    ] Adding missing tests or correcting existing tests
+  [build   ] Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)
+  [ci      ] Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)
+  [chore   ] Other changes that don't modify src or test files
+  [revert  ] Reverts a previous commit
+ > chore
+
+  RUN  'bito'
+  ERR  Model in use: BASIC
+  ERR  
+  ERR  
+  OUT  {
+  OUT      "subject": "chore(ai-commit): update tape and gif resources",
+  OUT      "body": "- Adjusted width and height settings in ai-commit.tape\n- Changed commit command generator from openai_chat to bito_cli\n- Updated ai-commit-vhs.gif file with new binary data"
+  OUT  }
+  OUT  
+  OUT  
+  RES  Command ran successfully
 1. Generating commit message: ✔
 
 2. Confirming commit message: confirming...
-+------------------------------------------------+---------------------------------------+
-| subject                                        | body                                  |
-+------------------------------------------------+---------------------------------------+
-| chore(ai-commit): update settings and commands | - Set Width to 1200                   |
-|                                                | - Set Height to 742                   |
-|                                                | - Set TypingSpeed to 10ms             |
-|                                                | - Set PlaybackSpeed to 0.2            |
-|                                                | - Update git commands and sleep times |
-+------------------------------------------------+---------------------------------------+
++-------------------------------------------------+-----------------------------------------------------------------+
+| subject                                         | body                                                            |
++-------------------------------------------------+-----------------------------------------------------------------+
+| chore(ai-commit): update tape and gif resources | - Adjusted width and height settings in ai-commit.tape          |
+|                                                 | - Changed commit command generator from openai_chat to bito_cli |
+|                                                 | - Updated ai-commit-vhs.gif file with new binary data           |
++-------------------------------------------------+-----------------------------------------------------------------+
 
  Do you want to commit this message? (yes/no) [yes]:
  > 
@@ -95,7 +117,7 @@ composer require guanguans/ai-commit --dev -v # 本地
 
                                                                                                                         
  [OK] Successfully generated and committed message.                                                                     
-                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                                                                      
 ```
 
 ![](resources/docs/ai-commit-vhs.gif)
@@ -155,7 +177,7 @@ Checking for a new version...
 ### 命令帮助
 
 ```shell
-╰─ ./ai-commit commit --help                                                                                                               ─╯
+╰─ ./ai-commit commit --help                                                                                                                               ─╯
 Description:
   Automagically generate conventional commit message with AI.
 
@@ -167,7 +189,7 @@ Arguments:
 
 Options:
       --commit-options[=COMMIT-OPTIONS]  Append options for the `git commit` command [default: ["--edit"]] (multiple values allowed)
-      --diff-options[=DIFF-OPTIONS]      Append options for the `git diff` command [default: [":!*.lock",":!*.sum"]] (multiple values allowed)
+      --diff-options[=DIFF-OPTIONS]      Append options for the `git diff` command [default: [":!*-lock.json",":!*.lock",":!*.sum"]] (multiple values allowed)
   -g, --generator=GENERATOR              Specify generator name [default: "openai_chat"]
   -p, --prompt=PROMPT                    Specify prompt name of message generated [default: "conventional"]
       --no-edit                          Enable or disable git commit `--no-edit` option
@@ -175,6 +197,8 @@ Options:
   -c, --config[=CONFIG]                  Specify config file
       --retry-times=RETRY-TIMES          Specify times of retry [default: 3]
       --retry-sleep=RETRY-SLEEP          Specify sleep milliseconds of retry [default: 200]
+      --dry-run                          Only generate message without commit
+      --diff[=DIFF]                      Specify diff content
   -h, --help                             Display help for the given command. When no command is given display help for the list command
   -q, --quiet                            Do not output any message
   -V, --version                          Display this application version
