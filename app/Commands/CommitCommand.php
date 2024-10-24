@@ -338,7 +338,7 @@ final class CommitCommand extends Command
                     ])
                     ->replace(
                         array_keys($replaceRules = [
-                            "\\'" => "'",
+                            // "\\'" => "'",
                         ]),
                         $replaceRules
                     )
@@ -355,6 +355,7 @@ final class CommitCommand extends Command
                             // '/[\x00-\x1F\x7F-\x9F]/mu' => '', // 控制字符
                             '/[[:cntrl:]]/mu' => '', // 控制字符
                             '/\s+/' => ' ', // 连续的空格
+                            '/\\\\(?!["\\\\\/bfnrt]|u[0-9a-fA-F]{4})/' => '$1', // 非法转义字符
                         ])->reduce(static function (Stringable $message, string $replace, string $pattern): Stringable {
                             return $message->replaceMatches($pattern, $replace);
                         }, $message);
