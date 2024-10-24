@@ -8,6 +8,22 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.14.5"></a>
+## [1.14.5] - 2024-10-24
+### Docs
+- **readme:** update command examples for configuration
+
+### Reverts
+- chore(deps-dev): bump laminas/laminas-text from 2.9.0 to 2.11.0
+
+### Pull Requests
+- Merge pull request [#190](https://github.com/guanguans/ai-commit/issues/190) from guanguans/dependabot/composer/laminas/laminas-text-2.11.0
+- Merge pull request [#189](https://github.com/guanguans/ai-commit/issues/189) from guanguans/revert-188-dependabot/composer/laminas/laminas-text-2.11.0
+- Merge pull request [#188](https://github.com/guanguans/ai-commit/issues/188) from guanguans/dependabot/composer/laminas/laminas-text-2.11.0
+- Merge pull request [#187](https://github.com/guanguans/ai-commit/issues/187) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.82.12
+- Merge pull request [#185](https://github.com/guanguans/ai-commit/issues/185) from sravan1946/add-link-to-badge
+
+
 <a name="1.14.4"></a>
 ## [1.14.4] - 2024-10-22
 ### Pull Requests
@@ -896,7 +912,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.14.4...HEAD
+[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.14.5...HEAD
+[1.14.5]: https://github.com/guanguans/ai-commit/compare/1.14.4...1.14.5
 [1.14.4]: https://github.com/guanguans/ai-commit/compare/1.14.3...1.14.4
 [1.14.3]: https://github.com/guanguans/ai-commit/compare/1.14.2...1.14.3
 [1.14.2]: https://github.com/guanguans/ai-commit/compare/1.14.1...1.14.2
