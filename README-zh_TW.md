@@ -1,6 +1,7 @@
 # ai-commit
 
-<p align="center"><img src="docs/logo.png" alt="logo" style="width: 62%; height: 62%;"></p>
+[//]: # (<p align="center"><img src="resources/docs/logo.png" alt="logo" style="width: 62%; height: 62%;"></p>)
+<p align="center"><img src="resources/docs/ai-commit-vhs.gif" alt="ai-commit-vhs"></p>
 
 [简体中文](README-zh_CN.md) | [ENGLISH](README.md) | [日本語](README-ja.md) | [繁體中文](README-zh_TW.md)
 
