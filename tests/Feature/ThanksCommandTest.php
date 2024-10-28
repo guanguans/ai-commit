@@ -1,13 +1,5 @@
 <?php
 
-/** @noinspection AnonymousFunctionStaticInspection */
-/** @noinspection JsonEncodingApiUsageInspection */
-/** @noinspection NullPointerExceptionInspection */
-/** @noinspection PhpUnhandledExceptionInspection */
-/** @noinspection PhpUnused */
-/** @noinspection PhpUnusedAliasInspection */
-/** @noinspection StaticClosureCanBeUsedInspection */
-
 declare(strict_types=1);
 
 /**
@@ -20,12 +12,20 @@ declare(strict_types=1);
 
 use App\Commands\ThanksCommand;
 
-it('can thanks for using this tool', function (): void {
-    $this->getFunctionMock(class_namespace(ThanksCommand::class), 'exec')
-        ->expects($this->once())
-        ->willReturn('');
+it('can thank the user for using this tool', function (): void {
+    mockExecFunction();
 
     $this->artisan(ThanksCommand::class)
         ->expectsQuestion('Can you quickly <options=bold>star our GitHub repository</>? 🙏🏻', 'yes')
         ->assertSuccessful();
 })->group(__DIR__, __FILE__);
+
+// Helper Functions
+/**
+ * Mocks the `exec` function to simulate command execution for the ThanksCommand.
+ */
+function mockExecFunction(): void {
+    $this->getFunctionMock(class_namespace(ThanksCommand::class), 'exec')
+        ->expects($this->once())
+        ->willReturn('');
+}
