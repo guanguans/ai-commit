@@ -1,13 +1,5 @@
 <?php
 
-/** @noinspection AnonymousFunctionStaticInspection */
-/** @noinspection JsonEncodingApiUsageInspection */
-/** @noinspection NullPointerExceptionInspection */
-/** @noinspection PhpUnhandledExceptionInspection */
-/** @noinspection PhpUnused */
-/** @noinspection PhpUnusedAliasInspection */
-/** @noinspection StaticClosureCanBeUsedInspection */
-
 declare(strict_types=1);
 
 /**
@@ -26,40 +18,41 @@ use Illuminate\Support\Str;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
-it('can from shell commandline create process', function (): void {
+it('can create a process from a shell command', function (): void {
     $createProcess = function () {
         return $this->createProcess('git status');
     };
-    expect($createProcess->call(app(CommitCommand::class)))->toBeInstanceOf(Process::class);
-})->group(__DIR__, __FILE__)->skip();
 
-it('will throw TaskException(not a git repository)', function (): void {
+    expect($createProcess->call(app(CommitCommand::class)))
+        ->toBeInstanceOf(Process::class)
+        ->withMessage("The created process should be an instance of Symfony's Process class.");
+})
+    ->group(__DIR__, __FILE__)
+    ->skip();
+
+it('throws TaskException for non-git repository', function (): void {
     $this->artisan(CommitCommand::class, [
         'path' => $this->app->basePath('../'),
         '--config' => config_path('ai-commit.php'),
     ]);
 })
     ->group(__DIR__, __FILE__)
-    ->throws(ProcessFailedException::class, 'fatal: ');
+    ->throws(ProcessFailedException::class, 'fatal: Not a git repository');
 
-it('will throw TaskException(no cached files to commit)', function (): void {
-    // 重置暂存区
-    Process::fromShellCommandline('git reset', repository_path())->mustRun();
+it('throws TaskException when there are no cached files to commit', function (): void {
+    resetStagingArea();
 
     $this->artisan(CommitCommand::class, [
         'path' => repository_path(),
         '--generator' => 'openai',
     ]);
 })
-    ->depends('it will throw TaskException(not a git repository)')
+    ->depends('throws TaskException for non-git repository')
     ->group(__DIR__, __FILE__)
-    ->throws(TaskException::class, 'There are no cached files to commit. Try running `git add` to cache some files.');
+    ->throws(TaskException::class, 'No cached files to commit. Run `git add` to cache files.');
 
-it('will throw TaskException(The generated commit message is an invalid JSON)', function (): void {
-    // 添加文件到暂存区
-    file_put_contents(repository_path('playground.random'), Str::random());
-    Process::fromShellCommandline('git rm -rf --cached repository/', fixtures_path())->mustRun();
-    Process::fromShellCommandline('git add playground.random', repository_path())->mustRun();
+it('throws TaskException for invalid JSON in commit message', function (): void {
+    stageRandomFile();
 
     Http::fake(function (): PromiseInterface {
         return Http::response([
@@ -69,7 +62,7 @@ it('will throw TaskException(The generated commit message is an invalid JSON)', 
             'model' => 'text-davinci-003',
             'choices' => [
                 [
-                    'text' => 'invalid json', // 无效响应
+                    'text' => 'invalid json',
                     'index' => 0,
                     'logprobs' => null,
                     'finish_reason' => 'stop',
@@ -83,27 +76,20 @@ it('will throw TaskException(The generated commit message is an invalid JSON)', 
         ]);
     });
 
-    $this
-        ->artisan(CommitCommand::class, [
-            'path' => repository_path(),
-            '--generator' => 'openai',
-        ])
-        // ->expectsChoice('Please choice commit type', array_key_first($types = config('ai-commit.types')), $types)
-        ->expectsQuestion('Please choice commit type', array_key_first(config('ai-commit.types')));
+    $this->artisan(CommitCommand::class, [
+        'path' => repository_path(),
+        '--generator' => 'openai',
+    ])
+        ->expectsQuestion('Please choose commit type', array_key_first(config('ai-commit.types')))
+        ->throws(TaskException::class, 'The generated commit message contains invalid JSON');
 })
-    ->depends('it will throw TaskException(no cached files to commit)')
-    ->group(__DIR__, __FILE__)
-    ->throws(TaskException::class, 'The generated commit message(');
+    ->depends('throws TaskException when there are no cached files to commit')
+    ->group(__DIR__, __FILE__);
 
-it('can generate and commit message', function (array $parameters): void {
-    // 添加文件到暂存区
-    file_put_contents(repository_path('playground.random'), Str::random());
-    Process::fromShellCommandline('git rm -rf --cached repository/', fixtures_path())->run();
-    Process::fromShellCommandline('git add playground.random', repository_path())->mustRun();
+it('generates and commits a valid message', function (array $parameters): void {
+    stageRandomFile();
+    setGitUserConfig();
 
-    // 设置 git 信息
-    Process::fromShellCommandline('git config user.email yaozm', repository_path())->mustRun();
-    Process::fromShellCommandline('git config user.name ityaozm@gmail.com', repository_path())->mustRun();
     setup_http_fake();
 
     $message = collect([
@@ -111,33 +97,44 @@ it('can generate and commit message', function (array $parameters): void {
         'body' => '- Add var_dump() for debugging output- Add var_dump() for stream response',
     ]);
 
-    $this
-        ->artisan(CommitCommand::class, $parameters + [
-            'path' => repository_path(),
-            '--generator' => 'openai',
-            '--no-edit' => true,
-            '--no-verify' => true,
-            '--verbose' => true,
-        ])
-        ->expectsTable(
-            $message->keys()->all(),
-            [$message->all()]
-        )
-        // ->expectsChoice('Please choice commit type', array_key_first($types = config('ai-commit.types')), $types)
-        ->expectsQuestion('Please choice commit type', array_key_first(config('ai-commit.types')))
-        // ->expectsChoice('Please choice a commit message', $message->pluck('subject', 'id')->first(), $message->pluck('subject', 'id')->all())
-        // ->expectsQuestion('Please choice a commit message', '<comment>regenerating...</comment>')
+    $this->artisan(CommitCommand::class, $parameters + [
+        'path' => repository_path(),
+        '--generator' => 'openai',
+        '--no-edit' => true,
+        '--no-verify' => true,
+        '--verbose' => true,
+    ])
+        ->expectsTable($message->keys()->all(), [$message->all()])
+        ->expectsQuestion('Please choose commit type', array_key_first(config('ai-commit.types')))
         ->expectsConfirmation('Do you want to commit this message?', 'yes')
         ->assertSuccessful();
 })
     ->with('commit command parameters')
-    ->depends('it will throw TaskException(The generated commit message is an invalid JSON)')
+    ->depends('throws TaskException for invalid JSON in commit message')
     ->group(__DIR__, __FILE__);
 
 afterAll(static function (): void {
-    // 清理 playground 仓库
+    cleanupRepository();
+});
+
+// Helper functions
+function resetStagingArea(): void {
+    Process::fromShellCommandline('git reset', repository_path())->mustRun();
+}
+
+function stageRandomFile(): void {
+    file_put_contents(repository_path('playground.random'), Str::random());
+    Process::fromShellCommandline('git rm -rf --cached repository/', fixtures_path())->mustRun();
+    Process::fromShellCommandline('git add playground.random', repository_path())->mustRun();
+}
+
+function setGitUserConfig(): void {
+    Process::fromShellCommandline('git config user.email "yaozm@example.com"', repository_path())->mustRun();
+    Process::fromShellCommandline('git config user.name "ityaoyzm@gmail.com"', repository_path())->mustRun();
+}
+
+function cleanupRepository(): void {
     Process::fromShellCommandline('git reset $(git rev-list --max-parents=0 HEAD)', repository_path())->run();
-    // Process::fromShellCommandline('git checkout -- .', repository_path())->run();
     Process::fromShellCommandline('git checkout HEAD -- .', repository_path())->run();
     Process::fromShellCommandline('git add tests/Fixtures/repository/', base_path())->mustRun();
-});
+}
