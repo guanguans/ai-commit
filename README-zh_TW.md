@@ -2,7 +2,7 @@
 
 <p align="center"><img src="docs/logo.png" alt="logo" style="width: 62%; height: 62%;"></p>
 
-[简体中文](README-zh_CN.md) | [ENGLISH](README.md) | [日本語](README-ja_JP.md) | [繁體中文](README-zh_TW.md)
+[简体中文](README-zh_CN.md) | [ENGLISH](README.md) | [日本語](README-ja.md) | [繁體中文](README-zh_TW.md)
 
 > Automagically generate conventional git commit message with AI. - 使用 AI 自動生成約定式 git 提交訊息。
 
