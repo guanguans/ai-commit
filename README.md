@@ -18,7 +18,7 @@
 
 ## Support
 
-- [x] [Bito Cli](https://github.com/gitbito/CLI)
+- [x] [Bito CLI](https://github.com/gitbito/CLI)
 - [x] [ERNIE-Bot-turbo](https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Nlks5zkzu#ernie-bot-turbo)
 - [x] [ERNIE-Bot](https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Nlks5zkzu#ernie-bot)
 - [x] [GitHub Copilot CLI](https://github.com/github/gh-copilot)
@@ -52,10 +52,10 @@ composer require guanguans/ai-commit --dev -v # local
 ### Quick start
 
 ```shell
-./ai-commit config set generators.bito_cli.binary bito-cli-binary... --global # Config Bito cli binary(Optional)
+./ai-commit config set generators.bito_cli.binary bito-cli-binary... --global # Config Bito CLI binary(Optional)
 ./ai-commit config set generators.ernie_bot.api_key api-key... --global # Config Ernie API key
 ./ai-commit config set generators.ernie_bot_turbo.api_key api-key... --global # Config Ernie API key
-./ai-commit config set generators.github_copilot_cli.binary gh-cli-binary... --global # Config Github cli binary(Optional)
+./ai-commit config set generators.github_copilot_cli.binary gh-cli-binary... --global # Config Github CLI binary(Optional)
 ./ai-commit config set generators.moonshot.api_key sk-... --global # Config Moonshot API key
 ./ai-commit config set generators.openai.api_key sk-... --global # Config OpenAI API key
 ./ai-commit config set generators.openai_chat.api_key sk-... --global # Config OpenAI API key
@@ -69,7 +69,7 @@ composer require guanguans/ai-commit --dev -v # local
 ╰─ ./ai-commit commit --generator=bito_cli --no-edit --no-verify --ansi                                                                                                      ─╯
 1. Generating commit message: generating...
 
- Please choice commit type [Automatically generate commit type]:
+ Please choose commit type [Automatically generate commit type]:
   [auto    ] Automatically generate commit type
   [feat    ] A new feature
   [fix     ] A bug fix
