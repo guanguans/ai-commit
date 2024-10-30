@@ -3,7 +3,7 @@
 [//]: # (<p align="center"><img src="resources/docs/logo.png" alt="logo" style="width: 62%; height: 62%;"></p>)
 <p align="center"><img src="resources/docs/ai-commit-vhs.gif" alt="ai-commit-vhs"></p>
 
-[简体中文](README-zh_CN.md) | [ENGLISH](README.md) | [日本語](README-ja.md)
+[简体中文](README-zh_CN.md) | [ENGLISH](README.md) | [日本語](README-ja.md) | [繁體中文](README-zh_TW.md)
 
 > Automagically generate conventional git commit message with AI. - 使用 AI 自动生成约定式 git 提交信息。
 
