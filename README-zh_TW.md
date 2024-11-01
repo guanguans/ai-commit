@@ -5,7 +5,7 @@
 
 [简体中文](README-zh_CN.md) | [ENGLISH](README.md) | [日本語](README-ja.md) | [繁體中文](README-zh_TW.md)
 
-> Automagically generate conventional git commit message with AI. - 使用 AI 自動生成約定式 git 提交訊息。
+> Automagically generate conventional git commit message with AI. - 使用 AI 自动生成约定式 git 提交信息。
 
 [![tests](https://github.com/guanguans/ai-commit/workflows/tests/badge.svg)](https://github.com/guanguans/ai-commit/actions)
 [![check & fix styling](https://github.com/guanguans/ai-commit/actions/workflows/php-cs-fixer.yml/badge.svg)](https://github.com/guanguans/ai-commit/actions)
@@ -21,6 +21,7 @@
 - [x] [ERNIE-Bot-turbo](https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Nlks5zkzu#ernie-bot-turbo)
 - [x] [ERNIE-Bot](https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Nlks5zkzu#ernie-bot)
 - [x] [GitHub Copilot CLI](https://github.com/github/gh-copilot)
+- [x] [GitHub Models CLI](https://github.com/github/gh-models)
 - [x] [Moonshot](https://platform.moonshot.cn/docs/api-reference)
 - [x] [OpenAI Chat](https://platform.openai.com/docs/api-reference/chat)
 - [x] [OpenAI](https://platform.openai.com/docs/api-reference/completions)
@@ -51,50 +52,74 @@ composer require guanguans/ai-commit --dev -v # 本地安裝
 ### 快速開始
 
 ```shell
-./ai-commit config set generators.bito_cli.binary bito-cli-binary... --global # 設定 Bito cli 執行檔（可選）
-./ai-commit config set generators.ernie_bot.api_key api-key... --global # 設定 Ernie API 金鑰
-./ai-commit config set generators.ernie_bot_turbo.api_key api-key... --global # 設定 Ernie API 金鑰
-./ai-commit config set generators.github_copilot_cli.binary gh-cli-binary... --global # 設定 Github cli 執行檔（可選）
-./ai-commit config set generators.moonshot.api_key sk-... --global # 設定 Moonshot API 金鑰
-./ai-commit config set generators.openai.api_key sk-... --global # 設定 OpenAI API 金鑰
-./ai-commit config set generators.openai_chat.api_key sk-... --global # 設定 OpenAI API 金鑰
+./ai-commit config set generators.bito_cli.binary bito-cli-binary... --global # Config Bito CLI binary(Optional)
+./ai-commit config set generators.ernie_bot.api_key api-key... --global # Config Ernie API key
+./ai-commit config set generators.ernie_bot_turbo.api_key api-key... --global # Config Ernie API key
+./ai-commit config set generators.github_copilot_cli.binary gh-cli-binary... --global # Config Github CLI binary(Optional)
+./ai-commit config set generators.github_models_cli.binary gh-cli-binary... --global # Config Github CLI binary(Optional)
+./ai-commit config set generators.moonshot.api_key sk-... --global # Config Moonshot API key
+./ai-commit config set generators.openai.api_key sk-... --global # Config OpenAI API key
+./ai-commit config set generators.openai_chat.api_key sk-... --global # Config OpenAI API key
 
-./ai-commit config set generator openai_chat --global # 設定預設生成器（可選）
-./ai-commit commit # 使用預設生成器產生並提交訊息
-./ai-commit commit --generator=github_copilot_cli # 使用指定的生成器產生並提交訊息
+./ai-commit config set generator openai_chat --global # Config default generator(Optional)
+./ai-commit commit # Generate and commit message using the default generator
+./ai-commit commit --generator=github_copilot_cli # Generate and commit message using the specified generator
 ```
 
 ```shell
-╰─ ./ai-commit commit --generator=openai_chat --no-edit --no-verify --ansi                                           ─╯
-1. 產生提交訊息中：正在產生...
-{
-    "subject": "chore(ai-commit): update settings and commands",
-    "body": "- Set Width to 1200\n- Set Height to 742\n- Set TypingSpeed to 10ms\n- Set PlaybackSpeed to 0.2\n- Update git commands and sleep times"
-}
-1. 產生提交訊息：✔
+╰─ ./ai-commit commit --generator=bito_cli --no-edit --no-verify --ansi                                                                                                      ─╯
+1. Generating commit message: generating...
 
-2. 確認提交訊息：確認中...
-+------------------------------------------------+---------------------------------------+
-| subject                                        | body                                  |
-+------------------------------------------------+---------------------------------------+
-| chore(ai-commit): update settings and commands | - Set Width to 1200                   |
-|                                                | - Set Height to 742                   |
-|                                                | - Set TypingSpeed to 10ms             |
-|                                                | - Set PlaybackSpeed to 0.2            |
-|                                                | - Update git commands and sleep times |
-+------------------------------------------------+---------------------------------------+
+ Please choose commit type [Automatically generate commit type]:
+  [auto    ] Automatically generate commit type
+  [feat    ] A new feature
+  [fix     ] A bug fix
+  [docs    ] Documentation only changes
+  [style   ] Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+  [refactor] A code change that neither fixes a bug nor adds a feature
+  [perf    ] A code change that improves performance
+  [test    ] Adding missing tests or correcting existing tests
+  [build   ] Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)
+  [ci      ] Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)
+  [chore   ] Other changes that don't modify src or test files
+  [revert  ] Reverts a previous commit
+ > chore
 
- 是否要提交此訊息？(yes/no) [yes]:
+  RUN  'bito'
+  ERR  Model in use: BASIC
+  ERR  
+  ERR  
+  OUT  {
+  OUT      "subject": "chore(ai-commit): update tape and gif resources",
+  OUT      "body": "- Adjusted width and height settings in ai-commit.tape\n- Changed commit command generator from openai_chat to bito_cli\n- Updated ai-commit-vhs.gif file with new binary data"
+  OUT  }
+  OUT  
+  OUT  
+  RES  Command ran successfully
+1. Generating commit message: ✔
+
+2. Confirming commit message: confirming...
++-------------------------------------------------+-----------------------------------------------------------------+
+| subject                                         | body                                                            |
++-------------------------------------------------+-----------------------------------------------------------------+
+| chore(ai-commit): update tape and gif resources | - Adjusted width and height settings in ai-commit.tape          |
+|                                                 | - Changed commit command generator from openai_chat to bito_cli |
+|                                                 | - Updated ai-commit-vhs.gif file with new binary data           |
++-------------------------------------------------+-----------------------------------------------------------------+
+
+ Do you want to commit this message? (yes/no) [yes]:
  > 
 
-2. 確認提交訊息：✔
 
-3. 提交訊息中：提交中...
+2. Confirming commit message: ✔
 
-3. 提交訊息：✔
+3. Committing message: committing...
+
+3. Committing message: ✔
 
                                                                                                                         
- [OK] 成功產生並提交訊息。                                                                    
+ [OK] Successfully generated and committed message.                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                      
 ```
 
 ![](docs/ai-commit-vhs.gif)
@@ -116,13 +141,13 @@ composer require guanguans/ai-commit --dev -v # 本地安裝
 
   1.2.5
 
-  使用方式：ai-commit <command> [options] [arguments]
+  USAGE: ai-commit <command> [options] [arguments]
 
-  commit      使用 AI 自動生成約定式提交訊息。
-  completion  輸出 shell 自動完成腳本
-  config      管理設定選項。
-  self-update 允許自我更新建置應用程式
-  thanks      感謝使用此工具。
+  commit      Automagically generate conventional commit message with AI.
+  completion  Dump the shell completion script
+  config      Manage config options.
+  self-update Allows to self-update a build application
+  thanks      Thanks for using this tool.
 ```
 
 ### 設定操作
@@ -143,46 +168,46 @@ composer require guanguans/ai-commit --dev -v # 本地安裝
 ```shell
 ╰─ ./ai-commit self-update                                        ─╯
 
-檢查新版本...
+Checking for a new version...
 =============================
 
                                                                      
- [OK] 已從版本 1.2.4 更新至 v1.2.5。                          
+ [OK] Updated from version 1.2.4 to v1.2.5.                          
                                                                      
 ```
 
 ### 指令說明
 
 ```shell
-╰─ ./ai-commit commit --help                                                                                                               ─╯
-描述：
-  使用 AI 自動生成約定式提交訊息。
+╰─ ./ai-commit commit --help                                                                                                                               ─╯
+Description:
+  Automagically generate conventional commit message with AI.
 
-用法：
+Usage:
   commit [options] [--] [<path>]
 
-參數：
-  path                                   工作目錄 [預設值："/Users/yaozm/Documents/develop/ai-commit"]
+Arguments:
+  path                                   The working directory [default: "/Users/yaozm/Documents/develop/ai-commit"]
 
-選項：
-      --commit-options[=COMMIT-OPTIONS]  為 `git commit` 指令附加選項 [預設值：["--edit"]] (可多值)
-      --diff-options[=DIFF-OPTIONS]      為 `git diff` 指令附加選項 [預設值：[":!*-lock.json",":!*.lock",":!*.sum"]] (可多值)
-  -g, --generator=GENERATOR              指定生成器名稱 [預設值："openai_chat"]
-  -p, --prompt=PROMPT                    指定訊息生成的提示名稱 [預設值："conventional"]
-      --no-edit                          啟用或停用 git commit `--no-edit` 選項
-      --no-verify                        啟用或停用 git commit `--no-verify` 選項
-  -c, --config[=CONFIG]                  指定設定檔
-      --retry-times=RETRY-TIMES          指定重試次數 [預設值：3]
-      --retry-sleep=RETRY-SLEEP          指定重試間隔毫秒數 [預設值：200]
-      --dry-run                          僅生成訊息而不提交
-      --diff[=DIFF]                      指定差異內容
-  -h, --help                             顯示指定指令的說明。若未指定指令則顯示 list 指令的說明
-  -q, --quiet                            不輸出任何訊息
-  -V, --version                          顯示此應用程式版本
-      --ansi|--no-ansi                   強制（或停用 --no-ansi）ANSI 輸出
-  -n, --no-interaction                   不詢問任何互動問題
-      --env[=ENV]                        指令應在其下執行的環境
-  -v|vv|vvv, --verbose                   增加訊息的詳細程度：1 為正常輸出，2 為較詳細輸出，3 為偵錯輸出
+Options:
+      --commit-options[=COMMIT-OPTIONS]  Append options for the `git commit` command [default: ["--edit"]] (multiple values allowed)
+      --diff-options[=DIFF-OPTIONS]      Append options for the `git diff` command [default: [":!*-lock.json",":!*.lock",":!*.sum"]] (multiple values allowed)
+  -g, --generator=GENERATOR              Specify generator name [default: "openai_chat"]
+  -p, --prompt=PROMPT                    Specify prompt name of message generated [default: "conventional"]
+      --no-edit                          Enable or disable git commit `--no-edit` option
+      --no-verify                        Enable or disable git commit `--no-verify` option
+  -c, --config[=CONFIG]                  Specify config file
+      --retry-times=RETRY-TIMES          Specify times of retry [default: 3]
+      --retry-sleep=RETRY-SLEEP          Specify sleep milliseconds of retry [default: 200]
+      --dry-run                          Only generate message without commit
+      --diff[=DIFF]                      Specify diff content
+  -h, --help                             Display help for the given command. When no command is given display help for the list command
+  -q, --quiet                            Do not output any message
+  -V, --version                          Display this application version
+      --ansi|--no-ansi                   Force (or disable --no-ansi) ANSI output
+  -n, --no-interaction                   Do not ask any interactive question
+      --env[=ENV]                        The environment the command should run under
+  -v|vv|vvv, --verbose                   Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 ```
 
 ## 測試

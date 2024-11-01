@@ -21,6 +21,7 @@
 - [x] [ERNIE-Bot-turbo](https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Nlks5zkzu#ernie-bot-turbo)
 - [x] [ERNIE-Bot](https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Nlks5zkzu#ernie-bot)
 - [x] [GitHub Copilot CLI](https://github.com/github/gh-copilot)
+- [x] [GitHub Models CLI](https://github.com/github/gh-models)
 - [x] [Moonshot](https://platform.moonshot.cn/docs/api-reference)
 - [x] [OpenAI Chat](https://platform.openai.com/docs/api-reference/chat)
 - [x] [OpenAI](https://platform.openai.com/docs/api-reference/completions)
@@ -55,6 +56,7 @@ composer require guanguans/ai-commit --dev -v # ローカル
 ./ai-commit config set generators.ernie_bot.api_key api-key... --global # Config Ernie API key
 ./ai-commit config set generators.ernie_bot_turbo.api_key api-key... --global # Config Ernie API key
 ./ai-commit config set generators.github_copilot_cli.binary gh-cli-binary... --global # Config Github cli binary(Optional)
+./ai-commit config set generators.github_models_cli.binary gh-cli-binary... --global # Config Github CLI binary(Optional)
 ./ai-commit config set generators.moonshot.api_key sk-... --global # Config Moonshot API key
 ./ai-commit config set generators.openai.api_key sk-... --global # Config OpenAI API key
 ./ai-commit config set generators.openai_chat.api_key sk-... --global # Config OpenAI API key
