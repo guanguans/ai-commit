@@ -142,9 +142,9 @@ return [
                 'timeout' => 120,
             ],
             'options' => [
-                '--max-tokens' => 1000,
-                '--system-prompt' => 'You are a helpful assistant.',
-                '--temperature' => 1,
+                '--max-tokens' => null,
+                '--system-prompt' => 'You are a git commit message generator.',
+                '--temperature' => null,
                 '--top-p' => null,
             ],
         ],
