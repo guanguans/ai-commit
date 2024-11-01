@@ -8,6 +8,39 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.15.0"></a>
+## [1.15.0] - 2024-11-02
+### Bug Fixes
+- **config:** Update AI commit options for better performance
+
+### Build
+- **deps:** update laminas-servicemanager to 3.7.0
+
+### CI
+- **config:** Add readme-lint script to validate README files
+
+### Docs
+- add Traditional Chinese Readme
+- **README:** Add GitHub Models CLI to documentation
+
+### Features
+- **generator:** Improve command options handling in GithubModelsCliGenerator
+- **generators:** Add GithubModelsCliGenerator for command execution
+
+### Pull Requests
+- Merge pull request [#205](https://github.com/guanguans/ai-commit/issues/205) from guanguans/dependabot/composer/laravel-zero/phar-updater-1.4.0
+- Merge pull request [#204](https://github.com/guanguans/ai-commit/issues/204) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.83.2
+- Merge pull request [#203](https://github.com/guanguans/ai-commit/issues/203) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.83.0
+- Merge pull request [#202](https://github.com/guanguans/ai-commit/issues/202) from guanguans/dependabot/composer/laminas/laminas-text-2.11.0
+- Merge pull request [#200](https://github.com/guanguans/ai-commit/issues/200) from PrathameshSPawar/main
+- Merge pull request [#198](https://github.com/guanguans/ai-commit/issues/198) from samarth29jc/TW_Readme
+- Merge pull request [#201](https://github.com/guanguans/ai-commit/issues/201) from guanguans/dependabot/composer/laravel-zero/phar-updater-1.4.0
+- Merge pull request [#199](https://github.com/guanguans/ai-commit/issues/199) from guanguans/dependabot/composer/laminas/laminas-text-2.11.0
+- Merge pull request [#194](https://github.com/guanguans/ai-commit/issues/194) from guanguans/dependabot/composer/laravel-zero/phar-updater-1.4.0
+- Merge pull request [#192](https://github.com/guanguans/ai-commit/issues/192) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.82.13
+- Merge pull request [#191](https://github.com/guanguans/ai-commit/issues/191) from guanguans/dependabot/composer/laminas/laminas-text-2.11.0
+
+
 <a name="1.14.5"></a>
 ## [1.14.5] - 2024-10-24
 ### Docs
@@ -40,17 +73,17 @@ All notable changes to this project will be documented in this file.
 
 <a name="1.14.2"></a>
 ## [1.14.2] - 2024-10-16
-### Fix
+### Bug Fixes
 - **commands:** fix handling of JSON decoding errors
 
-### Perf
-- **Generator.php:** improve process handling
-
-### Refactor
+### Code Refactoring
 - **Generator:** Refactor Generator class
 - **Generator.php:** refactor Generator class
 - **app:** refactor CommitCommand.php and GithubCopilotCliGenerator.php
 - **generator:** refactor processHelperMustRun and processHelperRun
+
+### Performance Improvements
+- **Generator.php:** improve process handling
 
 ### Pull Requests
 - Merge pull request [#181](https://github.com/guanguans/ai-commit/issues/181) from guanguans/dependabot/composer/laminas/laminas-text-2.11.0
@@ -59,17 +92,17 @@ All notable changes to this project will be documented in this file.
 
 <a name="1.14.1"></a>
 ## [1.14.1] - 2024-10-15
-### Feat
-- **Generator:** add logger property
-- **generators:** Add processHelperMustRun and processHelperRun methods
-
-### Refactor
+### Code Refactoring
 - **Generators:** refactor generate method in BitoCliGenerator
 - **app:** Refactor Generator.php and GithubCopilotCliGenerator.php
 - **generators:** improve process helper management
 - **generators:** Refactor generator classes
 
-### Test
+### Features
+- **Generator:** add logger property
+- **generators:** Add processHelperMustRun and processHelperRun methods
+
+### Tests
 - **Generators:** add string cmd test
 - **Generators:** Update Generator.php and GithubCopilotCliGenerator.php
 - **Unit:** Add GithubCopilotCliGeneratorTest
@@ -77,20 +110,20 @@ All notable changes to this project will be documented in this file.
 
 <a name="1.14.0"></a>
 ## [1.14.0] - 2024-10-15
-### Docs
-- **commit:** Update dependencies in README files
-
-### Feat
-- **generator:** Support for github copilot CLI driver
-
-### Fix
+### Bug Fixes
 - **Generators:** 修复 GithubCopilotCliGenerator 输出格式
 - **Generators:** update GithubCopilotCliGenerator to include output message
 - **app:** Fix dumping issue
 - **app:** Fix copilot explain command output
 
-### Refactor
+### Code Refactoring
 - **generators:** update CLI binary configuration
+
+### Docs
+- **commit:** Update dependencies in README files
+
+### Features
+- **generator:** Support for github copilot CLI driver
 
 ### Pull Requests
 - Merge pull request [#179](https://github.com/guanguans/ai-commit/issues/179) from guanguans/dependabot/composer/laminas/laminas-text-2.11.0
@@ -98,22 +131,22 @@ All notable changes to this project will be documented in this file.
 
 <a name="1.13.5"></a>
 ## [1.13.5] - 2024-10-13
-### Refactor
+### Code Refactoring
 - **BitoCliGenerator:** improve code structure and readability
 - **logging:** replace NullLogger with ConsoleLogger for verbose output
 
 
 <a name="1.13.4"></a>
 ## [1.13.4] - 2024-10-13
+### Bug Fixes
+- **composer-updater:** remove --ansi option from commands
+
+### Code Refactoring
+- **Generators:** update BitoCliGenerator to improve process handling
+
 ### Docs
 - Move images to resources directory
 - add Japanese README
-
-### Fix
-- **composer-updater:** remove --ansi option from commands
-
-### Refactor
-- **Generators:** update BitoCliGenerator to improve process handling
 
 ### Pull Requests
 - Merge pull request [#177](https://github.com/guanguans/ai-commit/issues/177) from eltociear/add-japanese-readme
@@ -127,7 +160,7 @@ All notable changes to this project will be documented in this file.
 
 <a name="1.13.3"></a>
 ## [1.13.3] - 2024-10-01
-### Refactor
+### Code Refactoring
 - **ConfigCommand:** simplify argToValue function
 
 ### Pull Requests
@@ -136,29 +169,32 @@ All notable changes to this project will be documented in this file.
 
 <a name="1.13.2"></a>
 ## [1.13.2] - 2024-09-30
+### Bug Fixes
+- **tests:** remove commented parameters in InvalidJsons.php
+
 ### Docs
 - update logo path and clean up files
 
-### Fix
-- **tests:** remove commented parameters in InvalidJsons.php
-
-### Perf
+### Performance Improvements
 - **AppServiceProvider:** extend logger to use NullLogger
 - **exceptions:** Improve error reporting behavior
 
 
 <a name="1.13.1"></a>
 ## [1.13.1] - 2024-09-30
-### Fix
+### Bug Fixes
 - **Exceptions:** Correct error message formatting
 - **deps:** update laminas and other dependencies
 
-### Perf
+### Code Refactoring
+- **exceptions:** simplify exception handling logic
+
+### Performance Improvements
 - **JsonFixer:** Improve readability of conditional statements
 - **commands:** Improve null handling and code clarity
 
-### Refactor
-- **exceptions:** simplify exception handling logic
+### Style
+- **generators:** Refactor config property initialization
 
 ### Pull Requests
 - Merge pull request [#170](https://github.com/guanguans/ai-commit/issues/170) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.82.6
@@ -168,7 +204,7 @@ All notable changes to this project will be documented in this file.
 
 <a name="1.13.0"></a>
 ## [1.13.0] - 2024-09-26
-### Feat
+### Features
 - **command:** add dry-run option for commit messages
 - **commit:** add optional diff parameter for commit command
 
@@ -184,6 +220,9 @@ All notable changes to this project will be documented in this file.
 
 <a name="1.12.5"></a>
 ## [1.12.5] - 2024-08-16
+### Build
+- **deps:** update guzzlehttp/guzzle to version 7.9
+
 ### CI
 - **rector:** Remove unused rector and update configurations
 
@@ -211,12 +250,12 @@ All notable changes to this project will be documented in this file.
 
 <a name="1.12.4"></a>
 ## [1.12.4] - 2024-06-24
+### Bug Fixes
+- **config:** Update logo font class conditionally
+
 ### CI
 - **phpunit:** Fix coverage exclusion in phpunit.xml.dist
 - **phpunit:** Remove coverage settings and add source settings
-
-### Fix
-- **config:** Update logo font class conditionally
 
 
 <a name="1.12.3"></a>
@@ -224,8 +263,11 @@ All notable changes to this project will be documented in this file.
 
 <a name="1.12.2"></a>
 ## [1.12.2] - 2024-06-24
-### Fix
+### Bug Fixes
 - **app:** Remove outdated OpenAI model options
+
+### Build
+- **composer:** update composer-git-hooks version requirement
 
 ### Pull Requests
 - Merge pull request [#137](https://github.com/guanguans/ai-commit/issues/137) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.78.2
@@ -233,20 +275,23 @@ All notable changes to this project will be documented in this file.
 
 <a name="1.12.1"></a>
 ## [1.12.1] - 2024-06-12
+### Style
+- **commands:** Remove unnecessary annotations
+
 
 <a name="1.12.0"></a>
 ## [1.12.0] - 2024-06-12
 ### Docs
 - **config:** Add commit type prompt in ai-commit.php
 
-### Feat
+### Features
 - add ability to select commit type
 - **CommitCommand.php:** Modify commit type selection logic
 
-### Perf
+### Performance Improvements
 - **app:** improve handle method performance
 
-### Test
+### Tests
 - **test:** improve commit command test coverage
 
 ### Pull Requests
@@ -272,22 +317,22 @@ All notable changes to this project will be documented in this file.
 
 <a name="1.11.1"></a>
 ## [1.11.1] - 2024-04-08
-### Feat
+### Features
 - **tests:** Add HTTP fake setup for Moonshot and chat completions
 
-### Test
+### Tests
 - **Pest:** Update API response mock data
 - **Unit:** Add MoonshotGeneratorTest.php and OpenAIGeneratorTest.php
 
 
 <a name="1.11.0"></a>
 ## [1.11.0] - 2024-04-08
-### Feat
+### Code Refactoring
+- **generator:** Refactor GeneratorManager to improve readability and maintainability
+
+### Features
 - **Generators:** Add KimiGenerator class for AI completion
 - **Kimi:** Add chatCompletions method to Kimi class
-
-### Refactor
-- **generator:** Refactor GeneratorManager to improve readability and maintainability
 
 
 <a name="1.10.2"></a>
@@ -310,14 +355,14 @@ All notable changes to this project will be documented in this file.
 
 <a name="1.10.0"></a>
 ## [1.10.0] - 2024-03-14
+### Code Refactoring
+- **openai:** Improve data handling and response creation
+
 ### Docs
 - **StrMacro:** Add link to polyfill-php83
 
-### Feat
+### Features
 - **composer-updater:** add composer-updater script and configuration
-
-### Refactor
-- **openai:** Improve data handling and response creation
 
 ### Pull Requests
 - Merge pull request [#109](https://github.com/guanguans/ai-commit/issues/109) from guanguans/dependabot/composer/mockery/mockery-1.6.9
@@ -353,11 +398,11 @@ All notable changes to this project will be documented in this file.
 
 <a name="1.9.3"></a>
 ## [1.9.3] - 2024-01-03
-### Fix
+### Bug Fixes
 - **Commands:** Fix issue in CommitCommand
 - **commands:** Fix formatting issue in CommitCommand
 
-### Refactor
+### Code Refactoring
 - **CommitCommand:** refactor commit message generation and confirmation
 - **OpenAIGenerator:** Improve data handling
 - **commands:** update commit message generation
@@ -366,15 +411,15 @@ All notable changes to this project will be documented in this file.
 
 <a name="1.9.2"></a>
 ## [1.9.2] - 2024-01-03
-### Feat
-- **commands:** add new line before and after commit tasks
-
-### Fix
+### Bug Fixes
 - **CommitCommand:** add newLine(3) before and after confirming commit message
 - **commands:** Automagically generate conventional commit message with AI
 
-### Refactor
+### Code Refactoring
 - **CommitCommand:** Refactor CommitCommand class
+
+### Features
+- **commands:** add new line before and after commit tasks
 
 
 <a name="1.9.1"></a>
@@ -406,7 +451,7 @@ All notable changes to this project will be documented in this file.
 
 <a name="1.8.5"></a>
 ## [1.8.5] - 2023-11-13
-### Refactor
+### Code Refactoring
 - **monorepo-builder:** update CreateGithubReleaseWorker to CreateGithubReleaseReleaseWorker
 
 
@@ -447,23 +492,23 @@ All notable changes to this project will be documented in this file.
 
 <a name="1.8.1"></a>
 ## [1.8.1] - 2023-08-18
-### Docs
-- **readme:** Update ERNIE-Bot links
-
-### Feat
-- **tests:** Add ErnieTest.php
-- **tests.Unit.Generators.ErnieBotGeneratorTest:** add test for generating commit messages
-
-### Fix
+### Bug Fixes
 - **Support:** Sanitize data in Ernie and OpenAI
 
-### Refactor
+### Code Refactoring
 - **generator:** simplify buildWriter method
 - **generator:** Change visibility of ernie property
 - **rector:** apply rector
 - **rector:** apply rector
 
-### Test
+### Docs
+- **readme:** Update ERNIE-Bot links
+
+### Features
+- **tests:** Add ErnieTest.php
+- **tests.Unit.Generators.ErnieBotGeneratorTest:** add test for generating commit messages
+
+### Tests
 - **ErnieBotGeneratorTest:** add test for writer function
 
 ### Pull Requests
@@ -472,18 +517,18 @@ All notable changes to this project will be documented in this file.
 
 <a name="1.8.0"></a>
 ## [1.8.0] - 2023-08-17
-### Docs
-- **readme:** update broken links in README.md
-
-### Feat
-- **Ernie:** Add Ernie class
-- **Generators:** Add ErnieBotGenerator
-- **generators:** add ErnieBotTurbo generator
-
-### Refactor
+### Code Refactoring
 - **Support:** move sanitizeData method to FoundationSDK.php
 - **Support:** refactor Ernie class
 - **app:** improve GeneratorManager
+
+### Docs
+- **readme:** update broken links in README.md
+
+### Features
+- **Ernie:** Add Ernie class
+- **Generators:** Add ErnieBotGenerator
+- **generators:** add ErnieBotTurbo generator
 
 ### Pull Requests
 - Merge pull request [#43](https://github.com/guanguans/ai-commit/issues/43) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.50.0
@@ -502,39 +547,39 @@ All notable changes to this project will be documented in this file.
 
 <a name="1.7.6"></a>
 ## [1.7.6] - 2023-07-25
-### Refactor
+### Code Refactoring
 - **configcommand:** update process TTY option
 - **tests:** Remove unnecessary code in ConfigCommandTest
 
-### Test
+### Tests
 - **ConfigCommandTest:** Skip windows_os on edit config test
 
 
 <a name="1.7.5"></a>
 ## [1.7.5] - 2023-07-25
-### Fix
+### Bug Fixes
 - **tests:** Fix skipping of test cases
 
-### Test
+### Tests
 - **CommitCommandTest:** add --no-verify option
 
 
 <a name="1.7.4"></a>
 ## [1.7.4] - 2023-07-25
-### Docs
-- **config:** Improve commit message guidelines
-
-### Feat
-- **ConfigCommand:** Add support for windows editors
-
-### Fix
+### Bug Fixes
 - **monorepo-builder:** Update autoload.php path
 - **tests:** Fix skipping tests on non-Windows OS
 
-### Refactor
+### Code Refactoring
 - **ConfigCommand:** use dependency injection for ExecutableFinder
 - **commands:** Update ConfigCommand.php
 - **tests:** Refactor `find` method in `ExecutableFinder`
+
+### Docs
+- **config:** Improve commit message guidelines
+
+### Features
+- **ConfigCommand:** Add support for windows editors
 
 ### Pull Requests
 - Merge pull request [#31](https://github.com/guanguans/ai-commit/issues/31) from guanguans/dependabot/composer/guanguans/monorepo-builder-worker-1.1.11
@@ -542,57 +587,60 @@ All notable changes to this project will be documented in this file.
 
 <a name="1.7.3"></a>
 ## [1.7.3] - 2023-07-24
+### Code Refactoring
+- **CommitCommand:** add shouldVerify method
+
 ### Docs
 - **README:** Update command help section
-
-### Refactor
-- **CommitCommand:** add shouldVerify method
 
 
 <a name="1.7.2"></a>
 ## [1.7.2] - 2023-07-24
-### Feat
-- **commands:** add --no-verify option
-
-### Fix
+### Bug Fixes
 - **composer:** update ai-commit-no-verify script
 
-### Refactor
+### Code Refactoring
 - **CommitCommand:** change edit mode handling
+
+### Features
+- **commands:** add --no-verify option
 
 
 <a name="1.7.1"></a>
 ## [1.7.1] - 2023-07-24
-### Feat
-- **CommitCommand:** Add option to regenerate commit
-
-### Refactor
+### Code Refactoring
 - **Commands:** Use note instead of info for command line output
 - **rector.php:** remove unused PHPUnit sets
+
+### Features
+- **CommitCommand:** Add option to regenerate commit
 
 
 <a name="1.7.0"></a>
 ## [1.7.0] - 2023-07-23
-### Feat
-- **composer:** add guanguans/monorepo-builder-worker dependency
+### Build
+- **workflows:** Add support for manual tag input
 
-### Refactor
+### Code Refactoring
 - **rector:** Remove unused rules and dependencies
+
+### Features
+- **composer:** add guanguans/monorepo-builder-worker dependency
 
 
 <a name="v1.6.9"></a>
 ## [v1.6.9] - 2023-07-14
-### Fix
+### Bug Fixes
 - **commands:** Update success message in ConfigCommand
 
 
 <a name="v1.6.8"></a>
 ## [v1.6.8] - 2023-07-14
-### Feat
-- **composer.json:** add ai-commit-no-verify command
-
-### Fix
+### Bug Fixes
 - **commands:** Update commit success message
+
+### Features
+- **composer.json:** add ai-commit-no-verify command
 
 ### Pull Requests
 - Merge pull request [#30](https://github.com/guanguans/ai-commit/issues/30) from guanguans/dependabot/composer/pestphp/pest-1.23.1
@@ -602,7 +650,7 @@ All notable changes to this project will be documented in this file.
 
 <a name="v1.6.7"></a>
 ## [v1.6.7] - 2023-06-30
-### Refactor
+### Code Refactoring
 - **CommitCommand:** Change visibility of methods
 
 
@@ -617,7 +665,7 @@ All notable changes to this project will be documented in this file.
 
 <a name="v1.6.5"></a>
 ## [v1.6.5] - 2023-06-26
-### Feat
+### Features
 - **README:** add logo
 - **composer:** Add trufflehog command
 - **github-actions:** add secrets check workflow
@@ -625,39 +673,39 @@ All notable changes to this project will be documented in this file.
 
 <a name="v1.6.4"></a>
 ## [v1.6.4] - 2023-06-23
-### Fix
+### Bug Fixes
 - **build:** change directory permission to 0755
 
 
 <a name="v1.6.3"></a>
 ## [v1.6.3] - 2023-06-23
-### Fix
+### Bug Fixes
 - **commands:** update error message for no cached files to commit
 
-### Refactor
+### Code Refactoring
 - **app:** improve code readability and structure
 - **commit-command:** improve code readability and add doc comments
 
 
 <a name="v1.6.2"></a>
 ## [v1.6.2] - 2023-06-22
-### Docs
-- **README:** reorganize and update installation steps
-
-### Feat
-- **app:** add ChangeAndIfToEarlyReturnRector to ConfigManager and CommitCommand
-- **tests:** add support for Windows in tests
-
-### Fix
+### Bug Fixes
 - **CommitCommand:** use --cached instead of --staged in git diff
 
-### Refactor
+### Code Refactoring
 - **ConfigManager:** use File facade and update return types
 - **commands:** modify CommitCommand to handle Windows OS
 - **config:** update generator name to openai_chat
 - **generators:** rename Bito to Bito Cli
 
-### Test
+### Docs
+- **README:** reorganize and update installation steps
+
+### Features
+- **app:** add ChangeAndIfToEarlyReturnRector to ConfigManager and CommitCommand
+- **tests:** add support for Windows in tests
+
+### Tests
 - **ConfigCommandTest:** add skip for windows_os()
 - **config:** add test for edit config on Windows
 
@@ -668,41 +716,41 @@ All notable changes to this project will be documented in this file.
 - **readme:** Update README with OpenAI and Bito configuration instructions
 - **readme:** add support section
 
-### Feat
+### Features
 - **composer.json:** add bito and other dependencies
 
-### Test
+### Tests
 - **generators:** Add BitoGeneratorTest
 
 
 <a name="v1.6.0"></a>
 ## [v1.6.0] - 2023-06-21
-### Feat
-- **config:** add Bito driver configuration
-
-### Fix
+### Bug Fixes
 - **generator:** use configured path for bito command
 
-### Refactor
+### Code Refactoring
 - **Generators:** make BitoGenerator class final and change visibility of properties
 - **Generators:** simplify code for generating prompt file
 - **app:** use custom exceptions and update driver creation
 - **app:** update GeneratorManager.php
 - **composer:** remove unused composer script
 
+### Features
+- **config:** add Bito driver configuration
+
 
 <a name="v1.5.3"></a>
 ## [v1.5.3] - 2023-06-21
-### Feat
-- **rector:** add FinalizeClassesWithoutChildrenRector
-
-### Refactor
+### Code Refactoring
 - **OpenAIGenerator:** change extractCompletion method to non-static
+
+### Features
+- **rector:** add FinalizeClassesWithoutChildrenRector
 
 
 <a name="v1.5.2"></a>
 ## [v1.5.2] - 2023-06-21
-### Feat
+### Features
 - **dev:** Add bamarni/composer-bin-plugin to require-dev
 
 
@@ -728,17 +776,17 @@ All notable changes to this project will be documented in this file.
 
 <a name="v1.4.3"></a>
 ## [v1.4.3] - 2023-05-06
-### Feat
+### Features
 - **config:** Update app locale to English
 
 
 <a name="v1.4.2"></a>
 ## [v1.4.2] - 2023-05-04
-### Feat
-- **config:** add reset action to ConfigCommand
-
-### Refactor
+### Code Refactoring
 - **commands:** use collection to set options
+
+### Features
+- **config:** add reset action to ConfigCommand
 
 ### Pull Requests
 - Merge pull request [#16](https://github.com/guanguans/ai-commit/issues/16) from guanguans/dependabot/composer/pestphp/pest-1.23.0
@@ -763,7 +811,7 @@ All notable changes to this project will be documented in this file.
 
 <a name="v1.3.2"></a>
 ## [v1.3.2] - 2023-03-06
-### Fix
+### Bug Fixes
 - **generator:** fix JSON decoding error
 
 
@@ -775,7 +823,7 @@ All notable changes to this project will be documented in this file.
 
 <a name="v1.3.0"></a>
 ## [v1.3.0] - 2023-03-03
-### Fix
+### Bug Fixes
 - **config:** update generator name
 
 ### Pull Requests
@@ -793,10 +841,10 @@ All notable changes to this project will be documented in this file.
 
 <a name="v1.2.5"></a>
 ## [v1.2.5] - 2023-02-28
-### Fix
+### Bug Fixes
 - **Generator:** Hydrate data with JSON_THROW_ON_ERROR
 
-### Refactor
+### Code Refactoring
 - **OpenAIGenerator:** Refactor response handling
 
 
@@ -847,37 +895,37 @@ All notable changes to this project will be documented in this file.
 
 <a name="v1.0.1"></a>
 ## [v1.0.1] - 2023-02-15
-### Fix
+### Bug Fixes
 - **ConfigCommand:** Fix UnsupportedActionOfConfigException
 
 
 <a name="v1.0.0"></a>
 ## [v1.0.0] - 2023-02-09
-### Docs
-- Update README and CHANGELOG
-
-### Fix
+### Bug Fixes
 - **OpenAIGenerator:** Fix is_json() call
 
-### Refactor
+### Code Refactoring
 - Apply rector
+
+### Docs
+- Update README and CHANGELOG
 
 
 <a name="v0.5.0"></a>
 ## [v0.5.0] - 2023-02-09
-### Feat
+### Code Refactoring
+- **ConfigCommand:** Transform config value
+
+### Features
 - **CommitCommand:** Add config option
 - **CommitCommand:** Add InputArgument for path
 - **ConfigCommand:** Add ACTIONS constant
 - **config:** Add list actions
 
-### Refactor
-- **ConfigCommand:** Transform config value
-
 
 <a name="v0.4.0"></a>
 ## [v0.4.0] - 2023-02-08
-### Feat
+### Features
 - **CommitCommand:** Add no-edit option
 - **StrMacro:** Add StrMacro class
 
@@ -902,17 +950,18 @@ All notable changes to this project will be documented in this file.
 
 <a name="v0.2.0"></a>
 ## [v0.2.0] - 2023-02-06
-### Feat
+### Features
 - add config command
 
 
 <a name="v0.1.0"></a>
 ## v0.1.0 - 2023-02-03
-### Feat
+### Features
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.14.5...HEAD
+[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.15.0...HEAD
+[1.15.0]: https://github.com/guanguans/ai-commit/compare/1.14.5...1.15.0
 [1.14.5]: https://github.com/guanguans/ai-commit/compare/1.14.4...1.14.5
 [1.14.4]: https://github.com/guanguans/ai-commit/compare/1.14.3...1.14.4
 [1.14.3]: https://github.com/guanguans/ai-commit/compare/1.14.2...1.14.3
