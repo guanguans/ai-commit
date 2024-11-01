@@ -142,9 +142,9 @@ return [
                 'timeout' => 120,
             ],
             'options' => [
-                '--max-tokens' => null,
-                '--system-prompt' => null,
-                '--temperature' => null,
+                '--max-tokens' => 1000,
+                '--system-prompt' => 'You are a helpful assistant.',
+                '--temperature' => 1,
                 '--top-p' => null,
             ],
         ],
