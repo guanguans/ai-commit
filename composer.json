@@ -142,6 +142,8 @@
         "ai-commit-bito-no-verify": "@ai-commit-bito --no-verify",
         "ai-commit-github-copilot": "@ai-commit --generator=github_copilot_cli",
         "ai-commit-github-copilot-no-verify": "@ai-commit-github-copilot --no-verify",
+        "ai-commit-github-models": "@ai-commit --generator=github_models_cli",
+        "ai-commit-github-models-no-verify": "@ai-commit-github-models --no-verify",
         "ai-commit-no-verify": "@ai-commit --no-verify",
         "cghooks": "@php ./vendor/bin/cghooks --ansi -v",
         "cghooks-install": [

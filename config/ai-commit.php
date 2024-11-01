@@ -131,6 +131,23 @@ return [
                 'timeout' => 120,
             ],
         ],
+        'github_models_cli' => [
+            'driver' => 'github_models_cli',
+            'binary' => env('GITHUB_MODELS_CLI_BINARY', 'gh'),
+            'model' => env('GITHUB_MODELS_CLI_MODEL', 'gpt-4o-mini'),
+            'parameters' => [
+                'cwd' => null,
+                'env' => null,
+                'input' => null,
+                'timeout' => 120,
+            ],
+            'options' => [
+                '--max-tokens' => null,
+                '--system-prompt' => null,
+                '--temperature' => null,
+                '--top-p' => null,
+            ],
+        ],
         'moonshot' => [
             'driver' => 'moonshot',
             'http_options' => [
