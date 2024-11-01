@@ -1,5 +1,6 @@
 # ai-commit
 
+[//]: # (https://looka.com)
 [//]: # (<p align="center"><img src="resources/docs/logo.png" alt="logo" style="width: 62%; height: 62%;"></p>)
 <p align="center"><img src="resources/docs/ai-commit-vhs.gif" alt="ai-commit-vhs"></p>
 

@@ -39,6 +39,7 @@ $finder = Finder::create()
     ->append(glob(__DIR__.'/{*.php,.*.php}', GLOB_BRACE))
     ->append([
         __DIR__.'/composer-updater',
+        __DIR__.'/readme-lint',
     ])
     ->notPath([
         'bootstrap/*',
