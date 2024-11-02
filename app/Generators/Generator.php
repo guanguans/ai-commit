@@ -108,4 +108,20 @@ abstract class Generator implements GeneratorContract
             Process::OUT === $type ? $this->output->write($data) : $this->output->write("<fg=red>$data</>");
         };
     }
+
+    /**
+     * @return list<string>
+     */
+    protected function defaultHydratedOptions(): array
+    {
+        return collect($this->config['options'] ?? [])
+            ->filter(static function ($value): bool {
+                return null !== $value && '' !== $value;
+            })
+            ->map(static function ($value, string $key): array {
+                return [$key, $value];
+            })
+            ->flatten()
+            ->all();
+    }
 }

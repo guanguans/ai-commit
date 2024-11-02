@@ -21,22 +21,10 @@ final class GithubModelsCliGenerator extends Generator
         return resolve(
             Process::class,
             [
-                'command' => collect([
-                    $this->config['binary'],
-                    'models',
-                    'run',
-                    $this->config['model'],
-                    $prompt,
-                ])->merge(
-                    collect($this->config['options'])
-                        ->filter(static function ($value): bool {
-                            return null !== $value && '' !== $value;
-                        })
-                        ->map(static function ($value, string $key): array {
-                            return [$key, $value];
-                        })
-                        ->flatten()
-                )->all(),
+                'command' => array_merge(
+                    [$this->config['binary'], 'models', 'run', $this->config['model'], $prompt],
+                    $this->defaultHydratedOptions()
+                ),
             ] + $this->config['parameters']
         )->mustRun($this->defaultRunningCallback())->getOutput();
     }
