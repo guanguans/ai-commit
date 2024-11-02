@@ -1,10 +1,11 @@
 # ai-commit
 
 [//]: # (https://looka.com)
+
 [//]: # (<p align="center"><img src="resources/docs/logo.png" alt="logo" style="width: 62%; height: 62%;"></p>)
 <p align="center"><img src="resources/docs/ai-commit-vhs.gif" alt="ai-commit-vhs"></p>
 
-[简体中文](README-zh_CN.md) | [ENGLISH](README.md) | [日本語](README-ja.md) | [繁體中文](README-zh_TW.md)
+[ENGLISH](README.md) | [日本語](README-ja.md) | [简体中文](README-zh_CN.md) | [繁體中文](README-zh_TW.md)
 
 > Automagically generate conventional git commit message with AI. - 使用 AI 自动生成约定式 git 提交信息。
 
@@ -52,11 +53,14 @@ composer require guanguans/ai-commit --dev -v # 本地
 
 ### 快速开始
 
+<details>
+<summary>details</summary>
+
 ```shell
-./ai-commit config set generators.bito_cli.binary bito-cli-binary... --global # Config Bito cli binary(Optional)
+./ai-commit config set generators.bito_cli.binary bito-cli-binary... --global # Config Bito CLI binary(Optional)
 ./ai-commit config set generators.ernie_bot.api_key api-key... --global # Config Ernie API key
 ./ai-commit config set generators.ernie_bot_turbo.api_key api-key... --global # Config Ernie API key
-./ai-commit config set generators.github_copilot_cli.binary gh-cli-binary... --global # Config Github cli binary(Optional)
+./ai-commit config set generators.github_copilot_cli.binary gh-cli-binary... --global # Config Github CLI binary(Optional)
 ./ai-commit config set generators.github_models_cli.binary gh-cli-binary... --global # Config Github CLI binary(Optional)
 ./ai-commit config set generators.moonshot.api_key sk-... --global # Config Moonshot API key
 ./ai-commit config set generators.openai.api_key sk-... --global # Config OpenAI API key
@@ -71,7 +75,7 @@ composer require guanguans/ai-commit --dev -v # 本地
 ╰─ ./ai-commit commit --generator=bito_cli --no-edit --no-verify --ansi                                                                                                      ─╯
 1. Generating commit message: generating...
 
- Please choice commit type [Automatically generate commit type]:
+ Please choose commit type [Automatically generate commit type]:
   [auto    ] Automatically generate commit type
   [feat    ] A new feature
   [fix     ] A bug fix
@@ -125,7 +129,12 @@ composer require guanguans/ai-commit --dev -v # 本地
 
 ![](resources/docs/ai-commit-vhs.gif)
 
+</details>
+
 ### 列出命令
+
+<details>
+<summary>details</summary>
 
 ```shell
 ╰─ ./ai-commit list                                                     ─╯
@@ -151,7 +160,12 @@ composer require guanguans/ai-commit --dev -v # 本地
   thanks      Thanks for using this tool.
 ```
 
+</details>
+
 ### 操作配置
+
+<details>
+<summary>details</summary>
 
 ```shell
 ./ai-commit config [set, get, unset, reset, list, edit] key value --global
@@ -164,7 +178,12 @@ composer require guanguans/ai-commit --dev -v # 本地
 ./ai-commit config edit
 ```
 
+</details>
+
 ### 自我更新
+
+<details>
+<summary>details</summary>
 
 ```shell
 ╰─ ./ai-commit self-update                                        ─╯
@@ -177,7 +196,12 @@ Checking for a new version...
                                                                      
 ```
 
+</details>
+
 ### 命令帮助
+
+<details>
+<summary>details</summary>
 
 ```shell
 ╰─ ./ai-commit commit --help                                                                                                                               ─╯
@@ -210,6 +234,8 @@ Options:
       --env[=ENV]                        The environment the command should run under
   -v|vv|vvv, --verbose                   Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 ```
+
+</details>
 
 ## 测试
 

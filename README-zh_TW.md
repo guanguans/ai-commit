@@ -1,10 +1,11 @@
 # ai-commit
 
 [//]: # (https://looka.com)
+
 [//]: # (<p align="center"><img src="resources/docs/logo.png" alt="logo" style="width: 62%; height: 62%;"></p>)
 <p align="center"><img src="resources/docs/ai-commit-vhs.gif" alt="ai-commit-vhs"></p>
 
-[简体中文](README-zh_CN.md) | [ENGLISH](README.md) | [日本語](README-ja.md) | [繁體中文](README-zh_TW.md)
+[ENGLISH](README.md) | [日本語](README-ja.md) | [简体中文](README-zh_CN.md) | [繁體中文](README-zh_TW.md)
 
 > Automagically generate conventional git commit message with AI. - 使用 AI 自动生成约定式 git 提交信息。
 
@@ -51,6 +52,9 @@ composer require guanguans/ai-commit --dev -v # 本地安裝
 ## 使用方法
 
 ### 快速開始
+
+<details>
+<summary>details</summary>
 
 ```shell
 ./ai-commit config set generators.bito_cli.binary bito-cli-binary... --global # Config Bito CLI binary(Optional)
@@ -123,9 +127,14 @@ composer require guanguans/ai-commit --dev -v # 本地安裝
                                                                                                                                                                                                                                                                                                                                                                                                       
 ```
 
-![](docs/ai-commit-vhs.gif)
+![](resources/docs/ai-commit-vhs.gif)
+
+</details>
 
 ### 指令列表
+
+<details>
+<summary>details</summary>
 
 ```shell
 ╰─ ./ai-commit list                                                     ─╯
@@ -151,7 +160,12 @@ composer require guanguans/ai-commit --dev -v # 本地安裝
   thanks      Thanks for using this tool.
 ```
 
+</details>
+
 ### 設定操作
+
+<details>
+<summary>details</summary>
 
 ```shell
 ./ai-commit config [set, get, unset, reset, list, edit] key value --global
@@ -164,7 +178,12 @@ composer require guanguans/ai-commit --dev -v # 本地安裝
 ./ai-commit config edit
 ```
 
+</details>
+
 ### 自動更新
+
+<details>
+<summary>details</summary>
 
 ```shell
 ╰─ ./ai-commit self-update                                        ─╯
@@ -177,7 +196,12 @@ Checking for a new version...
                                                                      
 ```
 
+</details>
+
 ### 指令說明
+
+<details>
+<summary>details</summary>
 
 ```shell
 ╰─ ./ai-commit commit --help                                                                                                                               ─╯
@@ -210,6 +234,8 @@ Options:
       --env[=ENV]                        The environment the command should run under
   -v|vv|vvv, --verbose                   Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
 ```
+
+</details>
 
 ## 測試
 
