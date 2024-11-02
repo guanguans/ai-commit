@@ -115,11 +115,12 @@ abstract class Generator implements GeneratorContract
     protected function defaultHydratedOptions(): array
     {
         return collect($this->config['options'] ?? [])
-            ->filter(static function ($value): bool {
-                return null !== $value && '' !== $value;
+            ->map(static function ($value): string {
+                return (string) str(urldecode(http_build_query([$option = 'option' => $value])))->after("$option=");
             })
-            ->map(static function ($value, string $key): array {
-                return [$key, $value];
+            ->filter()
+            ->map(static function ($value, string $option): array {
+                return [$option, $value];
             })
             ->flatten()
             ->all();
