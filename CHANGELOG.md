@@ -8,6 +8,30 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.15.1"></a>
+## [1.15.1] - 2024-11-02
+### CI
+- **readme-lint:** Improve README validation logic
+
+### Code Refactoring
+- **generator:** Simplify command options handling
+- **generators:** consolidate command option handling
+
+### Docs
+- **README:** Add collapsible details sections for commands
+
+### Features
+- **generator:** enhance BitoCliGenerator command handling
+
+### Performance Improvements
+- **GithubModelsCliGenerator:** Optimize command generation
+- **app:** optimize GithubCopilotCliGenerator
+- **generators:** Improve option handling in defaultHydratedOptions
+
+### Tests
+- **github-models-cli:** Add test for ProcessFailedException
+
+
 <a name="1.15.0"></a>
 ## [1.15.0] - 2024-11-02
 ### Bug Fixes
@@ -960,7 +984,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.15.0...HEAD
+[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.15.1...HEAD
+[1.15.1]: https://github.com/guanguans/ai-commit/compare/1.15.0...1.15.1
 [1.15.0]: https://github.com/guanguans/ai-commit/compare/1.14.5...1.15.0
 [1.14.5]: https://github.com/guanguans/ai-commit/compare/1.14.4...1.14.5
 [1.14.4]: https://github.com/guanguans/ai-commit/compare/1.14.3...1.14.4
