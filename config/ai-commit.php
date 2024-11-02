@@ -124,6 +124,9 @@ return [
         'github_copilot_cli' => [
             'driver' => 'github_copilot_cli',
             'binary' => env('GITHUB_COPILOT_CLI_BINARY', 'gh'),
+            'options' => [
+                '--hostname' => null,
+            ],
             'parameters' => [
                 'cwd' => null,
                 'env' => null,
@@ -135,17 +138,17 @@ return [
             'driver' => 'github_models_cli',
             'binary' => env('GITHUB_MODELS_CLI_BINARY', 'gh'),
             'model' => env('GITHUB_MODELS_CLI_MODEL', 'gpt-4o-mini'),
-            'parameters' => [
-                'cwd' => null,
-                'env' => null,
-                'input' => null,
-                'timeout' => 120,
-            ],
             'options' => [
                 '--max-tokens' => null,
                 '--system-prompt' => 'You are a git commit message generator.',
                 '--temperature' => null,
                 '--top-p' => null,
+            ],
+            'parameters' => [
+                'cwd' => null,
+                'env' => null,
+                'input' => null,
+                'timeout' => 120,
             ],
         ],
         'moonshot' => [
