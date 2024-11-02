@@ -21,10 +21,7 @@ final class GithubCopilotCliGenerator extends Generator
         return resolve(
             Process::class,
             [
-                'command' => array_merge(
-                    [$this->config['binary'], 'copilot', 'explain', $prompt],
-                    $this->hydratedOptions()
-                ),
+                'command' => $this->ensureWithOptions([$this->config['binary'], 'copilot', 'explain', $prompt]),
             ] + $this->config['parameters']
         )->mustRun($this->defaultRunningCallback())->getOutput();
     }
