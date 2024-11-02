@@ -22,7 +22,9 @@ final class BitoCliGenerator extends Generator
             ->mustRunProcess(
                 resolve(
                     Process::class,
-                    ['command' => [$this->config['binary']]] + $this->config['parameters']
+                    [
+                        'command' => array_merge([$this->config['binary']], $this->defaultHydratedOptions()),
+                    ] + $this->config['parameters']
                 )->setInput($prompt)
             )
             ->getOutput();
