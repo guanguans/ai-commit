@@ -109,10 +109,15 @@ abstract class Generator implements GeneratorContract
         };
     }
 
+    protected function ensureWithOptions(array $command): array
+    {
+        return array_merge($command, $this->hydratedOptions());
+    }
+
     /**
      * @return list<string>
      */
-    protected function defaultHydratedOptions(): array
+    protected function hydratedOptions(): array
     {
         return collect($this->config['options'] ?? [])
             ->map(static function ($value): string {
