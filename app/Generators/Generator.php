@@ -102,7 +102,7 @@ abstract class Generator implements GeneratorContract
         return $this->helperSet->get($name);
     }
 
-    protected function defaultRunningCallback(): callable
+    protected function runningCallback(): callable
     {
         return function (string $type, string $data): void {
             Process::OUT === $type ? $this->output->write($data) : $this->output->write("<fg=red>$data</>");

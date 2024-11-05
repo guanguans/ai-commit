@@ -23,6 +23,6 @@ final class GithubModelsCliGenerator extends Generator
             [
                 'command' => $this->ensureWithOptions([$this->config['binary'], 'models', 'run', $this->config['model'], $prompt]),
             ] + $this->config['parameters']
-        )->mustRun($this->defaultRunningCallback())->getOutput();
+        )->mustRun($this->runningCallback())->getOutput();
     }
 }

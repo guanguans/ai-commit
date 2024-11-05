@@ -23,6 +23,6 @@ final class GithubCopilotCliGenerator extends Generator
             [
                 'command' => $this->ensureWithOptions([$this->config['binary'], 'copilot', 'explain', $prompt]),
             ] + $this->config['parameters']
-        )->mustRun($this->defaultRunningCallback())->getOutput();
+        )->mustRun($this->runningCallback())->getOutput();
     }
 }
