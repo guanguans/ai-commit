@@ -18,11 +18,15 @@ final class GithubModelsCliGenerator extends Generator
 {
     public function generate(string $prompt): string
     {
-        return resolve(
-            Process::class,
-            [
-                'command' => $this->ensureWithOptions([$this->config['binary'], 'models', 'run', $this->config['model'], $prompt]),
-            ] + $this->config['parameters']
-        )->mustRun($this->runningCallback())->getOutput();
+        return $this
+            ->mustRunProcess(
+                resolve(
+                    Process::class,
+                    [
+                        'command' => $this->ensureWithOptions([$this->config['binary'], 'models', 'run', $this->config['model']]),
+                    ] + $this->config['parameters']
+                )->setInput($prompt)
+            )
+            ->getOutput();
     }
 }
