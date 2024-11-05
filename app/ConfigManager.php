@@ -141,7 +141,7 @@ final class ConfigManager extends Repository implements \JsonSerializable, Array
                 $this->forget($collection->all());
             });
 
-        File::ensureDirectoryExists(pathinfo($file, PATHINFO_DIRNAME));
+        File::ensureDirectoryExists(\dirname($file));
 
         return File::put($file, $this->toJson($options));
     }
