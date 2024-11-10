@@ -8,6 +8,29 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.15.3"></a>
+## [1.15.3] - 2024-11-10
+### Bug Fixes
+- **CommitCommand:** Replace null with empty string in message
+- **command:** Sort commit message keys consistently
+
+### Build
+- **deps:** update laminas-servicemanager to 3.7.0
+
+### Code Refactoring
+- **CommitCommand:** Replace table output method
+
+### Tests
+- **CommitCommandTest:** Disable message generation tests
+
+### Pull Requests
+- Merge pull request [#212](https://github.com/guanguans/ai-commit/issues/212) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.83.5
+- Merge pull request [#211](https://github.com/guanguans/ai-commit/issues/211) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.83.4
+- Merge pull request [#210](https://github.com/guanguans/ai-commit/issues/210) from guanguans/dependabot/composer/laravel-zero/phar-updater-1.4.0
+- Merge pull request [#209](https://github.com/guanguans/ai-commit/issues/209) from guanguans/dependabot/composer/laminas/laminas-text-2.11.0
+- Merge pull request [#208](https://github.com/guanguans/ai-commit/issues/208) from guanguans/dependabot/github_actions/trufflesecurity/trufflehog-3.83.3
+
+
 <a name="1.15.2"></a>
 ## [1.15.2] - 2024-11-05
 ### Code Refactoring
@@ -994,7 +1017,8 @@ All notable changes to this project will be documented in this file.
 - add config manager
 
 
-[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.15.2...HEAD
+[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.15.3...HEAD
+[1.15.3]: https://github.com/guanguans/ai-commit/compare/1.15.2...1.15.3
 [1.15.2]: https://github.com/guanguans/ai-commit/compare/1.15.1...1.15.2
 [1.15.1]: https://github.com/guanguans/ai-commit/compare/1.15.0...1.15.1
 [1.15.0]: https://github.com/guanguans/ai-commit/compare/1.14.5...1.15.0
