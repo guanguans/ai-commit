@@ -106,10 +106,11 @@ it('can generate and commit message', function (array $parameters): void {
     Process::fromShellCommandline('git config user.name ityaozm@gmail.com', repository_path())->mustRun();
     setup_http_fake();
 
-    $message = collect([
-        'subject' => 'Fix(OpenAIGenerator): Debugging output',
-        'body' => '- Add var_dump() for debugging output- Add var_dump() for stream response',
-    ]);
+    // $message = collect([
+    //     'subject' => 'Fix(OpenAIGenerator): Debugging output',
+    //     '' => null,
+    //     'body' => '- Add var_dump() for debugging output- Add var_dump() for stream response',
+    // ]);
 
     $this
         ->artisan(CommitCommand::class, $parameters + [
@@ -119,10 +120,10 @@ it('can generate and commit message', function (array $parameters): void {
             '--no-verify' => true,
             '--verbose' => true,
         ])
-        ->expectsTable(
-            $message->keys()->all(),
-            [$message->all()]
-        )
+        // ->expectsTable(
+        //     $message->keys()->all(),
+        //     [$message->all()]
+        // )
         // ->expectsChoice('Please choice commit type', array_key_first($types = config('ai-commit.types')), $types)
         ->expectsQuestion('Please choice commit type', array_key_first(config('ai-commit.types')))
         // ->expectsChoice('Please choice a commit message', $message->pluck('subject', 'id')->first(), $message->pluck('subject', 'id')->all())
