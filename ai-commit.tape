@@ -46,7 +46,7 @@
 
 # https://github.com/charmbracelet/vhs
 
-Output ./resources/docs/ai-commit-vhs.gif
+Output ./resources/docs/ai-commit-vhs-github-models.gif
 
 Require php
 
@@ -59,7 +59,7 @@ Set PlaybackSpeed 0.2
 
 Type "git status" Sleep 500ms
 Enter@500ms Sleep 500ms
-Type "./ai-commit commit --generator=bito_cli --no-edit --no-verify --ansi" Sleep 500ms
+Type "./ai-commit commit --generator=github_models_cli --no-edit --no-verify --ansi" Sleep 500ms
 Enter@500ms Sleep 500ms
 Down@200ms 11 Sleep 500ms
 Enter@500ms Sleep 10s
