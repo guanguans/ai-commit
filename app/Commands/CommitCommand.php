@@ -116,10 +116,8 @@ final class CommitCommand extends Command
                     return $content;
                 })
                 ->tap(function (Collection $message): void {
-                    $this->table(
-                        $message->keys()->all(),
-                        [$message->all()]
-                    );
+                    // $this->table($message->keys()->all(), [$message->all()]);
+                    $this->output->horizontalTable($message->keys()->all(), [$message->all()]);
                 })
                 ->tap(function (): void {
                     if (! $this->confirm('Do you want to commit this message?', true)) {
