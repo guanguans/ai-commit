@@ -116,6 +116,11 @@ final class CommitCommand extends Command
                     return $content;
                 })
                 ->tap(function (Collection $message): void {
+                    $message = $message->put('', null)->sortKeysUsing(static function (string $a, string $b): int {
+                        $rules = ['subject', '', 'body'];
+
+                        return array_search($a, $rules, true) <=> array_search($b, $rules, true);
+                    });
                     // $this->table($message->keys()->all(), [$message->all()]);
                     $this->output->horizontalTable($message->keys()->all(), [$message->all()]);
                 })
