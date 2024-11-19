@@ -65,21 +65,23 @@ final class CommitCommand extends Command
     public function handle(): void
     {
         collect()
-            ->tap(function () use (&$message): void {
-                // Ensure git is installed and the current directory is a git repository.
+            ->tap(function (): void {
                 $this->createProcess(['git', 'rev-parse', '--is-inside-work-tree'])->mustRun();
-
+            })
+            ->tap(function () use (&$cachedDiff): void {
                 $cachedDiff = $this->option('diff') ?: $this->createProcess($this->diffCommand())->mustRun()->getOutput();
                 if (empty($cachedDiff)) {
                     throw new RuntimeException('There are no cached files to commit. Try running `git add` to cache some files.');
                 }
-
+            })
+            ->tap(function () use (&$type): void {
                 $type = $this->choice(
                     'Please choice commit type',
                     $types = $this->configManager->get('types'),
                     array_key_first($types)
                 );
-
+            })
+            ->tap(function () use ($type, $cachedDiff, &$message): void {
                 $message = retry(
                     $this->option('retry-times'),
                     function ($attempts) use ($cachedDiff, $type): string {
