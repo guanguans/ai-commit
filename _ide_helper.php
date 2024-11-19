@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace Illuminate\Support {
     /**
-     * @method static bool jsonValidate(string $json, int $depth = 512, int $flags = 0)
+     * @method static \Illuminate\Support\Collection json(string $json, int $depth = 512, int $options = 0)
      *
-     * @mixin \Illuminate\Support\Str
+     * @mixin \Illuminate\Support\Collection
      */
-    final class Str
+    final class Collection
     {
     }
 
@@ -26,6 +26,15 @@ namespace Illuminate\Support {
      * @mixin \Illuminate\Support\Stringable
      */
     final class Stringable
+    {
+    }
+
+    /**
+     * @method static bool jsonValidate(string $json, int $depth = 512, int $flags = 0)
+     *
+     * @mixin \Illuminate\Support\Str
+     */
+    final class Str
     {
     }
 }

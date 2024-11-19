@@ -14,10 +14,12 @@ namespace App\Providers;
 
 use App\ConfigManager;
 use App\GeneratorManager;
+use App\Macros\CollectionMacro;
 use App\Macros\StringableMacro;
 use App\Macros\StrMacro;
 use Illuminate\Console\OutputStyle;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
@@ -33,9 +35,10 @@ final class AppServiceProvider extends ServiceProvider
      * @var array<array-key, string>
      */
     public $singletons = [
+        CollectionMacro::class => CollectionMacro::class,
+        GeneratorManager::class => GeneratorManager::class,
         StringableMacro::class => StringableMacro::class,
         StrMacro::class => StrMacro::class,
-        GeneratorManager::class => GeneratorManager::class,
     ];
 
     /**
@@ -50,8 +53,9 @@ final class AppServiceProvider extends ServiceProvider
             return new OutputStyle(new ArgvInput(), new ConsoleOutput());
         });
 
-        Stringable::mixin($this->app->make(StringableMacro::class));
+        Collection::mixin($this->app->make(CollectionMacro::class));
         Str::mixin($this->app->make(StrMacro::class));
+        Stringable::mixin($this->app->make(StringableMacro::class));
     }
 
     /**

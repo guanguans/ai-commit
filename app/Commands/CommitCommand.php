@@ -107,7 +107,7 @@ final class CommitCommand extends Command
                 );
             })
             ->tap(function () use (&$message): void {
-                $message = collect(json_decode($message, true, 512, JSON_THROW_ON_ERROR | JSON_PARTIAL_OUTPUT_ON_ERROR))
+                $message = Collection::json($message)
                     ->map(static function ($content) {
                         if (\is_array($content)) {
                             return collect($content)
