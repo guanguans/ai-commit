@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace App\Commands;
 
 use App\ConfigManager;
-use App\Exceptions\TaskException;
+use App\Exceptions\RuntimeException;
 use App\GeneratorManager;
 use App\Support\JsonFixer;
 use Illuminate\Console\Scheduling\Schedule;
@@ -59,92 +59,94 @@ final class CommitCommand extends Command
 
     /**
      * @psalm-suppress InvalidArgument
+     *
+     * @throws \Exception
      */
     public function handle(): void
     {
-        // Ensure git is installed and the current directory is a git repository.
-        $this->createProcess(['git', 'rev-parse', '--is-inside-work-tree'])->mustRun();
+        collect()
+            ->tap(function () use (&$message): void {
+                // Ensure git is installed and the current directory is a git repository.
+                $this->createProcess(['git', 'rev-parse', '--is-inside-work-tree'])->mustRun();
 
-        $cachedDiff = $this->option('diff') ?: $this->createProcess($this->diffCommand())->mustRun()->getOutput();
-        if ('' === $cachedDiff) {
-            throw new TaskException('There are no cached files to commit. Try running `git add` to cache some files.');
-        }
-
-        $type = $this->choice(
-            'Please choice commit type',
-            $types = $this->configManager->get('types'),
-            array_key_first($types)
-        );
-
-        $message = retry(
-            $this->option('retry-times'),
-            function ($attempts) use ($cachedDiff, $type): string {
-                if ($attempts > 1) {
-                    $this->output->note('retrying...');
+                $cachedDiff = $this->option('diff') ?: $this->createProcess($this->diffCommand())->mustRun()->getOutput();
+                if (empty($cachedDiff)) {
+                    throw new RuntimeException('There are no cached files to commit. Try running `git add` to cache some files.');
                 }
 
-                $originalMessage = $this->generatorManager
-                    ->driver($this->option('generator'))
-                    ->generate($this->promptFor($cachedDiff, $type));
-                $message = $this->tryFixMessage($originalMessage);
-                if (! str($message)->jsonValidate()) {
-                    throw new TaskException(sprintf(
-                        'The generated commit message(%s) is an invalid JSON.',
-                        var_export($originalMessage, true)
-                    ));
-                }
+                $type = $this->choice(
+                    'Please choice commit type',
+                    $types = $this->configManager->get('types'),
+                    array_key_first($types)
+                );
 
-                return $message;
-            },
-            $this->option('retry-sleep'),
-            $this->configManager->get('retry.when')
-        );
-        // $this->task('1. Generating commit message', function () use (&$message): void {
-        // }, 'generating...'.PHP_EOL);
+                $message = retry(
+                    $this->option('retry-times'),
+                    function ($attempts) use ($cachedDiff, $type): string {
+                        if ($attempts > 1) {
+                            $this->output->note('retrying...');
+                        }
 
-        $message = collect(json_decode($message, true, 512, JSON_THROW_ON_ERROR | JSON_PARTIAL_OUTPUT_ON_ERROR))
-            ->map(static function ($content) {
-                if (\is_array($content)) {
-                    return collect($content)
-                        ->transform(static function (string $line): string {
-                            return (string) str($line)->trim(" \t\n\r\x0B")->start('- ');
-                        })
-                        ->implode(PHP_EOL);
-                }
+                        $originalMessage = $this->generatorManager
+                            ->driver($this->option('generator'))
+                            ->generate($this->promptFor($cachedDiff, $type));
+                        $message = $this->tryFixMessage($originalMessage);
+                        if (! str($message)->jsonValidate()) {
+                            throw new RuntimeException(sprintf(
+                                'The generated commit message(%s) is an invalid JSON.',
+                                var_export($originalMessage, true)
+                            ));
+                        }
 
-                return $content;
+                        return $message;
+                    },
+                    $this->option('retry-sleep'),
+                    $this->configManager->get('retry.when')
+                );
             })
-            ->tap(function (Collection $message): void {
-                $message = $message->put('', '')->sortKeysUsing(static function (string $a, string $b): int {
-                    $rules = ['subject', '', 'body'];
+            ->tap(function () use (&$message): void {
+                $message = collect(json_decode($message, true, 512, JSON_THROW_ON_ERROR | JSON_PARTIAL_OUTPUT_ON_ERROR))
+                    ->map(static function ($content) {
+                        if (\is_array($content)) {
+                            return collect($content)
+                                ->transform(static function (string $line): string {
+                                    return (string) str($line)->trim(" \t\n\r\x0B")->start('- ');
+                                })
+                                ->implode(PHP_EOL);
+                        }
 
-                    return array_search($a, $rules, true) <=> array_search($b, $rules, true);
-                });
-                // $this->table($message->keys()->all(), [$message->all()]);
-                $this->output->horizontalTable($message->keys()->all(), [$message->all()]);
+                        return $content;
+                    })
+                    ->tap(function (Collection $message): void {
+                        $message = $message->put('', '')->sortKeysUsing(static function (string $a, string $b): int {
+                            $rules = ['subject', '', 'body'];
+
+                            return array_search($a, $rules, true) <=> array_search($b, $rules, true);
+                        });
+                        // $this->table($message->keys()->all(), [$message->all()]);
+                        $this->output->horizontalTable($message->keys()->all(), [$message->all()]);
+                    })
+                    ->tap(function (): void {
+                        if (! $this->confirm('Do you want to commit this message?', true)) {
+                            $this->output->note('regenerating...');
+                            $this->handle();
+                        }
+                    });
+            })
+            ->tap(function () use ($message): void {
+                if ($this->option('dry-run')) {
+                    $this->info($this->hydrateMessage($message));
+
+                    return;
+                }
+
+                tap($this->createProcess($this->commitCommandFor($message)), function (Process $process): void {
+                    $this->shouldEdit() and $process->setTty(true);
+                })->setTimeout(null)->mustRun();
             })
             ->tap(function (): void {
-                if (! $this->confirm('Do you want to commit this message?', true)) {
-                    $this->output->note('regenerating...');
-                    $this->handle();
-                }
+                $this->output->success('Successfully generated and committed message.');
             });
-        // $this->task(PHP_EOL.'2. Confirming commit message', function () use (&$message): void {
-        // }, 'confirming...'.PHP_EOL);
-
-        if ($this->option('dry-run')) {
-            $this->info($this->hydrateMessage($message));
-
-            return;
-        }
-
-        tap($this->createProcess($this->commitCommandFor($message)), function (Process $process): void {
-            $this->shouldEdit() and $process->setTty(true);
-        })->setTimeout(null)->mustRun();
-        // $this->task(PHP_EOL.'3. Committing message', function (): void {
-        // }, 'committing...'.PHP_EOL);
-
-        $this->output->success('Successfully generated and committed message.');
     }
 
     public function schedule(Schedule $schedule): void
@@ -384,6 +386,8 @@ final class CommitCommand extends Command
      * @param null|mixed $input
      *
      * @noinspection CallableParameterUseCaseInTypeContextInspection
+     * @noinspection PhpSameParameterValueInspection
+     * @noinspection MissingParameterTypeDeclarationInspection
      */
     private function createProcess(
         array $command,
@@ -392,12 +396,10 @@ final class CommitCommand extends Command
         $input = null,
         ?float $timeout = 60
     ): Process {
-        if (null === $cwd) {
-            $cwd = $this->argument('path');
-        }
+        null === $cwd and $cwd = $this->argument('path');
 
         return tap(new Process($command, $cwd, $env, $input, $timeout), function (Process $process): void {
-            if ($this->option('verbose')) {
+            if ($this->output->isDebug()) {
                 $this->output->note($process->getCommandLine());
             }
         });

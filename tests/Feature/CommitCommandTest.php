@@ -19,7 +19,7 @@ declare(strict_types=1);
  */
 
 use App\Commands\CommitCommand;
-use App\Exceptions\TaskException;
+use App\Exceptions\RuntimeException;
 use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
@@ -33,7 +33,7 @@ it('can from shell commandline create process', function (): void {
     expect($createProcess->call(app(CommitCommand::class)))->toBeInstanceOf(Process::class);
 })->group(__DIR__, __FILE__)->skip();
 
-it('will throw TaskException(not a git repository)', function (): void {
+it('will throw RuntimeException(not a git repository)', function (): void {
     $this->artisan(CommitCommand::class, [
         'path' => $this->app->basePath('../'),
         '--config' => config_path('ai-commit.php'),
@@ -42,7 +42,7 @@ it('will throw TaskException(not a git repository)', function (): void {
     ->group(__DIR__, __FILE__)
     ->throws(ProcessFailedException::class, 'fatal: ');
 
-it('will throw TaskException(no cached files to commit)', function (): void {
+it('will throw RuntimeException(no cached files to commit)', function (): void {
     // 重置暂存区
     Process::fromShellCommandline('git reset', repository_path())->mustRun();
 
@@ -51,11 +51,11 @@ it('will throw TaskException(no cached files to commit)', function (): void {
         '--generator' => 'openai',
     ]);
 })
-    ->depends('it will throw TaskException(not a git repository)')
+    ->depends('it will throw RuntimeException(not a git repository)')
     ->group(__DIR__, __FILE__)
-    ->throws(TaskException::class, 'There are no cached files to commit. Try running `git add` to cache some files.');
+    ->throws(RuntimeException::class, 'There are no cached files to commit. Try running `git add` to cache some files.');
 
-it('will throw TaskException(The generated commit message is an invalid JSON)', function (): void {
+it('will throw RuntimeException(The generated commit message is an invalid JSON)', function (): void {
     // 添加文件到暂存区
     file_put_contents(repository_path('playground.random'), Str::random());
     Process::fromShellCommandline('git rm -rf --cached repository/', fixtures_path())->mustRun();
@@ -91,9 +91,9 @@ it('will throw TaskException(The generated commit message is an invalid JSON)', 
         // ->expectsChoice('Please choice commit type', array_key_first($types = config('ai-commit.types')), $types)
         ->expectsQuestion('Please choice commit type', array_key_first(config('ai-commit.types')));
 })
-    ->depends('it will throw TaskException(no cached files to commit)')
+    ->depends('it will throw RuntimeException(no cached files to commit)')
     ->group(__DIR__, __FILE__)
-    ->throws(TaskException::class, 'The generated commit message(');
+    ->throws(RuntimeException::class, 'The generated commit message(');
 
 it('can generate and commit message', function (array $parameters): void {
     // 添加文件到暂存区
@@ -132,7 +132,7 @@ it('can generate and commit message', function (array $parameters): void {
         ->assertSuccessful();
 })
     ->with('commit command parameters')
-    ->depends('it will throw TaskException(The generated commit message is an invalid JSON)')
+    ->depends('it will throw RuntimeException(The generated commit message is an invalid JSON)')
     ->group(__DIR__, __FILE__);
 
 afterAll(static function (): void {

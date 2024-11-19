@@ -39,7 +39,7 @@ return [
         'times' => 3,
         'sleep' => 200,
         'when' => static function (Exception $exception): bool {
-            return $exception instanceof App\Exceptions\TaskException;
+            return $exception instanceof App\Exceptions\RuntimeException;
         },
     ],
 
