@@ -108,7 +108,7 @@ $status = (new SingleCommandApplication())
                     ->updateComposerPackages()
                     ->updateOutdatedComposerPackages()
                     ->updateComposerPackages()
-                    ->normalizeComposerJson()
+                    // ->normalizeComposerJson()
                     ->success();
             }
 
