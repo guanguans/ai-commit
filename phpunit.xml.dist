@@ -2,7 +2,7 @@
 <phpunit
   backupGlobals="false"
   bootstrap="vendor/autoload.php"
-  cacheResultFile="build/phpunit/.phpunit.result.cache"
+  cacheResultFile=".build/phpunit/.phpunit.result.cache"
   colors="true"
   processIsolation="false"
   stopOnFailure="false"

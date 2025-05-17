@@ -10,7 +10,7 @@ parameters:
     paths:
         - app
         - tests
-    tmpDir: build/phpstan
+    tmpDir: .build/phpstan
 #    checkOctaneCompatibility: true
 #    checkModelProperties: true
     checkMissingIterableValueType: true

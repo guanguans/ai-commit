@@ -4,15 +4,18 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the guanguans/ai-commit.
+ * Copyright (c) 2021-2025 guanguans<ityaozm@gmail.com>
  *
- * (c) guanguans <ityaozm@gmail.com>
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
  *
- * This source file is subject to the MIT license that is bundled.
+ * @see https://github.com/guanguans/laravel-skeleton
  */
 
 use Composer\InstalledVersions;
+use Illuminate\Support\Str;
 use SebastianBergmann\Diff\Differ;
+use SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -25,15 +28,9 @@ use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
 require __DIR__.'/vendor/autoload.php';
-require __DIR__.'/vendor-bin/composer-unused/vendor/autoload.php';
-require __DIR__.'/vendor-bin/monorepo-builder-worker/vendor/autoload.php';
-require __DIR__.'/vendor-bin/php-cs-fixer/vendor/autoload.php';
-require __DIR__.'/vendor-bin/phpstan/vendor/autoload.php';
-require __DIR__.'/vendor-bin/psalm/vendor/autoload.php';
-require __DIR__.'/vendor-bin/rector/vendor/autoload.php';
 
 /** @noinspection PhpUnhandledExceptionInspection */
-$status = (new SingleCommandApplication())
+$status = (new SingleCommandApplication)
     ->setName('Composer Updater')
     ->addOption('composer-json-path', null, InputOption::VALUE_OPTIONAL)
     ->addOption('highest-php-binary', null, InputOption::VALUE_REQUIRED)
@@ -42,28 +39,28 @@ $status = (new SingleCommandApplication())
     ->addOption('except-dependency-versions', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL)
     ->addOption('dry-run', null, InputOption::VALUE_NONE)
     ->setCode(function (InputInterface $input, OutputInterface $output): void {
-        assert_options(ASSERT_BAIL, 1);
-        assert($this instanceof SingleCommandApplication);
-        assert((bool) $input->getOption('highest-php-binary'));
+        // assert_options(\ASSERT_BAIL, 1);
+        \assert($this instanceof SingleCommandApplication);
+        \assert((bool) $input->getOption('highest-php-binary'));
 
-        (new class($input->getOption('composer-json-path') ?: __DIR__.'/composer.json', $input->getOption('highest-php-binary'), $input->getOption('composer-binary'), $input->getOption('except-packages'), $input->getOption('except-dependency-versions'), $input->getOption('dry-run'), new SymfonyStyle($input, $output), new Differ(), ) {
-            private $composerJsonPath;
-
-            private $composerJsonContents;
-
-            private $highestComposerBinary;
-
-            private $composerBinary;
-
-            private $exceptPackages;
-
-            private $exceptDependencyVersions;
-
-            private $dryRun;
-
-            private $symfonyStyle;
-
-            private $differ;
+        (new class(
+            $input->getOption('composer-json-path') ?: __DIR__.'/composer.json',
+            $input->getOption('highest-php-binary'),
+            $input->getOption('composer-binary'),
+            $input->getOption('except-packages'),
+            $input->getOption('except-dependency-versions'),
+            $input->getOption('dry-run'),
+            new SymfonyStyle($input, $output),
+            new Differ(new UnifiedDiffOutputBuilder("--- Original\n+++ New\n", true)),
+        ) {
+            private string $composerJsonPath;
+            private string $composerJsonContents;
+            private string $highestComposerBinary;
+            private string $composerBinary;
+            private array $exceptPackages;
+            private array $exceptDependencyVersions;
+            private SymfonyStyle $symfonyStyle;
+            private Differ $differ;
 
             /**
              * @noinspection ParameterDefaultsNullInspection
@@ -74,32 +71,27 @@ $status = (new SingleCommandApplication())
                 ?string $composerBinary = null,
                 array $exceptPackages = [],
                 array $exceptDependencyVersions = [],
-                bool $dryRun = false,
+                private bool $dryRun = false,
                 ?SymfonyStyle $symfonyStyle = null,
                 ?Differ $differ = null
             ) {
-                assert_options(ASSERT_BAIL, 1);
-                assert((bool) $composerJsonPath);
+                error_reporting(\E_ALL & ~\E_DEPRECATED & ~\E_WARNING);
+                // assert_options(\ASSERT_BAIL, 1);
+                \assert((bool) $composerJsonPath);
 
                 $this->composerJsonPath = $composerJsonPath;
                 $this->composerJsonContents = file_get_contents($composerJsonPath);
                 $this->highestComposerBinary = $this->getComposerBinary($composerBinary, $highestPhpBinary);
                 $this->composerBinary = $this->getComposerBinary($composerBinary);
-                $this->exceptPackages = array_merge([
-                    'php',
-                    'ext-*',
-                ], $exceptPackages);
-                $this->exceptDependencyVersions = array_merge([
-                    '\*',
-                    '*-*',
-                    '*@*',
-                    // '*|*',
-                ], $exceptDependencyVersions);
-                $this->dryRun = $dryRun;
-                $this->symfonyStyle = $symfonyStyle ?? new SymfonyStyle(new ArgvInput(), new ConsoleOutput());
-                $this->differ = $differ ?? new Differ();
+                $this->exceptPackages = ['php', 'ext-*', ...$exceptPackages];
+                $this->exceptDependencyVersions = ['\*', '*-*', '*@*', ...$exceptDependencyVersions];
+                $this->symfonyStyle = $symfonyStyle ?? new SymfonyStyle(new ArgvInput, new ConsoleOutput);
+                $this->differ = $differ ?? new Differ(new UnifiedDiffOutputBuilder("--- Original\n+++ New\n", true));
             }
 
+            /**
+             * @noinspection NullPointerExceptionInspection
+             */
             public function __invoke(): void
             {
                 $this
@@ -114,7 +106,7 @@ $status = (new SingleCommandApplication())
 
             private function updateComposerPackages(): self
             {
-                $this->mustRunCommand("$this->composerBinary update -W");
+                $this->mustRunCommand("$this->composerBinary update -W --ansi", (dirname($this->composerJsonPath)));
 
                 return $this;
             }
@@ -128,8 +120,8 @@ $status = (new SingleCommandApplication())
             {
                 $outdatedComposerJsonContents = json_encode(
                     $this->getOutdatedDecodedComposerJson(),
-                    JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
-                ).PHP_EOL;
+                    \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES
+                ).\PHP_EOL;
 
                 if ($this->dryRun) {
                     $this->symfonyStyle->writeln($this->formatDiff($this->differ->diff(
@@ -145,9 +137,12 @@ $status = (new SingleCommandApplication())
                 return $this;
             }
 
+            /**
+             * @noinspection PhpUnusedPrivateMethodInspection
+             */
             private function normalizeComposerJson(): self
             {
-                $this->mustRunCommand("$this->composerBinary normalize --diff");
+                $this->mustRunCommand("$this->composerBinary normalize --diff --ansi");
 
                 return $this;
             }
@@ -163,20 +158,18 @@ $status = (new SingleCommandApplication())
             private function getOutdatedDecodedComposerJson(): array
             {
                 $outdatedComposerPackages = $this->getOutdatedComposerPackages();
-                $decodedComposerJson = json_decode(file_get_contents($this->composerJsonPath), true);
-                (function () {
-                    return self::reload(null);
-                })->call(new InstalledVersions());
+                $decodedComposerJson = json_decode(file_get_contents($this->composerJsonPath), true, 512, \JSON_THROW_ON_ERROR);
+                InstalledVersions::reload([]);
 
                 foreach ($decodedComposerJson as $name => &$value) {
-                    if (! in_array($name, ['require', 'require-dev'], true)) {
+                    if (!\in_array($name, ['require', 'require-dev'], true)) {
                         continue;
                     }
 
                     foreach ($value as $package => &$dependencyVersion) {
                         if (
-                            $this->strIs($this->exceptPackages, $package)
-                            || $this->strIs($this->exceptDependencyVersions, $dependencyVersion)
+                            Str::is($this->exceptPackages, $package)
+                            || Str::is($this->exceptDependencyVersions, $dependencyVersion)
                         ) {
                             continue;
                         }
@@ -205,9 +198,11 @@ $status = (new SingleCommandApplication())
                             $output = $this
                                 ->mustRunCommand("$this->highestComposerBinary outdated --format=json --direct --ansi")
                                 ->getOutput(),
-                            strpos($output, '{')
+                            (int)strpos($output, '{'.\PHP_EOL)
                         ),
-                        true
+                        true,
+                        512,
+                        \JSON_THROW_ON_ERROR
                     )['installed'],
                     function (array $carry, array $package): array {
                         $lowestArrayVersion = $this->toArrayVersion($package['version']);
@@ -215,12 +210,10 @@ $status = (new SingleCommandApplication())
                         $dependencyVersions = [$this->toDependencyVersion($package['version'])];
 
                         if ($lowestArrayVersion[0] !== $highestArrayVersion[0]) {
-                            $dependencyVersions = array_merge($dependencyVersions, array_map(
-                                static function (string $major): string {
-                                    return "^$major.0";
-                                },
+                            $dependencyVersions = [...$dependencyVersions, ...array_map(
+                                static fn (string $major): string => "^$major.0",
                                 range($lowestArrayVersion[0] + 1, $highestArrayVersion[0])
-                            ));
+                            )];
                         }
 
                         $package['dependency_version'] = implode(' || ', $dependencyVersions);
@@ -234,42 +227,40 @@ $status = (new SingleCommandApplication())
 
             private function getComposerBinary(?string $composerBinary = null, ?string $phpBinary = null): string
             {
-                return sprintf(
+                return \sprintf(
                     '%s %s',
-                    $phpBinary ?? (new PhpExecutableFinder())->find(),
-                    $composerBinary ?? (new ExecutableFinder())->find('composer')
+                    $phpBinary ?? (new PhpExecutableFinder)->find(),
+                    $composerBinary ?? (new ExecutableFinder)->find('composer')
                 );
             }
 
             /**
-             * @param array|string $command
-             * @param mixed $input The input as stream resource, scalar or \Traversable, or null for no input
-             *
-             * @noinspection MissingParameterTypeDeclarationInspection
              * @noinspection PhpSameParameterValueInspection
+             *
+             * @param mixed $input The input as stream resource, scalar or \Traversable, or null for no input
              */
             private function mustRunCommand(
-                $command,
+                array|string $command,
                 ?string $cwd = null,
                 ?array $env = null,
-                $input = null,
+                mixed $input = null,
                 ?float $timeout = 300
             ): Process {
                 $additionalOptions = [
                     '--no-interaction',
-                    // '--no-plugins',
+                    '--no-plugins',
                     '--no-scripts',
                     '--ansi',
                 ];
 
-                $process = is_string($command)
-                    ? Process::fromShellCommandline(sprintf("$command %s", implode(' ', $additionalOptions)), $cwd, $env, $input, $timeout)
+                $process = \is_string($command)
+                    ? Process::fromShellCommandline(\sprintf("$command %s", implode(' ', $additionalOptions)), $cwd, $env, $input, $timeout)
                     : new Process($command + $additionalOptions, $cwd, $env, $input, $timeout);
 
                 $this->symfonyStyle->warning($process->getCommandLine());
 
                 return $process
-                    ->setWorkingDirectory(dirname($this->composerJsonPath))
+                    ->setWorkingDirectory(\dirname($this->composerJsonPath))
                     ->setEnv(['COMPOSER_MEMORY_LIMIT' => -1])
                     ->mustRun(function (string $type, string $buffer): void {
                         $this->symfonyStyle->isVerbose() and $this->symfonyStyle->write($buffer);
@@ -278,42 +269,12 @@ $status = (new SingleCommandApplication())
 
             private function toDependencyVersion(string $version): string
             {
-                return '^'.implode('.', array_slice($this->toArrayVersion($version), 0, 2));
+                return '^'.implode('.', \array_slice($this->toArrayVersion($version), 0, 2));
             }
 
             private function toArrayVersion(string $version): array
             {
                 return explode('.', ltrim($version, 'v'));
-            }
-
-            /**
-             * @param array|string $pattern
-             *
-             * @noinspection SuspiciousLoopInspection
-             * @noinspection ComparisonScalarOrderInspection
-             * @noinspection MissingParameterTypeDeclarationInspection
-             */
-            private function strIs($pattern, string $value): bool
-            {
-                $patterns = (array) $pattern;
-                if (empty($patterns)) {
-                    return false;
-                }
-
-                foreach ($patterns as $pattern) {
-                    $pattern = (string) $pattern;
-                    if ($pattern === $value) {
-                        return true;
-                    }
-
-                    $pattern = preg_quote($pattern, '#');
-                    $pattern = str_replace('\*', '.*', $pattern);
-                    if (1 === preg_match('#^'.$pattern.'\z#u', $value)) {
-                        return true;
-                    }
-                }
-
-                return false;
             }
 
             private function formatDiff(string $diff): string
@@ -323,19 +284,17 @@ $status = (new SingleCommandApplication())
                     $diff,
                 );
 
-                $formatted = array_map(static function (string $line): string {
-                    return preg_replace(
-                        [
-                            '/^(\+.*)$/',
-                            '/^(-.*)$/',
-                        ],
-                        [
-                            '<fg=green>$1</>',
-                            '<fg=red>$1</>',
-                        ],
-                        $line,
-                    );
-                }, $lines);
+                $formatted = array_map(static fn (string $line): string => preg_replace(
+                    [
+                        '/^(\+.*)$/',
+                        '/^(-.*)$/',
+                    ],
+                    [
+                        '<fg=green>$1</>',
+                        '<fg=red>$1</>',
+                    ],
+                    $line,
+                ), $lines);
 
                 return implode(
                     "\n",

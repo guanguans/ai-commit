@@ -57,22 +57,22 @@
         }
     ],
     "require": {
-        "php": ">=7.3",
+        "php": ">=8.2",
         "ext-curl": "*",
         "ext-json": "*"
     },
     "require-dev": {
         "bamarni/composer-bin-plugin": "^1.8",
-        "brainmaestro/composer-git-hooks": "^2.8 || ^3.0",
+        "brainmaestro/composer-git-hooks": "^3.0",
         "guzzlehttp/guzzle": "^7.9",
-        "illuminate/http": "^8.83 || ^9.0 || ^10.0 || ^11.0 || ^12.0",
-        "illuminate/translation": "^8.83 || ^9.0 || ^10.0 || ^11.0 || ^12.0",
-        "illuminate/validation": "^8.83 || ^9.0 || ^10.0 || ^11.0 || ^12.0",
-        "laminas/laminas-text": "^2.9",
-        "laravel-zero/framework": "^8.10 || ^9.0 || ^10.0 || ^11.0",
-        "laravel-zero/phar-updater": "^1.1",
+        "illuminate/http": "^11.44 || ^12.0",
+        "illuminate/translation": "^11.44 || ^12.0",
+        "illuminate/validation": "^11.44 || ^12.0",
+        "laminas/laminas-text": "^2.12",
+        "laravel-zero/framework": "^11.36",
+        "laravel-zero/phar-updater": "^1.4",
         "mockery/mockery": "^1.6",
-        "pestphp/pest": "^1.23 || ^2.0 || ^3.0",
+        "pestphp/pest": "^3.8",
         "php-mock/php-mock-phpunit": "^2.13"
     },
     "repositories": [],
@@ -116,7 +116,7 @@
             "target-directory": "vendor-bin"
         },
         "branch-alias": {
-            "dev-main": "1.x-dev"
+            "dev-main": "2.x-dev"
         },
         "hooks": {
             "post-merge": [
@@ -160,7 +160,6 @@
         ],
         "checks": [
             "@composer-validate",
-            "@composer-unused",
             "@md-lint",
             "@readme-lint",
             "@lint",
@@ -172,7 +171,7 @@
         "composer-bin-all-update": "@composer bin all update --ansi -v",
         "composer-check-platform-reqs": "@composer check-platform-reqs --lock --ansi -v",
         "composer-unused": "@php ./vendor/bin/composer-unused --ansi -v",
-        "composer-updater": "@php ./composer-updater --highest-php-binary=/opt/homebrew/opt/php@8.3/bin/php --except-packages=pestphp/pest-plugin-laravel --ansi",
+        "composer-updater": "@php ./composer-updater --highest-php-binary=/opt/homebrew/opt/php@8.4/bin/php --except-packages=pestphp/pest-plugin-laravel --ansi",
         "composer-updater-bin": [
             "@composer-updater --composer-json-path=vendor-bin/composer-unused/composer.json",
             "@composer-updater --composer-json-path=vendor-bin/monorepo-builder-worker/composer.json",
@@ -203,7 +202,7 @@
         "md-fix": "@md-lint --fix",
         "md-lint": "lint-md --config .lintmdrc ./*.md ./.github/ ./resources/docs/",
         "pest": "@php ./vendor/bin/pest --coverage",
-        "pest-coverage": "@pest --coverage-html=./build/phpunit/ --coverage-clover=clover.xml",
+        "pest-coverage": "@pest --coverage-html=./.build/phpunit/ --coverage-clover=clover.xml",
         "pest-migrate-configuration": "@pest --migrate-configuration",
         "phpstan": "@php ./vendor/bin/phpstan analyse --ansi -v",
         "phpstan-baseline": "@phpstan --generate-baseline --allow-empty-baseline",
