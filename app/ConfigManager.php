@@ -30,7 +30,7 @@ use Illuminate\Support\Traits\Tappable;
  *
  * @see https://github.com/hassankhan/config
  */
-final class ConfigManager extends Repository implements \JsonSerializable, Arrayable, Jsonable
+final class ConfigManager extends Repository implements \JsonSerializable, \Stringable, Arrayable, Jsonable
 {
     use Conditionable;
     use Tappable;

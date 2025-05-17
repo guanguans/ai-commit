@@ -64,10 +64,9 @@ final class AppServiceProvider extends ServiceProvider
         /** @noinspection GlobalVariableUsageInspection */
         $_SERVER['VAR_DUMPER_FORMAT'] = 'server';
 
-        $this->app->extend(LoggerInterface::class, static function (LoggerInterface $logger): NullLogger {
+        $this->app->extend(LoggerInterface::class, static fn (LoggerInterface $logger): NullLogger =>
             // return $logger instanceof ConsoleLogger ? $logger : new ConsoleLogger(app(OutputStyle::class));
-            return $logger instanceof NullLogger ? $logger : new NullLogger;
-        });
+            $logger instanceof NullLogger ? $logger : new NullLogger);
 
         ConfigManager::load();
     }

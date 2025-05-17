@@ -18,24 +18,21 @@ use Illuminate\Console\OutputStyle;
 use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Helper\HelperInterface;
+use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
 abstract class Generator implements GeneratorContract
 {
-    protected array $config;
     protected OutputStyle $output;
-    protected \Symfony\Component\Console\Helper\HelperSet $helperSet;
+    protected HelperSet $helperSet;
 
     /**
      * @noinspection PhpUndefinedMethodInspection
-     *
-     * @psalm-suppress UndefinedMethod
      */
-    public function __construct(array $config)
+    public function __construct(protected array $config)
     {
-        $this->config = $config;
         $this->output = tap(clone resolve(OutputStyle::class))->setVerbosity(OutputInterface::VERBOSITY_DEBUG);
         $this->helperSet = (fn () => $this->getArtisan()->getHelperSet())->call(Artisan::getFacadeRoot());
     }
@@ -62,8 +59,6 @@ abstract class Generator implements GeneratorContract
     /**
      * @noinspection MissingParameterTypeDeclarationInspection
      * @noinspection PhpPossiblePolymorphicInvocationInspection
-     *
-     * @psalm-suppress UndefinedInterfaceMethod
      */
     protected function runProcess(
         array|Process|string $cmd,

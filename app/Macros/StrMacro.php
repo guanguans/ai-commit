@@ -25,8 +25,6 @@ final class StrMacro
      *
      * @noinspection JsonEncodingApiUsageInspection
      * @noinspection BadExceptionsProcessingInspection
-     *
-     * @psalm-suppress UnusedFunctionCall
      */
     public static function jsonValidate(): \Closure
     {

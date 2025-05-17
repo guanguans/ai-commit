@@ -40,7 +40,7 @@ final class ConfigCommand extends Command
     protected const UNIX_EDITORS = ['editor', 'vim', 'vi', 'nano', 'pico', 'ed'];
     protected $signature = 'config';
     protected $description = 'Manage config options.';
-    private ConfigManager $configManager;
+    private readonly ConfigManager $configManager;
 
     public function __construct()
     {
@@ -138,8 +138,6 @@ final class ConfigCommand extends Command
 
     /**
      * @codeCoverageIgnore
-     *
-     * @psalm-suppress InvalidArgument
      */
     public function complete(CompletionInput $input, CompletionSuggestions $suggestions): void
     {

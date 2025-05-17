@@ -20,8 +20,6 @@ trait CreatesApplication
 {
     /**
      * Creates the application.
-     *
-     * @psalm-suppress ImplementedReturnTypeMismatch
      */
     public function createApplication(): Application
     {

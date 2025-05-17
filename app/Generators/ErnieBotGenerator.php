@@ -33,9 +33,6 @@ class ErnieBotGenerator extends Generator
     /**
      * @noinspection PhpCastIsUnnecessaryInspection
      *
-     * @psalm-suppress RedundantCast
-     * @psalm-suppress UnusedVariable
-     *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      * @throws \Illuminate\Http\Client\RequestException
      */
@@ -51,7 +48,7 @@ class ErnieBotGenerator extends Generator
         $response = $this->completion($parameters, $this->buildWriter($messages));
 
         // fake 响应
-        return (string) ($messages ?? $this->getCompletionMessages($response));
+        return $messages ?? $this->getCompletionMessages($response);
     }
 
     /**

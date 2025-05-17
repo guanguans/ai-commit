@@ -15,11 +15,12 @@ namespace App\Generators;
 
 use App\Support\FoundationSDK;
 use App\Support\Moonshot;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
 
 final class MoonshotGenerator extends Generator
 {
-    private Moonshot $moonshot;
+    private readonly Moonshot $moonshot;
 
     public function __construct(array $config)
     {
@@ -29,8 +30,6 @@ final class MoonshotGenerator extends Generator
 
     /**
      * @noinspection PhpCastIsUnnecessaryInspection
-     *
-     * @psalm-suppress RedundantCast
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      * @throws \Illuminate\Http\Client\RequestException
@@ -46,10 +45,10 @@ final class MoonshotGenerator extends Generator
         $response = $this->moonshot->chatCompletions($parameters, $this->buildWriter($messages));
 
         // fake 响应
-        return (string) ($messages ?? $this->getCompletionMessages($response));
+        return $messages ?? $this->getCompletionMessages($response);
     }
 
-    private function getCompletionMessages($response): string
+    private function getCompletionMessages(array|Response $response): string
     {
         return Arr::get($this->config, 'parameters.stream', false)
             ? Arr::get($response, 'choices.0.delta.content', '')

@@ -11,7 +11,20 @@ declare(strict_types=1);
  * @see https://github.com/guanguans/ai-commit
  */
 
-$app = new LaravelZero\Framework\Application(
+use App\Exceptions\Handler;
+use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Contracts\Debug\ExceptionHandler;
+use LaravelZero\Framework\Application;
+
+/**
+ * Copyright (c) 2023-2025 guanguans<ityaozm@gmail.com>.
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ *
+ * @see https://github.com/guanguans/ai-commit
+ */
+$app = new Application(
     \dirname(__DIR__)
 );
 
@@ -27,13 +40,13 @@ $app = new LaravelZero\Framework\Application(
 */
 
 $app->singleton(
-    Illuminate\Contracts\Console\Kernel::class,
+    Kernel::class,
     LaravelZero\Framework\Kernel::class
 );
 
 $app->singleton(
-    Illuminate\Contracts\Debug\ExceptionHandler::class,
-    App\Exceptions\Handler::class
+    ExceptionHandler::class,
+    Handler::class
 );
 
 /*

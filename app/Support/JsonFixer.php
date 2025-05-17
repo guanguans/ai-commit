@@ -179,9 +179,6 @@ final class JsonFixer
         return $this->fixOrFail($json);
     }
 
-    /**
-     * @psalm-suppress UnusedParam
-     */
     private function stack(string $prev, string $char, int $index): void
     {
         if ($this->maybeStr($prev, $char, $index)) {
@@ -201,7 +198,7 @@ final class JsonFixer
         $this->updatePos($char, $index);
     }
 
-    private function lastToken()
+    private function lastToken(): mixed
     {
         return end($this->stack);
     }
@@ -225,6 +222,8 @@ final class JsonFixer
                 break;
             }
         }
+
+        return null;
     }
 
     private function maybeStr(string $prev, string $char, int $index): bool
@@ -347,7 +346,7 @@ final class JsonFixer
 
     private function padIf(string $string, string $substr): string
     {
-        if (substr($string, -\strlen($substr)) !== $substr) {
+        if (!str_ends_with($string, $substr)) {
             return $string.$substr;
         }
 

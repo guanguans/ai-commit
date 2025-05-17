@@ -21,9 +21,6 @@ class CollectionMacro
     /**
      * @noinspection JsonEncodingApiUsageInspection
      * @noinspection PhpMethodParametersCountMismatchInspection
-     *
-     * @psalm-suppress UnusedClosureParam
-     * @psalm-suppress TooManyArguments
      */
     public static function json(): callable
     {

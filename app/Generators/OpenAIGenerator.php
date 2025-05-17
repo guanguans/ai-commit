@@ -51,8 +51,6 @@ class OpenAIGenerator extends Generator
      *
      * @noinspection PhpCastIsUnnecessaryInspection
      *
-     * @psalm-suppress RedundantCast
-     *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      * @throws \Illuminate\Http\Client\RequestException
      */
@@ -66,7 +64,7 @@ class OpenAIGenerator extends Generator
         $response = $this->openAI->completions($parameters, $this->buildWriter($messages));
 
         // fake 响应
-        return (string) ($messages ?? $this->getCompletionMessages($response));
+        return $messages ?? $this->getCompletionMessages($response);
     }
 
     protected function getCompletionMessages(array|\ArrayAccess $response): string

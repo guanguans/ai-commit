@@ -45,10 +45,10 @@ final class BuildCommand extends Command
     private static ?string $config = null;
 
     /** Holds the box.json on is original state. */
-    private static ?string $box;
+    private static ?string $box = null;
 
     /** Holds the command original output. */
-    private ?OutputInterface $originalOutput;
+    private ?OutputInterface $originalOutput = null;
 
     /**
      * Makes sure that the `clear` is performed even
@@ -63,8 +63,6 @@ final class BuildCommand extends Command
 
     /**
      * @noinspection PhpMissingParentCallCommonInspection
-     *
-     * @psalm-suppress UndefinedInterfaceMethod
      */
     public function isEnabled(): bool
     {
@@ -119,8 +117,6 @@ final class BuildCommand extends Command
     /**
      * @noinspection PhpVoidFunctionResultUsedInspection
      * @noinspection DisconnectedForeachInstructionInspection
-     *
-     * @psalm-suppress UndefinedInterfaceMethod
      */
     private function compile(string $name): self
     {

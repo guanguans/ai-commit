@@ -231,9 +231,6 @@ final class OpenAI extends FoundationSDK
     }
 
     /**
-     * @psalm-suppress UnusedVariable
-     * @psalm-suppress UnevaluatedCode
-     *
      * @throws BindingResolutionException
      * @throws RequestException
      */

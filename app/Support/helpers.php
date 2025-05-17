@@ -11,13 +11,53 @@ declare(strict_types=1);
  * @see https://github.com/guanguans/ai-commit
  */
 
+namespace App\Support;
+
+use Composer\Autoload\ClassLoader;
 use Illuminate\Contracts\Validation\Factory;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use Illuminate\Support\Stringable;
+use Illuminate\Support\Collection;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
-if (!\function_exists('clear_console_screen')) {
+if (!\function_exists('App\Support\classes')) {
+    /**
+     * @see https://github.com/alekitto/class-finder
+     * @see https://github.com/ergebnis/classy
+     * @see https://gitlab.com/hpierce1102/ClassFinder
+     * @see https://packagist.org/packages/haydenpierce/class-finder
+     * @see \get_declared_classes()
+     * @see \get_declared_interfaces()
+     * @see \get_declared_traits()
+     * @see \DG\BypassFinals::enable()
+     *
+     * @noinspection PhpUndefinedNamespaceInspection
+     * @noinspection RedundantDocCommentTagInspection
+     *
+     * @param callable(string, class-string): bool $filter
+     */
+    function classes(callable $filter): Collection
+    {
+        static $allClasses;
+
+        $allClasses ??= collect(spl_autoload_functions())->flatMap(
+            static fn (mixed $loader): array => \is_array($loader) && $loader[0] instanceof ClassLoader
+                ? $loader[0]->getClassMap()
+                : []
+        );
+
+        return $allClasses
+            ->filter($filter)
+            ->mapWithKeys(static function (string $file, string $class): array {
+                try {
+                    return [$class => new \ReflectionClass($class)];
+                } catch (\Throwable $throwable) {
+                    return [$class => $throwable];
+                }
+            });
+    }
+}
+
+if (!\function_exists('App\Support\clear_console_screen')) {
     function clear_console_screen(): void
     {
         if (!app()->runningInConsole()) {
@@ -28,7 +68,52 @@ if (!\function_exists('clear_console_screen')) {
     }
 }
 
-if (!\function_exists('str_remove_cntrl')) {
+if (!\function_exists('App\Support\make')) {
+    /**
+     * @see https://github.com/laravel/framework/blob/12.x/src/Illuminate/Foundation/helpers.php
+     * @see https://github.com/yiisoft/yii2/blob/master/framework/BaseYii.php
+     *
+     * @template TClass of object
+     *
+     * @param array<string, mixed>|class-string<TClass>|string $name
+     * @param array<string, mixed> $parameters
+     *
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     *
+     * @return ($name is class-string<TClass> ? TClass : mixed)
+     */
+    function make(array|string $name, array $parameters = []): mixed
+    {
+        if (\is_string($name)) {
+            return resolve($name, $parameters);
+        }
+
+        foreach (
+            $keys = [
+                '__abstract',
+                '__class',
+                '__name',
+                '_abstract',
+                '_class',
+                '_name',
+                'abstract',
+                'class',
+                'name',
+            ] as $key
+        ) {
+            if (isset($name[$key])) {
+                return make($name[$key], $parameters + Arr::except($name, $key));
+            }
+        }
+
+        throw new \InvalidArgumentException(\sprintf(
+            'The argument of abstract must be an array containing a `%s` element.',
+            implode('` or `', $keys)
+        ));
+    }
+}
+
+if (!\function_exists('App\Support\str_remove_cntrl')) {
     /**
      * Remove control character.
      */
@@ -38,7 +123,7 @@ if (!\function_exists('str_remove_cntrl')) {
     }
 }
 
-if (!\function_exists('validate')) {
+if (!\function_exists('App\Support\validate')) {
     /**
      * Validate the given data with the given rules.
      *
@@ -48,101 +133,5 @@ if (!\function_exists('validate')) {
     function validate(array $data, array $rules, array $messages = [], array $customAttributes = []): array
     {
         return resolve(Factory::class)->make($data, $rules, $messages, $customAttributes)->validate();
-    }
-}
-
-if (!\function_exists('str')) {
-    /**
-     * Get a new stringable object from the given string.
-     */
-    function str(?string $string = null): Stringable|\Stringable
-    {
-        if (0 === \func_num_args()) {
-            return new class implements \Stringable {
-                /**
-                 * @noinspection MissingReturnTypeInspection
-                 * @noinspection MissingParameterTypeDeclarationInspection
-                 */
-                public function __call(mixed $method, mixed $parameters)
-                {
-                    return Str::$method(...$parameters);
-                }
-
-                public function __toString(): string
-                {
-                    return '';
-                }
-            };
-        }
-
-        return Str::of($string);
-    }
-}
-
-if (!\function_exists('make')) {
-    /**
-     * @psalm-param string|array<string, mixed> $abstract
-     *
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
-     * @throws \InvalidArgumentException
-     */
-    function make(mixed $abstract, array $parameters = []): mixed
-    {
-        if (!\is_string($abstract) && !\is_array($abstract)) {
-            throw new InvalidArgumentException(\sprintf('Invalid argument type(string/array): %s.', \gettype($abstract)));
-        }
-
-        if (\is_string($abstract)) {
-            return resolve($abstract, $parameters);
-        }
-
-        $classes = ['__class', '_class', 'class'];
-
-        foreach ($classes as $class) {
-            if (!isset($abstract[$class])) {
-                continue;
-            }
-
-            $parameters = Arr::except($abstract, $class) + $parameters;
-            $abstract = $abstract[$class];
-
-            return make($abstract, $parameters);
-        }
-
-        throw new InvalidArgumentException(\sprintf(
-            'The argument of abstract must be an array containing a `%s` element.',
-            implode('` or `', $classes)
-        ));
-    }
-}
-
-if (!\function_exists('array_reduce_with_keys')) {
-    /**
-     * @return null|mixed
-     */
-    function array_reduce_with_keys(array $array, callable $callback, mixed $carry = null): mixed
-    {
-        foreach ($array as $key => $value) {
-            $carry = $callback($carry, $value, $key);
-        }
-
-        return $carry;
-    }
-}
-
-if (!\function_exists('array_map_with_keys')) {
-    function array_map_with_keys(callable $callback, array $array): array
-    {
-        $result = [];
-
-        foreach ($array as $key => $value) {
-            $assoc = $callback($value, $key);
-
-            foreach ($assoc as $mapKey => $mapValue) {
-                $result[$mapKey] = $mapValue;
-            }
-        }
-
-        return $result;
     }
 }

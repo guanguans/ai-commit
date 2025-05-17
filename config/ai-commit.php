@@ -65,7 +65,7 @@ return [
         'test' => 'Adding missing tests or correcting existing tests',
         'build' => 'Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)',
         'ci' => 'Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)',
-        'chore' => 'Other changes that don\'t modify src or test files',
+        'chore' => "Other changes that don't modify src or test files",
         'revert' => 'Reverts a previous commit',
     ],
 
@@ -233,7 +233,7 @@ return [
      * @see https://github.com/shanginn/git-aicommit
      */
     'prompts' => [
-        'conventional' => <<<'conventional'
+        'conventional' => <<<'conventional_WRAP'
             Here are some best practices for writing commit messages:
             - Write clear, concise, and descriptive messages that explain the changes made in the commit.
             - Use the present tense and active voice in the message, for example, "Fix bug" instead of "Fixed bug."
@@ -260,6 +260,6 @@ return [
 
             Here is the output of the `git diff`:
             <diff>
-            conventional,
+            conventional_WRAP,
     ],
 ];

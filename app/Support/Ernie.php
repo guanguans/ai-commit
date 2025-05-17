@@ -24,7 +24,7 @@ use Illuminate\Http\Client\Response;
  */
 final class Ernie extends FoundationSDK
 {
-    private static ?string $accessToken;
+    private static ?string $accessToken = null;
 
     /**
      * ```ok
@@ -158,9 +158,6 @@ final class Ernie extends FoundationSDK
     }
 
     /**
-     * @psalm-suppress UnusedVariable
-     * @psalm-suppress UnevaluatedCode
-     *
      * @throws BindingResolutionException
      * @throws RequestException
      */

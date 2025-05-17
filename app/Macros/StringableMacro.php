@@ -22,9 +22,6 @@ use Illuminate\Support\Str;
  */
 final class StringableMacro
 {
-    /**
-     * @psalm-suppress InaccessibleProperty
-     */
     public function jsonValidate(): \Closure
     {
         return fn (int $depth = 512, int $flags = 0): bool => Str::jsonValidate($this->value, $depth, $flags);

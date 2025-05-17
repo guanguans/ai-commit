@@ -57,9 +57,6 @@ final class Moonshot extends FoundationSDK
      * data: [DONE]
      * ```
      *
-     * @psalm-suppress UnusedVariable
-     * @psalm-suppress UnevaluatedCode
-     *
      * @throws BindingResolutionException
      * @throws RequestException
      */

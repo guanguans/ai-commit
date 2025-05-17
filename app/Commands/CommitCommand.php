@@ -33,19 +33,15 @@ final class CommitCommand extends Command
 {
     protected $signature = 'commit';
     protected $description = 'Automagically generate conventional commit message with AI.';
-    private ConfigManager $configManager;
-    private GeneratorManager $generatorManager;
+    private readonly ConfigManager $configManager;
 
-    public function __construct(GeneratorManager $generatorManager)
+    public function __construct(private readonly GeneratorManager $generatorManager)
     {
         $this->configManager = config('ai-commit');
-        $this->generatorManager = $generatorManager;
         parent::__construct();
     }
 
     /**
-     * @psalm-suppress InvalidArgument
-     *
      * @throws \Exception
      */
     public function handle(): void
@@ -144,8 +140,6 @@ final class CommitCommand extends Command
 
     /**
      * @codeCoverageIgnore
-     *
-     * @psalm-suppress InvalidArgument
      */
     public function complete(CompletionInput $input, CompletionSuggestions $suggestions): void
     {
@@ -240,8 +234,6 @@ final class CommitCommand extends Command
     /**
      * {@inheritDoc}
      *
-     * @psalm-suppress InvalidScalarArgument
-     *
      * @throws \JsonException
      */
     protected function initialize(InputInterface $input, OutputInterface $output): void
@@ -273,8 +265,6 @@ final class CommitCommand extends Command
 
     /**
      * @noinspection CallableParameterUseCaseInTypeContextInspection
-     *
-     * @psalm-suppress RedundantCondition
      */
     private function commitCommandFor(Collection $message): array
     {
@@ -353,7 +343,7 @@ final class CommitCommand extends Command
     {
         return $message
             ->map(static fn (string $val): string => trim($val, " \t\n\r\x0B"))
-            ->filter(static fn ($val) => $val)
+            ->filter(static fn ($val): string => $val)
             ->implode(str_repeat(\PHP_EOL, 2));
     }
 

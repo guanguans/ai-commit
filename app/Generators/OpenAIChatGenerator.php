@@ -22,8 +22,6 @@ final class OpenAIChatGenerator extends OpenAIGenerator
      * @noinspection MissingParentCallInspection
      * @noinspection PhpCastIsUnnecessaryInspection
      *
-     * @psalm-suppress RedundantCast
-     *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      * @throws \Illuminate\Http\Client\RequestException
      */
@@ -39,7 +37,7 @@ final class OpenAIChatGenerator extends OpenAIGenerator
         $response = $this->openAI->chatCompletions($parameters, $this->buildWriter($messages));
 
         // fake 响应
-        return (string) ($messages ?? $this->getCompletionMessages($response));
+        return $messages ?? $this->getCompletionMessages($response);
     }
 
     /**

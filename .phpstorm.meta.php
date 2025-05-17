@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace PHPSTORM_META;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Bus\Dispatcher;
 use Illuminate\Config\Repository;
 use Illuminate\Container\Container as IlluminateContainer;
@@ -46,15 +47,15 @@ override(Container::makeWith(0), map([
     '' => '@',
     'config' => Repository::class,
 ]));
-override(\App::get(0), map([
+override(App::get(0), map([
     '' => '@',
     'config' => Repository::class,
 ]));
-override(\App::make(0), map([
+override(App::make(0), map([
     '' => '@',
     'config' => Repository::class,
 ]));
-override(\App::makeWith(0), map([
+override(App::makeWith(0), map([
     '' => '@',
     'config' => Repository::class,
 ]));

@@ -80,9 +80,6 @@ function fixtures_path(string $path = ''): string
     return __DIR__.'/Fixtures'.($path ? \DIRECTORY_SEPARATOR.$path : $path);
 }
 
-/**
- * @psalm-suppress UnusedClosureParam
- */
 function setup_http_fake(): void
 {
     Http::fake([
@@ -133,27 +130,14 @@ function setup_http_fake(): void
         '*://api.openai.com/v1/completions' => function (Request $request, array $options): PromiseInterface {
             $prompt = $options['laravel_data']['prompt'];
             $status = array_flip(Response::$statusTexts)[$prompt] ?? 200;
-            $text = transform($prompt, function ($prompt): string {
-                switch ($prompt) {
-                    case 'empty':
-                        $text = '';
-
-                        break;
-                    case 'invalid':
-                        $text = <<<'json'
-                            "subject":"Fix(OpenAIGenerator): Debugging output","body":"- Add var_dump() for debugging output- Add var_dump() for stream response"}
-                            json;
-
-                        break;
-                    default:
-                        $text = <<<'json'
-                            {"subject":"Fix(OpenAIGenerator): Debugging output","body":"- Add var_dump() for debugging output- Add var_dump() for stream response"}
-                            json;
-
-                        break;
-                }
-
-                return $text;
+            $text = transform($prompt, fn ($prompt): string => match ($prompt) {
+                'empty' => '',
+                'invalid' => <<<'json'
+                    "subject":"Fix(OpenAIGenerator): Debugging output","body":"- Add var_dump() for debugging output- Add var_dump() for stream response"}
+                    json,
+                default => <<<'json'
+                    {"subject":"Fix(OpenAIGenerator): Debugging output","body":"- Add var_dump() for debugging output- Add var_dump() for stream response"}
+                    json,
             });
 
             $body = 400 <= $status

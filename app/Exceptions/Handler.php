@@ -27,23 +27,15 @@ final class Handler extends \Illuminate\Foundation\Exceptions\Handler
 
     /**
      * @noinspection PhpUnusedParameterInspection
-     *
-     * @psalm-suppress InvalidReturnType
-     * @psalm-suppress UndefinedThisPropertyAssignment
-     * @psalm-suppress UndefinedThisPropertyFetch
-     * @psalm-suppress InvalidReturnStatement
-     * @psalm-suppress UnusedClosureParam
      */
     public function register(): void
     {
-        $this->map(ValidationException::class, function (ValidationException $validationException) {
-            return (function (): ValidationException {
-                $this->message = \PHP_EOL.($prefix = '- ').implode(\PHP_EOL.$prefix, $this->validator->errors()->all());
+        $this->map(ValidationException::class, fn (ValidationException $validationException) => (function (): ValidationException {
+            $this->message = \PHP_EOL.($prefix = '- ').implode(\PHP_EOL.$prefix, $this->validator->errors()->all());
 
-                /** @noinspection PhpIncompatibleReturnTypeInspection */
-                return $this;
-            })->call($validationException);
-        });
+            /** @noinspection PhpIncompatibleReturnTypeInspection */
+            return $this;
+        })->call($validationException));
 
         $this->reportable(static fn (\Throwable $throwable): bool => false)->stop();
     }

@@ -16,6 +16,7 @@ namespace App\Support;
 use Composer\InstalledVersions;
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
+use Illuminate\Http\Client\Factory;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Collection;
@@ -36,8 +37,9 @@ abstract class FoundationSDK
     use Conditionable;
     use Macroable;
     use Tappable;
+    public $stubCallbacks;
     protected array $config = [];
-    protected \Illuminate\Http\Client\Factory $http;
+    protected Factory $http;
     protected PendingRequest $defaultPendingRequest;
 
     public function __construct(array $config)
@@ -55,9 +57,6 @@ abstract class FoundationSDK
         );
     }
 
-    /**
-     * @psalm-suppress UnusedClosureParam
-     */
     public function ddRequestData(): self
     {
         return $this->tapDefaultPendingRequest(static function (PendingRequest $pendingRequest): void {
@@ -69,9 +68,6 @@ abstract class FoundationSDK
         });
     }
 
-    /**
-     * @psalm-suppress UnusedClosureParam
-     */
     public function dumpRequestData(): self
     {
         return $this->tapDefaultPendingRequest(static function (PendingRequest $pendingRequest): void {
@@ -96,9 +92,6 @@ abstract class FoundationSDK
         return $this;
     }
 
-    /**
-     * @psalm-suppress UndefinedThisPropertyFetch
-     */
     public function cloneDefaultPendingRequest(): PendingRequest
     {
         return tap(clone $this->defaultPendingRequest, function (PendingRequest $request): void {
