@@ -27,7 +27,7 @@ use Symplify\MonorepoBuilder\Release\ReleaseWorker\UpdateBranchAliasReleaseWorke
 use Symplify\MonorepoBuilder\Release\ReleaseWorker\UpdateReplaceReleaseWorker;
 
 return static function (MBConfig $mbConfig): void {
-    require __DIR__.'/vendor-bin/monorepo-builder-worker/vendor/autoload.php';
+    require __DIR__.'/vendor-bin/tools/vendor/autoload.php';
     $mbConfig->defaultBranch('main');
 
     /**

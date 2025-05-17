@@ -130,8 +130,8 @@ return RectorConfig::configure()
         AddSeeTestAnnotationRector::class,
         ArraySpreadInsteadOfArrayMergeRector::class,
         // JsonThrowOnErrorRector::class,
-        // SimplifyListIndexRector::class,
-        // SortAssociativeArrayByKeyRector::class,
+        SimplifyListIndexRector::class,
+        SortAssociativeArrayByKeyRector::class,
         StaticArrowFunctionRector::class,
         StaticClosureRector::class,
         ...classes(static fn (string $file, string $class): bool => str_starts_with($class, 'RectorLaravel\Rector'))
@@ -140,22 +140,22 @@ return RectorConfig::configure()
             // ->dd()
             ->all(),
     ])
-    // ->withConfiguredRule(AddNoinspectionsDocCommentToDeclareRector::class, [
-    //     'AnonymousFunctionStaticInspection',
-    //     'NullPointerExceptionInspection',
-    //     'PhpPossiblePolymorphicInvocationInspection',
-    //     'PhpUndefinedClassInspection',
-    //     'PhpUnhandledExceptionInspection',
-    //     'PhpVoidFunctionResultUsedInspection',
-    //     'SqlResolve',
-    //     'StaticClosureCanBeUsedInspection',
-    // ])
+    ->withConfiguredRule(AddNoinspectionsDocCommentToDeclareRector::class, [
+        'AnonymousFunctionStaticInspection',
+        'NullPointerExceptionInspection',
+        'PhpPossiblePolymorphicInvocationInspection',
+        'PhpUndefinedClassInspection',
+        'PhpUnhandledExceptionInspection',
+        'PhpVoidFunctionResultUsedInspection',
+        'SqlResolve',
+        'StaticClosureCanBeUsedInspection',
+    ])
     // ->withConfiguredRule(NewExceptionToNewAnonymousExtendsExceptionImplementsRector::class, [
     //     ThrowableContract::class,
     // ])
-    // ->withConfiguredRule(RemoveNamespaceRector::class, [
-    //     'Tests',
-    // ])
+    ->withConfiguredRule(RemoveNamespaceRector::class, [
+        'Tests',
+    ])
     ->withConfiguredRule(RemoveAnnotationRector::class, [
         // 'codeCoverageIgnore',
         'phpstan-ignore',
@@ -261,32 +261,26 @@ return RectorConfig::configure()
             __DIR__.'/tests',
         ],
         StaticClosureRector::class => $staticClosureSkipPaths,
-        // SortAssociativeArrayByKeyRector::class => [
-        //     __DIR__.'/config/',
-        //     __DIR__.'/src/',
-        //     __DIR__.'/tests/',
-        //     __DIR__.'/workbench/',
-        // ],
-        // AddNoinspectionsDocCommentToDeclareRector::class => [
-        //     __DIR__.'/config/',
-        //     __DIR__.'/src/',
-        //     __DIR__.'/workbench/',
-        //     ...glob(__DIR__.'/{*,.*}.php', \GLOB_BRACE),
-        //     __DIR__.'/composer-updater',
-        // ],
-        // NewExceptionToNewAnonymousExtendsExceptionImplementsRector::class => [
-        //     __DIR__.'/src/Support/Rectors/',
-        //     __DIR__.'/composer-updater',
-        // ],
-        // RemoveNamespaceRector::class => [
-        //     __DIR__.'/config/',
-        //     __DIR__.'/src/',
-        //     __DIR__.'/workbench/',
-        //     ...glob(__DIR__.'/{*,.*}.php', \GLOB_BRACE),
-        //     __DIR__.'/composer-updater',
-        //     __DIR__.'/tests/Factories/',
-        //     __DIR__.'/tests/Models/',
-        //     __DIR__.'/tests/Seeder/',
-        //     __DIR__.'/tests/TestCase.php',
-        // ],
+        SortAssociativeArrayByKeyRector::class => [
+            __DIR__.'/app/',
+            __DIR__.'/bootstrap/',
+            __DIR__.'/resources/',
+            __DIR__.'/tests/',
+        ],
+        AddNoinspectionsDocCommentToDeclareRector::class => [
+            __DIR__.'/app/',
+            __DIR__.'/bootstrap/',
+            __DIR__.'/resources/',
+            ...glob(__DIR__.'/{*,.*}.php', \GLOB_BRACE),
+            __DIR__.'/ai-commit',
+            __DIR__.'/composer-updater',
+        ],
+        NewExceptionToNewAnonymousExtendsExceptionImplementsRector::class => [
+            __DIR__.'/src/Support/Rectors/',
+            __DIR__.'/composer-updater',
+        ],
+        RemoveNamespaceRector::class => [
+            __DIR__.'/tests/TestCase.php',
+            __DIR__.'/tests/CreatesApplication.php',
+        ],
     ]);

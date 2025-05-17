@@ -31,3 +31,4 @@ macos_intel/
 macos_apple/
 linux_x86_64/
 windows_x64/
+/vendor-bin/*/composer-updater

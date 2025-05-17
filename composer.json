@@ -165,28 +165,15 @@
             "@lint",
             "@style-lint",
             "@test",
-            "@psalm",
             "@rector-dry-run"
         ],
         "composer-bin-all-update": "@composer bin all update --ansi -v",
         "composer-check-platform-reqs": "@composer check-platform-reqs --lock --ansi -v",
         "composer-unused": "@php ./vendor/bin/composer-unused --ansi -v",
-        "composer-updater": "@php ./composer-updater --highest-php-binary=/opt/homebrew/opt/php@8.4/bin/php --except-packages=pestphp/pest-plugin-laravel --ansi",
+        "composer-updater": "@php ./composer-updater --highest-php-binary=/opt/homebrew/opt/php@8.4/bin/php --ansi -v",
         "composer-updater-bin": [
-            "@composer-updater --composer-json-path=vendor-bin/composer-unused/composer.json",
-            "@composer-updater --composer-json-path=vendor-bin/monorepo-builder-worker/composer.json",
-            "@composer-updater --composer-json-path=vendor-bin/php-cs-fixer/composer.json",
-            "@composer-updater --composer-json-path=vendor-bin/phpstan/composer.json",
-            "@composer-updater --composer-json-path=vendor-bin/psalm/composer.json",
-            "@composer-updater --composer-json-path=vendor-bin/rector/composer.json"
-        ],
-        "composer-updater-bin-dry-run": [
-            "@composer-updater-dry-run --composer-json-path=vendor-bin/composer-unused/composer.json",
-            "@composer-updater-dry-run --composer-json-path=vendor-bin/monorepo-builder-worker/composer.json",
-            "@composer-updater-dry-run --composer-json-path=vendor-bin/php-cs-fixer/composer.json",
-            "@composer-updater-dry-run --composer-json-path=vendor-bin/phpstan/composer.json",
-            "@composer-updater-dry-run --composer-json-path=vendor-bin/psalm/composer.json",
-            "@composer-updater-dry-run --composer-json-path=vendor-bin/rector/composer.json"
+            "ln -f composer-updater vendor-bin/tools/composer-updater",
+            "@php vendor-bin/tools/composer-updater --highest-php-binary=/opt/homebrew/opt/php@8.4/bin/php --composer-json-path=vendor-bin/tools/composer.json --ansi -v"
         ],
         "composer-updater-dry-run": "@composer-updater --dry-run",
         "composer-validate": "@composer validate --strict --ansi -v",

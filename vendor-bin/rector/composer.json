@@ -1,6 +1,0 @@
-{
-    "require-dev": {
-        "rector/rector": "^1.2 || ^2.0",
-        "driftingly/rector-laravel": "^2.0"
-    }
-}

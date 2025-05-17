@@ -1,0 +1,65 @@
+{
+    "require": {
+        "prism-php/prism": "^0.67"
+    },
+    "require-dev": {
+        "bamarni/composer-bin-plugin": "^1.8",
+        "brainmaestro/composer-git-hooks": "^3.0",
+        "dg/bypass-finals": "^1.9",
+        "driftingly/rector-laravel": "^2.0",
+        "ergebnis/composer-normalize": "^2.47",
+        "ergebnis/license": "^2.6",
+        "ergebnis/php-cs-fixer-config": "^6.46",
+        "ergebnis/rector-rules": "^1.4",
+        "friendsofphp/php-cs-fixer": "^3.75",
+        "guanguans/monorepo-builder-worker": "^2.0",
+        "ion-bazan/composer-diff": "^1.12",
+        "larastan/larastan": "^3.4",
+        "laravel/facade-documenter": "dev-main",
+        "mockery/mockery": "^1.6",
+        "orchestra/testbench": "^10.3",
+        "pestphp/pest": "^3.8",
+        "pestphp/pest-plugin-laravel": "^3.2",
+        "php-mock/php-mock-phpunit": "^2.13",
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-deprecation-rules": "^2.0",
+        "phpstan/phpstan-strict-rules": "^2.0",
+        "phpstan/phpstan-webmozart-assert": "^2.0",
+        "povils/phpmnd": "^3.6",
+        "rector/jack": "^0.1",
+        "rector/rector": "^2.0",
+        "rector/swiss-knife": "^2.2",
+        "rector/type-perfect": "^2.1",
+        "shipmonk/composer-dependency-analyser": "^1.8",
+        "shipmonk/dead-code-detector": "^0.11",
+        "shipmonk/phpstan-baseline-per-identifier": "^2.1",
+        "spatie/pest-plugin-snapshots": "^2.2",
+        "spaze/phpstan-disallowed-calls": "^4.5",
+        "staabm/phpstan-todo-by": "^0.2",
+        "symfony/thanks": "^1.4",
+        "symplify/phpstan-extensions": "^12.0",
+        "symplify/phpstan-rules": "^14.6",
+        "tomasvotruba/class-leak": "^2.0",
+        "tomasvotruba/cognitive-complexity": "^1.0",
+        "tomasvotruba/type-coverage": "^2.0",
+        "yamadashy/phpstan-friendly-formatter": "^1.2"
+    },
+    "repositories": {
+        "facade-documenter": {
+            "type": "vcs",
+            "url": "git@github.com:laravel/facade-documenter.git"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "bamarni/composer-bin-plugin": true,
+            "ergebnis/composer-normalize": true,
+            "ion-bazan/composer-diff": true,
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true,
+            "symfony/thanks": true
+        },
+        "sort-packages": true
+    }
+}

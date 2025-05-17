@@ -1,17 +1,19 @@
 <?php
 
-/** @noinspection PhpInternalEntityUsedInspection */
+/** @noinspection AnonymousFunctionStaticInspection */
+/** @noinspection NullPointerExceptionInspection */
+/** @noinspection PhpPossiblePolymorphicInvocationInspection */
+/** @noinspection PhpUndefinedClassInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpVoidFunctionResultUsedInspection */
+/** @noinspection SqlResolve */
+/** @noinspection StaticClosureCanBeUsedInspection */
 /** @noinspection DebugFunctionUsageInspection */
 /** @noinspection ForgottenDebugOutputInspection */
-
-/** @noinspection AnonymousFunctionStaticInspection */
 /** @noinspection JsonEncodingApiUsageInspection */
-/** @noinspection NullPointerExceptionInspection */
-/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpInternalEntityUsedInspection */
 /** @noinspection PhpUnused */
 /** @noinspection PhpUnusedAliasInspection */
-/** @noinspection StaticClosureCanBeUsedInspection */
-
 declare(strict_types=1);
 
 /**
