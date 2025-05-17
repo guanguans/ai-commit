@@ -12,7 +12,7 @@ declare(strict_types=1);
  */
 
 $app = new LaravelZero\Framework\Application(
-    dirname(__DIR__)
+    \dirname(__DIR__)
 );
 
 /*

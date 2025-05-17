@@ -17,18 +17,18 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
-if (! function_exists('clear_console_screen')) {
+if (!\function_exists('clear_console_screen')) {
     function clear_console_screen(): void
     {
-        if (! app()->runningInConsole()) {
+        if (!app()->runningInConsole()) {
             return;
         }
 
-        (new ConsoleOutput())->write("\033\143");
+        (new ConsoleOutput)->write("\033\143");
     }
 }
 
-if (! function_exists('str_remove_cntrl')) {
+if (!\function_exists('str_remove_cntrl')) {
     /**
      * Remove control character.
      */
@@ -38,12 +38,12 @@ if (! function_exists('str_remove_cntrl')) {
     }
 }
 
-if (! function_exists('validate')) {
+if (!\function_exists('validate')) {
     /**
      * Validate the given data with the given rules.
      *
-     * @throws \Illuminate\Validation\ValidationException
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws \Illuminate\Validation\ValidationException
      */
     function validate(array $data, array $rules, array $messages = [], array $customAttributes = []): array
     {
@@ -51,24 +51,19 @@ if (! function_exists('validate')) {
     }
 }
 
-if (! function_exists('str')) {
+if (!\function_exists('str')) {
     /**
      * Get a new stringable object from the given string.
-     *
-     * @return Stringable|\Stringable
      */
-    function str(?string $string = null)
+    function str(?string $string = null): Stringable|\Stringable
     {
-        if (0 === func_num_args()) {
-            return new class() implements \Stringable {
+        if (0 === \func_num_args()) {
+            return new class implements \Stringable {
                 /**
                  * @noinspection MissingReturnTypeInspection
                  * @noinspection MissingParameterTypeDeclarationInspection
-                 *
-                 * @param mixed $method
-                 * @param mixed $parameters
                  */
-                public function __call($method, $parameters)
+                public function __call(mixed $method, mixed $parameters)
                 {
                     return Str::$method(...$parameters);
                 }
@@ -84,30 +79,27 @@ if (! function_exists('str')) {
     }
 }
 
-if (! function_exists('make')) {
+if (!\function_exists('make')) {
     /**
      * @psalm-param string|array<string, mixed> $abstract
      *
-     * @param mixed $abstract
-     *
-     * @throws \InvalidArgumentException
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
-     *
-     * @return mixed
+     * @throws \InvalidArgumentException
      */
-    function make($abstract, array $parameters = [])
+    function make(mixed $abstract, array $parameters = []): mixed
     {
-        if (! is_string($abstract) && ! is_array($abstract)) {
-            throw new InvalidArgumentException(sprintf('Invalid argument type(string/array): %s.', gettype($abstract)));
+        if (!\is_string($abstract) && !\is_array($abstract)) {
+            throw new InvalidArgumentException(\sprintf('Invalid argument type(string/array): %s.', \gettype($abstract)));
         }
 
-        if (is_string($abstract)) {
+        if (\is_string($abstract)) {
             return resolve($abstract, $parameters);
         }
 
         $classes = ['__class', '_class', 'class'];
+
         foreach ($classes as $class) {
-            if (! isset($abstract[$class])) {
+            if (!isset($abstract[$class])) {
                 continue;
             }
 
@@ -117,20 +109,18 @@ if (! function_exists('make')) {
             return make($abstract, $parameters);
         }
 
-        throw new InvalidArgumentException(sprintf(
+        throw new InvalidArgumentException(\sprintf(
             'The argument of abstract must be an array containing a `%s` element.',
             implode('` or `', $classes)
         ));
     }
 }
 
-if (! function_exists('array_reduce_with_keys')) {
+if (!\function_exists('array_reduce_with_keys')) {
     /**
-     * @param null|mixed $carry
-     *
      * @return null|mixed
      */
-    function array_reduce_with_keys(array $array, callable $callback, $carry = null)
+    function array_reduce_with_keys(array $array, callable $callback, mixed $carry = null): mixed
     {
         foreach ($array as $key => $value) {
             $carry = $callback($carry, $value, $key);
@@ -140,7 +130,7 @@ if (! function_exists('array_reduce_with_keys')) {
     }
 }
 
-if (! function_exists('array_map_with_keys')) {
+if (!\function_exists('array_map_with_keys')) {
     function array_map_with_keys(callable $callback, array $array): array
     {
         $result = [];

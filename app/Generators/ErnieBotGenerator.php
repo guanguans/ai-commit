@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace App\Generators;
 
 use App\Support\Ernie;
-use ArrayAccess;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
@@ -23,10 +22,7 @@ use Illuminate\Support\Str;
 
 class ErnieBotGenerator extends Generator
 {
-    /**
-     * @var \App\Support\Ernie
-     */
-    protected $ernie;
+    protected Ernie $ernie;
 
     public function __construct(array $config)
     {
@@ -35,13 +31,13 @@ class ErnieBotGenerator extends Generator
     }
 
     /**
+     * @noinspection PhpCastIsUnnecessaryInspection
+     *
      * @psalm-suppress RedundantCast
      * @psalm-suppress UnusedVariable
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      * @throws \Illuminate\Http\Client\RequestException
-     *
-     * @noinspection PhpCastIsUnnecessaryInspection
      */
     public function generate(string $prompt): string
     {
@@ -59,8 +55,8 @@ class ErnieBotGenerator extends Generator
     }
 
     /**
-     * @throws RequestException
      * @throws BindingResolutionException
+     * @throws RequestException
      */
     protected function completion(array $parameters, ?callable $writer = null): Response
     {
@@ -80,10 +76,7 @@ class ErnieBotGenerator extends Generator
         };
     }
 
-    /**
-     * @param array|ArrayAccess $response
-     */
-    private function getCompletionMessages($response): string
+    private function getCompletionMessages(array|\ArrayAccess $response): string
     {
         return Arr::get($response, 'result', '');
     }

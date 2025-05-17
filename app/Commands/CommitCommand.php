@@ -31,25 +31,10 @@ use Symfony\Component\Process\Process;
 
 final class CommitCommand extends Command
 {
-    /**
-     * @var string
-     */
     protected $signature = 'commit';
-
-    /**
-     * @var string
-     */
     protected $description = 'Automagically generate conventional commit message with AI.';
-
-    /**
-     * @var \App\ConfigManager
-     */
-    private $configManager;
-
-    /**
-     * @var \App\GeneratorManager
-     */
-    private $generatorManager;
+    private ConfigManager $configManager;
+    private GeneratorManager $generatorManager;
 
     public function __construct(GeneratorManager $generatorManager)
     {
@@ -71,6 +56,7 @@ final class CommitCommand extends Command
             })
             ->tap(function () use (&$cachedDiff): void {
                 $cachedDiff = $this->option('diff') ?: $this->createProcess($this->diffCommand())->mustRun()->getOutput();
+
                 if (empty($cachedDiff)) {
                     throw new RuntimeException('There are no cached files to commit. Try running `git add` to cache some files.');
                 }
@@ -86,7 +72,7 @@ final class CommitCommand extends Command
                 $message = retry(
                     $this->option('retry-times'),
                     function ($attempts) use ($cachedDiff, $type): string {
-                        if ($attempts > 1) {
+                        if (1 < $attempts) {
                             $this->output->note('retrying...');
                         }
 
@@ -94,8 +80,9 @@ final class CommitCommand extends Command
                             ->driver($this->option('generator'))
                             ->generate($this->promptFor($cachedDiff, $type));
                         $message = $this->tryFixMessage($originalMessage);
-                        if (! str($message)->jsonValidate()) {
-                            throw new RuntimeException(sprintf(
+
+                        if (!str($message)->jsonValidate()) {
+                            throw new RuntimeException(\sprintf(
                                 'The generated commit message(%s) is an invalid JSON.',
                                 var_export($originalMessage, true)
                             ));
@@ -112,10 +99,8 @@ final class CommitCommand extends Command
                     ->map(static function ($content) {
                         if (\is_array($content)) {
                             return collect($content)
-                                ->transform(static function (string $line): string {
-                                    return (string) str($line)->trim(" \t\n\r\x0B")->start('- ');
-                                })
-                                ->implode(PHP_EOL);
+                                ->transform(static fn (string $line): string => (string) str($line)->trim(" \t\n\r\x0B")->start('- '))
+                                ->implode(\PHP_EOL);
                         }
 
                         return $content;
@@ -130,7 +115,7 @@ final class CommitCommand extends Command
                         $this->output->horizontalTable($message->keys()->all(), [$message->all()]);
                     })
                     ->tap(function (): void {
-                        if (! $this->confirm('Do you want to commit this message?', true)) {
+                        if (!$this->confirm('Do you want to commit this message?', true)) {
                             $this->output->note('regenerating...');
                             $this->handle();
                         }
@@ -159,6 +144,7 @@ final class CommitCommand extends Command
 
     /**
      * @codeCoverageIgnore
+     *
      * @psalm-suppress InvalidArgument
      */
     public function complete(CompletionInput $input, CompletionSuggestions $suggestions): void
@@ -254,9 +240,9 @@ final class CommitCommand extends Command
     /**
      * {@inheritDoc}
      *
-     * @throws \JsonException
-     *
      * @psalm-suppress InvalidScalarArgument
+     *
+     * @throws \JsonException
      */
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
@@ -273,9 +259,7 @@ final class CommitCommand extends Command
             ]);
 
             collect($options)
-                ->reject(static function ($value): bool {
-                    return null === $value;
-                })
+                ->reject(static fn ($value): bool => null === $value)
                 ->each(function ($value, $name): void {
                     $this->input->setOption((string) str($name)->replace(['.', '_'], '-'), $value);
                 });
@@ -288,19 +272,15 @@ final class CommitCommand extends Command
     }
 
     /**
-     * @psalm-suppress RedundantCondition
-     *
      * @noinspection CallableParameterUseCaseInTypeContextInspection
+     *
+     * @psalm-suppress RedundantCondition
      */
     private function commitCommandFor(Collection $message): array
     {
         $options = collect($this->option('commit-options'))
-            ->when($this->shouldntEdit(), static function (Collection $collection): Collection {
-                return $collection->add('--no-edit');
-            })
-            ->when($this->shouldntVerify(), static function (Collection $collection): Collection {
-                return $collection->add('--no-verify');
-            })
+            ->when($this->shouldntEdit(), static fn (Collection $collection): Collection => $collection->add('--no-edit'))
+            ->when($this->shouldntVerify(), static fn (Collection $collection): Collection => $collection->add('--no-verify'))
             ->all();
 
         return array_merge(['git', 'commit', '--message', $this->hydrateMessage($message)], $options);
@@ -308,7 +288,7 @@ final class CommitCommand extends Command
 
     private function promptFor(string $cachedDiff, string $type): string
     {
-        $typePrompt = sprintf($this->configManager->get('type_prompt'), $type);
+        $typePrompt = \sprintf($this->configManager->get('type_prompt'), $type);
 
         if (array_key_first($this->configManager->get('types')) === $type) {
             $type = $this->configManager->get('type_mark'); // Reset type.
@@ -332,7 +312,7 @@ final class CommitCommand extends Command
      */
     private function tryFixMessage(string $message): string
     {
-        return (new JsonFixer())
+        return (new JsonFixer)
             // ->missingValue('')
             ->silent()
             ->fix(
@@ -350,24 +330,20 @@ final class CommitCommand extends Command
                         ]),
                         $replaceRules
                     )
-                    ->pipe(static function (Stringable $message): Stringable {
-                        return collect([
-                            // '/,\s*]/' => ']', // 数组中最后一个元素后的逗号
-                            // '/,\s*}/' => '}', // 对象中最后一个属性后的逗号
-                            // '/:\s*[\[\{]/' => ':[]', // 对象的属性值如果是数组或对象，确保有正确的格式
-                            // '/:\s*null\s*,/' => ':null,', // null 后面不应有逗号
-                            // '/:\s*true\s*,/' => ':true,', // true 后面不应有逗号
-                            // '/:\s*false\s*,/' => ':false,', // false 后面不应有逗号
-                            // '/:\s*"[^"]*"\s*,/' => ':"",', // 字符串后面不应有逗号
-                            // '/,\s*,/' => ',', // 连续的逗号
-                            // '/[\x00-\x1F\x7F-\x9F]/mu' => '', // 控制字符
-                            '/[[:cntrl:]]/mu' => '', // 控制字符
-                            '/\s+/' => ' ', // 连续的空格
-                            '/\\\\(?!["\\\\\/bfnrt]|u[0-9a-fA-F]{4})/' => '$1', // 非法转义字符
-                        ])->reduce(static function (Stringable $message, string $replace, string $pattern): Stringable {
-                            return $message->replaceMatches($pattern, $replace);
-                        }, $message);
-                    })
+                    ->pipe(static fn (Stringable $message): Stringable => collect([
+                        // '/,\s*]/' => ']', // 数组中最后一个元素后的逗号
+                        // '/,\s*}/' => '}', // 对象中最后一个属性后的逗号
+                        // '/:\s*[\[\{]/' => ':[]', // 对象的属性值如果是数组或对象，确保有正确的格式
+                        // '/:\s*null\s*,/' => ':null,', // null 后面不应有逗号
+                        // '/:\s*true\s*,/' => ':true,', // true 后面不应有逗号
+                        // '/:\s*false\s*,/' => ':false,', // false 后面不应有逗号
+                        // '/:\s*"[^"]*"\s*,/' => ':"",', // 字符串后面不应有逗号
+                        // '/,\s*,/' => ',', // 连续的逗号
+                        // '/[\x00-\x1F\x7F-\x9F]/mu' => '', // 控制字符
+                        '/[[:cntrl:]]/mu' => '', // 控制字符
+                        '/\s+/' => ' ', // 连续的空格
+                        '/\\\\(?!["\\\\\/bfnrt]|u[0-9a-fA-F]{4})/' => '$1', // 非法转义字符
+                    ])->reduce(static fn (Stringable $message, string $replace, string $pattern): Stringable => $message->replaceMatches($pattern, $replace), $message))
                     // ->dd()
                     ->jsonSerialize()
             );
@@ -376,18 +352,12 @@ final class CommitCommand extends Command
     private function hydrateMessage(Collection $message): string
     {
         return $message
-            ->map(static function (string $val): string {
-                return trim($val, " \t\n\r\x0B");
-            })
-            ->filter(static function ($val) {
-                return $val;
-            })
-            ->implode(str_repeat(PHP_EOL, 2));
+            ->map(static fn (string $val): string => trim($val, " \t\n\r\x0B"))
+            ->filter(static fn ($val) => $val)
+            ->implode(str_repeat(\PHP_EOL, 2));
     }
 
     /**
-     * @param null|mixed $input
-     *
      * @noinspection CallableParameterUseCaseInTypeContextInspection
      * @noinspection PhpSameParameterValueInspection
      * @noinspection MissingParameterTypeDeclarationInspection
@@ -396,7 +366,7 @@ final class CommitCommand extends Command
         array $command,
         ?string $cwd = null,
         ?array $env = null,
-        $input = null,
+        mixed $input = null,
         ?float $timeout = 60
     ): Process {
         null === $cwd and $cwd = $this->argument('path');
@@ -410,12 +380,12 @@ final class CommitCommand extends Command
 
     private function shouldntEdit(): bool
     {
-        return ! Process::isTtySupported() || $this->option('no-edit') || $this->configManager->get('no_edit');
+        return !Process::isTtySupported() || $this->option('no-edit') || $this->configManager->get('no_edit');
     }
 
     private function shouldEdit(): bool
     {
-        return ! $this->shouldntEdit();
+        return !$this->shouldntEdit();
     }
 
     private function shouldntVerify(): bool
@@ -430,6 +400,6 @@ final class CommitCommand extends Command
      */
     private function shouldVerify(): bool
     {
-        return ! $this->shouldntVerify();
+        return !$this->shouldntVerify();
     }
 }

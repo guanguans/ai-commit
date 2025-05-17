@@ -29,9 +29,7 @@ use Pest\Expectation;
 it('can try fix message', function (string $message): void {
     expect($message)->not->toBeJson()
         ->and(
-            (function (string $message): string {
-                return $this->tryFixMessage($message);
-            })->call(app(CommitCommand::class), $message)
+            (fn (string $message): string => $this->tryFixMessage($message))->call(app(CommitCommand::class), $message)
         )
         ->when(true, function (Expectation $expect) use ($message): void {
             dump($message, $expect->value);

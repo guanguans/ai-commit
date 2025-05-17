@@ -52,18 +52,26 @@ it('will throw unauthorized RequestException', function (): void {
  */
 it('can call writer', function (): void {
     foreach ([
-        '{"id":"cmpl-bacb10e1f94a491eb55064b467587065","object":"chat.completion.chunk","created":4114970,"model":"moonshot-v1-8k","choices":[{"index":0,"delta":{"content":" to"},"finish_reason":null}]}
+        <<<'EOD'
+            {"id":"cmpl-bacb10e1f94a491eb55064b467587065","object":"chat.completion.chunk","created":4114970,"model":"moonshot-v1-8k","choices":[{"index":0,"delta":{"content":" to"},"finish_reason":null}]}
 
-',
-        '{"id":"cmpl-bacb10e1f94a491eb55064b467587065","object":"chat.completion.chunk","created":4114970,"model":"moonshot-v1-8k","choices":[{"index":0,"delta":{"content":" display"},"finish_reason":null}]}
 
-',
-        '{"id":"cmpl-bacb10e1f94a491eb55064b467587065","object":"chat.completion.chunk","created":4114970,"model":"moonshot-v1-8k","choices":[{"index":0,"delta":{},"finish_reason":"stop","usage":{"prompt_tokens":492,"completion_tokens":49,"total_tokens":541}}]}
+            EOD,
+        <<<'EOD'
+            {"id":"cmpl-bacb10e1f94a491eb55064b467587065","object":"chat.completion.chunk","created":4114970,"model":"moonshot-v1-8k","choices":[{"index":0,"delta":{"content":" display"},"finish_reason":null}]}
 
-',
-        '[DONE]
 
-',
+            EOD,
+        <<<'EOD'
+            {"id":"cmpl-bacb10e1f94a491eb55064b467587065","object":"chat.completion.chunk","created":4114970,"model":"moonshot-v1-8k","choices":[{"index":0,"delta":{},"finish_reason":"stop","usage":{"prompt_tokens":492,"completion_tokens":49,"total_tokens":541}}]}
+
+
+            EOD,
+        <<<'EOD'
+            [DONE]
+
+
+            EOD,
     ] as $rowResponse) {
         (function (string $rowResponse) use (&$messages): void {
             $this->buildWriter($messages)($rowResponse);

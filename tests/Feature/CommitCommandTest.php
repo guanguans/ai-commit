@@ -28,9 +28,7 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
 it('can from shell commandline create process', function (): void {
-    $createProcess = function () {
-        return $this->createProcess('git status');
-    };
+    $createProcess = fn () => $this->createProcess('git status');
     expect($createProcess->call(app(CommitCommand::class)))->toBeInstanceOf(Process::class);
 })->group(__DIR__, __FILE__)->skip();
 
@@ -62,27 +60,25 @@ it('will throw RuntimeException(The generated commit message is an invalid JSON)
     Process::fromShellCommandline('git rm -rf --cached repository/', fixtures_path())->mustRun();
     Process::fromShellCommandline('git add playground.random', repository_path())->mustRun();
 
-    Http::fake(function (): PromiseInterface {
-        return Http::response([
-            'id' => 'cmpl-6n1qMNWwuF5SYBcS4Nev5sr4ACpEB',
-            'object' => 'text_completion',
-            'created' => 1677143178,
-            'model' => 'text-davinci-003',
-            'choices' => [
-                [
-                    'text' => 'invalid json', // 无效响应
-                    'index' => 0,
-                    'logprobs' => null,
-                    'finish_reason' => 'stop',
-                ],
+    Http::fake(fn (): PromiseInterface => Http::response([
+        'id' => 'cmpl-6n1qMNWwuF5SYBcS4Nev5sr4ACpEB',
+        'object' => 'text_completion',
+        'created' => 1677143178,
+        'model' => 'text-davinci-003',
+        'choices' => [
+            [
+                'text' => 'invalid json', // 无效响应
+                'index' => 0,
+                'logprobs' => null,
+                'finish_reason' => 'stop',
             ],
-            'usage' => [
-                'prompt_tokens' => 749,
-                'completion_tokens' => 159,
-                'total_tokens' => 908,
-            ],
-        ]);
-    });
+        ],
+        'usage' => [
+            'prompt_tokens' => 749,
+            'completion_tokens' => 159,
+            'total_tokens' => 908,
+        ],
+    ]));
 
     $this
         ->artisan(CommitCommand::class, [

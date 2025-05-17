@@ -39,9 +39,7 @@ return [
     'retry' => [
         'times' => 3,
         'sleep' => 200,
-        'when' => static function (Exception $exception): bool {
-            return $exception instanceof App\Exceptions\RuntimeException;
-        },
+        'when' => static fn (Exception $exception): bool => $exception instanceof App\Exceptions\RuntimeException,
     ],
 
     // The mark of diff.
@@ -262,7 +260,6 @@ return [
 
             Here is the output of the `git diff`:
             <diff>
-            conventional
-        ,
+            conventional,
     ],
 ];

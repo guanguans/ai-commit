@@ -19,10 +19,7 @@ use Illuminate\Support\Arr;
 
 final class MoonshotGenerator extends Generator
 {
-    /**
-     * @var \App\Support\Moonshot
-     */
-    private $moonshot;
+    private Moonshot $moonshot;
 
     public function __construct(array $config)
     {
@@ -31,12 +28,12 @@ final class MoonshotGenerator extends Generator
     }
 
     /**
+     * @noinspection PhpCastIsUnnecessaryInspection
+     *
      * @psalm-suppress RedundantCast
      *
-     * @throws \Illuminate\Http\Client\RequestException
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
-     *
-     * @noinspection PhpCastIsUnnecessaryInspection
+     * @throws \Illuminate\Http\Client\RequestException
      */
     public function generate(string $prompt): string
     {
@@ -65,7 +62,7 @@ final class MoonshotGenerator extends Generator
     private function buildWriter(?string &$messages): \Closure
     {
         return function (string $data) use (&$messages): void {
-            str($data)->explode(PHP_EOL)->each(function (string $rowData) use (&$messages): void {
+            str($data)->explode(\PHP_EOL)->each(function (string $rowData) use (&$messages): void {
                 // (正常|错误|流)响应
                 $rowResponse = (array) json_decode(FoundationSDK::sanitizeData($rowData), true);
                 $messages .= $text = $this->getCompletionMessages($rowResponse);

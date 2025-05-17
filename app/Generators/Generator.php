@@ -24,49 +24,35 @@ use Symfony\Component\Process\Process;
 
 abstract class Generator implements GeneratorContract
 {
-    /**
-     * @var array
-     */
-    protected $config;
+    protected array $config;
+    protected OutputStyle $output;
+    protected \Symfony\Component\Console\Helper\HelperSet $helperSet;
 
     /**
-     * @var \Illuminate\Console\OutputStyle
-     */
-    protected $output;
-
-    /**
-     * @var \Symfony\Component\Console\Helper\HelperSet
-     */
-    protected $helperSet;
-
-    /**
-     * @psalm-suppress UndefinedMethod
-     *
      * @noinspection PhpUndefinedMethodInspection
+     *
+     * @psalm-suppress UndefinedMethod
      */
     public function __construct(array $config)
     {
         $this->config = $config;
         $this->output = tap(clone resolve(OutputStyle::class))->setVerbosity(OutputInterface::VERBOSITY_DEBUG);
-        $this->helperSet = (function () {
-            return $this->getArtisan()->getHelperSet();
-        })->call(Artisan::getFacadeRoot());
+        $this->helperSet = (fn () => $this->getArtisan()->getHelperSet())->call(Artisan::getFacadeRoot());
     }
 
     /**
-     * @param array|string|\Symfony\Component\Process\Process $cmd
-     *
      * @noinspection MissingParameterTypeDeclarationInspection
      */
     protected function mustRunProcess(
-        $cmd,
+        array|Process|string $cmd,
         ?string $error = null,
         ?callable $callback = null,
         int $verbosity = OutputInterface::VERBOSITY_VERY_VERBOSE,
         ?OutputInterface $output = null
     ): Process {
         $process = $this->runProcess($cmd, $error, $callback, $verbosity, $output);
-        if (! $process->isSuccessful()) {
+
+        if (!$process->isSuccessful()) {
             throw new ProcessFailedException($process);
         }
 
@@ -74,15 +60,13 @@ abstract class Generator implements GeneratorContract
     }
 
     /**
-     * @param array|string|\Symfony\Component\Process\Process $cmd
-     *
-     * @psalm-suppress UndefinedInterfaceMethod
-     *
      * @noinspection MissingParameterTypeDeclarationInspection
      * @noinspection PhpPossiblePolymorphicInvocationInspection
+     *
+     * @psalm-suppress UndefinedInterfaceMethod
      */
     protected function runProcess(
-        $cmd,
+        array|Process|string $cmd,
         ?string $error = null,
         ?callable $callback = null,
         int $verbosity = OutputInterface::VERBOSITY_VERY_VERBOSE,
@@ -121,13 +105,9 @@ abstract class Generator implements GeneratorContract
     protected function hydratedOptions(): array
     {
         return collect($this->config['options'] ?? [])
-            ->map(static function ($value): string {
-                return (string) str(urldecode(http_build_query([$option = 'option' => $value])))->after("$option=");
-            })
+            ->map(static fn ($value): string => (string) str(urldecode(http_build_query([$option = 'option' => $value])))->after("$option="))
             ->filter()
-            ->map(static function ($value, string $option): array {
-                return [$option, $value];
-            })
+            ->map(static fn ($value, string $option): array => [$option, $value])
             ->flatten()
             ->all();
     }

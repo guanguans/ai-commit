@@ -20,10 +20,7 @@ use Illuminate\Support\Str;
 
 class OpenAIGenerator extends Generator
 {
-    /**
-     * @var \App\Support\OpenAI
-     */
-    protected $openAI;
+    protected OpenAI $openAI;
 
     public function __construct(array $config)
     {
@@ -50,14 +47,14 @@ class OpenAIGenerator extends Generator
      *         "body": "- Patched by composer-patches\n- Changed value of var1 from 123 to 456"
      *     }
      * ]
-     * ```
+     * ```.
+     *
+     * @noinspection PhpCastIsUnnecessaryInspection
      *
      * @psalm-suppress RedundantCast
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      * @throws \Illuminate\Http\Client\RequestException
-     *
-     * @noinspection PhpCastIsUnnecessaryInspection
      */
     public function generate(string $prompt): string
     {
@@ -72,10 +69,7 @@ class OpenAIGenerator extends Generator
         return (string) ($messages ?? $this->getCompletionMessages($response));
     }
 
-    /**
-     * @param array|\ArrayAccess $response
-     */
-    protected function getCompletionMessages($response): string
+    protected function getCompletionMessages(array|\ArrayAccess $response): string
     {
         return Arr::get($response, 'choices.0.text', '');
     }
@@ -86,7 +80,7 @@ class OpenAIGenerator extends Generator
     protected function buildWriter(?string &$messages): \Closure
     {
         return function (string $data) use (&$messages): void {
-            str($data)->explode(PHP_EOL)->each(function (string $rowData) use (&$messages): void {
+            str($data)->explode(\PHP_EOL)->each(function (string $rowData) use (&$messages): void {
                 // (正常|错误|流)响应
                 $rowResponse = (array) json_decode(FoundationSDK::sanitizeData($rowData), true);
                 $messages .= $text = $this->getCompletionMessages($rowResponse);

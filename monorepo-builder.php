@@ -31,7 +31,7 @@ return static function (MBConfig $mbConfig): void {
     $mbConfig->defaultBranch('main');
 
     /**
-     * release workers - in order to execute
+     * release workers - in order to execute.
      *
      * @see https://github.com/symplify/monorepo-builder#6-release-flow
      */

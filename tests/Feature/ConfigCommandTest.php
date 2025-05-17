@@ -71,7 +71,7 @@ it('can set/get special config value', function ($value): void {
     ])->assertSuccessful();
 })
     ->group(__DIR__, __FILE__)
-    ->with(['null', 'true', 'false', '0.0', '0', json_encode(['foo' => 'bar'], JSON_THROW_ON_ERROR)]);
+    ->with(['null', 'true', 'false', '0.0', '0', json_encode(['foo' => 'bar'], \JSON_THROW_ON_ERROR)]);
 
 it('can get config', function (): void {
     $this->artisan(ConfigCommand::class, [
@@ -125,7 +125,7 @@ it('will throw `Command not found` ProcessFailedException for edit config', func
 
 it('will throw another `Command not found` ProcessFailedException for edit config', function (): void {
     app()->singleton(ExecutableFinder::class, static function () {
-        $mockExecutableFinder = \Mockery::mock(ExecutableFinder::class);
+        $mockExecutableFinder = Mockery::mock(ExecutableFinder::class);
         $mockExecutableFinder->allows('find')->andReturn('no-editor');
 
         return $mockExecutableFinder;
@@ -141,7 +141,7 @@ it('will throw another `Command not found` ProcessFailedException for edit confi
 
 it('will throw RuntimeException for edit config', function (): void {
     app()->singleton(ExecutableFinder::class, static function () {
-        $mockExecutableFinder = \Mockery::mock(ExecutableFinder::class);
+        $mockExecutableFinder = Mockery::mock(ExecutableFinder::class);
         $mockExecutableFinder->allows('find')->andReturnNull();
 
         return $mockExecutableFinder;

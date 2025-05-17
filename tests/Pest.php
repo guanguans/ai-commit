@@ -27,16 +27,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 uses(TestCase::class)
-    ->beforeAll(function (): void {
-    })
+    ->beforeAll(function (): void {})
     ->beforeEach(function (): void {
         // setup_http_fake();
         config()->set('app.version', 'v'.config('app.version'));
     })
-    ->afterEach(function (): void {
-    })
-    ->afterAll(function (): void {
-    })
+    ->afterEach(function (): void {})
+    ->afterAll(function (): void {})
     ->in('Feature', 'Unit');
 
 /*
@@ -50,9 +47,7 @@ uses(TestCase::class)
 |
 */
 
-expect()->extend('toBeTwo', function () {
-    return $this->toBe(2);
-});
+expect()->extend('toBeTwo', fn () => $this->toBe(2));
 
 /*
 |--------------------------------------------------------------------------
@@ -66,25 +61,23 @@ expect()->extend('toBeTwo', function () {
 */
 
 /**
- * @param object|string $class
- *
  * @throws \ReflectionException
  */
-function class_namespace($class): string
+function class_namespace(object|string $class): string
 {
-    $class = is_object($class) ? get_class($class) : $class;
+    $class = \is_object($class) ? $class::class : $class;
 
     return (new ReflectionClass($class))->getNamespaceName();
 }
 
 function repository_path(string $path = ''): string
 {
-    return fixtures_path('repository'.($path ? DIRECTORY_SEPARATOR.$path : $path));
+    return fixtures_path('repository'.($path ? \DIRECTORY_SEPARATOR.$path : $path));
 }
 
 function fixtures_path(string $path = ''): string
 {
-    return __DIR__.'/Fixtures'.($path ? DIRECTORY_SEPARATOR.$path : $path);
+    return __DIR__.'/Fixtures'.($path ? \DIRECTORY_SEPARATOR.$path : $path);
 }
 
 /**
@@ -96,7 +89,7 @@ function setup_http_fake(): void
         '*://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/*' => function (Request $request, array $options): PromiseInterface {
             $prompt = $options['laravel_data']['messages'][0]['content'];
             $status = array_flip(Response::$statusTexts)[$prompt] ?? 200;
-            $body = $status >= 400
+            $body = 400 <= $status
                 ? <<<'json'
                     {"error_code":17,"error_msg":"Open api daily request limit reached"}
                     json
@@ -107,20 +100,18 @@ function setup_http_fake(): void
 
             return Http::response($body);
         },
-        '*://aip.baidubce.com/oauth/2.0/token?*' => function (Request $request, array $options): PromiseInterface {
-            return Http::response(
-                <<<'json'
-                    {"refresh_token":"25.52df6887dac3b388c94b78854d231.315360000.2007686387.282335-37780661","expires_in":2592000,"session_key":"dWr0t8VVzq5EZZUS0QyCERVJZzIVFJ9YQoDEEtzXuoFUCQ9gpDzNYinxjAt5vlLom+7QYYlZwfE89gyj6ePr9ohVeuw==","access_token":"24.6a024ba0cf6c1fd210fb1d2e7251b.2592000.1694918387.282335-37780661","scope":"public brain_all_scope ai_custom_yiyan_com ai_custom_yiyan_com_eb_instant wenxinworkshop_mgr ai_custom_yiyan_com_bloomz7b1 ai_custom_yiyan_com_emb_text wise_adapt lebo_resource_base lightservice_public hetu_basic lightcms_map_poi kaidian_kaidian ApsMisTest_Test权限 vis-classify_flower lpq_开放 cop_helloScope ApsMis_fangdi_permission smartapp_snsapi_base smartapp_mapp_dev_manage iop_autocar oauth_tp_app smartapp_smart_game_openapi oauth_sessionkey smartapp_swanid_verify smartapp_opensource_openapi smartapp_opensource_recapi fake_face_detect_开放Scope vis-ocr_虚拟人物助理 idl-video_虚拟人物助理 smartapp_component smartapp_search_plugin avatar_video_test b2b_tp_openapi b2b_tp_openapi_online smartapp_gov_aladin_to_xcx","session_secret":"940b2b2ad62ceb6dd33fc03468def"}
-                    json
-            );
-        },
+        '*://aip.baidubce.com/oauth/2.0/token?*' => fn (Request $request, array $options): PromiseInterface => Http::response(
+            <<<'json'
+                {"refresh_token":"25.52df6887dac3b388c94b78854d231.315360000.2007686387.282335-37780661","expires_in":2592000,"session_key":"dWr0t8VVzq5EZZUS0QyCERVJZzIVFJ9YQoDEEtzXuoFUCQ9gpDzNYinxjAt5vlLom+7QYYlZwfE89gyj6ePr9ohVeuw==","access_token":"24.6a024ba0cf6c1fd210fb1d2e7251b.2592000.1694918387.282335-37780661","scope":"public brain_all_scope ai_custom_yiyan_com ai_custom_yiyan_com_eb_instant wenxinworkshop_mgr ai_custom_yiyan_com_bloomz7b1 ai_custom_yiyan_com_emb_text wise_adapt lebo_resource_base lightservice_public hetu_basic lightcms_map_poi kaidian_kaidian ApsMisTest_Test权限 vis-classify_flower lpq_开放 cop_helloScope ApsMis_fangdi_permission smartapp_snsapi_base smartapp_mapp_dev_manage iop_autocar oauth_tp_app smartapp_smart_game_openapi oauth_sessionkey smartapp_swanid_verify smartapp_opensource_openapi smartapp_opensource_recapi fake_face_detect_开放Scope vis-ocr_虚拟人物助理 idl-video_虚拟人物助理 smartapp_component smartapp_search_plugin avatar_video_test b2b_tp_openapi b2b_tp_openapi_online smartapp_gov_aladin_to_xcx","session_secret":"940b2b2ad62ceb6dd33fc03468def"}
+                json
+        ),
     ]);
 
     Http::fake([
         '*://api.moonshot.cn/v1/chat/completions' => function (Request $request, array $options): PromiseInterface {
             $prompt = $options['laravel_data']['messages'][0]['content'];
             $status = array_flip(Response::$statusTexts)[$prompt] ?? 200;
-            $body = $status >= 400
+            $body = 400 <= $status
                 ? <<<'json'
                     {"error":{"message":"auth failed","type":"invalid_authentication_error"}}
                     json
@@ -131,13 +122,11 @@ function setup_http_fake(): void
 
             return Http::response($body, $status);
         },
-        '*://api.moonshot.cn/v1/models' => function (Request $request, array $options): PromiseInterface {
-            return Http::response(
-                <<<'json'
-                    {"object":"list","data":[{"created":1712151494,"id":"moonshot-v1-8k","object":"model","owned_by":"moonshot","permission":[{"created":0,"id":"","object":"","allow_create_engine":false,"allow_sampling":false,"allow_logprobs":false,"allow_search_indices":false,"allow_view":false,"allow_fine_tuning":false,"organization":"public","group":"public","is_blocking":false}],"root":"","parent":""},{"created":1712151494,"id":"moonshot-v1-32k","object":"model","owned_by":"moonshot","permission":[{"created":0,"id":"","object":"","allow_create_engine":false,"allow_sampling":false,"allow_logprobs":false,"allow_search_indices":false,"allow_view":false,"allow_fine_tuning":false,"organization":"public","group":"public","is_blocking":false}],"root":"","parent":""},{"created":1712151494,"id":"moonshot-v1-128k","object":"model","owned_by":"moonshot","permission":[{"created":0,"id":"","object":"","allow_create_engine":false,"allow_sampling":false,"allow_logprobs":false,"allow_search_indices":false,"allow_view":false,"allow_fine_tuning":false,"organization":"public","group":"public","is_blocking":false}],"root":"","parent":""}]}
-                    json
-            );
-        },
+        '*://api.moonshot.cn/v1/models' => fn (Request $request, array $options): PromiseInterface => Http::response(
+            <<<'json'
+                {"object":"list","data":[{"created":1712151494,"id":"moonshot-v1-8k","object":"model","owned_by":"moonshot","permission":[{"created":0,"id":"","object":"","allow_create_engine":false,"allow_sampling":false,"allow_logprobs":false,"allow_search_indices":false,"allow_view":false,"allow_fine_tuning":false,"organization":"public","group":"public","is_blocking":false}],"root":"","parent":""},{"created":1712151494,"id":"moonshot-v1-32k","object":"model","owned_by":"moonshot","permission":[{"created":0,"id":"","object":"","allow_create_engine":false,"allow_sampling":false,"allow_logprobs":false,"allow_search_indices":false,"allow_view":false,"allow_fine_tuning":false,"organization":"public","group":"public","is_blocking":false}],"root":"","parent":""},{"created":1712151494,"id":"moonshot-v1-128k","object":"model","owned_by":"moonshot","permission":[{"created":0,"id":"","object":"","allow_create_engine":false,"allow_sampling":false,"allow_logprobs":false,"allow_search_indices":false,"allow_view":false,"allow_fine_tuning":false,"organization":"public","group":"public","is_blocking":false}],"root":"","parent":""}]}
+                json
+        ),
     ]);
 
     Http::fake([
@@ -167,7 +156,7 @@ function setup_http_fake(): void
                 return $text;
             });
 
-            $body = $status >= 400
+            $body = 400 <= $status
                 ? <<<'json'
                     {"error":{"message":"Incorrect API key provided: sk-........ You can find your API key at https:\/\/platform.openai.com\/account\/api-keys.","type":"invalid_request_error","param":null,"code":"invalid_api_key"}}
                     json
@@ -196,7 +185,7 @@ function setup_http_fake(): void
         '*://api.openai.com/v1/chat/completions' => function (Request $request, array $options): PromiseInterface {
             $prompt = $options['laravel_data']['messages'][0]['content'];
             $status = array_flip(Response::$statusTexts)[$prompt] ?? 200;
-            $body = $status >= 400
+            $body = 400 <= $status
                 ? <<<'json'
                     {"error":{"message":"Incorrect API key provided: sk-........ You can find your API key at https:\/\/platform.openai.com\/account\/api-keys.","type":"invalid_request_error","param":null,"code":"invalid_api_key"}}
                     json
@@ -207,13 +196,11 @@ function setup_http_fake(): void
 
             return Http::response($body, $status);
         },
-        '*://api.openai.com/v1/models' => function (Request $request, array $options): PromiseInterface {
-            return Http::response(
-                <<<'json'
-                    {"object":"list","data":[{"id":"babbage","object":"model","created":1649358449,"owned_by":"openai","permission":[{"id":"modelperm-49FUp5v084tBB49tC4z8LPH5","object":"model_permission","created":1669085501,"allow_create_engine":false,"allow_sampling":true,"allow_logprobs":true,"allow_search_indices":false,"allow_view":true,"allow_fine_tuning":false,"organization":"*","group":null,"is_blocking":false}],"root":"babbage","parent":null}]}
-                    json
-            );
-        },
+        '*://api.openai.com/v1/models' => fn (Request $request, array $options): PromiseInterface => Http::response(
+            <<<'json'
+                {"object":"list","data":[{"id":"babbage","object":"model","created":1649358449,"owned_by":"openai","permission":[{"id":"modelperm-49FUp5v084tBB49tC4z8LPH5","object":"model_permission","created":1669085501,"allow_create_engine":false,"allow_sampling":true,"allow_logprobs":true,"allow_search_indices":false,"allow_view":true,"allow_fine_tuning":false,"organization":"*","group":null,"is_blocking":false}],"root":"babbage","parent":null}]}
+                json
+        ),
     ]);
 }
 

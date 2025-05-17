@@ -21,15 +21,15 @@ declare(strict_types=1);
 
 dataset('commit command parameters', [
     [
-        /*'parameters' =>*/ [],
+        /* 'parameters' => */ [],
     ],
     [
-        /*'parameters' =>*/ [
+        /* 'parameters' => */ [
             '--dry-run' => true,
         ],
     ],
     [
-        /*'parameters' =>*/ [
+        /* 'parameters' => */ [
             '--diff' => <<<'DIFF'
                 tests/Pest.php                        |  1 +
                 tests/Unit/ConfigManagerTest.php      |  2 +-

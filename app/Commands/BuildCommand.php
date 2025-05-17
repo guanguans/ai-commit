@@ -29,46 +29,30 @@ use Symfony\Component\Process\Process;
  */
 final class BuildCommand extends Command
 {
-    /**
-     * {@inheritDoc}
-     */
-    protected $signature = 'app:build
-        {name? : The build name}
-        {--build-version= : The build version, if not provided it will be asked}
-        {--timeout=300 : The timeout in seconds or 0 to disable}
-    ';
+    /** {@inheritDoc} */
+    protected $signature = <<<'EOD'
+        app:build
+                {name? : The build name}
+                {--build-version= : The build version, if not provided it will be asked}
+                {--timeout=300 : The timeout in seconds or 0 to disable}
 
-    /**
-     * {@inheritDoc}
-     */
+        EOD;
+
+    /** {@inheritDoc} */
     protected $description = 'Build a single file executable.';
 
-    /**
-     * Holds the configuration on is original state.
-     *
-     * @var null|string
-     */
-    private static $config;
+    /** Holds the configuration on is original state. */
+    private static ?string $config = null;
 
-    /**
-     * Holds the box.json on is original state.
-     *
-     * @var null|string
-     */
-    private static $box;
+    /** Holds the box.json on is original state. */
+    private static ?string $box;
 
-    /**
-     * Holds the command original output.
-     *
-     * @var null|\Symfony\Component\Console\Output\OutputInterface
-     */
-    private $originalOutput;
+    /** Holds the command original output. */
+    private ?OutputInterface $originalOutput;
 
     /**
      * Makes sure that the `clear` is performed even
      * if the command fails.
-     *
-     * @return void
      */
     public function __destruct()
     {
@@ -78,12 +62,13 @@ final class BuildCommand extends Command
     }
 
     /**
-     * @psalm-suppress UndefinedInterfaceMethod
      * @noinspection PhpMissingParentCallCommonInspection
+     *
+     * @psalm-suppress UndefinedInterfaceMethod
      */
     public function isEnabled(): bool
     {
-        return ! $this->laravel->isProduction();
+        return !$this->laravel->isProduction();
     }
 
     /**
@@ -125,21 +110,21 @@ final class BuildCommand extends Command
             ->clear();
 
         $this->output->writeln(
-            sprintf('    Compiled successfully: <fg=green>%s</>', $this->app->buildsPath($name))
+            \sprintf('    Compiled successfully: <fg=green>%s</>', $this->app->buildsPath($name))
         );
 
         return $this;
     }
 
     /**
-     * @psalm-suppress UndefinedInterfaceMethod
-     *
      * @noinspection PhpVoidFunctionResultUsedInspection
      * @noinspection DisconnectedForeachInstructionInspection
+     *
+     * @psalm-suppress UndefinedInterfaceMethod
      */
     private function compile(string $name): self
     {
-        if (! File::exists($this->app->buildsPath())) {
+        if (!File::exists($this->app->buildsPath())) {
             File::makeDirectory($this->app->buildsPath());
         }
 
@@ -158,7 +143,7 @@ final class BuildCommand extends Command
 
         $progressBar = tap(
             new ProgressBar(
-                $this->output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL ? new NullOutput() : $section,
+                $this->output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL ? new NullOutput : $section,
                 25
             )
         )->setProgressCharacter("\xF0\x9F\x8D\xBA");
@@ -206,11 +191,11 @@ final class BuildCommand extends Command
         $this->task(
             '   1. Moving application to <fg=yellow>production mode</>',
             static function () use ($configFile, $config): void {
-                File::put($configFile, '<?php return '.var_export($config, true).';'.PHP_EOL);
+                File::put($configFile, '<?php return '.var_export($config, true).';'.\PHP_EOL);
             }
         );
 
-        $boxContents = json_decode(self::$box, true, 512, JSON_THROW_ON_ERROR);
+        $boxContents = json_decode(self::$box, true, 512, \JSON_THROW_ON_ERROR);
         $boxContents['main'] = $this->getBinary();
 
         // Exclude Box binaries in output Phar
@@ -220,9 +205,9 @@ final class BuildCommand extends Command
         $boxContents['blacklist'][] = 'vendor/laravel-zero/framework/bin/box73';
         $boxContents['blacklist'][] = 'vendor/laravel-zero/framework/bin/box73.bat';
 
-        File::put($boxFile, json_encode($boxContents, JSON_THROW_ON_ERROR));
+        File::put($boxFile, json_encode($boxContents, \JSON_THROW_ON_ERROR));
 
-        File::put($configFile, '<?php return '.var_export($config, true).';'.PHP_EOL);
+        File::put($configFile, '<?php return '.var_export($config, true).';'.\PHP_EOL);
 
         return $this;
     }
@@ -256,13 +241,13 @@ final class BuildCommand extends Command
      */
     private function getTimeout(): ?float
     {
-        if (! is_numeric($this->option('timeout'))) {
+        if (!is_numeric($this->option('timeout'))) {
             throw new InvalidArgumentException('The timeout value must be a number.');
         }
 
         $timeout = (float) $this->option('timeout');
 
-        return $timeout > 0 ? $timeout : null;
+        return 0 < $timeout ? $timeout : null;
     }
 
     /**
@@ -274,7 +259,7 @@ final class BuildCommand extends Command
     {
         pcntl_async_signals(true);
 
-        pcntl_signal(SIGINT, function (): void {
+        pcntl_signal(\SIGINT, function (): void {
             if (null !== self::$config) {
                 $this->clear();
             }

@@ -20,10 +20,10 @@ use Illuminate\Http\Client\Response;
 final class ErnieBotTurboGenerator extends ErnieBotGenerator
 {
     /**
-     * @throws RequestException
-     * @throws BindingResolutionException
-     *
      * @noinspection PhpMissingParentCallCommonInspection
+     *
+     * @throws BindingResolutionException
+     * @throws RequestException
      */
     protected function completion(array $parameters, ?callable $writer = null): Response
     {

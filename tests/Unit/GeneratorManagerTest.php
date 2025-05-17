@@ -33,9 +33,7 @@ it('can create OpenAI driver', function (): void {
     expect($generatorManager = $this->app->get(GeneratorManager::class))
         ->driver('openai')->toBeInstanceOf(OpenAIGenerator::class);
 
-    $generatorManager->extend('foo', function (): OpenAIGenerator {
-        return new OpenAIGenerator(config('ai-commit.generators.openai'));
-    });
+    $generatorManager->extend('foo', fn (): OpenAIGenerator => new OpenAIGenerator(config('ai-commit.generators.openai')));
     expect($generatorManager)
         ->driver('foo')->toBeInstanceOf(OpenAIGenerator::class);
 })->group(__DIR__, __FILE__);

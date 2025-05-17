@@ -51,18 +51,26 @@ it('will throw unauthorized RequestException', function (): void {
  */
 it('can call writer', function (): void {
     foreach ([
-        '{"id": "cmpl-6or3mHmSgvCePOlM34DK90rm6J0ec", "object": "text_completion", "created": 1677578382, "choices": [{"text": "  ", "index": 0, "logprobs": null, "finish_reason": null}], "model": "text-davinci-003"}
+        <<<'EOD'
+            {"id": "cmpl-6or3mHmSgvCePOlM34DK90rm6J0ec", "object": "text_completion", "created": 1677578382, "choices": [{"text": "  ", "index": 0, "logprobs": null, "finish_reason": null}], "model": "text-davinci-003"}
 
-',
-        '{"id": "cmpl-6or3mHmSgvCePOlM34DK90rm6J0ec", "object": "text_completion", "created": 1677578382, "choices": [{"text": "use", "index": 0, "logprobs": null, "finish_reason": null}], "model": "text-davinci-003"}
 
-',
-        '{"id": "cmpl-6or3mHmSgvCePOlM34DK90rm6J0ec", "object": "text_completion", "created": 1677578382, "choices": [{"text": " App", "index": 0, "logprobs": null, "finish_reason": "length"}], "model": "text-davinci-003"}
+            EOD,
+        <<<'EOD'
+            {"id": "cmpl-6or3mHmSgvCePOlM34DK90rm6J0ec", "object": "text_completion", "created": 1677578382, "choices": [{"text": "use", "index": 0, "logprobs": null, "finish_reason": null}], "model": "text-davinci-003"}
 
-',
-        '[DONE]
 
-',
+            EOD,
+        <<<'EOD'
+            {"id": "cmpl-6or3mHmSgvCePOlM34DK90rm6J0ec", "object": "text_completion", "created": 1677578382, "choices": [{"text": " App", "index": 0, "logprobs": null, "finish_reason": "length"}], "model": "text-davinci-003"}
+
+
+            EOD,
+        <<<'EOD'
+            [DONE]
+
+
+            EOD,
     ] as $rowResponse) {
         (function (string $rowResponse) use (&$messages): void {
             $this->buildWriter($messages)($rowResponse);

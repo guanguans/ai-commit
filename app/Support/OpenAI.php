@@ -246,7 +246,7 @@ final class OpenAI extends FoundationSDK
                 static function (PendingRequest $pendingRequest) use (&$rowData, $writer): PendingRequest {
                     return $pendingRequest->withOptions([
                         'curl' => [
-                            CURLOPT_WRITEFUNCTION => static function ($ch, string $data) use (&$rowData, $writer): int {
+                            \CURLOPT_WRITEFUNCTION => static function ($ch, string $data) use (&$rowData, $writer): int {
                                 // $sanitizeData = self::sanitizeData($data);
                                 // if (! str($data)->startsWith('data: [DONE]')) {
                                 //     $rowData = $sanitizeData;
@@ -294,20 +294,19 @@ final class OpenAI extends FoundationSDK
             //         return $response;
             //     })
             // )
-            ->post($url, validate($parameters, $rules, $messages, $customAttributes))
-            // ->onError(function (Response $response) use ($rowData) {
-            //     if ($rowData && empty($response->body())) {
-            //         (function (Response $response) use ($rowData): void {
-            //             $this->response = $response->toPsrResponse()->withBody(
-            //                 Utils::streamFor(OpenAI::sanitizeData($rowData))
-            //             );
-            //         })->call($response, $response);
-            //     }
-            // })
-;
+            ->post($url, validate($parameters, $rules, $messages, $customAttributes));
+        // ->onError(function (Response $response) use ($rowData) {
+        //     if ($rowData && empty($response->body())) {
+        //         (function (Response $response) use ($rowData): void {
+        //             $this->response = $response->toPsrResponse()->withBody(
+        //                 Utils::streamFor(OpenAI::sanitizeData($rowData))
+        //             );
+        //         })->call($response, $response);
+        //     }
+        // })
 
         if ($rowData && empty($response->body())) {
-            $response = new Response($response->toPsrResponse()->withBody(Utils::streamFor(($rowData))));
+            $response = new Response($response->toPsrResponse()->withBody(Utils::streamFor($rowData)));
         }
 
         return $response->throw();

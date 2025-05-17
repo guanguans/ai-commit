@@ -32,10 +32,8 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 
 final class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * @var array<array-key, string>
-     */
-    public $singletons = [
+    /** @var array<array-key, string> */
+    public array $singletons = [
         CollectionMacro::class => CollectionMacro::class,
         GeneratorManager::class => GeneratorManager::class,
         StringableMacro::class => StringableMacro::class,
@@ -45,14 +43,12 @@ final class AppServiceProvider extends ServiceProvider
     /**
      * {@inheritDoc}
      *
-     * @throws BindingResolutionException
      * @throws \ReflectionException
+     * @throws BindingResolutionException
      */
     public function register(): void
     {
-        $this->app->singletonIf(OutputStyle::class, static function (): OutputStyle {
-            return new OutputStyle(new ArgvInput(), new ConsoleOutput());
-        });
+        $this->app->singletonIf(OutputStyle::class, static fn (): OutputStyle => new OutputStyle(new ArgvInput, new ConsoleOutput));
 
         Collection::mixin($this->app->make(CollectionMacro::class));
         Str::mixin($this->app->make(StrMacro::class));
@@ -70,7 +66,7 @@ final class AppServiceProvider extends ServiceProvider
 
         $this->app->extend(LoggerInterface::class, static function (LoggerInterface $logger): NullLogger {
             // return $logger instanceof ConsoleLogger ? $logger : new ConsoleLogger(app(OutputStyle::class));
-            return $logger instanceof NullLogger ? $logger : new NullLogger();
+            return $logger instanceof NullLogger ? $logger : new NullLogger;
         });
 
         ConfigManager::load();

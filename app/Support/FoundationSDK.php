@@ -36,21 +36,9 @@ abstract class FoundationSDK
     use Conditionable;
     use Macroable;
     use Tappable;
-
-    /**
-     * @var array
-     */
-    protected $config = [];
-
-    /**
-     * @var \Illuminate\Http\Client\Factory
-     */
-    protected $http;
-
-    /**
-     * @var \Illuminate\Http\Client\PendingRequest
-     */
-    protected $defaultPendingRequest;
+    protected array $config = [];
+    protected \Illuminate\Http\Client\Factory $http;
+    protected PendingRequest $defaultPendingRequest;
 
     public function __construct(array $config)
     {
@@ -63,9 +51,7 @@ abstract class FoundationSDK
     {
         return (string) str($data)->whenStartsWith(
             $prefix = 'data: ',
-            static function (Stringable $data) use ($prefix): Stringable {
-                return $data->after($prefix);
-            }
+            static fn (Stringable $data): Stringable => $data->after($prefix)
         );
     }
 
@@ -77,6 +63,7 @@ abstract class FoundationSDK
         return $this->tapDefaultPendingRequest(static function (PendingRequest $pendingRequest): void {
             $pendingRequest->beforeSending(static function (Request $request, array $options): void {
                 VarDumper::dump($options['laravel_data']); // @codeCoverageIgnore
+
                 exit(1); // @codeCoverageIgnore
             });
         });
@@ -115,9 +102,7 @@ abstract class FoundationSDK
     public function cloneDefaultPendingRequest(): PendingRequest
     {
         return tap(clone $this->defaultPendingRequest, function (PendingRequest $request): void {
-            $getStubCallbacks = function (): Collection {
-                return $this->stubCallbacks;
-            };
+            $getStubCallbacks = fn (): Collection => $this->stubCallbacks;
 
             $request->stub($getStubCallbacks->call($this->http));
         });
@@ -163,16 +148,14 @@ abstract class FoundationSDK
 
         if (null === $userAgent) {
             $userAgent = implode(' ', [
-                sprintf(
+                \sprintf(
                     'ai-commit/%s',
-                    str(config('app.version'))->whenStartsWith('v', static function (Stringable $version): Stringable {
-                        return $version->replaceFirst('v', '');
-                    })
+                    str(config('app.version'))->whenStartsWith('v', static fn (Stringable $version): Stringable => $version->replaceFirst('v', ''))
                 ),
-                sprintf('guzzle/%s', InstalledVersions::getPrettyVersion('guzzlehttp/guzzle')),
-                sprintf('curl/%s', curl_version()['version']),
-                sprintf('PHP/%s', PHP_VERSION),
-                sprintf('%s/%s', PHP_OS, php_uname('r')),
+                \sprintf('guzzle/%s', InstalledVersions::getPrettyVersion('guzzlehttp/guzzle')),
+                \sprintf('curl/%s', curl_version()['version']),
+                \sprintf('PHP/%s', \PHP_VERSION),
+                \sprintf('%s/%s', \PHP_OS, php_uname('r')),
             ]);
         }
 

@@ -30,35 +30,17 @@ use Symfony\Component\Process\Process;
 
 final class ConfigCommand extends Command
 {
-    /**
-     * @var string[]
-     */
+    /** @var list<string> */
     public const ACTIONS = ['set', 'get', 'unset', 'reset', 'list', 'edit'];
 
-    /**
-     * @var string[]
-     */
+    /** @var list<string> */
     protected const WINDOWS_EDITORS = ['notepad'];
 
-    /**
-     * @var string[]
-     */
+    /** @var list<string> */
     protected const UNIX_EDITORS = ['editor', 'vim', 'vi', 'nano', 'pico', 'ed'];
-
-    /**
-     * @var string
-     */
     protected $signature = 'config';
-
-    /**
-     * @var string
-     */
     protected $description = 'Manage config options.';
-
-    /**
-     * @var \App\ConfigManager
-     */
-    private $configManager;
+    private ConfigManager $configManager;
 
     public function __construct()
     {
@@ -130,6 +112,7 @@ final class ConfigCommand extends Command
                     }
 
                     $editors = windows_os() ? self::WINDOWS_EDITORS : self::UNIX_EDITORS;
+
                     foreach ($editors as $editor) {
                         if ($executableFinder->find($editor)) {
                             return $editor;
@@ -155,6 +138,7 @@ final class ConfigCommand extends Command
 
     /**
      * @codeCoverageIgnore
+     *
      * @psalm-suppress InvalidArgument
      */
     public function complete(CompletionInput $input, CompletionSuggestions $suggestions): void
@@ -187,7 +171,7 @@ final class ConfigCommand extends Command
     protected function configure(): void
     {
         $this->setDefinition([
-            new InputArgument('action', InputArgument::REQUIRED, sprintf('The action(<comment>[%s]</comment>) name', implode(', ', self::ACTIONS))),
+            new InputArgument('action', InputArgument::REQUIRED, \sprintf('The action(<comment>[%s]</comment>) name', implode(', ', self::ACTIONS))),
             new InputArgument('key', InputArgument::OPTIONAL, 'The key of config options'),
             new InputArgument('value', InputArgument::OPTIONAL, 'The value of config options'),
             new InputOption('global', 'g', InputOption::VALUE_NONE, 'Apply to the global config file'),
@@ -201,7 +185,7 @@ final class ConfigCommand extends Command
      */
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
-        if (! file_exists(ConfigManager::globalPath())) {
+        if (!file_exists(ConfigManager::globalPath())) {
             $this->configManager->putGlobal();
         }
     }
@@ -210,10 +194,8 @@ final class ConfigCommand extends Command
      * @noinspection PhpInconsistentReturnPointsInspection
      *
      * @throws \JsonException
-     *
-     * @return mixed
      */
-    private function argToValue(string $arg)
+    private function argToValue(string $arg): mixed
     {
         // if (0 === strncasecmp($arg, 'null', 4)) {
         //     return;
@@ -232,18 +214,16 @@ final class ConfigCommand extends Command
         // }
 
         if (str($arg)->jsonValidate()) {
-            return json_decode($arg, true, 512, JSON_THROW_ON_ERROR);
+            return json_decode($arg, true, 512, \JSON_THROW_ON_ERROR);
         }
 
         return $arg;
     }
 
     /**
-     * @param mixed $value
-     *
      * @noinspection JsonEncodingApiUsageInspection
      */
-    private function valueToArg($value): string
+    private function valueToArg(mixed $value): string
     {
         // if (null === $value) {
         //     return 'null';
@@ -253,6 +233,6 @@ final class ConfigCommand extends Command
         //     return var_export($value, true);
         // }
 
-        return (string) json_encode($value, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        return (string) json_encode($value, \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE);
     }
 }

@@ -35,9 +35,7 @@ final class ConfigManager extends Repository implements \JsonSerializable, Array
     use Conditionable;
     use Tappable;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     public const NAME = '.ai-commit.json';
 
     /**
@@ -82,16 +80,18 @@ final class ConfigManager extends Repository implements \JsonSerializable, Array
     public static function globalPath(string $path = self::NAME): string
     {
         $path = $path ? \DIRECTORY_SEPARATOR.$path : $path;
+
         if (windows_os()) {
-            return sprintf('C:\\Users\\%s\\.ai-commit%s', get_current_user(), $path); // @codeCoverageIgnore
+            return \sprintf('C:\\Users\\%s\\.ai-commit%s', get_current_user(), $path); // @codeCoverageIgnore
         }
 
-        return sprintf('%s%s.ai-commit%s', exec('cd ~; pwd'), \DIRECTORY_SEPARATOR, $path);
+        return \sprintf('%s%s.ai-commit%s', exec('cd ~; pwd'), \DIRECTORY_SEPARATOR, $path);
     }
 
     public static function localPath(string $path = self::NAME): string
     {
         $cwd = getcwd();
+
         if (false === $cwd) {
             $cwd = realpath('');
         }
@@ -101,35 +101,27 @@ final class ConfigManager extends Repository implements \JsonSerializable, Array
 
     /**
      * @throws \JsonException
-     *
-     * @return bool|int
      */
-    public function putGlobal(int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
+    public function putGlobal(int $options = \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE): bool|int
     {
         return $this->putFile(self::globalPath(), $options);
     }
 
     /**
      * @throws \JsonException
-     *
-     * @return bool|int
      */
-    public function putLocal(int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
+    public function putLocal(int $options = \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE): bool|int
     {
         return $this->putFile(self::localPath(), $options);
     }
 
     /**
      * @throws \JsonException
-     *
-     * @return bool|int
      */
-    public function putFile(string $file, int $options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
+    public function putFile(string $file, int $options = \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE): bool|int
     {
         collect($this->toDotArray())
-            ->filter(static function ($val): bool {
-                return ! \is_scalar($val) && null !== $val;
-            })
+            ->filter(static fn ($val): bool => !\is_scalar($val) && null !== $val)
             ->keys()
             ->push(
                 'generators.openai.parameters.prompt',
@@ -161,9 +153,9 @@ final class ConfigManager extends Repository implements \JsonSerializable, Array
     }
 
     /**
-     * @param array<string>|string $keys
+     * @param list<string>|string $keys
      */
-    public function forget($keys): void
+    public function forget(array|string $keys): void
     {
         Arr::forget($this->items, $keys);
     }
@@ -183,7 +175,7 @@ final class ConfigManager extends Repository implements \JsonSerializable, Array
             }
 
             if ($value instanceof Jsonable) {
-                return json_decode($value->toJson(), true, 512, JSON_THROW_ON_ERROR);
+                return json_decode($value->toJson(), true, 512, \JSON_THROW_ON_ERROR);
             }
 
             if ($value instanceof Arrayable) {
@@ -201,19 +193,18 @@ final class ConfigManager extends Repository implements \JsonSerializable, Array
 
     public function toArray(): array
     {
-        return array_map(static function ($value) {
-            return $value instanceof Arrayable ? $value->toArray() : $value;
-        }, $this->all());
+        return array_map(static fn ($value) => $value instanceof Arrayable ? $value->toArray() : $value, $this->all());
     }
 
     /**
      * {@inheritDoc}
      *
-     * @throws \JsonException
      * @noinspection JsonEncodingApiUsageInspection
      * @noinspection MissingParameterTypeDeclarationInspection
+     *
+     * @throws \JsonException
      */
-    public function toJson($options = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE): string
+    public function toJson($options = \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE): string
     {
         return json_encode($this->jsonSerialize(), $options);
     }
@@ -224,7 +215,8 @@ final class ConfigManager extends Repository implements \JsonSerializable, Array
     public static function readFrom(...$files): array
     {
         $configurations = array_reduce($files, static function (array $configurations, string $file): array {
-            $ext = str(pathinfo($file, PATHINFO_EXTENSION));
+            $ext = str(pathinfo($file, \PATHINFO_EXTENSION));
+
             if ($ext->is('php')) {
                 $configurations[] = require $file;
 
@@ -232,11 +224,11 @@ final class ConfigManager extends Repository implements \JsonSerializable, Array
             }
 
             if ($ext->is('json')) {
-                if (! str($contents = file_get_contents($file))->jsonValidate()) {
+                if (!str($contents = file_get_contents($file))->jsonValidate()) {
                     throw InvalidJsonFileException::make($file);
                 }
 
-                $configurations[] = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
+                $configurations[] = json_decode($contents, true, 512, \JSON_THROW_ON_ERROR);
 
                 return $configurations;
             }

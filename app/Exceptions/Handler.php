@@ -21,33 +21,30 @@ use Illuminate\Validation\ValidationException;
  */
 final class Handler extends \Illuminate\Foundation\Exceptions\Handler
 {
-    /**
-     * @var array<int, class-string<\Throwable>>
-     */
     protected $dontReport = [
         \Throwable::class,
     ];
 
     /**
+     * @noinspection PhpUnusedParameterInspection
+     *
      * @psalm-suppress InvalidReturnType
      * @psalm-suppress UndefinedThisPropertyAssignment
      * @psalm-suppress UndefinedThisPropertyFetch
      * @psalm-suppress InvalidReturnStatement
      * @psalm-suppress UnusedClosureParam
-     *
-     * @noinspection PhpUnusedParameterInspection
      */
     public function register(): void
     {
         $this->map(ValidationException::class, function (ValidationException $validationException) {
             return (function (): ValidationException {
-                $this->message = PHP_EOL.($prefix = '- ').implode(PHP_EOL.$prefix, $this->validator->errors()->all());
+                $this->message = \PHP_EOL.($prefix = '- ').implode(\PHP_EOL.$prefix, $this->validator->errors()->all());
 
                 /** @noinspection PhpIncompatibleReturnTypeInspection */
                 return $this;
             })->call($validationException);
         });
 
-        $this->reportable(static function (\Throwable $throwable): bool {return false; })->stop();
+        $this->reportable(static fn (\Throwable $throwable): bool => false)->stop();
     }
 }

@@ -24,10 +24,7 @@ use Illuminate\Http\Client\Response;
  */
 final class Ernie extends FoundationSDK
 {
-    /**
-     * @var null|string
-     */
-    private static $accessToken;
+    private static ?string $accessToken;
 
     /**
      * ```ok
@@ -71,8 +68,8 @@ final class Ernie extends FoundationSDK
     }
 
     /**
-     * @throws RequestException
      * @throws BindingResolutionException
+     * @throws RequestException
      */
     public function ernieBotTurbo(array $parameters, ?callable $writer = null): Response
     {
@@ -164,8 +161,8 @@ final class Ernie extends FoundationSDK
      * @psalm-suppress UnusedVariable
      * @psalm-suppress UnevaluatedCode
      *
-     * @throws RequestException
      * @throws BindingResolutionException
+     * @throws RequestException
      */
     private function completion(
         string $url,
@@ -181,7 +178,7 @@ final class Ernie extends FoundationSDK
                 static function (PendingRequest $pendingRequest) use (&$rowData, $writer): PendingRequest {
                     return $pendingRequest->withOptions([
                         'curl' => [
-                            CURLOPT_WRITEFUNCTION => static function ($ch, string $data) use (&$rowData, $writer): int {
+                            \CURLOPT_WRITEFUNCTION => static function ($ch, string $data) use (&$rowData, $writer): int {
                                 $rowData = self::sanitizeData($data);
                                 $writer($rowData, $ch);
 

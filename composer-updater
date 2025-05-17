@@ -4,12 +4,12 @@
 declare(strict_types=1);
 
 /**
- * Copyright (c) 2021-2025 guanguans<ityaozm@gmail.com>
+ * Copyright (c) 2023-2025 guanguans<ityaozm@gmail.com>
  *
  * For the full copyright and license information, please view
  * the LICENSE file that was distributed with this source code.
  *
- * @see https://github.com/guanguans/laravel-skeleton
+ * @see https://github.com/guanguans/ai-commit
  */
 
 use Composer\InstalledVersions;
@@ -106,7 +106,7 @@ $status = (new SingleCommandApplication)
 
             private function updateComposerPackages(): self
             {
-                $this->mustRunCommand("$this->composerBinary update -W --ansi", (dirname($this->composerJsonPath)));
+                $this->mustRunCommand("$this->composerBinary update -W --ansi", \dirname($this->composerJsonPath));
 
                 return $this;
             }
@@ -198,7 +198,7 @@ $status = (new SingleCommandApplication)
                             $output = $this
                                 ->mustRunCommand("$this->highestComposerBinary outdated --format=json --direct --ansi")
                                 ->getOutput(),
-                            (int)strpos($output, '{'.\PHP_EOL)
+                            (int) strpos($output, '{'.\PHP_EOL)
                         ),
                         true,
                         512,

@@ -72,7 +72,7 @@ final class Moonshot extends FoundationSDK
                 static function (PendingRequest $pendingRequest) use (&$rowData, $writer): PendingRequest {
                     return $pendingRequest->withOptions([
                         'curl' => [
-                            CURLOPT_WRITEFUNCTION => static function ($ch, string $data) use (&$rowData, $writer): int {
+                            \CURLOPT_WRITEFUNCTION => static function ($ch, string $data) use (&$rowData, $writer): int {
                                 // $sanitizeData = self::sanitizeData($data);
                                 // if (! str($data)->startsWith('data: [DONE]')) {
                                 //     $rowData = $sanitizeData;
@@ -109,7 +109,7 @@ final class Moonshot extends FoundationSDK
             ]));
 
         if ($rowData && empty($response->body())) {
-            $response = new Response($response->toPsrResponse()->withBody(Utils::streamFor(($rowData))));
+            $response = new Response($response->toPsrResponse()->withBody(Utils::streamFor($rowData)));
         }
 
         return $response->throw();

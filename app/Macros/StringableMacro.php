@@ -27,8 +27,6 @@ final class StringableMacro
      */
     public function jsonValidate(): \Closure
     {
-        return function (int $depth = 512, int $flags = 0): bool {
-            return Str::jsonValidate($this->value, $depth, $flags);
-        };
+        return fn (int $depth = 512, int $flags = 0): bool => Str::jsonValidate($this->value, $depth, $flags);
     }
 }

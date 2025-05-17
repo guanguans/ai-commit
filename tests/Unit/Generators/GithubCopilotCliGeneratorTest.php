@@ -22,8 +22,7 @@ declare(strict_types=1);
 use App\GeneratorManager;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
-beforeEach(function (): void {
-});
+beforeEach(function (): void {});
 
 it('throws `ProcessFailedException`', function (): void {
     config('ai-commit')->set('generators.github_copilot_cli.binary', 'github-copilot-cli');

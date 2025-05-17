@@ -19,13 +19,13 @@ use Illuminate\Support\Str;
 final class OpenAIChatGenerator extends OpenAIGenerator
 {
     /**
+     * @noinspection MissingParentCallInspection
+     * @noinspection PhpCastIsUnnecessaryInspection
+     *
      * @psalm-suppress RedundantCast
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      * @throws \Illuminate\Http\Client\RequestException
-     *
-     * @noinspection MissingParentCallInspection
-     * @noinspection PhpCastIsUnnecessaryInspection
      */
     public function generate(string $prompt): string
     {

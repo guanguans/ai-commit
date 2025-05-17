@@ -15,6 +15,4 @@ namespace App\Exceptions;
 
 use App\Contracts\ThrowableContract;
 
-class InvalidArgumentException extends \InvalidArgumentException implements ThrowableContract
-{
-}
+class InvalidArgumentException extends \InvalidArgumentException implements ThrowableContract {}

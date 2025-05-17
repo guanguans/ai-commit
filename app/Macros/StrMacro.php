@@ -23,30 +23,30 @@ final class StrMacro
     /**
      * @see https://github.com/symfony/polyfill-php83
      *
-     * @psalm-suppress UnusedFunctionCall
-     *
      * @noinspection JsonEncodingApiUsageInspection
      * @noinspection BadExceptionsProcessingInspection
+     *
+     * @psalm-suppress UnusedFunctionCall
      */
     public static function jsonValidate(): \Closure
     {
         return static function (string $json, int $depth = 512, int $flags = 0): bool {
-            if (0 !== $flags && \defined('JSON_INVALID_UTF8_IGNORE') && JSON_INVALID_UTF8_IGNORE !== $flags) {
+            if (0 !== $flags && \defined('JSON_INVALID_UTF8_IGNORE') && \JSON_INVALID_UTF8_IGNORE !== $flags) {
                 throw new \ValueError('json_validate(): Argument #3 ($flags) must be a valid flag (allowed flags: JSON_INVALID_UTF8_IGNORE)');
             }
 
-            if ($depth <= 0) {
+            if (0 >= $depth) {
                 throw new \ValueError('json_validate(): Argument #2 ($depth) must be greater than 0');
             }
 
             // see https://www.php.net/manual/en/function.json-decode.php
             if ($depth > ($jsonMaxDepth = 0x7FFFFFFF)) {
-                throw new \ValueError(sprintf('json_validate(): Argument #2 ($depth) must be less than %d', $jsonMaxDepth));
+                throw new \ValueError(\sprintf('json_validate(): Argument #2 ($depth) must be less than %d', $jsonMaxDepth));
             }
 
             json_decode($json, null, $depth, $flags);
 
-            return JSON_ERROR_NONE === json_last_error();
+            return \JSON_ERROR_NONE === json_last_error();
         };
     }
 }
