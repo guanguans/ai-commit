@@ -8,6 +8,12 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 
+<a name="1.15.5"></a>
+## [1.15.5] - 2025-05-12
+### Pull Requests
+- Merge pull request [#260](https://github.com/guanguans/ai-commit/issues/260) from guanguans/dependabot/github_actions/dependabot/fetch-metadata-2.4.0
+
+
 <a name="1.15.4"></a>
 ## [1.15.4] - 2025-05-03
 ### ✨ Features
@@ -1084,7 +1090,8 @@ All notable changes to this project will be documented in this file.
 - add config manager ([75f1bc6](https://github.com/guanguans/ai-commit/commit/75f1bc6))
 
 
-[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.15.4...HEAD
+[Unreleased]: https://github.com/guanguans/ai-commit/compare/1.15.5...HEAD
+[1.15.5]: https://github.com/guanguans/ai-commit/compare/1.15.4...1.15.5
 [1.15.4]: https://github.com/guanguans/ai-commit/compare/1.15.3...1.15.4
 [1.15.3]: https://github.com/guanguans/ai-commit/compare/1.15.2...1.15.3
 [1.15.2]: https://github.com/guanguans/ai-commit/compare/1.15.1...1.15.2
