@@ -1,39 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
-  backupGlobals="false"
-  bootstrap="vendor/autoload.php"
-  cacheResultFile=".build/phpunit/.phpunit.result.cache"
-  colors="true"
-  processIsolation="false"
-  stopOnFailure="false"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+  bootstrap="vendor/autoload.php"
+  cacheDirectory=".build/phpunit/"
+  colors="true"
+  xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
 >
   <testsuites>
     <testsuite name="Feature">
-      <directory suffix="Test.php">./tests/Feature</directory>
+      <directory>./tests/Feature</directory>
       <exclude>vendor/</exclude>
     </testsuite>
     <testsuite name="Unit">
-      <directory suffix="Test.php">./tests/Unit</directory>
+      <directory>./tests/Unit</directory>
       <exclude>vendor/</exclude>
     </testsuite>
   </testsuites>
-  <coverage processUncoveredFiles="true">
-    <include>
-      <directory suffix=".php">./app</directory>
-    </include>
-    <exclude>
-      <!--<directory>app/Contracts</directory>-->
-      <file>app/Commands/BuildCommand.php</file>
-      <file>app/Support/JsonFixer.php</file>
-      <file>app/Support/helpers.php</file>
-      <file>app/Macros/StrMacro.php</file>
-    </exclude>
-  </coverage>
   <source>
     <include>
-      <directory suffix=".php">./app</directory>
+      <directory>./app</directory>
     </include>
     <exclude>
       <!--<directory>app/Contracts</directory>-->
@@ -43,21 +28,4 @@
       <file>app/Macros/StrMacro.php</file>
     </exclude>
   </source>
-  <!--<listeners>
-      <listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener">
-          <arguments>
-              <array>
-                  <element key="slowThreshold">
-                      <integer>500</integer>
-                  </element>
-                  <element key="reportLength">
-                      <integer>10</integer>
-                  </element>
-                  <element key="stopOnSlow">
-                      <boolean>false</boolean>
-                  </element>
-              </array>
-          </arguments>
-      </listener>
-  </listeners>-->
 </phpunit>

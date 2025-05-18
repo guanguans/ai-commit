@@ -1,12 +1,16 @@
 {
     "excludeFiles": [
+        ".build/",
         "art/",
+        "baselines/",
         "config/",
         "resources/",
         "routes/",
         "src/",
         "tests/",
-        "vendor/"
+        "vendor-bin/",
+        "vendor/",
+        "./CHANGELOG.md"
     ],
     "rules": {
         "space-around-alphabet": 2,
@@ -25,9 +29,9 @@
         "correct-title-trailing-punctuation": 2,
         "no-space-in-inline-code": 2,
         "no-long-code": [
-            0,
+            1,
             {
-                "length": 200,
+                "length": 400,
                 "exclude": [
                     "dot"
                 ]
