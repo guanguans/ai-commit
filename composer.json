@@ -4,7 +4,6 @@
     "license": "MIT",
     "type": "project",
     "abandoned": false,
-    "non-feature-branches": [],
     "keywords": [
         "ai",
         "changelog",
@@ -36,7 +35,6 @@
         "moonshot",
         "openai"
     ],
-    "readme": "README.md",
     "authors": [
         {
             "name": "guanguans",
@@ -75,19 +73,14 @@
         "pestphp/pest": "^3.8",
         "php-mock/php-mock-phpunit": "^2.13"
     },
-    "repositories": [],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "App\\": "app/"
         },
-        "classmap": [],
         "files": [
             "app/Support/helpers.php"
-        ],
-        "exclude-from-classmap": [
-            "benchmarks"
         ]
     },
     "autoload-dev": {
@@ -125,9 +118,6 @@
             "pre-commit": [
                 "composer checks"
             ]
-        },
-        "phpstan": {
-            "includes": []
         }
     },
     "scripts": {
@@ -216,5 +206,11 @@
         "trufflehog": "trufflehog git https://github.com/guanguans/ai-commit --only-verified",
         "var-dump-server": "@php ./vendor/bin/var-dump-server --ansi -v",
         "vhs": "vhs < ai-commit.tape"
-    }
+    },
+    "scripts-aliases": {
+        "pest": [
+            "test"
+        ]
+    },
+    "$schema": "https://getcomposer.org/schema.json"
 }
