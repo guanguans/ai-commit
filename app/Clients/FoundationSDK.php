@@ -11,7 +11,7 @@ declare(strict_types=1);
  * @see https://github.com/guanguans/ai-commit
  */
 
-namespace App\Support;
+namespace App\Clients;
 
 use Composer\InstalledVersions;
 use GuzzleHttp\MessageFormatter;

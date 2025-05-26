@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace App\Generators;
 
-use App\Support\Ernie;
+use App\Clients\Ernie;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;

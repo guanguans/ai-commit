@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace App\Generators;
 
-use App\Support\FoundationSDK;
-use App\Support\OpenAI;
+use App\Clients\FoundationSDK;
+use App\Clients\OpenAI;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 

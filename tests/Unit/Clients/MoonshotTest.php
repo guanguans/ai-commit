@@ -22,7 +22,7 @@ declare(strict_types=1);
  * @see https://github.com/guanguans/ai-commit
  */
 
-use App\Support\Moonshot;
+use App\Clients\Moonshot;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;

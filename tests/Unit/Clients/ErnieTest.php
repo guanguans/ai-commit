@@ -22,7 +22,7 @@ declare(strict_types=1);
  * @see https://github.com/guanguans/ai-commit
  */
 
-use App\Support\Ernie;
+use App\Clients\Ernie;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;

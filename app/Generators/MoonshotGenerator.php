@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace App\Generators;
 
-use App\Support\FoundationSDK;
-use App\Support\Moonshot;
+use App\Clients\FoundationSDK;
+use App\Clients\Moonshot;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
 

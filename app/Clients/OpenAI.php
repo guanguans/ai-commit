@@ -11,7 +11,7 @@ declare(strict_types=1);
  * @see https://github.com/guanguans/ai-commit
  */
 
-namespace App\Support;
+namespace App\Clients;
 
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Utils;
@@ -20,6 +20,7 @@ use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Psr\Http\Message\ResponseInterface;
+use function App\Support\validate;
 
 /**
  * @see https://beta.openai.com/docs/api-reference/introduction

@@ -11,13 +11,14 @@ declare(strict_types=1);
  * @see https://github.com/guanguans/ai-commit
  */
 
-namespace App\Support;
+namespace App\Clients;
 
 use GuzzleHttp\Psr7\Utils;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
+use function App\Support\validate;
 
 /**
  * @see https://platform.moonshot.cn/docs/api-reference

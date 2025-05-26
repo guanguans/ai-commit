@@ -22,7 +22,7 @@ declare(strict_types=1);
  * @see https://github.com/guanguans/ai-commit
  */
 
-use App\Support\OpenAI;
+use App\Clients\OpenAI;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Arr;
 use Psr\Log\LoggerInterface;
