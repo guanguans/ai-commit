@@ -47,6 +47,7 @@
 *.tape                              export-ignore
 *.zip                               export-ignore
 /.*                                 export-ignore
+/_ide_helper.php                    export-ignore
 /CHANGELOG-*.md                     export-ignore
 /CHANGELOG.md                       export-ignore
 /composer-dependency-analyser.php   export-ignore
