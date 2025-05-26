@@ -27,7 +27,6 @@ use phpmock\phpunit\PHPMock;
 
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication;
     use PHPMock;
 
     /**
