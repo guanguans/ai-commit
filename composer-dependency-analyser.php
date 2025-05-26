@@ -36,7 +36,7 @@ return (new Configuration)
     ->ignoreErrorsOnExtensions(
         [
             // 'ext-pdo',
-            'ext-pcntl',
+            // 'ext-pcntl',
         ],
         [ErrorType::SHADOW_DEPENDENCY]
     )

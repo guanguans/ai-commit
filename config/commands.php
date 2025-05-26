@@ -86,6 +86,5 @@ return [
     */
 
     'remove' => [
-        LaravelZero\Framework\Commands\BuildCommand::class,
     ],
 ];
