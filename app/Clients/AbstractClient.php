@@ -43,7 +43,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 abstract class AbstractClient
 {
-    use Conditionable;
+    // use Conditionable;
     use Dumpable;
     use ForwardsCalls;
     use Localizable;
@@ -147,7 +147,7 @@ abstract class AbstractClient
     {
         return [
             'ai-commit' => str(config('app.version'))->whenStartsWith('v', static fn (Stringable $version): Stringable => $version->replaceFirst('v', '')),
-            'laravel' => InstalledVersions::getPrettyVersion('laravel/framework'),
+            'laravel' => InstalledVersions::getPrettyVersion('illuminate/support'),
             'guzzle' => InstalledVersions::getPrettyVersion('guzzlehttp/guzzle'),
             'curl' => (curl_version() ?: ['version' => 'unknown'])['version'],
             'PHP' => \PHP_VERSION,
@@ -188,7 +188,13 @@ abstract class AbstractClient
 
     private function defaultPendingRequest(): PendingRequest
     {
-        return Http::baseUrl($this->configRepository->get('base_url'))
+        return Http::when(
+            $this->configRepository->get('base_url'),
+            static fn (
+                PendingRequest $pendingRequest,
+                string $baseUrl
+            ) => $pendingRequest->baseUrl($baseUrl)
+        )
             ->when(
                 $this->getUserAgent(),
                 static fn (
@@ -214,7 +220,7 @@ abstract class AbstractClient
             ->withMiddleware(Middleware::mapRequest(
                 static fn (RequestInterface $request): MessageInterface => $request->withHeader('X-Date-Time', now()->toDateTimeString('m'))
             ))
-            ->withMiddleware($this->makeLoggerMiddleware($this->configRepository->get('logger')))
+            // ->withMiddleware($this->makeLoggerMiddleware($this->configRepository->get('logger')))
             ->withMiddleware(Middleware::mapResponse(
                 static fn (ResponseInterface $response): MessageInterface => $response->withHeader('X-Date-Time', now()->toDateTimeString('m'))
             ));
@@ -264,7 +270,7 @@ abstract class AbstractClient
     private function defaultConfigRules(): array
     {
         return [
-            'base_url' => 'required|string',
+            'base_url' => 'string',
             'logger' => 'nullable|string',
             'http_options' => 'array',
             'retry' => 'array',

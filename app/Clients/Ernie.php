@@ -23,7 +23,7 @@ use function App\Support\validate;
 /**
  * @see https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Nlks5zkzu
  */
-final class Ernie extends FoundationSDK
+final class Ernie extends AbstractClient
 {
     private static ?string $accessToken = null;
 
@@ -82,72 +82,29 @@ final class Ernie extends FoundationSDK
      */
     public function oauthToken(): Response
     {
-        return $this->cloneDefaultPendingRequest()
+        return $this
             ->get(
                 'oauth/2.0/token',
                 [
                     'grant_type' => 'client_credentials',
-                    'client_id' => $this->config['api_key'],
-                    'client_secret' => $this->config['secret_key'],
+                    'client_id' => $this->configRepository->get('api_key'),
+                    'client_secret' => $this->configRepository->get('secret_key'),
                 ]
             )
             ->throw();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws BindingResolutionException
-     */
-    protected function validateConfig(array $config): array
+    protected function configRules(): array
     {
-        return array_replace_recursive(
-            [
-                'http_options' => [
-                    // \GuzzleHttp\RequestOptions::CONNECT_TIMEOUT => 30,
-                    // \GuzzleHttp\RequestOptions::TIMEOUT => 180,
-                ],
-                'retry' => [
-                    // 'times' => 1,
-                    // 'sleep' => 1000,
-                    // 'when' => static function (\Exception $exception): bool {
-                    //     return $exception instanceof \Illuminate\Http\Client\ConnectionException;
-                    // },
-                    // // 'throw' => true,
-                ],
-                'base_url' => 'https://aip.baidubce.com',
-            ],
-            validate($config, [
-                'http_options' => 'array',
-                'retry' => 'array',
-                'retry.times' => 'integer',
-                'retry.sleep' => 'integer',
-                'retry.when' => 'nullable',
-                // 'retry.throw' => 'bool',
-                'base_url' => 'string',
-                'api_key' => 'required|string',
-                'secret_key' => 'required|string',
-            ])
-        );
+        return [
+            'api_key' => 'required|string',
+            'secret_key' => 'required|string',
+        ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function buildDefaultPendingRequest(array $config): PendingRequest
+    protected function extendPendingRequest(PendingRequest $pendingRequest): PendingRequest
     {
-        return parent::buildDefaultPendingRequest($config)
-            ->baseUrl($config['base_url'])
-            ->asJson()
-            // ->dump()
-            // ->throw()
-            // ->retry(
-            //     $config['retry']['times'],
-            //     $config['retry']['sleep'],
-            //     $config['retry']['when']
-            //     // $config['retry']['throw']
-            // )
-            ->withOptions($config['http_options']);
+        return $pendingRequest->baseUrl($this->configRepository->get('base_url', 'https://aip.baidubce.com'));
     }
 
     /**
@@ -170,7 +127,6 @@ final class Ernie extends FoundationSDK
         array $customAttributes = []
     ): Response {
         $response = $this
-            ->cloneDefaultPendingRequest()
             ->when(
                 ($parameters['stream'] ?? false) && \is_callable($writer),
                 static function (PendingRequest $pendingRequest) use (&$rowData, $writer): PendingRequest {

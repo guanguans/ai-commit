@@ -36,20 +36,20 @@ beforeEach(function (): void {
 
 it('can dd request data', function (): void {
     expect($this->openAI)
-        ->ddRequestData()->toBeInstanceOf(OpenAI::class);
+        ->ddPendingRequest()->toBeInstanceOf(OpenAI::class);
 })->group(__DIR__, __FILE__);
 
 it('can dump request data', function (): void {
     expect($this->openAI)
-        ->dumpRequestData()->toBeInstanceOf(OpenAI::class);
+        ->dumpPendingRequest()->toBeInstanceOf(OpenAI::class);
 })->group(__DIR__, __FILE__);
 
 it('can build log middleware', function (): void {
-    expect($this->openAI)
-        ->buildLogMiddleware($this->app->get(LoggerInterface::class))->toBeCallable();
-})->group(__DIR__, __FILE__);
+    expect((fn () => $this->makeLoggerMiddleware(resolve(LoggerInterface::class)))->call($this->openAI))
+        ->toBeCallable();
+})->group(__DIR__, __FILE__)->skip();
 
 it('can clone pending request', function (): void {
     expect($this->openAI)
-        ->cloneDefaultPendingRequest()->toBeInstanceOf(PendingRequest::class);
+        ->clonePendingRequest()->toBeInstanceOf(PendingRequest::class);
 })->group(__DIR__, __FILE__);

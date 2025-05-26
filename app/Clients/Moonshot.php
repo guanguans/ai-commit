@@ -23,7 +23,7 @@ use function App\Support\validate;
 /**
  * @see https://platform.moonshot.cn/docs/api-reference
  */
-final class Moonshot extends FoundationSDK
+final class Moonshot extends AbstractClient
 {
     /**
      * ```ok
@@ -64,7 +64,6 @@ final class Moonshot extends FoundationSDK
     public function chatCompletions(array $parameters, ?callable $writer = null): Response
     {
         $response = $this
-            ->cloneDefaultPendingRequest()
             ->when(
                 ($parameters['stream'] ?? false) && \is_callable($writer),
                 static function (PendingRequest $pendingRequest) use (&$rowData, $writer): PendingRequest {
@@ -118,62 +117,20 @@ final class Moonshot extends FoundationSDK
      */
     public function models(): Response
     {
-        return $this->cloneDefaultPendingRequest()->get('models')->throw();
+        return $this->get('models')->throw();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws BindingResolutionException
-     */
-    protected function validateConfig(array $config): array
+    protected function configRules(): array
     {
-        return array_replace_recursive(
-            [
-                'http_options' => [
-                    // \GuzzleHttp\RequestOptions::CONNECT_TIMEOUT => 30,
-                    // \GuzzleHttp\RequestOptions::TIMEOUT => 180,
-                ],
-                'retry' => [
-                    // 'times' => 1,
-                    // 'sleep' => 1000,
-                    // 'when' => static function (\Exception $exception): bool {
-                    //     return $exception instanceof \Illuminate\Http\Client\ConnectionException;
-                    // },
-                    // // 'throw' => true,
-                ],
-                'base_url' => 'https://api.moonshot.cn/v1',
-            ],
-            validate($config, [
-                'http_options' => 'array',
-                'retry' => 'array',
-                'retry.times' => 'integer',
-                'retry.sleep' => 'integer',
-                'retry.when' => 'nullable',
-                // 'retry.throw' => 'bool',
-                'base_url' => 'string',
-                'api_key' => 'required|string',
-            ])
-        );
+        return [
+            'api_key' => 'required|string',
+        ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function buildDefaultPendingRequest(array $config): PendingRequest
+    protected function extendPendingRequest(PendingRequest $pendingRequest): PendingRequest
     {
-        return parent::buildDefaultPendingRequest($config)
-            ->baseUrl($config['base_url'])
-            ->asJson()
-            ->withToken($config['api_key'])
-            // ->dump()
-            // ->throw()
-            // ->retry(
-            //     $config['retry']['times'],
-            //     $config['retry']['sleep'],
-            //     $config['retry']['when']
-            //     // $config['retry']['throw']
-            // )
-            ->withOptions($config['http_options']);
+        return $pendingRequest
+            ->baseUrl($this->configRepository->get('base_url', 'https://api.moonshot.cn/v1'))
+            ->withToken($this->configRepository->get('api_key'));
     }
 }

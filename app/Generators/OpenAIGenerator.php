@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace App\Generators;
 
-use App\Clients\FoundationSDK;
+use App\Clients\AbstractClient;
 use App\Clients\OpenAI;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -80,7 +80,7 @@ class OpenAIGenerator extends Generator
         return function (string $data) use (&$messages): void {
             str($data)->explode(\PHP_EOL)->each(function (string $rowData) use (&$messages): void {
                 // (正常|错误|流)响应
-                $rowResponse = (array) json_decode(FoundationSDK::sanitizeData($rowData), true);
+                $rowResponse = (array) json_decode(AbstractClient::sanitizeData($rowData), true);
                 $messages .= $text = $this->getCompletionMessages($rowResponse);
                 $this->output->write($text);
             });
