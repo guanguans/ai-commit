@@ -211,7 +211,7 @@ final class ConfigCommand extends Command
         //     return str_contains($arg, '.') ? (float) $arg : (int) $arg;
         // }
 
-        if (str($arg)->jsonValidate()) {
+        if (str($arg)->isJson()) {
             return json_decode($arg, true, 512, \JSON_THROW_ON_ERROR);
         }
 

@@ -222,7 +222,7 @@ final class OpenAI extends AbstractClient
             //         $contents = $response->getBody()->getContents();
             //
             //         // $parameters['stream'] === true && $writer === null
-            //         if ($contents && ! \str($contents)->jsonValidate()) {
+            //         if ($contents && ! \str($contents)->isJson()) {
             //             $data = \str($contents)
             //                 ->explode("\n\n")
             //                 ->reverse()

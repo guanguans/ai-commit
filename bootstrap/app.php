@@ -16,12 +16,8 @@ declare(strict_types=1);
 
 use App\ConfigManager;
 use App\GeneratorManager;
-use App\Mixins\StringableMixin;
-use App\Mixins\StrMixin;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Log\LogManager;
-use Illuminate\Support\Str;
-use Illuminate\Support\Stringable;
 use Illuminate\Validation\ValidationException;
 use Intonate\TinkerZero\TinkerZeroServiceProvider;
 use LaravelZero\Framework\Application;
@@ -42,10 +38,6 @@ return Application::configure(basePath: \dirname(__DIR__))
         $_SERVER['VAR_DUMPER_FORMAT'] = 'server';
 
         // $_SERVER['VAR_DUMPER_SERVER'] = '0.0.0.0:9912';
-    })
-    ->booting(static function (Application $application): void {
-        Str::mixin($application->make(StrMixin::class));
-        Stringable::mixin($application->make(StringableMixin::class));
     })
     ->booting(static function (Application $application): void {
         $application->extend(
@@ -73,8 +65,6 @@ return Application::configure(basePath: \dirname(__DIR__))
     // })
     ->withSingletons([
         GeneratorManager::class,
-        StringableMixin::class,
-        StrMixin::class,
     ])
     ->withExceptions(static function (Exceptions $exceptions): void {
         $exceptions->map(

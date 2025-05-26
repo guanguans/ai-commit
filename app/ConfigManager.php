@@ -224,7 +224,7 @@ final class ConfigManager extends Repository implements \JsonSerializable, \Stri
             }
 
             if ($ext->is('json')) {
-                if (!str($contents = file_get_contents($file))->jsonValidate()) {
+                if (!str($contents = file_get_contents($file))->isJson()) {
                     throw InvalidJsonFileException::make($file);
                 }
 
