@@ -1,5 +1,8 @@
 <?php
 
+/** @noinspection PhpUndefinedNamespaceInspection */
+/** @noinspection PhpUndefinedClassInspection */
+
 declare(strict_types=1);
 
 /**
@@ -11,53 +14,39 @@ declare(strict_types=1);
  * @see https://github.com/guanguans/ai-commit
  */
 
-use App\Exceptions\Handler;
-use Illuminate\Contracts\Console\Kernel;
-use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Foundation\Configuration\Exceptions;
+use Illuminate\Log\LogManager;
+use Illuminate\Validation\ValidationException;
+use Intonate\TinkerZero\TinkerZeroServiceProvider;
 use LaravelZero\Framework\Application;
+use Psr\Log\LoggerInterface;
 
-/**
- * Copyright (c) 2023-2025 guanguans<ityaozm@gmail.com>.
- *
- * For the full copyright and license information, please view
- * the LICENSE file that was distributed with this source code.
- *
- * @see https://github.com/guanguans/ai-commit
- */
-$app = new Application(
-    \dirname(__DIR__)
-);
+return Application::configure(basePath: \dirname(__DIR__))
+    // ->booted(static function (Application $app): void {
+    //     if (class_exists(TinkerZeroServiceProvider::class) && !$app->isProduction()) {
+    //         $app->register(TinkerZeroServiceProvider::class);
+    //     }
+    // })
+    // ->booted(static function (Application $app): void {
+    //     $app->extend(LogManager::class, static function (LoggerInterface $logger, Application $application) {
+    //         if (!$logger instanceof LogManager) {
+    //             return new LogManager($application);
+    //         }
+    //
+    //         return $logger;
+    //     });
+    // })
+    ->withExceptions(static function (Exceptions $exceptions): void {
+        $exceptions->map(
+            ValidationException::class,
+            fn (ValidationException $validationException) => (function (): ValidationException {
+                $this->message = \PHP_EOL.($prefix = '- ').implode(\PHP_EOL.$prefix, $this->validator->errors()->all());
 
-/*
-|--------------------------------------------------------------------------
-| Bind Important Interfaces
-|--------------------------------------------------------------------------
-|
-| Next, we need to bind some important interfaces into the container so
-| we will be able to resolve them when needed. The kernels serve the
-| incoming requests to this application from both the web and CLI.
-|
-*/
+                return $this;
+            })->call($validationException)
+        );
 
-$app->singleton(
-    Kernel::class,
-    LaravelZero\Framework\Kernel::class
-);
-
-$app->singleton(
-    ExceptionHandler::class,
-    Handler::class
-);
-
-/*
-|--------------------------------------------------------------------------
-| Return The Application
-|--------------------------------------------------------------------------
-|
-| This script returns the application instance. The instance is given to
-| the calling script so we can separate the building of the instances
-| from the actual running of the application and sending responses.
-|
-*/
-
-return $app;
+        $exceptions->reportable(static fn (Throwable $throwable): bool => !Phar::running());
+        $exceptions->reportable(static fn (Throwable $throwable): bool => false)->stop();
+    })
+    ->create();

@@ -19,6 +19,7 @@
   <source>
     <include>
       <directory>./app</directory>
+      <directory>./bootstrap</directory>
     </include>
     <exclude>
       <!--<directory>app/Contracts</directory>-->
