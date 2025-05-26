@@ -24,7 +24,7 @@
       <!--<directory>app/Contracts</directory>-->
       <file>app/Support/JsonFixer.php</file>
       <file>app/Support/helpers.php</file>
-      <file>app/Macros/StrMacro.php</file>
+      <file>app/Mixins/StrMacro.php</file>
     </exclude>
   </source>
 </phpunit>

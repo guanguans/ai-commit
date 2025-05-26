@@ -11,12 +11,12 @@ declare(strict_types=1);
  * @see https://github.com/guanguans/ai-commit
  */
 
-namespace App\Macros;
+namespace App\Mixins;
 
 /**
  * @mixin \Illuminate\Support\Collection
  */
-class CollectionMacro
+class CollectionMixin
 {
     /**
      * @noinspection JsonEncodingApiUsageInspection

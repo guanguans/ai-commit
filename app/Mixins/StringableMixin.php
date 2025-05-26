@@ -13,14 +13,14 @@ declare(strict_types=1);
  * @see https://github.com/guanguans/ai-commit
  */
 
-namespace App\Macros;
+namespace App\Mixins;
 
 use Illuminate\Support\Str;
 
 /**
  * @mixin \Illuminate\Support\Stringable
  */
-final class StringableMacro
+final class StringableMixin
 {
     public function jsonValidate(): \Closure
     {

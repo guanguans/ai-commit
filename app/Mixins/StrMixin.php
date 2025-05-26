@@ -13,12 +13,12 @@ declare(strict_types=1);
  * @see https://github.com/guanguans/ai-commit
  */
 
-namespace App\Macros;
+namespace App\Mixins;
 
 /**
  * @mixin \Illuminate\Support\Str
  */
-final class StrMacro
+final class StrMixin
 {
     /**
      * @see https://github.com/symfony/polyfill-php83
