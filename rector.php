@@ -23,6 +23,7 @@ use Guanguans\MonorepoBuilderWorker\Support\Rectors\RemoveNamespaceRector;
 use Guanguans\MonorepoBuilderWorker\Support\Rectors\SimplifyListIndexRector;
 use Illuminate\Support\Carbon as IlluminateCarbon;
 use Illuminate\Support\Str;
+use Rector\CodeQuality\Rector\Class_\CompleteDynamicPropertiesRector;
 use Rector\CodeQuality\Rector\If_\ExplicitBoolCompareRector;
 use Rector\CodeQuality\Rector\LogicalAnd\LogicalToBooleanRector;
 use Rector\CodingStyle\Rector\ArrowFunction\StaticArrowFunctionRector;
@@ -251,6 +252,9 @@ return RectorConfig::configure()
         ReplaceFakerInstanceWithHelperRector::class,
     ])
     ->withSkip([
+        CompleteDynamicPropertiesRector::class => [
+            __DIR__.'/app/Clients/AbstractClient.php',
+        ],
         RemoveDumpDataDeadCodeRector::class => [
             __DIR__.'/src/Mixins/QueryBuilderMixin.php',
         ],

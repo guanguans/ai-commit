@@ -42,6 +42,7 @@ return (new Configuration)
     )
     ->ignoreErrorsOnPackages(
         [
+            'psr/http-message',
             'symfony/console',
             'symfony/var-dumper',
             'guzzlehttp/psr7',
@@ -61,7 +62,6 @@ return (new Configuration)
     )
     ->ignoreErrorsOnPackages(
         [
-            // 'guanguans/ai-commit',
             'guzzlehttp/guzzle',
             'illuminate/http',
             'illuminate/translation',
