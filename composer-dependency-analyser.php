@@ -44,7 +44,7 @@ return (new Configuration)
         [
             'psr/http-message',
             'symfony/console',
-            // 'symfony/var-dumper',
+            'symfony/var-dumper',
             'guzzlehttp/psr7',
             'illuminate/collections',
             'illuminate/conditionable',
