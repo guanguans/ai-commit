@@ -17,8 +17,11 @@ use ShipMonk\ComposerDependencyAnalyser\Config\ErrorType;
 return (new Configuration)
     ->addPathsToScan(
         [
-            __DIR__.'/config',
-            __DIR__.'/src',
+            __DIR__.'/app/',
+            __DIR__.'/bootstrap/',
+            __DIR__.'/config/',
+            __DIR__.'/resources/',
+            __DIR__.'/tests/',
         ],
         false
     )
@@ -26,48 +29,44 @@ return (new Configuration)
         __DIR__.'/tests',
         // __DIR__.'/src/Support/Rectors',
     ])
+    ->ignoreUnknownClasses([
+        'LaravelZero\Framework\Components\Logo\FigletString',
+    ])
     /** @see \ShipMonk\ComposerDependencyAnalyser\Analyser::CORE_EXTENSIONS */
     ->ignoreErrorsOnExtensions(
         [
             // 'ext-pdo',
+            'ext-pcntl',
         ],
         [ErrorType::SHADOW_DEPENDENCY]
     )
     ->ignoreErrorsOnPackages(
         [
-            'nesbot/carbon',
             'symfony/console',
-            'symfony/http-foundation',
             'symfony/var-dumper',
+            'guzzlehttp/psr7',
+            'illuminate/collections',
+            'illuminate/conditionable',
+            'illuminate/config',
+            'illuminate/console',
+            'illuminate/contracts',
+            'illuminate/macroable',
+            'illuminate/support',
+            'laravel-zero/foundation',
+            'nunomaduro/laravel-console-summary',
+            'psr/log',
+            'symfony/process',
         ],
-        [ErrorType::SHADOW_DEPENDENCY]
-    )
-    ->ignoreErrorsOnPackageAndPath(
-        'maximebf/debugbar',
-        __DIR__.'/src/Outputs/DebugBarOutput.php',
-        [ErrorType::SHADOW_DEPENDENCY]
-    )
-    ->ignoreErrorsOnPackagesAndPaths(
-        [
-            'barryvdh/laravel-debugbar',
-            // 'php-debugbar/php-debugbar',
-        ],
-        [__DIR__.'/src/Outputs/DebugBarOutput.php'],
-        [ErrorType::DEV_DEPENDENCY_IN_PROD]
-    )
-    ->ignoreErrorsOnPackageAndPath(
-        'laradumps/laradumps-core',
-        __DIR__.'/src/Outputs/LaraDumpsOutput.php',
-        [ErrorType::SHADOW_DEPENDENCY]
-    )
-    ->ignoreErrorsOnPackageAndPath(
-        'spatie/ray',
-        __DIR__.'/src/Outputs/RayOutput.php',
         [ErrorType::SHADOW_DEPENDENCY]
     )
     ->ignoreErrorsOnPackages(
         [
             // 'guanguans/ai-commit',
+            'guzzlehttp/guzzle',
+            'illuminate/http',
+            'illuminate/translation',
+            'illuminate/validation',
+            'laravel-zero/framework',
         ],
         [ErrorType::DEV_DEPENDENCY_IN_PROD]
     );
