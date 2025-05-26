@@ -18,7 +18,6 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
-use function App\Support\validate;
 
 /**
  * @see https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Nlks5zkzu
@@ -145,7 +144,7 @@ final class Ernie extends AbstractClient
             ->withOptions(['query' => [
                 'access_token' => $this->getAccessToken(),
             ]])
-            ->post($url, validate(
+            ->post($url, $this->validate(
                 $parameters,
                 [
                     'messages' => 'required|array',

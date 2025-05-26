@@ -18,7 +18,6 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
-use function App\Support\validate;
 
 /**
  * @see https://platform.moonshot.cn/docs/api-reference
@@ -85,7 +84,7 @@ final class Moonshot extends AbstractClient
                     ]);
                 }
             )
-            ->post('chat/completions', validate($parameters, [
+            ->post('chat/completions', $this->validate($parameters, [
                 'model' => [
                     'required',
                     'string',

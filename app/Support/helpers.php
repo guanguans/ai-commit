@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace App\Support;
 
 use Composer\Autoload\ClassLoader;
-use Illuminate\Contracts\Validation\Factory;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -120,18 +119,5 @@ if (!\function_exists('App\Support\str_remove_cntrl')) {
     function str_remove_cntrl(string $str): string
     {
         return preg_replace('/[[:cntrl:]]/mu', '', $str);
-    }
-}
-
-if (!\function_exists('App\Support\validate')) {
-    /**
-     * Validate the given data with the given rules.
-     *
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    function validate(array $data, array $rules, array $messages = [], array $customAttributes = []): array
-    {
-        return resolve(Factory::class)->make($data, $rules, $messages, $customAttributes)->validate();
     }
 }

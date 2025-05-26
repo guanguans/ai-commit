@@ -20,7 +20,6 @@ use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Psr\Http\Message\ResponseInterface;
-use function App\Support\validate;
 
 /**
  * @see https://beta.openai.com/docs/api-reference/introduction
@@ -249,7 +248,7 @@ final class OpenAI extends AbstractClient
             //         return $response;
             //     })
             // )
-            ->post($url, validate($parameters, $rules, $messages, $customAttributes));
+            ->post($url, $this->validate($parameters, $rules, $messages, $customAttributes));
         // ->onError(function (Response $response) use ($rowData) {
         //     if ($rowData && empty($response->body())) {
         //         (function (Response $response) use ($rowData): void {
