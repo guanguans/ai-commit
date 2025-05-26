@@ -15,12 +15,10 @@ namespace App\Providers;
 
 use App\ConfigManager;
 use App\GeneratorManager;
-use App\Mixins\CollectionMixin;
 use App\Mixins\StringableMixin;
 use App\Mixins\StrMixin;
 use Illuminate\Console\OutputStyle;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
@@ -34,7 +32,6 @@ final class AppServiceProvider extends ServiceProvider
 {
     /** @var array<array-key, string> */
     public array $singletons = [
-        CollectionMixin::class => CollectionMixin::class,
         GeneratorManager::class => GeneratorManager::class,
         StringableMixin::class => StringableMixin::class,
         StrMixin::class => StrMixin::class,
@@ -50,7 +47,6 @@ final class AppServiceProvider extends ServiceProvider
     {
         $this->app->singletonIf(OutputStyle::class, static fn (): OutputStyle => new OutputStyle(new ArgvInput, new ConsoleOutput));
 
-        Collection::mixin($this->app->make(CollectionMixin::class));
         Str::mixin($this->app->make(StrMixin::class));
         Stringable::mixin($this->app->make(StringableMixin::class));
     }

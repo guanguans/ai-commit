@@ -57,7 +57,7 @@
     "require": {
         "php": ">=8.2",
         "ext-curl": "*",
-        "ext-json": "*"
+        "ext-mbstring": "*"
     },
     "require-dev": {
         "bamarni/composer-bin-plugin": "^1.8",

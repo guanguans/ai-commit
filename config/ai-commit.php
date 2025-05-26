@@ -250,13 +250,14 @@ return [
             - The details about what was done in the body of the message.
             - Any useful details concerning the change in the body of the message.
             - Use a hyphen (-) for the bullet points in the body of the message.
+            - Use {locale} language to answer.
+            - No code blocks.
             <type-prompt>
+
             Write 1 commit messages that accurately summarizes the changes made in the given `git diff` output, following the best practices listed above and the conventional commit format.
-            Please provide a response in the form of a valid JSON object and do not include "Output:", "Response:" or anything similar to those two before it, in the following format:
-            {
-                "subject": "<type>(<scope>): <subject>",
-                "body": "<BODY (bullet points)>"
-            }
+            The format is as follows:
+            <type>(<scope>): <subject>
+            <BODY (bullet points)>
 
             Here is the output of the `git diff`:
             <diff>

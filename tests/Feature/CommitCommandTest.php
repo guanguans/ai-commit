@@ -24,8 +24,6 @@ declare(strict_types=1);
 
 use App\Commands\CommitCommand;
 use App\Exceptions\RuntimeException;
-use GuzzleHttp\Promise\PromiseInterface;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
@@ -56,44 +54,6 @@ it('will throw RuntimeException(no cached files to commit)', function (): void {
     ->depends('it will throw RuntimeException(not a git repository)')
     ->group(__DIR__, __FILE__)
     ->throws(RuntimeException::class, 'There are no cached files to commit. Try running `git add` to cache some files.');
-
-it('will throw RuntimeException(The generated commit message is an invalid JSON)', function (): void {
-    // 添加文件到暂存区
-    file_put_contents(repository_path('playground.random'), Str::random());
-    Process::fromShellCommandline('git rm -rf --cached repository/', fixtures_path())->mustRun();
-    Process::fromShellCommandline('git add playground.random', repository_path())->mustRun();
-
-    Http::fake(fn (): PromiseInterface => Http::response([
-        'id' => 'cmpl-6n1qMNWwuF5SYBcS4Nev5sr4ACpEB',
-        'object' => 'text_completion',
-        'created' => 1677143178,
-        'model' => 'text-davinci-003',
-        'choices' => [
-            [
-                'text' => 'invalid json', // 无效响应
-                'index' => 0,
-                'logprobs' => null,
-                'finish_reason' => 'stop',
-            ],
-        ],
-        'usage' => [
-            'prompt_tokens' => 749,
-            'completion_tokens' => 159,
-            'total_tokens' => 908,
-        ],
-    ]));
-
-    $this
-        ->artisan(CommitCommand::class, [
-            'path' => repository_path(),
-            '--generator' => 'openai',
-        ])
-        // ->expectsChoice('Please choice commit type', array_key_first($types = config('ai-commit.types')), $types)
-        ->expectsQuestion('Please choice commit type', array_key_first(config('ai-commit.types')));
-})
-    ->depends('it will throw RuntimeException(no cached files to commit)')
-    ->group(__DIR__, __FILE__)
-    ->throws(RuntimeException::class, 'The generated commit message(');
 
 it('can generate and commit message', function (array $parameters): void {
     // 添加文件到暂存区
@@ -132,7 +92,7 @@ it('can generate and commit message', function (array $parameters): void {
         ->assertSuccessful();
 })
     ->with('commit command parameters')
-    ->depends('it will throw RuntimeException(The generated commit message is an invalid JSON)')
+    ->depends('it will throw RuntimeException(no cached files to commit)')
     ->group(__DIR__, __FILE__);
 
 afterAll(static function (): void {

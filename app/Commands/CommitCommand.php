@@ -16,7 +16,6 @@ namespace App\Commands;
 use App\ConfigManager;
 use App\Exceptions\RuntimeException;
 use App\GeneratorManager;
-use App\Support\JsonFixer;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Stringable;
@@ -64,7 +63,7 @@ final class CommitCommand extends Command
                     array_key_first($types)
                 );
             })
-            ->tap(function () use ($type, $cachedDiff, &$message): void {
+            ->tap(function () use (&$message, $cachedDiff, $type): void {
                 $message = retry(
                     $this->option('retry-times'),
                     function ($attempts) use ($cachedDiff, $type): string {
@@ -72,54 +71,28 @@ final class CommitCommand extends Command
                             $this->output->note('retrying...');
                         }
 
-                        $originalMessage = $this->generatorManager
+                        return $this->generatorManager
                             ->driver($this->option('generator'))
                             ->generate($this->promptFor($cachedDiff, $type));
-                        $message = $this->tryFixMessage($originalMessage);
-
-                        if (!str($message)->jsonValidate()) {
-                            throw new RuntimeException(\sprintf(
-                                'The generated commit message(%s) is an invalid JSON.',
-                                var_export($originalMessage, true)
-                            ));
-                        }
-
-                        return $message;
                     },
                     $this->option('retry-sleep'),
                     $this->configManager->get('retry.when')
                 );
             })
             ->tap(function () use (&$message): void {
-                $message = Collection::json($message)
-                    ->map(static function ($content) {
-                        if (\is_array($content)) {
-                            return collect($content)
-                                ->transform(static fn (string $line): string => (string) str($line)->trim(" \t\n\r\x0B")->start('- '))
-                                ->implode(\PHP_EOL);
-                        }
+                $len = str($message)->explode(\PHP_EOL)->map(static fn (string $line): int => mb_strlen($line))->max();
+                $this->line(str_repeat('-', $len));
+                $this->info($message);
+                $this->line(str_repeat('-', $len));
 
-                        return $content;
-                    })
-                    ->tap(function (Collection $message): void {
-                        $message = $message->put('', '')->sortKeysUsing(static function (string $a, string $b): int {
-                            $rules = ['subject', '', 'body'];
-
-                            return array_search($a, $rules, true) <=> array_search($b, $rules, true);
-                        });
-                        // $this->table($message->keys()->all(), [$message->all()]);
-                        $this->output->horizontalTable($message->keys()->all(), [$message->all()]);
-                    })
-                    ->tap(function (): void {
-                        if (!$this->confirm('Do you want to commit this message?', true)) {
-                            $this->output->note('regenerating...');
-                            $this->handle();
-                        }
-                    });
+                if (!$this->confirm('Do you want to commit this message?', true)) {
+                    $this->output->note('regenerating...');
+                    $this->handle();
+                }
             })
             ->tap(function () use ($message): void {
                 if ($this->option('dry-run')) {
-                    $this->info($this->hydrateMessage($message));
+                    $this->info($message);
 
                     return;
                 }
@@ -266,14 +239,14 @@ final class CommitCommand extends Command
     /**
      * @noinspection CallableParameterUseCaseInTypeContextInspection
      */
-    private function commitCommandFor(Collection $message): array
+    private function commitCommandFor(string $message): array
     {
         $options = collect($this->option('commit-options'))
             ->when($this->shouldntEdit(), static fn (Collection $collection): Collection => $collection->add('--no-edit'))
             ->when($this->shouldntVerify(), static fn (Collection $collection): Collection => $collection->add('--no-verify'))
             ->all();
 
-        return array_merge(['git', 'commit', '--message', $this->hydrateMessage($message)], $options);
+        return array_merge(['git', 'commit', '--message', $message], $options);
     }
 
     private function promptFor(string $cachedDiff, string $type): string
@@ -294,57 +267,6 @@ final class CommitCommand extends Command
 
                 return $prompt;
             });
-    }
-
-    /**
-     * @see https://github.com/josdejong/jsonrepair
-     * @see https://github.com/adhocore/php-json-fixer
-     */
-    private function tryFixMessage(string $message): string
-    {
-        return (new JsonFixer)
-            // ->missingValue('')
-            ->silent()
-            ->fix(
-                str($message)
-                    // ->substr((int) strpos($message, '{'))
-                    ->after($flag = '{')
-                    ->start($flag)
-                    ->trim()
-                    ->remove([
-                        // PHP_EOL,
-                    ])
-                    ->replace(
-                        array_keys($replaceRules = [
-                            // "\\'" => "'",
-                        ]),
-                        $replaceRules
-                    )
-                    ->pipe(static fn (Stringable $message): Stringable => collect([
-                        // '/,\s*]/' => ']', // 数组中最后一个元素后的逗号
-                        // '/,\s*}/' => '}', // 对象中最后一个属性后的逗号
-                        // '/:\s*[\[\{]/' => ':[]', // 对象的属性值如果是数组或对象，确保有正确的格式
-                        // '/:\s*null\s*,/' => ':null,', // null 后面不应有逗号
-                        // '/:\s*true\s*,/' => ':true,', // true 后面不应有逗号
-                        // '/:\s*false\s*,/' => ':false,', // false 后面不应有逗号
-                        // '/:\s*"[^"]*"\s*,/' => ':"",', // 字符串后面不应有逗号
-                        // '/,\s*,/' => ',', // 连续的逗号
-                        // '/[\x00-\x1F\x7F-\x9F]/mu' => '', // 控制字符
-                        '/[[:cntrl:]]/mu' => '', // 控制字符
-                        '/\s+/' => ' ', // 连续的空格
-                        '/\\\\(?!["\\\\\/bfnrt]|u[0-9a-fA-F]{4})/' => '$1', // 非法转义字符
-                    ])->reduce(static fn (Stringable $message, string $replace, string $pattern): Stringable => $message->replaceMatches($pattern, $replace), $message))
-                    // ->dd()
-                    ->jsonSerialize()
-            );
-    }
-
-    private function hydrateMessage(Collection $message): string
-    {
-        return $message
-            ->map(static fn (string $val): string => trim($val, " \t\n\r\x0B"))
-            ->filter(static fn ($val): string => $val)
-            ->implode(str_repeat(\PHP_EOL, 2));
     }
 
     /**
