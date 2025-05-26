@@ -78,6 +78,8 @@ final class CommitCommand extends Command
                     $this->option('retry-sleep'),
                     $this->configManager->get('retry.when')
                 );
+
+                $message = $this->sanitizeMessage($message);
             })
             ->tap(function () use (&$message): void {
                 $len = str($message)->explode(\PHP_EOL)->map(static fn (string $line): int => mb_strlen($line))->max();
@@ -267,6 +269,14 @@ final class CommitCommand extends Command
 
                 return $prompt;
             });
+    }
+
+    /**
+     * @todo
+     */
+    private function sanitizeMessage(string $message): string
+    {
+        return $message;
     }
 
     /**
