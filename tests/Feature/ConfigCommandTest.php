@@ -127,7 +127,7 @@ it('will throw `Command not found` ProcessFailedException for edit config', func
     ->throws(ProcessFailedException::class);
 
 it('will throw another `Command not found` ProcessFailedException for edit config', function (): void {
-    app()->singleton(ExecutableFinder::class, static function () {
+    app()->singleton(ExecutableFinder::class, static function (): ExecutableFinder {
         $mockExecutableFinder = Mockery::mock(ExecutableFinder::class);
         $mockExecutableFinder->allows('find')->andReturn('no-editor');
 
@@ -143,7 +143,7 @@ it('will throw another `Command not found` ProcessFailedException for edit confi
     ->throws(ProcessFailedException::class);
 
 it('will throw RuntimeException for edit config', function (): void {
-    app()->singleton(ExecutableFinder::class, static function () {
+    app()->singleton(ExecutableFinder::class, static function (): ExecutableFinder {
         $mockExecutableFinder = Mockery::mock(ExecutableFinder::class);
         $mockExecutableFinder->allows('find')->andReturnNull();
 

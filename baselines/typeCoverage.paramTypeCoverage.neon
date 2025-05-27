@@ -1,0 +1,48 @@
+# total 17 errors
+
+parameters:
+    ignoreErrors:
+        -
+            message: '#^Out of 179 possible param types, only 162 \- 90\.5 %% actually have it\. Add more param types to get over 100 %%$#'
+            count: 1
+            path: ../app/Clients/Ernie.php
+
+        -
+            message: '#^Out of 179 possible param types, only 162 \- 90\.5 %% actually have it\. Add more param types to get over 100 %%$#'
+            count: 1
+            path: ../app/Clients/Moonshot.php
+
+        -
+            message: '#^Out of 179 possible param types, only 162 \- 90\.5 %% actually have it\. Add more param types to get over 100 %%$#'
+            count: 1
+            path: ../app/Clients/OpenAI.php
+
+        -
+            message: '#^Out of 179 possible param types, only 162 \- 90\.5 %% actually have it\. Add more param types to get over 100 %%$#'
+            count: 4
+            path: ../app/Commands/CommitCommand.php
+
+        -
+            message: '#^Out of 179 possible param types, only 162 \- 90\.5 %% actually have it\. Add more param types to get over 100 %%$#'
+            count: 2
+            path: ../app/Commands/ConfigCommand.php
+
+        -
+            message: '#^Out of 179 possible param types, only 162 \- 90\.5 %% actually have it\. Add more param types to get over 100 %%$#'
+            count: 4
+            path: ../app/ConfigManager.php
+
+        -
+            message: '#^Out of 179 possible param types, only 162 \- 90\.5 %% actually have it\. Add more param types to get over 100 %%$#'
+            count: 1
+            path: ../app/GeneratorManager.php
+
+        -
+            message: '#^Out of 179 possible param types, only 162 \- 90\.5 %% actually have it\. Add more param types to get over 100 %%$#'
+            count: 2
+            path: ../app/Generators/Generator.php
+
+        -
+            message: '#^Out of 179 possible param types, only 162 \- 90\.5 %% actually have it\. Add more param types to get over 100 %%$#'
+            count: 1
+            path: ../app/Generators/OpenAIChatGenerator.php

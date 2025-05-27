@@ -1,0 +1,8 @@
+# total 1 error
+
+parameters:
+    ignoreErrors:
+        -
+            message: '#^Use explicit methods over array access on object$#'
+            count: 1
+            path: ../app/Clients/Ernie.php

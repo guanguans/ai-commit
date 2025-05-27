@@ -1,0 +1,8 @@
+# total 1 error
+
+parameters:
+    ignoreErrors:
+        -
+            message: '#^Cognitive complexity for "App\\Commands\\ConfigCommand\:\:handle\(\)" is 15, keep it under 8$#'
+            count: 1
+            path: ../app/Commands/ConfigCommand.php

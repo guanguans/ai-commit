@@ -42,31 +42,26 @@ return (new Configuration)
     )
     ->ignoreErrorsOnPackages(
         [
-            'psr/http-message',
-            'symfony/console',
-            'symfony/var-dumper',
+            'laminas/laminas-text',
+            'laravel-zero/phar-updater',
+        ],
+        [ErrorType::UNUSED_DEPENDENCY]
+    )
+    ->ignoreErrorsOnPackages(
+        [
             'guzzlehttp/psr7',
-            'illuminate/collections',
-            'illuminate/conditionable',
-            'illuminate/config',
-            'illuminate/console',
-            'illuminate/contracts',
-            // 'illuminate/macroable',
-            'illuminate/support',
             'laravel-zero/foundation',
             'nunomaduro/laravel-console-summary',
+            'psr/http-message',
             'psr/log',
+            'symfony/console',
             'symfony/process',
+            'symfony/var-dumper',
         ],
         [ErrorType::SHADOW_DEPENDENCY]
     )
     ->ignoreErrorsOnPackages(
         [
-            'guzzlehttp/guzzle',
-            'illuminate/http',
-            'illuminate/translation',
-            'illuminate/validation',
-            'laravel-zero/framework',
         ],
         [ErrorType::DEV_DEPENDENCY_IN_PROD]
     );

@@ -1,0 +1,18 @@
+# total 3 errors
+
+parameters:
+    ignoreErrors:
+        -
+            message: '#^Method App\\ConfigManager\:\:createFrom\(\) has parameter \$files with no type specified\.$#'
+            count: 1
+            path: ../app/ConfigManager.php
+
+        -
+            message: '#^Method App\\ConfigManager\:\:readFrom\(\) has parameter \$files with no type specified\.$#'
+            count: 1
+            path: ../app/ConfigManager.php
+
+        -
+            message: '#^Method App\\Generators\\OpenAIChatGenerator\:\:getCompletionMessages\(\) has parameter \$response with no type specified\.$#'
+            count: 1
+            path: ../app/Generators/OpenAIChatGenerator.php

@@ -1,0 +1,23 @@
+# total 4 errors
+
+parameters:
+    ignoreErrors:
+        -
+            message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+            count: 1
+            path: ../app/Clients/Ernie.php
+
+        -
+            message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+            count: 1
+            path: ../app/Clients/Moonshot.php
+
+        -
+            message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+            count: 1
+            path: ../app/Clients/OpenAI.php
+
+        -
+            message: '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+            count: 1
+            path: ../app/Commands/CommitCommand.php

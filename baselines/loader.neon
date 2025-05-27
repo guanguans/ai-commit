@@ -1,2 +1,23 @@
-# total 8 errors
+# total 73 errors
 includes:
+    - assign.propertyType.neon
+    - callable.nonCallable.neon
+    - complexity.functionLike.neon
+    - disallowed.function.neon
+    - empty.notAllowed.neon
+    - foreach.valueOverwrite.neon
+    - method.dynamicName.neon
+    - method.notFound.neon
+    - method.unused.neon
+    - missing-identifier.neon
+    - missingType.parameter.neon
+    - offsetAccess.nonOffsetAccessible.neon
+    - property.nonObject.neon
+    - symplify.explicitAbstractPrefixName.neon
+    - symplify.forbiddenExtendOfNonAbstractClass.neon
+    - symplify.noDynamicName.neon
+    - symplify.noReference.neon
+    - typeCoverage.paramTypeCoverage.neon
+    - typePerfect.noArrayAccessOnObject.neon
+    - typePerfect.noMixedPropertyFetcher.neon
+    - typePerfect.noParamTypeRemoval.neon

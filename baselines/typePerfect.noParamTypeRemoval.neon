@@ -1,0 +1,8 @@
+# total 1 error
+
+parameters:
+    ignoreErrors:
+        -
+            message: '#^Removing parent param type is forbidden$#'
+            count: 1
+            path: ../app/Generators/OpenAIChatGenerator.php

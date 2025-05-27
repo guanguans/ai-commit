@@ -1,0 +1,8 @@
+# total 2 errors
+
+parameters:
+    ignoreErrors:
+        -
+            message: '#^Cannot access constant DEFAULT_FONT on LaravelZero\\Framework\\Components\\Logo\\FigletString\.$#'
+            count: 2
+            path: ../config/logo.php

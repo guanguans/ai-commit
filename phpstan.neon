@@ -29,8 +29,8 @@ includes:
 
 parameters:
     paths:
+        - app/
         - config/
-        - src/
     scanFiles:
         - vendor/composer/InstalledVersions.php
     excludePaths:
@@ -83,6 +83,8 @@ parameters:
 #        - identifier: cast.string
 #        - identifier: encapsedStringPart.nonString
 #        - identifier: logicalAnd.resultUnused
+#        - identifier: return.void
+#        - identifier: symplify.explicitTraitSuffixName
 #        - identifier: symplify.noDynamicName
 #        - identifier: typePerfect.noMixedMethodCaller
         - identifier: argument.templateType
@@ -92,22 +94,12 @@ parameters:
         - identifier: missingType.generics
         - identifier: missingType.iterableValue
         - identifier: return.type
-        - identifier: return.void
         - identifier: shipmonk.deadMethod
-        - identifier: symplify.explicitTraitSuffixName
         - identifier: symplify.requireExceptionNamespace
-        - '#^Call to an undefined static method Guanguans\\LaravelSoar\\Facades\\Soar\:\:get.*\(\)\.$#'
-        - '#^Call to method label\(\) on an unknown class Spatie\\.*\\Ray\.$#'
-        - '#^Function clock not found\.$#'
         -
             identifier: symplify.explicitInterfaceSuffixName
-            path: src/Contracts/
-        -
-            message: '#^Calling env\(\) is forbidden, use config\(\) instead\.$#'
-            paths:
-                - config/soar.php
-                - src/Support/helpers.php
-        -
-            messages:
-                - '#^Method Guanguans\\LaravelSoar\\Mixins\\QueryBuilderMixin\:\:.*\(\) invoked with \d parameters?, 0 required\.$#'
-            path: src/Mixins/
+            path: app/Contracts/
+#        -
+#            message: '#^Calling env\(\) is forbidden, use config\(\) instead\.$#'
+#            paths:
+#                - app/Support/helpers.php

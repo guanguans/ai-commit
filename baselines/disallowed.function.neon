@@ -1,0 +1,23 @@
+# total 16 errors
+
+parameters:
+    ignoreErrors:
+        -
+            message: '#^Calling exec\(\) is forbidden\.$#'
+            count: 3
+            path: ../app/Commands/ThanksCommand.php
+
+        -
+            message: '#^Calling exec\(\) is forbidden\.$#'
+            count: 1
+            path: ../app/ConfigManager.php
+
+        -
+            message: '#^Calling env\(\) is forbidden, use config\(\) instead\.$#'
+            count: 11
+            path: ../config/ai-commit.php
+
+        -
+            message: '#^Calling env\(\) is forbidden, use config\(\) instead\.$#'
+            count: 1
+            path: ../config/app.php

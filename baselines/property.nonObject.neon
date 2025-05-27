@@ -1,0 +1,8 @@
+# total 1 error
+
+parameters:
+    ignoreErrors:
+        -
+            message: '#^Cannot access property \$stubCallbacks on mixed\.$#'
+            count: 1
+            path: ../app/Clients/AbstractClient.php

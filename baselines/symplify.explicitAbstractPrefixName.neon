@@ -1,0 +1,8 @@
+# total 1 error
+
+parameters:
+    ignoreErrors:
+        -
+            message: '#^Abstract class must be prefixed by "Abstract" exclusively$#'
+            count: 1
+            path: ../app/Generators/Generator.php

@@ -1,0 +1,8 @@
+# total 1 error
+
+parameters:
+    ignoreErrors:
+        -
+            message: '#^Cannot access offset ''driver'' on mixed\.$#'
+            count: 1
+            path: ../app/GeneratorManager.php
