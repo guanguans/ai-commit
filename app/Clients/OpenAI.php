@@ -200,7 +200,7 @@ final class OpenAI extends AbstractClient
                 static function (PendingRequest $pendingRequest) use (&$rowData, $writer): PendingRequest {
                     return $pendingRequest->withOptions([
                         'curl' => [
-                            \CURLOPT_WRITEFUNCTION => static function ($ch, string $data) use (&$rowData, $writer): int {
+                            \CURLOPT_WRITEFUNCTION => static function (\CurlHandle $ch, string $data) use (&$rowData, $writer): int {
                                 // $sanitizeData = self::sanitizeData($data);
                                 // if (! str($data)->startsWith('data: [DONE]')) {
                                 //     $rowData = $sanitizeData;
@@ -208,6 +208,7 @@ final class OpenAI extends AbstractClient
 
                                 $rowData .= $data;
 
+                                /** @var callable $writer */
                                 $writer($data, $ch);
 
                                 return \strlen($data);

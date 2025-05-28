@@ -1,8 +1,0 @@
-# total 1 error
-
-parameters:
-    ignoreErrors:
-        -
-            message: '#^Use explicit names over dynamic ones$#'
-            count: 1
-            path: ../app/GeneratorManager.php

@@ -43,12 +43,13 @@ final class GeneratorManager extends Manager
      * @noinspection MissingParentCallInspection
      * @noinspection PhpMissingParentCallCommonInspection
      */
-    protected function createDriver($driver): GeneratorContract
+    protected function createDriver(mixed $driver): GeneratorContract
     {
         if (isset($this->customCreators[$driver])) {
             return $this->callCustomCreator($driver);
         }
 
+        /** @var array $config */
         $config = $this->config->get("ai-commit.generators.$driver");
 
         $studlyName = Str::studly($config['driver'] ?? $driver);

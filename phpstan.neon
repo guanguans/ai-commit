@@ -74,9 +74,6 @@ parameters:
         no_mixed_caller: false
     disallowedFunctionCalls:
         -
-            function: 'env()'
-            message: 'use config() instead'
-        -
             function: 'env_explode()'
             message: 'use config() instead'
     ignoreErrors:
@@ -89,17 +86,26 @@ parameters:
 #        - identifier: typePerfect.noMixedMethodCaller
         - identifier: argument.templateType
         - identifier: argument.type
+        - identifier: assign.propertyType
         - identifier: binaryOp.invalid
+        - identifier: empty.notAllowed
+        - identifier: foreach.valueOverwrite
+        - identifier: method.dynamicName
         - identifier: method.nonObject
         - identifier: missingType.generics
         - identifier: missingType.iterableValue
         - identifier: return.type
         - identifier: shipmonk.deadMethod
+        - identifier: symplify.forbiddenExtendOfNonAbstractClass
+        - identifier: symplify.noDynamicName
+        - identifier: symplify.noReference
         - identifier: symplify.requireExceptionNamespace
         -
             identifier: symplify.explicitInterfaceSuffixName
             path: app/Contracts/
-#        -
-#            message: '#^Calling env\(\) is forbidden, use config\(\) instead\.$#'
-#            paths:
-#                - app/Support/helpers.php
+        -
+            message: '#^Calling exec\(\) is forbidden\.$#'
+            paths:
+                - app/Commands/ThanksCommand.php
+                - app/ConfigManager.php
+

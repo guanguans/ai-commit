@@ -20,7 +20,7 @@ use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-class ErnieBotGenerator extends Generator
+class ErnieBotGenerator extends AbstractGenerator
 {
     protected Ernie $ernie;
 

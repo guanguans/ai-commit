@@ -43,7 +43,7 @@ final class OpenAIChatGenerator extends OpenAIGenerator
     /**
      * {@inheritDoc}
      */
-    protected function getCompletionMessages($response): string
+    protected function getCompletionMessages(array|\ArrayAccess $response): string
     {
         return Arr::get($response, 'choices.0.delta.content', '');
     }

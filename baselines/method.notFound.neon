@@ -1,8 +1,0 @@
-# total 1 error
-
-parameters:
-    ignoreErrors:
-        -
-            message: '#^Call to an undefined method Symfony\\Component\\Console\\Helper\\HelperInterface\:\:run\(\)\.$#'
-            count: 1
-            path: ../app/Generators/Generator.php

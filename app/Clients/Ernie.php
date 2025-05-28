@@ -131,8 +131,10 @@ final class Ernie extends AbstractClient
                 static function (PendingRequest $pendingRequest) use (&$rowData, $writer): PendingRequest {
                     return $pendingRequest->withOptions([
                         'curl' => [
-                            \CURLOPT_WRITEFUNCTION => static function ($ch, string $data) use (&$rowData, $writer): int {
+                            \CURLOPT_WRITEFUNCTION => static function (\CurlHandle $ch, string $data) use (&$rowData, $writer): int {
                                 $rowData = self::sanitizeData($data);
+
+                                /** @var callable $writer */
                                 $writer($rowData, $ch);
 
                                 return \strlen($data);
@@ -163,7 +165,7 @@ final class Ernie extends AbstractClient
         }
 
         return tap($response->throw(), static function (Response $response): void {
-            if (isset($response['error_code'])) {
+            if ($response->offsetExists('error_code')) {
                 throw new RequestException($response);
             }
         });

@@ -66,7 +66,7 @@ final class CommitCommand extends Command
             ->tap(function () use (&$message, $cachedDiff, $type): void {
                 $message = retry(
                     $this->option('retry-times'),
-                    function ($attempts) use ($cachedDiff, $type): string {
+                    function (int $attempts) use ($cachedDiff, $type): string {
                         if (1 < $attempts) {
                             $this->output->note('retrying...');
                         }
@@ -226,8 +226,8 @@ final class CommitCommand extends Command
             ]);
 
             collect($options)
-                ->reject(static fn ($value): bool => null === $value)
-                ->each(function ($value, $name): void {
+                ->reject(static fn (mixed $value): bool => null === $value)
+                ->each(function (mixed $value, string $name): void {
                     $this->input->setOption((string) str($name)->replace(['.', '_'], '-'), $value);
                 });
         }
@@ -313,15 +313,5 @@ final class CommitCommand extends Command
     private function shouldntVerify(): bool
     {
         return $this->option('no-verify') || $this->configManager->get('no_verify');
-    }
-
-    /**
-     * @codeCoverageIgnore
-     *
-     * @noinspection PhpUnusedPrivateMethodInspection
-     */
-    private function shouldVerify(): bool
-    {
-        return !$this->shouldntVerify();
     }
 }

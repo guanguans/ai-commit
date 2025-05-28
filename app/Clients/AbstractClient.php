@@ -112,6 +112,7 @@ abstract class AbstractClient
                 function (PendingRequest $pendingRequest): void {
                     /** @see \Illuminate\Http\Client\Factory::createPendingRequest() */
                     $pendingRequest
+                        /** @phpstan-ignore-next-line */
                         ->stub((fn (): Collection => $this->stubCallbacks)->call(Http::getFacadeRoot()))
                         ->preventStrayRequests(Http::preventingStrayRequests());
                 }
@@ -284,8 +285,8 @@ abstract class AbstractClient
             ->implode(' ');
     }
 
-    private function makeLoggerMiddleware(?string $logger = null): callable
-    {
-        return Middleware::log(Log::channel($logger), new MessageFormatter(MessageFormatter::DEBUG));
-    }
+    // private function makeLoggerMiddleware(?string $logger = null): callable
+    // {
+    //     return Middleware::log(Log::channel($logger), new MessageFormatter(MessageFormatter::DEBUG));
+    // }
 }

@@ -1,8 +1,0 @@
-# total 1 error
-
-parameters:
-    ignoreErrors:
-        -
-            message: '#^Variable method call on \$this\(App\\GeneratorManager\)\.$#'
-            count: 1
-            path: ../app/GeneratorManager.php

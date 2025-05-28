@@ -19,11 +19,12 @@ use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Helper\HelperInterface;
 use Symfony\Component\Console\Helper\HelperSet;
+use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
-abstract class Generator implements GeneratorContract
+abstract class AbstractGenerator implements GeneratorContract
 {
     protected OutputStyle $output;
     protected HelperSet $helperSet;
@@ -76,6 +77,8 @@ abstract class Generator implements GeneratorContract
 
     /**
      * @throws InvalidArgumentException if the helper is not defined
+     *
+     * @return ProcessHelper
      */
     protected function getHelper(string $name): HelperInterface
     {
@@ -100,9 +103,9 @@ abstract class Generator implements GeneratorContract
     protected function hydratedOptions(): array
     {
         return collect($this->config['options'] ?? [])
-            ->map(static fn ($value): string => (string) str(urldecode(http_build_query([$option = 'option' => $value])))->after("$option="))
+            ->map(static fn (mixed $value): string => (string) str(urldecode(http_build_query([$option = 'option' => $value])))->after("$option="))
             ->filter()
-            ->map(static fn ($value, string $option): array => [$option, $value])
+            ->map(static fn (mixed $value, string $option): array => [$option, $value])
             ->flatten()
             ->all();
     }

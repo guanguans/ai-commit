@@ -72,7 +72,7 @@ final class ConfigManager extends Repository implements \JsonSerializable, \Stri
     /**
      * @throws \JsonException
      */
-    public static function createFrom(...$files): self
+    public static function createFrom(string ...$files): self
     {
         return new self(self::readFrom(...$files));
     }
@@ -121,7 +121,7 @@ final class ConfigManager extends Repository implements \JsonSerializable, \Stri
     public function putFile(string $file, int $options = \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE): bool|int
     {
         collect($this->toDotArray())
-            ->filter(static fn ($val): bool => !\is_scalar($val) && null !== $val)
+            ->filter(static fn (mixed $val): bool => !\is_scalar($val) && null !== $val)
             ->keys()
             ->push(
                 'generators.openai.parameters.prompt',
@@ -169,7 +169,7 @@ final class ConfigManager extends Repository implements \JsonSerializable, \Stri
      */
     public function jsonSerialize(): array
     {
-        return array_map(static function ($value) {
+        return array_map(static function (mixed $value) {
             if ($value instanceof \JsonSerializable) {
                 return $value->jsonSerialize();
             }
@@ -193,7 +193,7 @@ final class ConfigManager extends Repository implements \JsonSerializable, \Stri
 
     public function toArray(): array
     {
-        return array_map(static fn ($value) => $value instanceof Arrayable ? $value->toArray() : $value, $this->all());
+        return array_map(static fn (mixed $value) => $value instanceof Arrayable ? $value->toArray() : $value, $this->all());
     }
 
     /**
@@ -204,7 +204,7 @@ final class ConfigManager extends Repository implements \JsonSerializable, \Stri
      *
      * @throws \JsonException
      */
-    public function toJson($options = \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE): string
+    public function toJson(mixed $options = \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE): string
     {
         return json_encode($this->jsonSerialize(), $options);
     }
@@ -212,7 +212,7 @@ final class ConfigManager extends Repository implements \JsonSerializable, \Stri
     /**
      * @throws \JsonException
      */
-    public static function readFrom(...$files): array
+    public static function readFrom(string ...$files): array
     {
         $configurations = array_reduce($files, static function (array $configurations, string $file): array {
             $ext = str(pathinfo($file, \PATHINFO_EXTENSION));

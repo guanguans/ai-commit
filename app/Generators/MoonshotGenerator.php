@@ -18,7 +18,7 @@ use App\Clients\Moonshot;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
 
-final class MoonshotGenerator extends Generator
+final class MoonshotGenerator extends AbstractGenerator
 {
     private readonly Moonshot $moonshot;
 

@@ -1,8 +1,0 @@
-# total 1 error
-
-parameters:
-    ignoreErrors:
-        -
-            message: '#^Mixed property fetch in a "\$this\-\>\.\.\." can skip important errors\. Make sure the type is known$#'
-            count: 1
-            path: ../app/Clients/AbstractClient.php

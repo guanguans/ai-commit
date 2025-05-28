@@ -15,7 +15,7 @@ namespace App\Generators;
 
 use Symfony\Component\Process\Process;
 
-final class BitoCliGenerator extends Generator
+final class BitoCliGenerator extends AbstractGenerator
 {
     public function generate(string $prompt): string
     {

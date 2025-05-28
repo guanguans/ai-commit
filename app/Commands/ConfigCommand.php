@@ -100,7 +100,7 @@ final class ConfigCommand extends Command
 
                 break;
             case 'list':
-                collect($this->configManager->toDotArray())->each(function ($value, $key): void {
+                collect($this->configManager->toDotArray())->each(function (mixed $value, string $key): void {
                     $this->line("[<comment>$key</comment>] <info>{$this->valueToArg($value)}</info>");
                 });
 

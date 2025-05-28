@@ -10991,16 +10991,16 @@
         },
         {
             "name": "prism-php/prism",
-            "version": "v0.68.0",
+            "version": "v0.68.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/prism-php/prism.git",
-                "reference": "485719d7cd868f0b4458f931f682e7a8134e79ff"
+                "reference": "b32a1be1a0ea5b7bc439f6b9835d8d75ed522ce2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/prism-php/prism/zipball/485719d7cd868f0b4458f931f682e7a8134e79ff",
-                "reference": "485719d7cd868f0b4458f931f682e7a8134e79ff",
+                "url": "https://api.github.com/repos/prism-php/prism/zipball/b32a1be1a0ea5b7bc439f6b9835d8d75ed522ce2",
+                "reference": "b32a1be1a0ea5b7bc439f6b9835d8d75ed522ce2",
                 "shasum": ""
             },
             "require": {
@@ -11055,7 +11055,7 @@
             "description": "A powerful Laravel package for integrating Large Language Models (LLMs) into your applications.",
             "support": {
                 "issues": "https://github.com/prism-php/prism/issues",
-                "source": "https://github.com/prism-php/prism/tree/v0.68.0"
+                "source": "https://github.com/prism-php/prism/tree/v0.68.1"
             },
             "funding": [
                 {
@@ -11063,7 +11063,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-05-21T20:52:44+00:00"
+            "time": "2025-05-27T22:15:27+00:00"
         },
         {
             "name": "react/cache",

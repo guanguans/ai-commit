@@ -15,7 +15,7 @@ namespace App\Generators;
 
 use Symfony\Component\Process\Process;
 
-final class GithubCopilotCliGenerator extends Generator
+final class GithubCopilotCliGenerator extends AbstractGenerator
 {
     public function generate(string $prompt): string
     {

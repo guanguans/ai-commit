@@ -18,7 +18,7 @@ use App\Clients\OpenAI;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-class OpenAIGenerator extends Generator
+class OpenAIGenerator extends AbstractGenerator
 {
     protected OpenAI $openAI;
 
