@@ -1,4 +1,5 @@
-# total 3 errors
+# total 4 errors
 includes:
     - complexity.functionLike.neon
+    - method.notFound.neon
     - missing-identifier.neon

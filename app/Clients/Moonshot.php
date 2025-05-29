@@ -68,11 +68,6 @@ final class Moonshot extends AbstractClient
                     return $pendingRequest->withOptions([
                         'curl' => [
                             \CURLOPT_WRITEFUNCTION => static function (\CurlHandle $ch, string $data) use (&$rowData, $writer): int {
-                                // $sanitizeData = self::sanitizeData($data);
-                                // if (! str($data)->startsWith('data: [DONE]')) {
-                                //     $rowData = $sanitizeData;
-                                // }
-
                                 $rowData .= $data;
 
                                 /** @var callable $writer */

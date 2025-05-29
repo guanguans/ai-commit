@@ -56,7 +56,6 @@ return (new Configuration)
             'psr/log',
             'symfony/console',
             'symfony/process',
-            'symfony/var-dumper',
         ],
         [ErrorType::SHADOW_DEPENDENCY]
     )

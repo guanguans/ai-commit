@@ -125,6 +125,9 @@ final class CommitCommand extends Command
 
     /**
      * @codeCoverageIgnore
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     * @noinspection MissingParentCallInspection
      */
     public function complete(CompletionInput $input, CompletionSuggestions $suggestions): void
     {

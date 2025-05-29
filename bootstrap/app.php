@@ -1,7 +1,9 @@
 <?php
 
-/** @noinspection PhpUndefinedNamespaceInspection */
 /** @noinspection PhpUndefinedClassInspection */
+/** @noinspection PhpUndefinedMethodInspection */
+/** @noinspection PhpUndefinedNamespaceInspection */
+/** @noinspection PhpUnusedAliasInspection */
 
 declare(strict_types=1);
 
@@ -14,38 +16,18 @@ declare(strict_types=1);
  * @see https://github.com/guanguans/ai-commit
  */
 
+use App\Application;
 use App\ConfigManager;
 use App\GeneratorManager;
+use App\Listeners\PrepareRequestListener;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Log\LogManager;
 use Illuminate\Validation\ValidationException;
 use Intonate\TinkerZero\TinkerZeroServiceProvider;
-use LaravelZero\Framework\Application;
 use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
 use Symfony\Component\Console\Logger\ConsoleLogger;
-use Symfony\Component\VarDumper\VarDumper;
 
 return Application::configure(basePath: \dirname(__DIR__))
-    ->booting(static function (): void {
-        /** @see \Symfony\Component\VarDumper\VarDumper */
-        /** @noinspection GlobalVariableUsageInspection */
-        $_SERVER['VAR_DUMPER_FORMAT'] = null;
-
-        VarDumper::setHandler(null);
-
-        /** @noinspection GlobalVariableUsageInspection */
-        $_SERVER['VAR_DUMPER_FORMAT'] = 'server';
-
-        // $_SERVER['VAR_DUMPER_SERVER'] = '0.0.0.0:9912';
-    })
-    ->booting(static function (Application $application): void {
-        $application->extend(
-            LoggerInterface::class,
-            // $logger instanceof ConsoleLogger ? $logger : new ConsoleLogger(app(OutputStyle::class));
-            static fn (LoggerInterface $logger): NullLogger => $logger instanceof NullLogger ? $logger : new NullLogger
-        );
-    })
     ->booting(static function (): void {
         ConfigManager::load();
     })
@@ -54,15 +36,16 @@ return Application::configure(basePath: \dirname(__DIR__))
     //         $app->register(TinkerZeroServiceProvider::class);
     //     }
     // })
-    // ->booted(static function (Application $app): void {
-    //     $app->extend(LogManager::class, static function (LoggerInterface $logger, Application $application) {
-    //         if (!$logger instanceof LogManager) {
-    //             return new LogManager($application);
-    //         }
-    //
-    //         return $logger;
-    //     });
-    // })
+    ->booted(static function (Application $app): void {
+        // new ConsoleLogger(app(OutputStyle::class));
+        $app->extend(
+            LogManager::class,
+            static fn (
+                LoggerInterface $logger,
+                Application $app
+            ): LogManager => $logger instanceof LogManager ? $logger : new LogManager($app)
+        );
+    })
     ->withSingletons([
         GeneratorManager::class,
     ])
@@ -79,4 +62,7 @@ return Application::configure(basePath: \dirname(__DIR__))
         $exceptions->reportable(static fn (Throwable $throwable): bool => !Phar::running());
         $exceptions->reportable(static fn (Throwable $throwable): bool => false)->stop();
     })
-    ->create();
+    ->create()
+    ->tap(static function (Application $app): void {
+        $app->afterLoadingEnvironment((new PrepareRequestListener)(...));
+    });

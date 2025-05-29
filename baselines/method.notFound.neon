@@ -1,0 +1,8 @@
+# total 1 error
+
+parameters:
+    ignoreErrors:
+        -
+            message: '#^Call to an undefined method Illuminate\\Foundation\\Application\:\:tap\(\)\.$#'
+            count: 1
+            path: ../bootstrap/app.php

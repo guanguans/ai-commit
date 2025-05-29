@@ -137,7 +137,6 @@ abstract class AbstractClient
 
     protected function requestId(): ?string
     {
-        /** @noinspection PhpUndefinedConstantInspection */
         return \defined('TRACE_ID') ? TRACE_ID : null;
     }
 
@@ -213,28 +212,28 @@ abstract class AbstractClient
                 when: $this->configRepository->get('retry.when'),
                 throw: $this->configRepository->get('retry.throw')
             )
-            // ->when(
-            //     $this->requestId(),
-            //     static fn (
-            //         PendingRequest $pendingRequest,
-            //         string $requestId
-            //     ) => $pendingRequest->withHeader(PrepareRequestListener::X_REQUEST_ID, $requestId)
-            // )
+            ->when(
+                $this->requestId(),
+                static fn (
+                    PendingRequest $pendingRequest,
+                    string $requestId
+                ) => $pendingRequest->withHeader(PrepareRequestListener::X_REQUEST_ID, $requestId)
+            )
             ->withMiddleware(Middleware::mapRequest(
                 static fn (RequestInterface $request): MessageInterface => $request->withHeader('X-Date-Time', now()->toDateTimeString('m'))
             ))
-            // ->withMiddleware($this->makeLoggerMiddleware($this->configRepository->get('logger')))
+            ->withMiddleware($this->makeLoggerMiddleware($this->configRepository->get('logger')))
             ->withMiddleware(Middleware::mapResponse(
                 static fn (ResponseInterface $response): MessageInterface => $response->withHeader('X-Date-Time', now()->toDateTimeString('m'))
-            ));
-        // ->when(
-        //     $this->requestId(),
-        //     static fn (PendingRequest $pendingRequest, string $requestId) => $pendingRequest->withMiddleware(
-        //         Middleware::mapResponse(
-        //             static fn (ResponseInterface $response) => $response->withHeader(PrepareRequestListener::X_REQUEST_ID, $requestId)
-        //         )
-        //     )
-        // )
+            ))
+            ->when(
+                $this->requestId(),
+                static fn (PendingRequest $pendingRequest, string $requestId) => $pendingRequest->withMiddleware(
+                    Middleware::mapResponse(
+                        static fn (ResponseInterface $response): ResponseInterface => $response->withHeader(PrepareRequestListener::X_REQUEST_ID, $requestId)
+                    )
+                )
+            );
     }
 
     private function validateConfig(array $config): array
@@ -287,8 +286,8 @@ abstract class AbstractClient
             ->implode(' ');
     }
 
-    // private function makeLoggerMiddleware(?string $logger = null): callable
-    // {
-    //     return Middleware::log(Log::channel($logger), new MessageFormatter(MessageFormatter::DEBUG));
-    // }
+    private function makeLoggerMiddleware(?string $logger = null): callable
+    {
+        return Middleware::log(Log::channel($logger), new MessageFormatter(MessageFormatter::DEBUG));
+    }
 }

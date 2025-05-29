@@ -30,7 +30,9 @@ includes:
 parameters:
     paths:
         - app/
+        - bootstrap/
         - config/
+        - resources/lang/
     scanFiles:
         - vendor/composer/InstalledVersions.php
     excludePaths:
@@ -82,7 +84,6 @@ parameters:
 #        - identifier: logicalAnd.resultUnused
 #        - identifier: return.void
 #        - identifier: symplify.explicitTraitSuffixName
-#        - identifier: symplify.noDynamicName
 #        - identifier: typePerfect.noMixedMethodCaller
         - identifier: argument.templateType
         - identifier: argument.type

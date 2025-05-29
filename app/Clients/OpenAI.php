@@ -13,12 +13,10 @@ declare(strict_types=1);
 
 namespace App\Clients;
 
-use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Utils;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
-use Psr\Http\Message\ResponseInterface;
 
 /**
  * @see https://beta.openai.com/docs/api-reference/introduction
@@ -201,11 +199,6 @@ final class OpenAI extends AbstractClient
                     return $pendingRequest->withOptions([
                         'curl' => [
                             \CURLOPT_WRITEFUNCTION => static function (\CurlHandle $ch, string $data) use (&$rowData, $writer): int {
-                                // $sanitizeData = self::sanitizeData($data);
-                                // if (! str($data)->startsWith('data: [DONE]')) {
-                                //     $rowData = $sanitizeData;
-                                // }
-
                                 $rowData .= $data;
 
                                 /** @var callable $writer */
@@ -217,48 +210,7 @@ final class OpenAI extends AbstractClient
                     ]);
                 }
             )
-            // ->withMiddleware(
-            //     Middleware::mapResponse(static function (ResponseInterface $response): ResponseInterface {
-            //         $contents = $response->getBody()->getContents();
-            //
-            //         // $parameters['stream'] === true && $writer === null
-            //         if ($contents && ! \str($contents)->isJson()) {
-            //             $data = \str($contents)
-            //                 ->explode("\n\n")
-            //                 ->reverse()
-            //                 ->skip(2)
-            //                 ->reverse()
-            //                 ->map(static function (string $rowData): array {
-            //                     return json_decode(self::sanitizeData($rowData), true);
-            //                 })
-            //                 ->reduce(static function (array $data, array $rowData): array {
-            //                     if (empty($data)) {
-            //                         return $rowData;
-            //                     }
-            //
-            //                     foreach ($data['choices'] as $index => $choice) {
-            //                         $data['choices'][$index]['text'] .= $rowData['choices'][$index]['text'];
-            //                     }
-            //
-            //                     return $data;
-            //                 }, []);
-            //
-            //             return $response->withBody(Utils::streamFor(json_encode($data)));
-            //         }
-            //
-            //         return $response;
-            //     })
-            // )
             ->post($url, $this->validate($parameters, $rules));
-        // ->onError(function (Response $response) use ($rowData) {
-        //     if ($rowData && empty($response->body())) {
-        //         (function (Response $response) use ($rowData): void {
-        //             $this->response = $response->toPsrResponse()->withBody(
-        //                 Utils::streamFor(OpenAI::sanitizeData($rowData))
-        //             );
-        //         })->call($response, $response);
-        //     }
-        // })
 
         if ($rowData && empty($response->body())) {
             $response = new Response($response->toPsrResponse()->withBody(Utils::streamFor($rowData)));
