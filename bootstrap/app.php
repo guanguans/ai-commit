@@ -59,10 +59,10 @@ return Application::configure(basePath: \dirname(__DIR__))
             })->call($validationException)
         );
 
-        $exceptions->reportable(static fn (Throwable $throwable): bool => !Phar::running());
-        $exceptions->reportable(static fn (Throwable $throwable): bool => false)->stop();
+        $exceptions->reportable(static fn (Throwable $throwable): bool => !Phar::running())->stop();
     })
     ->create()
     ->tap(static function (Application $app): void {
-        $app->afterLoadingEnvironment((new DefineTraceIdListener)(...));
+        $app->call(DefineTraceIdListener::class);
+        // $app->afterLoadingEnvironment((new DefineTraceIdListener)(...));
     });
