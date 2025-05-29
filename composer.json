@@ -79,6 +79,7 @@
         "larastan/larastan": "^3.4",
         "laravel/facade-documenter": "dev-main",
         "mockery/mockery": "^1.6",
+        "pb30/phpstan-composer-analysis": "^0.12",
         "pestphp/pest": "^3.8",
         "pestphp/pest-plugin-laravel": "^3.2",
         "php-mock/php-mock-phpunit": "^2.13",
