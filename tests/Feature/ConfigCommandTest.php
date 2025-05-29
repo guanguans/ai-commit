@@ -42,7 +42,7 @@ it('can set config', function (): void {
         'action' => 'set',
         'key' => 'foo.bar',
         'value' => 'bar',
-        '--file' => repository_path(ConfigManager::NAME),
+        '--file' => repository_path(ConfigManager::BASE_NAME),
     ])->assertSuccessful();
 
     $this->artisan(ConfigCommand::class, [
@@ -62,13 +62,13 @@ it('can set/get special config value', function ($value): void {
         'action' => 'set',
         'key' => 'foo.bar',
         'value' => $value,
-        '--file' => repository_path(ConfigManager::NAME),
+        '--file' => repository_path(ConfigManager::BASE_NAME),
     ])->assertSuccessful();
 
     $this->artisan(ConfigCommand::class, [
         'action' => 'get',
         'key' => 'foo.bar',
-        '--file' => repository_path(ConfigManager::NAME),
+        '--file' => repository_path(ConfigManager::BASE_NAME),
     ])->assertSuccessful();
 })
     ->group(__DIR__, __FILE__)

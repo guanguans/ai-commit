@@ -22,14 +22,13 @@ declare(strict_types=1);
  */
 
 use App\ConfigManager;
-use App\Exceptions\InvalidJsonFileException;
 use App\Exceptions\UnsupportedConfigFileTypeException;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 
 it('can create ConfigManager', function (): void {
-    expect(ConfigManager::create())->toBeInstanceOf(ConfigManager::class)
-        ->and(ConfigManager::create([]))->toBeInstanceOf(ConfigManager::class);
+    expect(ConfigManager::make())->toBeInstanceOf(ConfigManager::class)
+        ->and(ConfigManager::make([]))->toBeInstanceOf(ConfigManager::class);
 })->group(__DIR__, __FILE__);
 
 it('can get local path', function (): void {
@@ -40,7 +39,7 @@ it('can get local path', function (): void {
 })->group(__DIR__, __FILE__)->skip();
 
 it('can put local config file', function (): void {
-    expect(ConfigManager::create())->putLocal()->toBeInt();
+    expect(ConfigManager::make())->putLocal()->toBeInt();
 })->group(__DIR__, __FILE__);
 
 /**
@@ -48,7 +47,7 @@ it('can put local config file', function (): void {
  */
 it('can to jsonSerialize', function (): void {
     /** @noinspection ReplaceLegacyMockeryInspection */
-    $configManager = ConfigManager::create([
+    $configManager = ConfigManager::make([
         'JsonSerializable' => Mockery::spy(JsonSerializable::class),
         'Jsonable' => Mockery::spy(Jsonable::class)->shouldReceive('toJson')->andReturn(json_encode([1, 2, 3]))->getMock(),
         'Arrayable' => Mockery::spy(Arrayable::class),
@@ -57,17 +56,17 @@ it('can to jsonSerialize', function (): void {
 })->group(__DIR__, __FILE__);
 
 it('can to array', function (): void {
-    expect(ConfigManager::create())->toArray()->toBeArray();
+    expect(ConfigManager::make())->toArray()->toBeArray();
 })->group(__DIR__, __FILE__);
 
 it('can to string', function (): void {
-    expect((string) ConfigManager::create())->toBeString();
+    expect((string) ConfigManager::make())->toBeString();
 })->group(__DIR__, __FILE__);
 
 it('will throw InvalidJsonFileException when read from config file', function (): void {
-    ConfigManager::readFrom(fixtures_path('ai-commit.json'));
-})->group(__DIR__, __FILE__)->throws(InvalidJsonFileException::class);
+    ConfigManager::makeFrom(fixtures_path('ai-commit.json'));
+})->group(__DIR__, __FILE__)->throws(JsonException::class, 'Syntax error');
 
 it('will throw UnsupportedConfigFileTypeException when read from config file', function (): void {
-    ConfigManager::readFrom(fixtures_path('ai-commit.yml'));
+    ConfigManager::makeFrom(fixtures_path('ai-commit.yml'));
 })->group(__DIR__, __FILE__)->throws(UnsupportedConfigFileTypeException::class);

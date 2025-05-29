@@ -15,4 +15,4 @@ namespace App\Exceptions;
 
 use App\Contracts\ThrowableContract;
 
-class RuntimeException extends \RuntimeException implements ThrowableContract {}
+final class RuntimeException extends \RuntimeException implements ThrowableContract {}

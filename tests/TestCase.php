@@ -50,7 +50,7 @@ abstract class TestCase extends BaseTestCase
         // \DG\BypassFinals::enable();
         $this->startMockery();
 
-        $configManager = ConfigManager::createFrom($this->app->configPath('ai-commit.php'));
+        $configManager = ConfigManager::makeFrom($this->app->configPath('ai-commit.php'));
         $configManager->set('generators.openai.api_key', 'sk-...');
         $configManager->set('generators.bito_cli.path', 'bito-cli-path...');
 

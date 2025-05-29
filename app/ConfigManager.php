@@ -13,13 +13,13 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Exceptions\InvalidJsonFileException;
 use App\Exceptions\UnsupportedConfigFileTypeException;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Traits\Dumpable;
@@ -27,6 +27,8 @@ use Illuminate\Support\Traits\ForwardsCalls;
 use Illuminate\Support\Traits\Localizable;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Support\Traits\Tappable;
+use const JSON_THROW_ON_ERROR as JSON_THROW_ON_ERROR1;
+use function Illuminate\Filesystem\join_paths;
 
 /**
  * @template TKey of array-key
@@ -42,9 +44,9 @@ final class ConfigManager extends Repository implements \JsonSerializable, \Stri
     use Localizable;
     use Macroable;
     use Tappable;
-
-    /** @var string */
-    public const NAME = '.ai-commit.json';
+    public const BASE_NAME = '.ai-commit.json';
+    public const BASE_DIRNAME = '.ai-commit';
+    public const JSON_OPTIONS = \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES | \JSON_THROW_ON_ERROR;
 
     /**
      * @throws \JsonException
@@ -55,48 +57,44 @@ final class ConfigManager extends Repository implements \JsonSerializable, \Stri
     }
 
     /**
-     * @throws \JsonException
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public static function load(): void
+    public static function load(): self
     {
-        resolve('config')->set('ai-commit', self::create());
+        return tap(self::make(), static fn (self $self): null => Config::set('ai-commit', $self));
     }
 
     /**
-     * @throws \JsonException
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public static function create(?array $items = null): self
+    public static function make(?array $items = null): self
     {
         if (\is_array($items)) {
             return new self($items);
         }
 
-        return self::createFrom(...array_filter(
+        return self::makeFrom(...array_filter(
             [config_path('ai-commit.php'), self::globalPath(), self::localPath()],
-            'file_exists'
+            file_exists(...)
         ));
     }
 
     /**
-     * @throws \JsonException
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public static function createFrom(string ...$files): self
+    public static function makeFrom(string ...$files): self
     {
         return new self(self::readFrom(...$files));
     }
 
-    public static function globalPath(string $path = self::NAME): string
+    public static function globalPath(): string
     {
-        $path = $path ? \DIRECTORY_SEPARATOR.$path : $path;
-
-        if (windows_os()) {
-            return \sprintf('C:\\Users\\%s\\.ai-commit%s', get_current_user(), $path); // @codeCoverageIgnore
-        }
-
-        return \sprintf('%s%s.ai-commit%s', exec('cd ~; pwd'), \DIRECTORY_SEPARATOR, $path);
+        return windows_os()
+            ? join_paths('C:\\Users', get_current_user(), self::BASE_DIRNAME, self::BASE_NAME)
+            : join_paths(exec('cd ~; pwd'), self::BASE_DIRNAME, self::BASE_NAME);
     }
 
-    public static function localPath(string $path = self::NAME): string
+    public static function localPath(string $path = self::BASE_NAME): string
     {
         $cwd = getcwd();
 
@@ -104,13 +102,13 @@ final class ConfigManager extends Repository implements \JsonSerializable, \Stri
             $cwd = realpath('');
         }
 
-        return $cwd.($path ? \DIRECTORY_SEPARATOR.$path : $path);
+        return join_paths($cwd, $path);
     }
 
     /**
      * @throws \JsonException
      */
-    public function putGlobal(int $options = \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE): bool|int
+    public function putGlobal(int $options = self::JSON_OPTIONS): bool|int
     {
         return $this->putFile(self::globalPath(), $options);
     }
@@ -118,7 +116,7 @@ final class ConfigManager extends Repository implements \JsonSerializable, \Stri
     /**
      * @throws \JsonException
      */
-    public function putLocal(int $options = \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE): bool|int
+    public function putLocal(int $options = self::JSON_OPTIONS): bool|int
     {
         return $this->putFile(self::localPath(), $options);
     }
@@ -126,21 +124,38 @@ final class ConfigManager extends Repository implements \JsonSerializable, \Stri
     /**
      * @throws \JsonException
      */
-    public function putFile(string $file, int $options = \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE): bool|int
+    public function putFile(string $file, int $options = self::JSON_OPTIONS): bool|int
     {
         collect($this->toDotArray())
-            ->filter(static fn (mixed $val): bool => !\is_scalar($val) && null !== $val)
+            ->filter(static function (mixed $value, string $key): bool {
+                if (str($key)->is([
+                    'generators.*.parameters.messages',
+                    'generators.*.parameters.prompt',
+                    'generators.*.parameters.user',
+                ])) {
+                    return true;
+                }
+
+                if (!\is_object($value)) {
+                    return false;
+                }
+
+                foreach (
+                    [
+                        \JsonSerializable::class,
+                        Arrayable::class,
+                        Jsonable::class,
+                    ] as $class
+                ) {
+                    if ($value instanceof $class) {
+                        return false;
+                    }
+                }
+
+                return true;
+            })
             ->keys()
-            ->push(
-                'generators.openai.parameters.prompt',
-                'generators.openai.parameters.user',
-                'generators.openai_chat.parameters.prompt',
-                'generators.openai_chat.parameters.user',
-            )
-            ->unique()
-            ->tap(function (Collection $collection): void {
-                $this->forget($collection->all());
-            });
+            ->tap(fn (Collection $keys): self => $this->forget($keys->all()));
 
         File::ensureDirectoryExists(\dirname($file));
 
@@ -148,58 +163,37 @@ final class ConfigManager extends Repository implements \JsonSerializable, \Stri
     }
 
     /**
-     * @throws \JsonException
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function replaceFrom(string $file): void
+    public function replaceFrom(string $file): self
     {
-        $this->replace(self::readFrom($file));
+        return $this->replace(self::readFrom($file));
     }
 
     /**
-     * @throws \JsonException
+     * @see \Illuminate\Support\Collection::replace()
      */
-    public static function readFrom(string ...$files): array
-    {
-        $configurations = array_reduce($files, static function (array $configurations, string $file): array {
-            $ext = str(pathinfo($file, \PATHINFO_EXTENSION));
-
-            if ($ext->is('php')) {
-                $configurations[] = require $file;
-
-                return $configurations;
-            }
-
-            if ($ext->is('json')) {
-                if (!str($contents = file_get_contents($file))->isJson()) {
-                    throw InvalidJsonFileException::make($file);
-                }
-
-                $configurations[] = json_decode($contents, true, 512, \JSON_THROW_ON_ERROR);
-
-                return $configurations;
-            }
-
-            throw UnsupportedConfigFileTypeException::make($file);
-        }, []);
-
-        return array_replace_recursive(...$configurations);
-    }
-
-    public function replace(array $items): void
+    public function replace(array $items): self
     {
         $this->items = array_replace_recursive($this->items, $items);
+
+        return $this;
     }
 
     /**
-     * @param list<string>|string $keys
+     * @see \Illuminate\Support\Collection::forget()
+     *
+     * @param array-key|list<array-key> $keys
      */
-    public function forget(array|string $keys): void
+    public function forget(mixed $keys): self
     {
         Arr::forget($this->items, $keys);
+
+        return $this;
     }
 
     /**
-     * Convert the object into something JSON serializable.
+     * @see \Illuminate\Support\Collection::jsonSerialize()
      *
      * @throws \JsonException
      *
@@ -207,21 +201,24 @@ final class ConfigManager extends Repository implements \JsonSerializable, \Stri
      */
     public function jsonSerialize(): array
     {
-        return array_map(static function (mixed $value) {
-            if ($value instanceof \JsonSerializable) {
-                return $value->jsonSerialize();
-            }
+        return array_map(
+            static function (mixed $value) {
+                if ($value instanceof \JsonSerializable) {
+                    return $value->jsonSerialize();
+                }
 
-            if ($value instanceof Jsonable) {
-                return json_decode($value->toJson(), true, 512, \JSON_THROW_ON_ERROR);
-            }
+                if ($value instanceof Jsonable) {
+                    return json_decode($value->toJson(), true, 512, \JSON_THROW_ON_ERROR);
+                }
 
-            if ($value instanceof Arrayable) {
-                return $value->toArray();
-            }
+                if ($value instanceof Arrayable) {
+                    return $value->toArray();
+                }
 
-            return $value;
-        }, $this->all());
+                return $value;
+            },
+            $this->all()
+        );
     }
 
     public function toDotArray(): array
@@ -229,20 +226,45 @@ final class ConfigManager extends Repository implements \JsonSerializable, \Stri
         return Arr::dot($this->toArray());
     }
 
+    /**
+     * @see \Illuminate\Support\Collection::toArray()
+     */
     public function toArray(): array
     {
         return array_map(static fn (mixed $value) => $value instanceof Arrayable ? $value->toArray() : $value, $this->all());
     }
 
     /**
-     * {@inheritDoc}
+     * @see \Illuminate\Support\Collection::toJson()
      *
-     * @noinspection JsonEncodingApiUsageInspection
+     * {@inheritDoc}
      *
      * @throws \JsonException
      */
-    public function toJson(mixed $options = \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE): string
+    public function toJson(mixed $options = self::JSON_OPTIONS): string
     {
         return json_encode($this->jsonSerialize(), $options);
+    }
+
+    /**
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    private static function readFrom(string ...$files): array
+    {
+        return array_replace_recursive(
+            ...array_reduce(
+                $files,
+                static function (array $configurations, string $file): array {
+                    $configurations[] = match (File::extension($file)) {
+                        'php' => require $file,
+                        'json' => File::json($file, JSON_THROW_ON_ERROR1),
+                        default => throw UnsupportedConfigFileTypeException::make($file)
+                    };
+
+                    return $configurations;
+                },
+                []
+            )
+        );
     }
 }
