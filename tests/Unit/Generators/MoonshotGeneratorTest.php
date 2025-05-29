@@ -40,10 +40,8 @@ it('will throw forbidden RequestException', function (): void {
 })->group(__DIR__, __FILE__)->throws(RequestException::class, 'HTTP request returned status code 403');
 
 it('will throw unauthorized RequestException', function (): void {
+    // reset_http_fake();
     app(GeneratorManager::class)
-        ->tap(function (): void {
-            // reset_http_fake();
-        })
         ->driver('moonshot')
         ->generate('Unauthorized');
 })->group(__DIR__, __FILE__)->throws(RequestException::class, 'HTTP request returned status code 401');

@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace App\Generators;
 
 use App\Contracts\GeneratorContract;
+use Illuminate\Config\Repository;
 use Illuminate\Console\OutputStyle;
 use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
@@ -32,7 +33,7 @@ abstract class AbstractGenerator implements GeneratorContract
     /**
      * @noinspection PhpUndefinedMethodInspection
      */
-    public function __construct(protected array $config)
+    public function __construct(protected Repository $config)
     {
         $this->output = tap(clone resolve(OutputStyle::class))->setVerbosity(OutputInterface::VERBOSITY_DEBUG);
         $this->helperSet = (fn () => $this->getArtisan()->getHelperSet())->call(Artisan::getFacadeRoot());
@@ -95,7 +96,7 @@ abstract class AbstractGenerator implements GeneratorContract
      */
     protected function hydratedOptions(): array
     {
-        return collect($this->config['options'] ?? [])
+        return collect($this->config->get('options', []))
             ->map(static fn (mixed $value): string => (string) str(urldecode(http_build_query([$option = 'option' => $value])))->after("$option="))
             ->filter()
             ->map(static fn (mixed $value, string $option): array => [$option, $value])

@@ -15,6 +15,7 @@ namespace App\Generators;
 
 use App\Clients\AbstractClient;
 use App\Clients\Moonshot;
+use Illuminate\Config\Repository;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
 
@@ -22,10 +23,10 @@ final class MoonshotGenerator extends AbstractGenerator
 {
     private readonly Moonshot $moonshot;
 
-    public function __construct(array $config)
+    public function __construct(Repository $config)
     {
         parent::__construct($config);
-        $this->moonshot = new Moonshot(Arr::only($config, ['http_options', 'retry', 'base_url', 'api_key']));
+        $this->moonshot = new Moonshot($config->all());
     }
 
     /**
@@ -38,7 +39,7 @@ final class MoonshotGenerator extends AbstractGenerator
             'messages' => [
                 ['role' => 'user', 'content' => $prompt],
             ],
-        ] + Arr::get($this->config, 'parameters', []);
+        ] + $this->config->get('parameters', []);
 
         $response = $this->moonshot->chatCompletions($parameters, $this->buildWriter($messages));
 

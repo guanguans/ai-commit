@@ -82,8 +82,10 @@ parameters:
 #        - identifier: cast.string
 #        - identifier: encapsedStringPart.nonString
 #        - identifier: logicalAnd.resultUnused
+#        - identifier: method.dynamicName
 #        - identifier: return.void
 #        - identifier: symplify.explicitTraitSuffixName
+#        - identifier: symplify.noDynamicName
 #        - identifier: typePerfect.noMixedMethodCaller
         - identifier: argument.templateType
         - identifier: argument.type
@@ -91,14 +93,12 @@ parameters:
         - identifier: binaryOp.invalid
         - identifier: empty.notAllowed
         - identifier: foreach.valueOverwrite
-        - identifier: method.dynamicName
         - identifier: method.nonObject
         - identifier: missingType.generics
         - identifier: missingType.iterableValue
         - identifier: return.type
         - identifier: shipmonk.deadMethod
         - identifier: symplify.forbiddenExtendOfNonAbstractClass
-        - identifier: symplify.noDynamicName
         - identifier: symplify.noReference
         - identifier: symplify.requireExceptionNamespace
         -

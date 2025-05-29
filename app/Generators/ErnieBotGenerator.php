@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace App\Generators;
 
 use App\Clients\Ernie;
+use Illuminate\Config\Repository;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
@@ -23,10 +24,10 @@ class ErnieBotGenerator extends AbstractGenerator
 {
     protected Ernie $ernie;
 
-    public function __construct(array $config)
+    public function __construct(Repository $config)
     {
         parent::__construct($config);
-        $this->ernie = new Ernie(Arr::only($config, ['http_options', 'retry', 'base_url', 'api_key', 'secret_key']));
+        $this->ernie = new Ernie($config->all());
     }
 
     /**
@@ -40,7 +41,7 @@ class ErnieBotGenerator extends AbstractGenerator
                 ['role' => 'user', 'content' => $prompt],
             ],
             'user_id' => Str::uuid()->toString(),
-        ] + Arr::get($this->config, 'parameters', []);
+        ] + $this->config->get('parameters', []);
 
         $response = $this->completion($parameters, $this->buildWriter($messages));
 

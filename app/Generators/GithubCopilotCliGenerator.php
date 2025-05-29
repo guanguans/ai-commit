@@ -22,8 +22,8 @@ final class GithubCopilotCliGenerator extends AbstractGenerator
         return resolve(
             Process::class,
             [
-                'command' => $this->ensureWithOptions([$this->config['binary'], 'copilot', 'explain', $prompt]),
-            ] + $this->config['parameters']
+                'command' => $this->ensureWithOptions([$this->config->get('binary'), 'copilot', 'explain', $prompt]),
+            ] + $this->config->get('parameters', [])
         )->mustRun($this->runningCallback())->getOutput();
     }
 }

@@ -38,10 +38,10 @@ abstract class TestCase extends BaseTestCase
     // use DatabaseTruncation;
     // use LazilyRefreshDatabase;
     // use RefreshDatabase;
+    // use VarDumperTestTrait;
 
     use MockeryPHPUnitIntegration;
     use PHPMock;
-    use VarDumperTestTrait;
     protected bool $seed = false;
 
     protected function setUp(): void

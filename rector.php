@@ -158,6 +158,7 @@ return RectorConfig::configure()
     ])
     ->withConfiguredRule(RemoveAnnotationRector::class, [
         // 'codeCoverageIgnore',
+        'inheritDoc',
         'phpstan-ignore',
         'phpstan-ignore-next-line',
         'psalm-suppress',

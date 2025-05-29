@@ -15,6 +15,7 @@ namespace App\Generators;
 
 use App\Clients\AbstractClient;
 use App\Clients\OpenAI;
+use Illuminate\Config\Repository;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
@@ -22,10 +23,10 @@ class OpenAIGenerator extends AbstractGenerator
 {
     protected OpenAI $openAI;
 
-    public function __construct(array $config)
+    public function __construct(Repository $config)
     {
         parent::__construct($config);
-        $this->openAI = new OpenAI(Arr::only($config, ['http_options', 'retry', 'base_url', 'api_key']));
+        $this->openAI = new OpenAI($config->all());
     }
 
     /**
@@ -57,7 +58,7 @@ class OpenAIGenerator extends AbstractGenerator
         $parameters = [
             'prompt' => $prompt,
             'user' => Str::uuid()->toString(),
-        ] + Arr::get($this->config, 'parameters', []);
+        ] + $this->config->get('parameters', []);
 
         $response = $this->openAI->completions($parameters, $this->buildWriter($messages));
 

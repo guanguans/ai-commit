@@ -22,6 +22,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Traits\Conditionable;
+use Illuminate\Support\Traits\Dumpable;
+use Illuminate\Support\Traits\ForwardsCalls;
+use Illuminate\Support\Traits\Localizable;
+use Illuminate\Support\Traits\Macroable;
 use Illuminate\Support\Traits\Tappable;
 
 /**
@@ -33,6 +37,10 @@ use Illuminate\Support\Traits\Tappable;
 final class ConfigManager extends Repository implements \JsonSerializable, \Stringable, Arrayable, Jsonable
 {
     use Conditionable;
+    use Dumpable;
+    use ForwardsCalls;
+    use Localizable;
+    use Macroable;
     use Tappable;
 
     /** @var string */

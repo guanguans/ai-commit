@@ -24,8 +24,8 @@ final class GithubModelsCliGenerator extends AbstractGenerator
                 resolve(
                     Process::class,
                     [
-                        'command' => $this->ensureWithOptions([$this->config['binary'], 'models', 'run', $this->config['model']]),
-                    ] + $this->config['parameters']
+                        'command' => $this->ensureWithOptions([$this->config->get('binary'), 'models', 'run', $this->config->get('model')]),
+                    ] + $this->config->get('parameters', [])
                 )->setInput($prompt)
             )
             ->getOutput();

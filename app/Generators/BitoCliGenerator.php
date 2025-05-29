@@ -24,8 +24,8 @@ final class BitoCliGenerator extends AbstractGenerator
                 resolve(
                     Process::class,
                     [
-                        'command' => $this->ensureWithOptions([$this->config['binary']]),
-                    ] + $this->config['parameters']
+                        'command' => $this->ensureWithOptions([$this->config->get('binary')]),
+                    ] + $this->config->get('parameters', [])
                 )->setInput($prompt)
             )
             ->getOutput();
