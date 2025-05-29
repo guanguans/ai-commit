@@ -147,6 +147,36 @@ final class ConfigManager extends Repository implements \JsonSerializable, \Stri
         $this->replace(self::readFrom($file));
     }
 
+    /**
+     * @throws \JsonException
+     */
+    public static function readFrom(string ...$files): array
+    {
+        $configurations = array_reduce($files, static function (array $configurations, string $file): array {
+            $ext = str(pathinfo($file, \PATHINFO_EXTENSION));
+
+            if ($ext->is('php')) {
+                $configurations[] = require $file;
+
+                return $configurations;
+            }
+
+            if ($ext->is('json')) {
+                if (!str($contents = file_get_contents($file))->isJson()) {
+                    throw InvalidJsonFileException::make($file);
+                }
+
+                $configurations[] = json_decode($contents, true, 512, \JSON_THROW_ON_ERROR);
+
+                return $configurations;
+            }
+
+            throw UnsupportedConfigFileTypeException::make($file);
+        }, []);
+
+        return array_replace_recursive(...$configurations);
+    }
+
     public function replace(array $items): void
     {
         $this->items = array_replace_recursive($this->items, $items);
@@ -206,35 +236,5 @@ final class ConfigManager extends Repository implements \JsonSerializable, \Stri
     public function toJson(mixed $options = \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE): string
     {
         return json_encode($this->jsonSerialize(), $options);
-    }
-
-    /**
-     * @throws \JsonException
-     */
-    public static function readFrom(string ...$files): array
-    {
-        $configurations = array_reduce($files, static function (array $configurations, string $file): array {
-            $ext = str(pathinfo($file, \PATHINFO_EXTENSION));
-
-            if ($ext->is('php')) {
-                $configurations[] = require $file;
-
-                return $configurations;
-            }
-
-            if ($ext->is('json')) {
-                if (!str($contents = file_get_contents($file))->isJson()) {
-                    throw InvalidJsonFileException::make($file);
-                }
-
-                $configurations[] = json_decode($contents, true, 512, \JSON_THROW_ON_ERROR);
-
-                return $configurations;
-            }
-
-            throw UnsupportedConfigFileTypeException::make($file);
-        }, []);
-
-        return array_replace_recursive(...$configurations);
     }
 }

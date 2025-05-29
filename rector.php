@@ -37,7 +37,6 @@ use Rector\DeadCode\Rector\ClassLike\RemoveAnnotationRector;
 use Rector\DowngradePhp81\Rector\Array_\DowngradeArraySpreadStringKeyRector;
 use Rector\EarlyReturn\Rector\Return_\ReturnBinaryOrToEarlyReturnRector;
 use Rector\Naming\Rector\Foreach_\RenameForeachValueVariableToMatchExprVariableRector;
-use Rector\Php71\Rector\FuncCall\RemoveExtraParametersRector;
 use Rector\Php73\Rector\FuncCall\JsonThrowOnErrorRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\AddSeeTestAnnotationRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
@@ -57,7 +56,6 @@ use RectorLaravel\Rector\Class_\ModelCastsPropertyToCastsMethodRector;
 use RectorLaravel\Rector\Class_\RemoveModelPropertyFromFactoriesRector;
 use RectorLaravel\Rector\Empty_\EmptyToBlankAndFilledFuncRector;
 use RectorLaravel\Rector\FuncCall\HelperFuncCallToFacadeClassRector;
-use RectorLaravel\Rector\FuncCall\RemoveDumpDataDeadCodeRector;
 use RectorLaravel\Rector\FuncCall\TypeHintTappableCallRector;
 use RectorLaravel\Rector\If_\ThrowIfRector;
 use RectorLaravel\Rector\MethodCall\ContainerBindConcreteWithClosureOnlyRector;
@@ -132,7 +130,7 @@ return RectorConfig::configure()
     ->withRules([
         AddSeeTestAnnotationRector::class,
         ArraySpreadInsteadOfArrayMergeRector::class,
-        // JsonThrowOnErrorRector::class,
+        JsonThrowOnErrorRector::class,
         SimplifyListIndexRector::class,
         SortAssociativeArrayByKeyRector::class,
         StaticArrowFunctionRector::class,
@@ -150,7 +148,6 @@ return RectorConfig::configure()
         'PhpUndefinedClassInspection',
         'PhpUnhandledExceptionInspection',
         'PhpVoidFunctionResultUsedInspection',
-        'SqlResolve',
         'StaticClosureCanBeUsedInspection',
     ])
     // ->withConfiguredRule(NewExceptionToNewAnonymousExtendsExceptionImplementsRector::class, [
@@ -216,7 +213,6 @@ return RectorConfig::configure()
                 'clear_console_screen',
                 'make',
                 'str_remove_cntrl',
-                'validate',
             ],
             static function (array $carry, string $func): array {
                 /** @see https://github.com/laravel/framework/blob/11.x/src/Illuminate/Support/functions.php */
@@ -259,11 +255,8 @@ return RectorConfig::configure()
         CompleteDynamicPropertiesRector::class => [
             __DIR__.'/app/Clients/AbstractClient.php',
         ],
-        RemoveDumpDataDeadCodeRector::class => [
-            __DIR__.'/src/Mixins/QueryBuilderMixin.php',
-        ],
-        RemoveExtraParametersRector::class => [
-            __DIR__.'/src/Mixins/QueryBuilderMixin.php',
+        JsonThrowOnErrorRector::class => [
+            __DIR__.'/app/Generators/',
         ],
         StaticArrowFunctionRector::class => $staticClosureSkipPaths = [
             __DIR__.'/tests',
@@ -289,6 +282,5 @@ return RectorConfig::configure()
         ],
         RemoveNamespaceRector::class => [
             __DIR__.'/tests/TestCase.php',
-            __DIR__.'/tests/CreatesApplication.php',
         ],
     ]);

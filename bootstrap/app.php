@@ -19,7 +19,7 @@ declare(strict_types=1);
 use App\Application;
 use App\ConfigManager;
 use App\GeneratorManager;
-use App\Listeners\PrepareRequestListener;
+use App\Listeners\DefineTraceIdListener;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Log\LogManager;
 use Illuminate\Validation\ValidationException;
@@ -64,5 +64,5 @@ return Application::configure(basePath: \dirname(__DIR__))
     })
     ->create()
     ->tap(static function (Application $app): void {
-        $app->afterLoadingEnvironment((new PrepareRequestListener)(...));
+        $app->afterLoadingEnvironment((new DefineTraceIdListener)(...));
     });

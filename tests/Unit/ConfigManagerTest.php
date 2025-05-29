@@ -6,11 +6,10 @@
 /** @noinspection PhpUndefinedClassInspection */
 /** @noinspection PhpUnhandledExceptionInspection */
 /** @noinspection PhpVoidFunctionResultUsedInspection */
-/** @noinspection SqlResolve */
 /** @noinspection StaticClosureCanBeUsedInspection */
 /** @noinspection JsonEncodingApiUsageInspection */
 /** @noinspection PhpUnused */
-/** @noinspection PhpUnusedAliasInspection */
+/** @noinspection SqlResolve */
 declare(strict_types=1);
 
 /**
@@ -62,7 +61,7 @@ it('can to array', function (): void {
 })->group(__DIR__, __FILE__);
 
 it('can to string', function (): void {
-    expect(ConfigManager::create())->__toString()->toBeString();
+    expect((string) ConfigManager::create())->toBeString();
 })->group(__DIR__, __FILE__);
 
 it('will throw InvalidJsonFileException when read from config file', function (): void {

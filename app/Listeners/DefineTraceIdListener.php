@@ -20,7 +20,7 @@ use Illuminate\Support\Str;
  * @see \Illuminate\Foundation\Http\Kernel::bootstrappers()
  * @see \Illuminate\Foundation\Application::bootstrapWith()
  */
-final class PrepareRequestListener
+final class DefineTraceIdListener
 {
     public const X_REQUEST_ID = 'X-Request-Id';
 

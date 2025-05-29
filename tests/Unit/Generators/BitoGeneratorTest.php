@@ -6,11 +6,9 @@
 /** @noinspection PhpUndefinedClassInspection */
 /** @noinspection PhpUnhandledExceptionInspection */
 /** @noinspection PhpVoidFunctionResultUsedInspection */
-/** @noinspection SqlResolve */
 /** @noinspection StaticClosureCanBeUsedInspection */
-/** @noinspection JsonEncodingApiUsageInspection */
 /** @noinspection PhpUnused */
-/** @noinspection PhpUnusedAliasInspection */
+/** @noinspection SqlResolve */
 declare(strict_types=1);
 
 /**

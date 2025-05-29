@@ -6,11 +6,9 @@
 /** @noinspection PhpUndefinedClassInspection */
 /** @noinspection PhpUnhandledExceptionInspection */
 /** @noinspection PhpVoidFunctionResultUsedInspection */
-/** @noinspection SqlResolve */
 /** @noinspection StaticClosureCanBeUsedInspection */
-/** @noinspection JsonEncodingApiUsageInspection */
 /** @noinspection PhpUnused */
-/** @noinspection PhpUnusedAliasInspection */
+/** @noinspection SqlResolve */
 declare(strict_types=1);
 
 /**
@@ -26,6 +24,7 @@ use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Http\Client\Factory;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
+use Pest\Expectation;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
@@ -37,7 +36,11 @@ uses(TestCase::class)
     })
     ->afterEach(function (): void {})
     ->afterAll(function (): void {})
-    ->in('Feature', 'Unit');
+    ->in(
+        // __DIR__,
+        __DIR__.'/Feature',
+        __DIR__.'/Unit'
+    );
 
 /*
 |--------------------------------------------------------------------------
@@ -50,7 +53,15 @@ uses(TestCase::class)
 |
 */
 
-expect()->extend('toBeTwo', fn () => $this->toBe(2));
+expect()->extend('toAssert', function (Closure $assertions): Expectation {
+    $assertions($this->value);
+
+    return $this;
+});
+
+expect()->extend('toBetween', fn (int $min, int $max): Expectation => expect($this->value)
+    ->toBeGreaterThanOrEqual($min)
+    ->toBeLessThanOrEqual($max));
 
 /*
 |--------------------------------------------------------------------------
@@ -83,6 +94,19 @@ function fixtures_path(string $path = ''): string
     return __DIR__.'/Fixtures'.($path ? \DIRECTORY_SEPARATOR.$path : $path);
 }
 
+function running_in_github_action(): bool
+{
+    return getenv('GITHUB_ACTIONS') === 'true';
+}
+
+function reset_http_fake(?Factory $factory = null): void
+{
+    (function (): void {
+        $this->stubCallbacks = collect();
+    })->call($factory ?? Http::getFacadeRoot());
+}
+
+/** @noinspection Annotator */
 function setup_http_fake(): void
 {
     Http::fake([
@@ -189,11 +213,4 @@ function setup_http_fake(): void
                 json
         ),
     ]);
-}
-
-function reset_http_fake(?Factory $factory = null): void
-{
-    (function (): void {
-        $this->stubCallbacks = collect();
-    })->call($factory ?? Http::getFacadeRoot());
 }

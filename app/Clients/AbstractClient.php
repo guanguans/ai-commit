@@ -15,7 +15,7 @@ declare(strict_types=1);
 
 namespace App\Clients;
 
-use App\Listeners\PrepareRequestListener;
+use App\Listeners\DefineTraceIdListener;
 use Composer\InstalledVersions;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\MessageFormatter;
@@ -217,7 +217,7 @@ abstract class AbstractClient
                 static fn (
                     PendingRequest $pendingRequest,
                     string $requestId
-                ) => $pendingRequest->withHeader(PrepareRequestListener::X_REQUEST_ID, $requestId)
+                ) => $pendingRequest->withHeader(DefineTraceIdListener::X_REQUEST_ID, $requestId)
             )
             ->withMiddleware(Middleware::mapRequest(
                 static fn (RequestInterface $request): MessageInterface => $request->withHeader('X-Date-Time', now()->toDateTimeString('m'))
@@ -230,7 +230,7 @@ abstract class AbstractClient
                 $this->requestId(),
                 static fn (PendingRequest $pendingRequest, string $requestId) => $pendingRequest->withMiddleware(
                     Middleware::mapResponse(
-                        static fn (ResponseInterface $response): ResponseInterface => $response->withHeader(PrepareRequestListener::X_REQUEST_ID, $requestId)
+                        static fn (ResponseInterface $response): ResponseInterface => $response->withHeader(DefineTraceIdListener::X_REQUEST_ID, $requestId)
                     )
                 )
             );

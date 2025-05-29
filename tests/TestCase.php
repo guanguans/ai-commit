@@ -6,8 +6,9 @@
 /** @noinspection PhpUndefinedClassInspection */
 /** @noinspection PhpUnhandledExceptionInspection */
 /** @noinspection PhpVoidFunctionResultUsedInspection */
-/** @noinspection SqlResolve */
 /** @noinspection StaticClosureCanBeUsedInspection */
+/** @noinspection PhpUnusedAliasInspection */
+/** @noinspection SqlResolve */
 declare(strict_types=1);
 
 /**
@@ -22,31 +23,32 @@ declare(strict_types=1);
 namespace Tests;
 
 use App\ConfigManager;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTruncation;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use LaravelZero\Framework\Testing\TestCase as BaseTestCase;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use phpmock\phpunit\PHPMock;
+use Symfony\Component\VarDumper\Test\VarDumperTestTrait;
 
 abstract class TestCase extends BaseTestCase
 {
+    // use DatabaseMigrations;
+    // use DatabaseTruncation;
+    // use LazilyRefreshDatabase;
+    // use RefreshDatabase;
+
+    use MockeryPHPUnitIntegration;
     use PHPMock;
+    use VarDumperTestTrait;
+    protected bool $seed = false;
 
-    /**
-     * This method is called before the first test of this test class is run.
-     */
-    public static function setUpBeforeClass(): void {}
-
-    /**
-     * This method is called after the last test of this test class is run.
-     */
-    public static function tearDownAfterClass(): void {}
-
-    /**
-     * This method is called before each test.
-     *
-     * @throws \JsonException
-     */
     protected function setUp(): void
     {
         parent::setUp();
+        // \DG\BypassFinals::enable();
+        $this->startMockery();
 
         $configManager = ConfigManager::createFrom($this->app->configPath('ai-commit.php'));
         $configManager->set('generators.openai.api_key', 'sk-...');
@@ -55,21 +57,12 @@ abstract class TestCase extends BaseTestCase
         config()->set('ai-commit', $configManager);
     }
 
-    /**
-     * This method is called after each test.
-     */
     protected function tearDown(): void
     {
-        parent::tearDown();
         $this->finish();
-        \Mockery::close();
+        $this->closeMockery();
+        parent::tearDown();
     }
 
-    /**
-     * Run extra tear down code.
-     */
-    protected function finish(): void
-    {
-        // call more tear down methods
-    }
+    private function finish(): void {}
 }
