@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace App\Generators;
 
 use App\Clients\Ernie;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
@@ -31,9 +30,7 @@ class ErnieBotGenerator extends AbstractGenerator
     }
 
     /**
-     * @noinspection PhpCastIsUnnecessaryInspection
-     *
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws \Illuminate\Http\Client\ConnectionException
      * @throws \Illuminate\Http\Client\RequestException
      */
     public function generate(string $prompt): string
@@ -52,7 +49,7 @@ class ErnieBotGenerator extends AbstractGenerator
     }
 
     /**
-     * @throws BindingResolutionException
+     * @throws \Illuminate\Http\Client\ConnectionException
      * @throws RequestException
      */
     protected function completion(array $parameters, ?callable $writer = null): Response

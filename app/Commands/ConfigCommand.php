@@ -38,7 +38,11 @@ final class ConfigCommand extends Command
 
     /** @var list<string> */
     protected const UNIX_EDITORS = ['editor', 'vim', 'vi', 'nano', 'pico', 'ed'];
+
+    /** @noinspection ClassOverridesFieldOfSuperClassInspection */
     protected $signature = 'config';
+
+    /** @noinspection ClassOverridesFieldOfSuperClassInspection */
     protected $description = 'Manage config options.';
     private readonly ConfigManager $configManager;
 
@@ -50,9 +54,12 @@ final class ConfigCommand extends Command
 
     /**
      * @throws \JsonException
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function handle(ExecutableFinder $executableFinder): int
     {
+        /** @var string $file */
         $file = value(function () {
             if ($file = $this->option('file')) {
                 return $file;
@@ -158,6 +165,9 @@ final class ConfigCommand extends Command
         }
     }
 
+    /**
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
     public function schedule(Schedule $schedule): void
     {
         // $schedule->command(static::class)->everyMinute();
@@ -165,6 +175,9 @@ final class ConfigCommand extends Command
 
     /**
      * {@inheritDoc}
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
+     * @noinspection MethodVisibilityInspection
      */
     protected function configure(): void
     {
@@ -179,6 +192,9 @@ final class ConfigCommand extends Command
     }
 
     /**
+     * @noinspection PhpMissingParentCallCommonInspection
+     * @noinspection MethodVisibilityInspection
+     *
      * @throws \JsonException
      */
     protected function initialize(InputInterface $input, OutputInterface $output): void
@@ -189,8 +205,6 @@ final class ConfigCommand extends Command
     }
 
     /**
-     * @noinspection PhpInconsistentReturnPointsInspection
-     *
      * @throws \JsonException
      */
     private function argToValue(string $arg): mixed

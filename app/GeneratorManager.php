@@ -42,6 +42,7 @@ final class GeneratorManager extends Manager
      *
      * @noinspection MissingParentCallInspection
      * @noinspection PhpMissingParentCallCommonInspection
+     * @noinspection MethodVisibilityInspection
      */
     protected function createDriver(mixed $driver): GeneratorContract
     {

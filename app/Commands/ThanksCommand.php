@@ -18,7 +18,10 @@ use LaravelZero\Framework\Commands\Command;
 
 final class ThanksCommand extends Command
 {
+    /** @noinspection ClassOverridesFieldOfSuperClassInspection */
     protected $signature = 'thanks';
+
+    /** @noinspection ClassOverridesFieldOfSuperClassInspection */
     protected $description = 'Thanks for using this tool.';
 
     public function handle(): void
@@ -38,6 +41,9 @@ final class ThanksCommand extends Command
         ]);
     }
 
+    /**
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
     public function schedule(Schedule $schedule): void
     {
         // $schedule->command(static::class)->everyMinute();

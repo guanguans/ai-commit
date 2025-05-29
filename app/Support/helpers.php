@@ -29,7 +29,6 @@ if (!\function_exists('App\Support\classes')) {
      * @see \get_declared_traits()
      * @see \DG\BypassFinals::enable()
      *
-     * @noinspection PhpUndefinedNamespaceInspection
      * @noinspection RedundantDocCommentTagInspection
      *
      * @param callable(string, class-string): bool $filter

@@ -60,7 +60,6 @@ abstract class AbstractClient
 
     /**
      * @see \Illuminate\Http\Client\Factory::__call()
-     * @see \Spatie\QueryBuilder\QueryBuilder::__call()
      *
      * @noinspection PhpMixedReturnTypeCanBeReducedInspection
      *
@@ -104,6 +103,9 @@ abstract class AbstractClient
         return $this->pendingRequest($callback, true);
     }
 
+    /**
+     * @noinspection PhpIncompatibleReturnTypeInspection
+     */
     public function pendingRequest(?callable $callback = null, bool $clone = false): PendingRequest
     {
         return tap(

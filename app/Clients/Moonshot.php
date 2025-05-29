@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace App\Clients;
 
 use GuzzleHttp\Psr7\Utils;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
@@ -57,7 +56,7 @@ final class Moonshot extends AbstractClient
      * data: [DONE]
      * ```
      *
-     * @throws BindingResolutionException
+     * @throws \Illuminate\Http\Client\ConnectionException
      * @throws RequestException
      */
     public function chatCompletions(array $parameters, ?callable $writer = null): Response
@@ -113,6 +112,7 @@ final class Moonshot extends AbstractClient
     }
 
     /**
+     * @throws \Illuminate\Http\Client\ConnectionException
      * @throws RequestException
      */
     public function models(): Response

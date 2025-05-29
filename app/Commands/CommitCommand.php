@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpUnhandledExceptionInspection */
+
 declare(strict_types=1);
 
 /**
@@ -30,7 +32,10 @@ use Symfony\Component\Process\Process;
 
 final class CommitCommand extends Command
 {
+    /** @noinspection ClassOverridesFieldOfSuperClassInspection */
     protected $signature = 'commit';
+
+    /** @noinspection ClassOverridesFieldOfSuperClassInspection */
     protected $description = 'Automagically generate conventional commit message with AI.';
     private readonly ConfigManager $configManager;
 
@@ -41,7 +46,9 @@ final class CommitCommand extends Command
     }
 
     /**
-     * @throws \Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \Throwable
      */
     public function handle(): void
     {
@@ -108,6 +115,9 @@ final class CommitCommand extends Command
             });
     }
 
+    /**
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
     public function schedule(Schedule $schedule): void
     {
         // $schedule->command(static::class)->everyMinute();
@@ -131,6 +141,9 @@ final class CommitCommand extends Command
 
     /**
      * {@inheritDoc}
+     *
+     * @noinspection MethodVisibilityInspection
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     protected function configure(): void
     {
@@ -209,6 +222,9 @@ final class CommitCommand extends Command
     /**
      * {@inheritDoc}
      *
+     * @noinspection MethodVisibilityInspection
+     * @noinspection PhpMissingParentCallCommonInspection
+     *
      * @throws \JsonException
      */
     protected function initialize(InputInterface $input, OutputInterface $output): void
@@ -282,7 +298,6 @@ final class CommitCommand extends Command
     /**
      * @noinspection CallableParameterUseCaseInTypeContextInspection
      * @noinspection PhpSameParameterValueInspection
-     * @noinspection MissingParameterTypeDeclarationInspection
      */
     private function createProcess(
         array $command,

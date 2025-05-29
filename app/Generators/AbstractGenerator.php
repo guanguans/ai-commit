@@ -38,9 +38,6 @@ abstract class AbstractGenerator implements GeneratorContract
         $this->helperSet = (fn () => $this->getArtisan()->getHelperSet())->call(Artisan::getFacadeRoot());
     }
 
-    /**
-     * @noinspection MissingParameterTypeDeclarationInspection
-     */
     protected function mustRunProcess(
         array|Process|string $cmd,
         ?string $error = null,
@@ -57,10 +54,6 @@ abstract class AbstractGenerator implements GeneratorContract
         return $process;
     }
 
-    /**
-     * @noinspection MissingParameterTypeDeclarationInspection
-     * @noinspection PhpPossiblePolymorphicInvocationInspection
-     */
     protected function runProcess(
         array|Process|string $cmd,
         ?string $error = null,

@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace App\Clients;
 
 use GuzzleHttp\Psr7\Utils;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
@@ -59,7 +58,7 @@ final class Ernie extends AbstractClient
      * {'error_code':336003,'error_msg':'the max length of current question is 2000','id':'as-fxhfe8n53r'}
      * ```stream
      *
-     * @throws BindingResolutionException
+     * @throws \Illuminate\Http\Client\ConnectionException
      * @throws RequestException
      */
     public function ernieBot(array $parameters, ?callable $writer = null): Response
@@ -68,7 +67,7 @@ final class Ernie extends AbstractClient
     }
 
     /**
-     * @throws BindingResolutionException
+     * @throws \Illuminate\Http\Client\ConnectionException
      * @throws RequestException
      */
     public function ernieBotTurbo(array $parameters, ?callable $writer = null): Response
@@ -77,6 +76,7 @@ final class Ernie extends AbstractClient
     }
 
     /**
+     * @throws \Illuminate\Http\Client\ConnectionException
      * @throws RequestException
      */
     public function oauthToken(): Response
@@ -107,6 +107,7 @@ final class Ernie extends AbstractClient
     }
 
     /**
+     * @throws \Illuminate\Http\Client\ConnectionException
      * @throws RequestException
      */
     private function getAccessToken(): string
@@ -115,15 +116,13 @@ final class Ernie extends AbstractClient
     }
 
     /**
-     * @throws BindingResolutionException
+     * @throws \Illuminate\Http\Client\ConnectionException
      * @throws RequestException
      */
     private function completion(
         string $url,
         array $parameters,
         ?callable $writer = null,
-        array $messages = [],
-        array $customAttributes = []
     ): Response {
         $response = $this
             ->when(
@@ -156,8 +155,6 @@ final class Ernie extends AbstractClient
                     'stream' => 'bool',
                     'user_id' => 'string|uuid',
                 ],
-                $messages,
-                $customAttributes
             ));
 
         if ($rowData && empty($response->body())) {

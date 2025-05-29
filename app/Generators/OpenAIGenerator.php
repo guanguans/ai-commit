@@ -49,9 +49,7 @@ class OpenAIGenerator extends AbstractGenerator
      * ]
      * ```.
      *
-     * @noinspection PhpCastIsUnnecessaryInspection
-     *
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws \Illuminate\Http\Client\ConnectionException
      * @throws \Illuminate\Http\Client\RequestException
      */
     public function generate(string $prompt): string

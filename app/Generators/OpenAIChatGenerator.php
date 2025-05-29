@@ -20,9 +20,9 @@ final class OpenAIChatGenerator extends OpenAIGenerator
 {
     /**
      * @noinspection MissingParentCallInspection
-     * @noinspection PhpCastIsUnnecessaryInspection
+     * @noinspection PhpMissingParentCallCommonInspection
      *
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws \Illuminate\Http\Client\ConnectionException
      * @throws \Illuminate\Http\Client\RequestException
      */
     public function generate(string $prompt): string
@@ -41,7 +41,9 @@ final class OpenAIChatGenerator extends OpenAIGenerator
     }
 
     /**
-     * {@inheritDoc}
+     * {}.
+     *
+     * @noinspection PhpMissingParentCallCommonInspection
      */
     protected function getCompletionMessages(array|\ArrayAccess $response): string
     {

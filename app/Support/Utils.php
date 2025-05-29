@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection EmptyClassInspection */
+
 declare(strict_types=1);
 
 /**

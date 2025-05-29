@@ -15,7 +15,6 @@ namespace App\Clients;
 
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Utils;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
@@ -66,7 +65,7 @@ final class OpenAI extends AbstractClient
      * }
      * ```
      *
-     * @throws BindingResolutionException
+     * @throws \Illuminate\Http\Client\ConnectionException
      * @throws RequestException
      */
     public function completions(array $parameters, ?callable $writer = null): Response
@@ -135,7 +134,7 @@ final class OpenAI extends AbstractClient
      * data: [DONE]
      * ```
      *
-     * @throws BindingResolutionException
+     * @throws \Illuminate\Http\Client\ConnectionException
      * @throws RequestException
      */
     public function chatCompletions(array $parameters, ?callable $writer = null): Response
@@ -167,6 +166,7 @@ final class OpenAI extends AbstractClient
     }
 
     /**
+     * @throws \Illuminate\Http\Client\ConnectionException
      * @throws RequestException
      */
     public function models(): Response
@@ -189,10 +189,10 @@ final class OpenAI extends AbstractClient
     }
 
     /**
-     * @throws BindingResolutionException
+     * @throws \Illuminate\Http\Client\ConnectionException
      * @throws RequestException
      */
-    private function completion(string $url, array $parameters, array $rules, ?callable $writer = null, array $messages = [], array $customAttributes = []): Response
+    private function completion(string $url, array $parameters, array $rules, ?callable $writer = null): Response
     {
         $response = $this
             ->when(
@@ -249,7 +249,7 @@ final class OpenAI extends AbstractClient
             //         return $response;
             //     })
             // )
-            ->post($url, $this->validate($parameters, $rules, $messages, $customAttributes));
+            ->post($url, $this->validate($parameters, $rules));
         // ->onError(function (Response $response) use ($rowData) {
         //     if ($rowData && empty($response->body())) {
         //         (function (Response $response) use ($rowData): void {

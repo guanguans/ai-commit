@@ -20,6 +20,9 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 
 final class AppServiceProvider extends ServiceProvider
 {
+    /**
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
     public function register(): void
     {
         $this->app->singletonIf(

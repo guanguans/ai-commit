@@ -200,7 +200,6 @@ final class ConfigManager extends Repository implements \JsonSerializable, \Stri
      * {@inheritDoc}
      *
      * @noinspection JsonEncodingApiUsageInspection
-     * @noinspection MissingParameterTypeDeclarationInspection
      *
      * @throws \JsonException
      */
