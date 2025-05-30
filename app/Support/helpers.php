@@ -16,7 +16,6 @@ namespace App\Support;
 use Composer\Autoload\ClassLoader;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Symfony\Component\Console\Output\ConsoleOutput;
 
 if (!\function_exists('App\Support\classes')) {
     /**
@@ -52,17 +51,6 @@ if (!\function_exists('App\Support\classes')) {
                     return [$class => $throwable];
                 }
             });
-    }
-}
-
-if (!\function_exists('App\Support\clear_console_screen')) {
-    function clear_console_screen(): void
-    {
-        if (!app()->runningInConsole()) {
-            return;
-        }
-
-        (new ConsoleOutput)->write("\033\143");
     }
 }
 
@@ -108,15 +96,5 @@ if (!\function_exists('App\Support\make')) {
             'The argument of abstract must be an array containing a `%s` element.',
             implode('` or `', $keys)
         ));
-    }
-}
-
-if (!\function_exists('App\Support\str_remove_cntrl')) {
-    /**
-     * Remove control character.
-     */
-    function str_remove_cntrl(string $str): string
-    {
-        return preg_replace('/[[:cntrl:]]/mu', '', $str);
     }
 }

@@ -211,9 +211,9 @@ return RectorConfig::configure()
         ] + array_reduce(
             [
                 'classes',
-                'clear_console_screen',
+                // 'clear_console_screen',
                 'make',
-                'str_remove_cntrl',
+                // 'str_remove_cntrl',
             ],
             static function (array $carry, string $func): array {
                 /** @see https://github.com/laravel/framework/blob/11.x/src/Illuminate/Support/functions.php */
