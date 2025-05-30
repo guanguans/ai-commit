@@ -30,14 +30,9 @@ use Symfony\Component\Process\Process;
 
 final class ConfigCommand extends Command
 {
-    /** @var list<string> */
-    public const ACTIONS = ['set', 'get', 'unset', 'reset', 'list', 'edit'];
-
-    /** @var list<string> */
-    protected const WINDOWS_EDITORS = ['notepad'];
-
-    /** @var list<string> */
-    protected const UNIX_EDITORS = ['editor', 'vim', 'vi', 'nano', 'pico', 'ed'];
+    private const ACTIONS = ['set', 'get', 'unset', 'reset', 'list', 'edit'];
+    private const UNIX_EDITORS = ['editor', 'vim', 'vi', 'nano', 'pico', 'ed'];
+    private const WINDOWS_EDITORS = ['notepad'];
 
     /** @noinspection ClassOverridesFieldOfSuperClassInspection */
     protected $signature = 'config';
@@ -53,25 +48,14 @@ final class ConfigCommand extends Command
     }
 
     /**
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      * @throws \JsonException
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function handle(ExecutableFinder $executableFinder): int
     {
-        /** @var string $file */
-        $file = value(function () {
-            if ($file = $this->option('file')) {
-                return $file;
-            }
-
-            if ($this->option('global')) {
-                return ConfigManager::globalPath();
-            }
-
-            return ConfigManager::localPath();
-        });
-
+        $file = $this->configFile();
         $this->output->note("The config file($file) is being operated.");
         file_exists($file) or $this->configManager->putFile($file);
         $this->configManager->replaceFrom($file);
@@ -176,6 +160,11 @@ final class ConfigCommand extends Command
         // $schedule->command(static::class)->everyMinute();
     }
 
+    public static function hydratedActions(): string
+    {
+        return implode(', ', self::ACTIONS);
+    }
+
     /**
      * {@inheritDoc}
      *
@@ -185,7 +174,7 @@ final class ConfigCommand extends Command
     protected function configure(): void
     {
         $this->setDefinition([
-            new InputArgument('action', InputArgument::REQUIRED, \sprintf('The action(<comment>[%s]</comment>) name', implode(', ', self::ACTIONS))),
+            new InputArgument('action', InputArgument::REQUIRED, \sprintf('The action(<comment>[%s]</comment>) name', self::hydratedActions())),
             new InputArgument('key', InputArgument::OPTIONAL, 'The key of config options'),
             new InputArgument('value', InputArgument::OPTIONAL, 'The value of config options'),
             new InputOption('global', 'g', InputOption::VALUE_NONE, 'Apply to the global config file'),
@@ -249,5 +238,18 @@ final class ConfigCommand extends Command
         // }
 
         return (string) json_encode($value, \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE);
+    }
+
+    private function configFile(): string
+    {
+        if ($file = $this->option('file')) {
+            return $file;
+        }
+
+        if ($this->option('global')) {
+            return ConfigManager::globalPath();
+        }
+
+        return ConfigManager::localPath();
     }
 }

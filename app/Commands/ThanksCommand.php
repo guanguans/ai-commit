@@ -29,9 +29,11 @@ final class ThanksCommand extends Command
         $wantsToSupport = $this->ask('Can you quickly <options=bold>star our GitHub repository</>? 🙏🏻', 'yes');
 
         if (str($wantsToSupport)->trim()->is(['yes', 'y'])) {
-            \PHP_OS_FAMILY === 'Darwin' and exec('open https://github.com/guanguans/ai-commit');
-            \PHP_OS_FAMILY === 'Windows' and exec('start https://github.com/guanguans/ai-commit');
-            \PHP_OS_FAMILY === 'Linux' and exec('xdg-open https://github.com/guanguans/ai-commit');
+            exec(match (\PHP_OS_FAMILY) {
+                'Darwin' => 'open https://github.com/guanguans/ai-commit',
+                'Windows' => 'start https://github.com/guanguans/ai-commit',
+                default => 'xdg-open https://github.com/guanguans/ai-commit',
+            });
         }
 
         $this->output->writeln([

@@ -20,7 +20,7 @@ final class UnsupportedConfigActionException extends InvalidArgumentException
     public static function make(string $action, int $code = 0, ?\Throwable $previous = null): self
     {
         return new self(
-            \sprintf("The action [$action] is not supported, that must be one of [%s].", implode(', ', ConfigCommand::ACTIONS)),
+            \sprintf("The action [$action] is not supported, that must be one of [%s].", ConfigCommand::hydratedActions()),
             $code,
             $previous
         );
