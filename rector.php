@@ -32,6 +32,7 @@ use Rector\CodingStyle\Rector\Encapsed\EncapsedStringsToSprintfRector;
 use Rector\CodingStyle\Rector\Encapsed\WrapEncapsedVariableInCurlyBracesRector;
 use Rector\CodingStyle\Rector\FuncCall\ArraySpreadInsteadOfArrayMergeRector;
 use Rector\CodingStyle\Rector\Stmt\NewlineAfterStatementRector;
+use Rector\CodingStyle\Rector\String_\SymplifyQuoteEscapeRector;
 use Rector\Config\RectorConfig;
 use Rector\DeadCode\Rector\ClassLike\RemoveAnnotationRector;
 use Rector\DowngradePhp81\Rector\Array_\DowngradeArraySpreadStringKeyRector;
@@ -86,6 +87,7 @@ return RectorConfig::configure()
         '**.blade.php',
         '**/__snapshots__/*',
         '**/Fixtures/*',
+        __DIR__.'/bootstrap/providers.php',
         __FILE__,
     ])
     ->withCache(__DIR__.'/.build/rector/')
@@ -258,6 +260,9 @@ return RectorConfig::configure()
         ],
         JsonThrowOnErrorRector::class => [
             __DIR__.'/app/Generators/',
+        ],
+        SymplifyQuoteEscapeRector::class => [
+            __DIR__.'/resources/lang/',
         ],
         StaticArrowFunctionRector::class => $staticClosureSkipPaths = [
             __DIR__.'/tests',

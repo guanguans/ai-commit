@@ -49,6 +49,9 @@ return (new Configuration)
     ->ignoreErrorsOnPackages(
         [
             'guzzlehttp/psr7',
+            'laravel-lang/config',
+            'laravel-lang/locale-list',
+            'laravel-lang/routes',
             'laravel-zero/foundation',
             'nunomaduro/laravel-console-summary',
             'psr/http-message',

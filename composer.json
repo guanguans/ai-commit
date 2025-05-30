@@ -78,6 +78,7 @@
         "intonate/tinker-zero": "^1.2",
         "ion-bazan/composer-diff": "^1.12",
         "larastan/larastan": "^3.4",
+        "laravel-lang/common": "^6.7",
         "laravel/facade-documenter": "dev-main",
         "mockery/mockery": "^1.6",
         "pb30/phpstan-composer-analysis": "^0.12",
@@ -175,6 +176,8 @@
             "@composer-bin-all-update"
         ],
         "post-update-cmd": [
+            "@artisan vendor:publish --tag=laravel-assets --force",
+            "@artisan lang:update",
             "@cghooks update",
             "@composer-bin-all-update"
         ],
@@ -186,6 +189,11 @@
         "ai-commit-github-models": "@ai-commit --generator=github_models_cli",
         "ai-commit-github-models-no-verify": "@ai-commit-github-models --no-verify",
         "ai-commit-no-verify": "@ai-commit --no-verify",
+        "artisan": "@php ai-commit --ansi -v",
+        "artisan-xdebug": [
+            "@env-put-xdebug-on",
+            "@php ai-commit --ansi"
+        ],
         "benchmark": "@php vendor/bin/phpbench run --report=aggregate --ansi -v",
         "cghooks": "@php vendor/bin/cghooks --ansi -v",
         "cghooks-ignore": "[ ! -f \"vendor/bin/cghooks\" ] && exit 0 || php vendor/bin/cghooks --ansi -v",
