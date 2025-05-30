@@ -63,6 +63,6 @@ return Application::configure(basePath: \dirname(__DIR__))
     })
     ->create()
     ->tap(static function (Application $app): void {
-        $app->call(DefineTraceIdListener::class);
         // $app->afterLoadingEnvironment((new DefineTraceIdListener)(...));
+        $app->call(DefineTraceIdListener::class);
     });

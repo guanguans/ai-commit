@@ -15,19 +15,42 @@ namespace App\Providers;
 
 use Illuminate\Console\OutputStyle;
 use Illuminate\Support\ServiceProvider;
+use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * @method void configureIO(InputInterface $input, OutputInterface $output)
+ */
 final class AppServiceProvider extends ServiceProvider
 {
     /**
      * @noinspection PhpMissingParentCallCommonInspection
+     * @noinspection GlobalVariableUsageInspection
      */
     public function register(): void
     {
+        /**
+         * @see \Rector\Console\Style\SymfonyStyleFactory
+         */
         $this->app->singletonIf(
             OutputStyle::class,
-            static fn (): OutputStyle => new OutputStyle(new ArgvInput, new ConsoleOutput)
+            static function (): OutputStyle {
+                // to prevent missing argv indexes
+                if (!isset($_SERVER['argv'])) {
+                    $_SERVER['argv'] = [];
+                }
+
+                $argvInput = new ArgvInput;
+                $consoleOutput = new ConsoleOutput;
+
+                // to configure all -v, -vv, -vvv options without memory-lock to Application run() arguments
+                (fn () => $this->configureIO($argvInput, $consoleOutput))->call(new Application);
+
+                return new OutputStyle($argvInput, $consoleOutput);
+            }
         );
     }
 
