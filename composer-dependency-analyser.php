@@ -48,6 +48,7 @@ return (new Configuration)
     )
     ->ignoreErrorsOnPackages(
         [
+            'composer/xdebug-handler',
             'guzzlehttp/psr7',
             'laravel-lang/config',
             'laravel-lang/locale-list',
