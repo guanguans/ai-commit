@@ -18,7 +18,6 @@ namespace App\Commands;
 use App\ConfigManager;
 use App\Exceptions\RuntimeException;
 use App\GeneratorManager;
-use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Stringable;
 use LaravelZero\Framework\Commands\Command;
@@ -113,14 +112,6 @@ final class CommitCommand extends Command
             ->tap(function (): void {
                 $this->output->success('Successfully generated and committed message.');
             });
-    }
-
-    /**
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function schedule(Schedule $schedule): void
-    {
-        // $schedule->command(static::class)->everyMinute();
     }
 
     /**

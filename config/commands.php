@@ -53,7 +53,6 @@ return [
     */
 
     'add' => [
-        // ..
         Illuminate\Foundation\Console\VendorPublishCommand::class,
     ],
 
@@ -91,6 +90,6 @@ return [
     */
 
     'remove' => [
-        // ..
+        // ...
     ],
 ];

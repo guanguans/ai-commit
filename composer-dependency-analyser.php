@@ -30,7 +30,6 @@ return (new Configuration)
         // __DIR__.'/src/Support/Rectors',
     ])
     ->ignoreUnknownClasses([
-        'LaravelZero\Framework\Components\Logo\FigletString',
     ])
     /** @see \ShipMonk\ComposerDependencyAnalyser\Analyser::CORE_EXTENSIONS */
     ->ignoreErrorsOnExtensions(

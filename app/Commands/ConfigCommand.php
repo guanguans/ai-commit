@@ -16,7 +16,6 @@ namespace App\Commands;
 use App\ConfigManager;
 use App\Exceptions\RuntimeException;
 use App\Exceptions\UnsupportedConfigActionException;
-use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Arr;
 use LaravelZero\Framework\Commands\Command;
 use Symfony\Component\Console\Completion\CompletionInput;
@@ -53,12 +52,14 @@ final class ConfigCommand extends Command
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function handle(ExecutableFinder $executableFinder): int
+    public function handle(): int
     {
         $file = $this->configFile();
-        $this->output->note("The config file($file) is being operated.");
+
+        $this->output->note("The config file [$file] is being operated.");
         file_exists($file) or $this->configManager->putFile($file);
         $this->configManager->replaceFrom($file);
+
         $action = $this->argument('action');
         $key = $this->argument('key');
 
@@ -97,25 +98,10 @@ final class ConfigCommand extends Command
 
                 break;
             case 'edit':
-                $editor = value(function () use ($executableFinder) {
-                    if ($editor = $this->option('editor')) {
-                        return $editor;
-                    }
-
-                    $editors = windows_os() ? self::WINDOWS_EDITORS : self::UNIX_EDITORS;
-
-                    foreach ($editors as $editor) {
-                        if ($executableFinder->find($editor)) {
-                            return $editor;
-                        }
-                    }
-
-                    throw new RuntimeException('Unable to find a default editor or specify the editor.');
-                });
-
-                tap(new Process([$editor, $file]), static function (Process $process): void {
-                    Process::isTtySupported() and $process->setTty(true);
-                })->setTimeout(null)->mustRun();
+                tap(
+                    new Process([$this->editor(), $file]),
+                    static fn (Process $process): bool => Process::isTtySupported() and $process->setTty(true)
+                )->setTimeout(null)->mustRun();
 
                 break;
             default:
@@ -150,14 +136,6 @@ final class ConfigCommand extends Command
         if ($input->mustSuggestOptionValuesFor('editor')) {
             $suggestions->suggestValues(self::UNIX_EDITORS);
         }
-    }
-
-    /**
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function schedule(Schedule $schedule): void
-    {
-        // $schedule->command(static::class)->everyMinute();
     }
 
     public static function hydratedActions(): string
@@ -196,50 +174,6 @@ final class ConfigCommand extends Command
         }
     }
 
-    /**
-     * @throws \JsonException
-     */
-    private function argToValue(string $arg): mixed
-    {
-        // if (0 === strncasecmp($arg, 'null', 4)) {
-        //     return;
-        // }
-        //
-        // if (0 === strncasecmp($arg, 'true', 4)) {
-        //     return true;
-        // }
-        //
-        // if (0 === strncasecmp($arg, 'false', 5)) {
-        //     return false;
-        // }
-        //
-        // if (is_numeric($arg)) {
-        //     return str_contains($arg, '.') ? (float) $arg : (int) $arg;
-        // }
-
-        if (str($arg)->isJson()) {
-            return json_decode($arg, true, 512, \JSON_THROW_ON_ERROR);
-        }
-
-        return $arg;
-    }
-
-    /**
-     * @noinspection JsonEncodingApiUsageInspection
-     */
-    private function valueToArg(mixed $value): string
-    {
-        // if (null === $value) {
-        //     return 'null';
-        // }
-        //
-        // if (\is_scalar($value)) {
-        //     return var_export($value, true);
-        // }
-
-        return (string) json_encode($value, \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE);
-    }
-
     private function configFile(): string
     {
         if ($file = $this->option('file')) {
@@ -251,5 +185,37 @@ final class ConfigCommand extends Command
         }
 
         return ConfigManager::localPath();
+    }
+
+    private function editor(): string
+    {
+        if ($editor = $this->option('editor')) {
+            return $editor;
+        }
+
+        $editors = windows_os() ? self::WINDOWS_EDITORS : self::UNIX_EDITORS;
+
+        foreach ($editors as $editor) {
+            if (resolve(ExecutableFinder::class)->find($editor)) {
+                return $editor;
+            }
+        }
+
+        throw new RuntimeException('Unable to find a default editor or specify the editor.');
+    }
+
+    /**
+     * @throws \JsonException
+     */
+    private function argToValue(string $arg): mixed
+    {
+        return str($arg)->isJson() ? json_decode($arg, true, 512, \JSON_THROW_ON_ERROR) : $arg;
+    }
+
+    private function valueToArg(mixed $value): string
+    {
+        return \is_string($value)
+            ? $value
+            : json_encode($value, ConfigManager::JSON_OPTIONS);
     }
 }

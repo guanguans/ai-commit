@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace App\Commands;
 
-use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
 
 final class ThanksCommand extends Command
@@ -41,13 +40,5 @@ final class ThanksCommand extends Command
             \sprintf('  - Star or contribute to <comment>%s</comment>:', config('app.name')),
             '    <options=bold>https://github.com/guanguans/ai-commit</>',
         ]);
-    }
-
-    /**
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
-    public function schedule(Schedule $schedule): void
-    {
-        // $schedule->command(static::class)->everyMinute();
     }
 }
