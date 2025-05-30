@@ -150,9 +150,9 @@ return RectorConfig::configure()
         'PhpVoidFunctionResultUsedInspection',
         'StaticClosureCanBeUsedInspection',
     ])
-    // ->withConfiguredRule(NewExceptionToNewAnonymousExtendsExceptionImplementsRector::class, [
-    //     ThrowableContract::class,
-    // ])
+    ->withConfiguredRule(NewExceptionToNewAnonymousExtendsExceptionImplementsRector::class, [
+        ThrowableContract::class,
+    ])
     ->withConfiguredRule(RemoveNamespaceRector::class, [
         'Tests',
     ])
@@ -278,7 +278,10 @@ return RectorConfig::configure()
             __DIR__.'/composer-updater',
         ],
         NewExceptionToNewAnonymousExtendsExceptionImplementsRector::class => [
-            __DIR__.'/src/Support/Rectors/',
+            __DIR__.'/app/Clients/Ernie.php',
+            __DIR__.'/app/Generators/AbstractGenerator.php',
+            __DIR__.'/app/Support/Rectors/',
+            __DIR__.'/tests/Unit/Exceptions/HandlerTest.php',
             __DIR__.'/composer-updater',
         ],
         RemoveNamespaceRector::class => [

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace App\Support;
 
+use App\Exceptions\InvalidArgumentException;
 use Composer\Autoload\ClassLoader;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -92,7 +93,7 @@ if (!\function_exists('App\Support\make')) {
             }
         }
 
-        throw new \InvalidArgumentException(\sprintf(
+        throw new InvalidArgumentException(\sprintf(
             'The argument of abstract must be an array containing a `%s` element.',
             implode('` or `', $keys)
         ));

@@ -18,7 +18,7 @@ final class UnsupportedConfigFileTypeException extends InvalidArgumentException
     public static function make(string $file, int $code = 0, ?\Throwable $previous = null): self
     {
         return new self(
-            \sprintf('The config file type(%s) is not supported', pathinfo($file, \PATHINFO_EXTENSION)),
+            \sprintf('The config file type [%s] is not supported', pathinfo($file, \PATHINFO_EXTENSION)),
             $code,
             $previous
         );

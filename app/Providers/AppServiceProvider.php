@@ -15,9 +15,11 @@ namespace App\Providers;
 
 use Illuminate\Console\OutputStyle;
 use Illuminate\Support\ServiceProvider;
-use Symfony\Component\Console\Application;
+use LaravelZero\Framework\Application;
+use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -47,10 +49,15 @@ final class AppServiceProvider extends ServiceProvider
                 $consoleOutput = new ConsoleOutput;
 
                 // to configure all -v, -vv, -vvv options without memory-lock to Application run() arguments
-                (fn () => $this->configureIO($argvInput, $consoleOutput))->call(new Application);
+                (fn () => $this->configureIO($argvInput, $consoleOutput))->call(new ConsoleApplication);
 
                 return new OutputStyle($argvInput, $consoleOutput);
             }
+        );
+
+        $this->app->singleton(
+            ConsoleLogger::class,
+            static fn (Application $app): ConsoleLogger => new ConsoleLogger($app->make(OutputStyle::class))
         );
     }
 

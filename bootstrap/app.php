@@ -25,19 +25,20 @@ use Illuminate\Log\LogManager;
 use Illuminate\Validation\ValidationException;
 use Intonate\TinkerZero\TinkerZeroServiceProvider;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Console\Logger\ConsoleLogger;
 
 return Application::configure(basePath: \dirname(__DIR__))
+    ->withSingletons([
+        GeneratorManager::class,
+    ])
     ->booting(static function (): void {
         ConfigManager::load();
     })
-    // ->booted(static function (Application $app): void {
-    //     if (class_exists(TinkerZeroServiceProvider::class) && !$app->isProduction()) {
-    //         $app->register(TinkerZeroServiceProvider::class);
-    //     }
-    // })
-    ->booted(static function (Application $app): void {
-        // new ConsoleLogger(app(OutputStyle::class));
+    ->booting(static function (Application $app): void {
+        if (class_exists(TinkerZeroServiceProvider::class) && !$app->isProduction()) {
+            $app->register(TinkerZeroServiceProvider::class);
+        }
+    })
+    ->booting(static function (Application $app): void {
         $app->extend(
             LogManager::class,
             static fn (
@@ -46,9 +47,6 @@ return Application::configure(basePath: \dirname(__DIR__))
             ): LogManager => $logger instanceof LogManager ? $logger : new LogManager($app)
         );
     })
-    ->withSingletons([
-        GeneratorManager::class,
-    ])
     ->withExceptions(static function (Exceptions $exceptions): void {
         $exceptions->map(
             ValidationException::class,

@@ -61,6 +61,7 @@ return (new Configuration)
     )
     ->ignoreErrorsOnPackages(
         [
+            'intonate/tinker-zero',
         ],
         [ErrorType::DEV_DEPENDENCY_IN_PROD]
     );
