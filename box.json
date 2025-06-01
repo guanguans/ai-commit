@@ -1,4 +1,5 @@
 {
+    "$schema": "https://raw.githubusercontent.com/box-project/box/refs/heads/main/res/schema.json",
     "chmod": "0755",
     "directories": [
         "app",
