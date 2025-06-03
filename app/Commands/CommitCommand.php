@@ -78,6 +78,7 @@ final class CommitCommand extends Command
             })
             ->tap(function () use (&$message): void {
                 $len = str($message)->explode(\PHP_EOL)->map(static fn (string $line): int => mb_strlen($line))->max();
+                $this->newLine();
                 $this->line(str_repeat('-', $len));
                 $this->info($message);
                 $this->line(str_repeat('-', $len));
@@ -193,8 +194,6 @@ final class CommitCommand extends Command
      *
      * @noinspection MethodVisibilityInspection
      * @noinspection PhpMissingParentCallCommonInspection
-     *
-     * @throws \JsonException
      */
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
@@ -218,7 +217,7 @@ final class CommitCommand extends Command
 
     private function diffCommand(): array
     {
-        return array_merge(['git', 'diff', '--cached'], $this->option('diff-options'));
+        return ['git', 'diff', '--cached', ...$this->option('diff-options')];
     }
 
     /**
@@ -231,7 +230,7 @@ final class CommitCommand extends Command
             ->when($this->shouldntVerify(), static fn (Collection $collection): Collection => $collection->add('--no-verify'))
             ->all();
 
-        return array_merge(['git', 'commit', '--message', $message], $options);
+        return ['git', 'commit', '--message', $message, ...$options];
     }
 
     private function promptFor(string $cachedDiff, string $type): string
