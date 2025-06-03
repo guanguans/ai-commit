@@ -33,7 +33,7 @@ return [
      * By default, true
      */
 
-    'align' => (bool) env('LOCALIZATION_ALIGN', env('LANG_PUBLISHER_ALIGN', false)),
+    'align' => (bool) env('LOCALIZATION_ALIGN', env('LANG_PUBLISHER_ALIGN', true)),
 
     /*
      * The language codes chosen for the files in this repository may not

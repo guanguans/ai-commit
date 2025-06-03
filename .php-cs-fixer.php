@@ -300,6 +300,7 @@ return Factory::fromRuleSet(Php82::create()
                 '__snapshots__',
                 'cache/',
                 'Fixtures/',
+                'lang/',
             ])
             ->notName([
                 '*.blade.php',

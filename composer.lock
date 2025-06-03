@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "16efbabf072e3d9d4f0b9391f74fd5ed",
+    "content-hash": "c111465564d923f334b46d8a6783d805",
     "packages": [
         {
             "name": "brick/math",
@@ -7780,6 +7780,58 @@
             "time": "2025-05-14T17:30:41+00:00"
         },
         {
+            "name": "editorconfig-checker/editorconfig-checker",
+            "version": "10.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/editorconfig-checker/editorconfig-checker.php.git",
+                "reference": "eb2581bee39d10e776e69048a88fb10a76a0cc9f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/editorconfig-checker/editorconfig-checker.php/zipball/eb2581bee39d10e776e69048a88fb10a76a0cc9f",
+                "reference": "eb2581bee39d10e776e69048a88fb10a76a0cc9f",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2 || ^8.0"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "^2.1",
+                "phpstan/phpstan": "^1.4",
+                "phpunit/phpunit": "^8.5.23",
+                "squizlabs/php_codesniffer": "^3.6"
+            },
+            "bin": [
+                "bin/editorconfig-checker",
+                "bin/ec"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "EditorconfigChecker\\": "src/EditorconfigChecker"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Max Strübing",
+                    "email": "mxstrbng@gmail.com",
+                    "homepage": "https://github.com/mstruebing",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "A tool to verify that your files follow the rules of your .editorconfig",
+            "support": {
+                "issues": "https://github.com/editorconfig-checker/editorconfig-checker.php/issues",
+                "source": "https://github.com/editorconfig-checker/editorconfig-checker.php"
+            },
+            "time": "2025-03-17T14:59:08+00:00"
+        },
+        {
             "name": "ergebnis/composer-normalize",
             "version": "2.47.0",
             "source": {
@@ -9760,16 +9812,16 @@
         },
         {
             "name": "laravel-lang/lang",
-            "version": "15.20.2",
+            "version": "15.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Lang/lang.git",
-                "reference": "8924339c9da25aac3191031f2a1470c7e8a0bfac"
+                "reference": "09206b3aedef0ecab295b130fdade626b17fde29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Lang/lang/zipball/8924339c9da25aac3191031f2a1470c7e8a0bfac",
-                "reference": "8924339c9da25aac3191031f2a1470c7e8a0bfac",
+                "url": "https://api.github.com/repos/Laravel-Lang/lang/zipball/09206b3aedef0ecab295b130fdade626b17fde29",
+                "reference": "09206b3aedef0ecab295b130fdade626b17fde29",
                 "shasum": ""
             },
             "require": {
@@ -9819,7 +9871,7 @@
                 "issues": "https://github.com/Laravel-Lang/lang/issues",
                 "source": "https://github.com/Laravel-Lang/lang"
             },
-            "time": "2025-05-11T00:06:09+00:00"
+            "time": "2025-06-01T10:37:35+00:00"
         },
         {
             "name": "laravel-lang/locale-list",
@@ -15043,6 +15095,117 @@
                 "source": "https://github.com/shipmonk-rnd/dead-code-detector/tree/0.11.1"
             },
             "time": "2025-05-15T15:04:54+00:00"
+        },
+        {
+            "name": "shipmonk/memory-scanner",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/shipmonk-rnd/memory-scanner.git",
+                "reference": "543734ec3140f028a7301891108c85a3a86bbaa8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/shipmonk-rnd/memory-scanner/zipball/543734ec3140f028a7301891108c85a3a86bbaa8",
+                "reference": "543734ec3140f028a7301891108c85a3a86bbaa8",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "editorconfig-checker/editorconfig-checker": "^10.7.0",
+                "ergebnis/composer-normalize": "^2.47.0",
+                "phpstan/phpstan": "^2.1.14",
+                "phpstan/phpstan-phpunit": "^2.0.6",
+                "phpstan/phpstan-strict-rules": "^2.0.4",
+                "phpunit/phpunit": "^11.5.19",
+                "psr/log": "^3.0",
+                "shipmonk/composer-dependency-analyser": "^1.8.2",
+                "shipmonk/name-collision-detector": "^2.1.1",
+                "shipmonk/phpstan-rules": "^4.1.1",
+                "slevomat/coding-standard": "^8.18",
+                "symfony/browser-kit": "^7.2",
+                "symfony/dependency-injection": "^7.2",
+                "symfony/framework-bundle": "^7.2",
+                "symfony/http-foundation": "^7.2",
+                "symfony/http-kernel": "^7.2",
+                "symfony/routing": "^7.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ShipMonk\\MemoryScanner\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Lightweight PHP library for analyzing memory usage, tracking object references, and debugging memory leaks",
+            "support": {
+                "issues": "https://github.com/shipmonk-rnd/memory-scanner/issues",
+                "source": "https://github.com/shipmonk-rnd/memory-scanner/tree/1.0.0"
+            },
+            "time": "2025-05-13T09:30:56+00:00"
+        },
+        {
+            "name": "shipmonk/name-collision-detector",
+            "version": "2.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/shipmonk-rnd/name-collision-detector.git",
+                "reference": "e8c8267a9a3774450b64f4cbf0bb035108e78f07"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/shipmonk-rnd/name-collision-detector/zipball/e8c8267a9a3774450b64f4cbf0bb035108e78f07",
+                "reference": "e8c8267a9a3774450b64f4cbf0bb035108e78f07",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-tokenizer": "*",
+                "nette/schema": "^1.1.0",
+                "php": "^7.2 || ^8.0"
+            },
+            "require-dev": {
+                "editorconfig-checker/editorconfig-checker": "^10.3.0",
+                "ergebnis/composer-normalize": "^2.19",
+                "phpstan/phpstan": "^1.8.7",
+                "phpstan/phpstan-phpunit": "^1.1.1",
+                "phpstan/phpstan-strict-rules": "^1.2.3",
+                "phpunit/phpunit": "^8.5.28 || ^9.5.20",
+                "shipmonk/composer-dependency-analyser": "^1.0.0",
+                "slevomat/coding-standard": "^8.0.1"
+            },
+            "bin": [
+                "bin/detect-collisions"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ShipMonk\\NameCollision\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Simple tool to find ambiguous classes or any other name duplicates within your project.",
+            "keywords": [
+                "ambiguous",
+                "autoload",
+                "autoloading",
+                "classname",
+                "collision",
+                "namespace"
+            ],
+            "support": {
+                "issues": "https://github.com/shipmonk-rnd/name-collision-detector/issues",
+                "source": "https://github.com/shipmonk-rnd/name-collision-detector/tree/2.1.1"
+            },
+            "time": "2024-03-01T13:26:32+00:00"
         },
         {
             "name": "shipmonk/phpstan-baseline-per-identifier",
