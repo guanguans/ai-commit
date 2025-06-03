@@ -70,22 +70,11 @@ final class CommitCommand extends Command
                 );
             })
             ->tap(function () use (&$message, $cachedDiff, $type): void {
-                $message = retry(
-                    $this->option('retry-times'),
-                    function (int $attempts) use ($cachedDiff, $type): string {
-                        if (1 < $attempts) {
-                            $this->output->note('retrying...');
-                        }
-
-                        return $this->generatorManager
-                            ->driver($this->option('generator'))
-                            ->generate($this->promptFor($cachedDiff, $type));
-                    },
-                    $this->option('retry-sleep'),
-                    $this->configManager->get('retry.when')
+                $message = $this->sanitizeMessage(
+                    $this->generatorManager
+                        ->driver($this->option('generator'))
+                        ->generate($this->promptFor($cachedDiff, $type))
                 );
-
-                $message = $this->sanitizeMessage($message);
             })
             ->tap(function () use (&$message): void {
                 $len = str($message)->explode(\PHP_EOL)->map(static fn (string $line): int => mb_strlen($line))->max();
@@ -185,20 +174,6 @@ final class CommitCommand extends Command
             ),
             new InputOption('config', 'c', InputOption::VALUE_OPTIONAL, 'Specify config file'),
             new InputOption(
-                'retry-times',
-                null,
-                InputOption::VALUE_REQUIRED,
-                'Specify times of retry',
-                $this->configManager->get('retry.times', 3)
-            ),
-            new InputOption(
-                'retry-sleep',
-                null,
-                InputOption::VALUE_REQUIRED,
-                'Specify sleep milliseconds of retry',
-                $this->configManager->get('retry.sleep', 500)
-            ),
-            new InputOption(
                 'dry-run',
                 null,
                 InputOption::VALUE_NONE,
@@ -231,8 +206,6 @@ final class CommitCommand extends Command
                 'diff_options',
                 'generator',
                 'prompt',
-                'retry.times',
-                'retry.sleep',
             ]);
 
             collect($options)

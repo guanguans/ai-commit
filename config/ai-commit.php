@@ -35,13 +35,6 @@ return [
         GuzzleHttp\RequestOptions::TIMEOUT => 120,
     ],
 
-    // The options of retry.
-    'retry' => [
-        'times' => 3,
-        'sleep' => 200,
-        'when' => static fn (Exception $exception): bool => $exception instanceof App\Exceptions\RuntimeException,
-    ],
-
     // The mark of diff.
     'diff_mark' => '<diff>',
 
