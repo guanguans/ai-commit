@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c111465564d923f334b46d8a6783d805",
+    "content-hash": "cbbca32dd2f132147b4fde1a9dda59e4",
     "packages": [
         {
             "name": "brick/math",
@@ -8555,6 +8555,66 @@
             "time": "2024-06-21T20:19:52+00:00"
         },
         {
+            "name": "evaisse/php-json-schema-generator",
+            "version": "v2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/evaisse/php-json-schema-generator.git",
+                "reference": "894176ace0b0d8a8eb373ef4cfbcfa4bd7b4e2d4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/evaisse/php-json-schema-generator/zipball/894176ace0b0d8a8eb373ef4cfbcfa4bd7b4e2d4",
+                "reference": "894176ace0b0d8a8eb373ef4cfbcfa4bd7b4e2d4",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "league/json-guard": "1.*",
+                "league/json-reference": "1.*",
+                "php-coveralls/php-coveralls": "^2.0.0",
+                "phpunit/phpunit": "5.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "JSONSchemaGenerator\\": "src/JSONSchemaGenerator/",
+                    "JSONSchemaGenerator\\Tests\\": "tests/JSONSchemaGenerator/Tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Steven Scott",
+                    "email": "steve@openfoc.us"
+                },
+                {
+                    "name": "Emmanuel VAÏSSE",
+                    "email": "evaisse@gmail.com"
+                }
+            ],
+            "description": "A JSON Schema Generator.",
+            "homepage": "https://github.com/evaisse/php-json-schema-generator",
+            "keywords": [
+                "generator",
+                "json",
+                "parser",
+                "php",
+                "schema",
+                "validation"
+            ],
+            "support": {
+                "source": "https://github.com/evaisse/php-json-schema-generator/tree/v2.1.0"
+            },
+            "time": "2022-06-24T09:39:50+00:00"
+        },
+        {
             "name": "evenement/evenement",
             "version": "v3.0.2",
             "source": {
@@ -15410,6 +15470,79 @@
                 }
             ],
             "time": "2025-05-08T15:44:02+00:00"
+        },
+        {
+            "name": "spatie/schema-org",
+            "version": "3.23.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/schema-org.git",
+                "reference": "a8dc1b6fcdd06afc1ab084c3ead9b7a4c3d7a35d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/schema-org/zipball/a8dc1b6fcdd06afc1ab084c3ead9b7a4c3d7a35d",
+                "reference": "a8dc1b6fcdd06afc1ab084c3ead9b7a4c3d7a35d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.6",
+                "graham-campbell/analyzer": "^4.2",
+                "illuminate/collections": "^8.62.0",
+                "league/flysystem": "^2.3.0 || ^3.0",
+                "pestphp/pest": "^1.21",
+                "symfony/console": "^5.3.7 || 6.0",
+                "twig/twig": "^3.3.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\SchemaOrg\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian De Deyne",
+                    "email": "sebastian@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Tom Witkowski",
+                    "email": "dev.gummibeer@gmail.com",
+                    "homepage": "https://gummibeer.de",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A fluent builder Schema.org types and ld+json generator",
+            "homepage": "https://github.com/spatie/schema-org",
+            "keywords": [
+                "schema-org",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/schema-org/issues",
+                "source": "https://github.com/spatie/schema-org/tree/3.23.1"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-01-31T14:54:12+00:00"
         },
         {
             "name": "spaze/phpstan-disallowed-calls",
