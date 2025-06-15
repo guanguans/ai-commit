@@ -60,9 +60,9 @@
         "ext-mbstring": "*",
         "guzzlehttp/guzzle": "^7.9",
         "laminas/laminas-text": "^2.12",
-        "laravel-zero/framework": "^11.45",
+        "laravel-zero/framework": "^12.0",
         "laravel-zero/phar-updater": "^1.4",
-        "laravel/framework": "^11.45 || ^12.0"
+        "laravel/framework": "^12.18"
     },
     "require-dev": {
         "bamarni/composer-bin-plugin": "^1.8",
@@ -86,7 +86,7 @@
         "laravel-lang/common": "^6.7",
         "laravel/facade-documenter": "dev-main",
         "mockery/mockery": "^1.6",
-        "pb30/phpstan-composer-analysis": "^0.12",
+        "pb30/phpstan-composer-analysis": "^1.0",
         "pestphp/pest": "^3.8",
         "pestphp/pest-plugin-laravel": "^3.2",
         "php-mock/php-mock-phpunit": "^2.13",
@@ -189,7 +189,8 @@
             "@artisan vendor:publish --tag=laravel-assets --force",
             "@artisan lang:update",
             "@cghooks update",
-            "@composer-bin-all-update"
+            "@composer-bin-all-update",
+            "@composer-diff"
         ],
         "ai-commit": "@php ai-commit commit --ansi",
         "ai-commit-bito": "@ai-commit --generator=bito_cli",
