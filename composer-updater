@@ -230,8 +230,8 @@ $status = (new SingleCommandApplication)
             {
                 return \sprintf(
                     '%s %s',
-                    $phpBinary ?? (new PhpExecutableFinder)->find(),
-                    $composerBinary ?? (new ExecutableFinder)->find('composer')
+                    escapeshellarg($phpBinary ?? (new PhpExecutableFinder)->find()),
+                    escapeshellarg($composerBinary ?? (new ExecutableFinder)->find('composer'))
                 );
             }
 
