@@ -60,6 +60,7 @@
         "ext-mbstring": "*",
         "guzzlehttp/guzzle": "^7.9",
         "laminas/laminas-text": "^2.12",
+        "laravel-lang/common": "^6.7",
         "laravel-zero/framework": "^12.0",
         "laravel-zero/phar-updater": "^1.4",
         "laravel/framework": "^12.19"
@@ -83,7 +84,6 @@
         "intonate/tinker-zero": "^1.2",
         "ion-bazan/composer-diff": "^1.12",
         "larastan/larastan": "^3.4",
-        "laravel-lang/common": "^6.7",
         "laravel/facade-documenter": "dev-main",
         "mockery/mockery": "^1.6",
         "pb30/phpstan-composer-analysis": "^1.0",
