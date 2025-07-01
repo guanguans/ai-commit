@@ -231,7 +231,7 @@ $status = (new SingleCommandApplication)
                 return \sprintf(
                     '%s %s',
                     escapeshellarg($phpBinary ?? (new PhpExecutableFinder)->find()),
-                    escapeshellarg($composerBinary ?? (new ExecutableFinder)->find('composer'))
+                    escapeshellarg((string) ($composerBinary ?? (new ExecutableFinder)->find('composer')))
                 );
             }
 

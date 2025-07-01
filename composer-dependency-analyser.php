@@ -42,6 +42,7 @@ return (new Configuration)
     ->ignoreErrorsOnPackages(
         [
             'laminas/laminas-text',
+            'laravel-lang/common',
             'laravel-zero/phar-updater',
         ],
         [ErrorType::UNUSED_DEPENDENCY]

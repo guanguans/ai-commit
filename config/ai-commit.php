@@ -142,7 +142,7 @@ return [
         'github_models_cli' => [
             'driver' => 'github_models_cli',
             'binary' => env('GITHUB_MODELS_CLI_BINARY', 'gh'),
-            'model' => env('GITHUB_MODELS_CLI_MODEL', 'gpt-4o-mini'),
+            'model' => env('GITHUB_MODELS_CLI_MODEL', 'openai/gpt-4.1-mini'),
             'options' => [
                 '--max-tokens' => null,
                 '--system-prompt' => 'You are a git commit message generator.',
