@@ -224,6 +224,7 @@ return [
      * @see https://www.conventionalcommits.org
      * @see https://github.com/ahmetkca/CommitAI
      * @see https://github.com/shanginn/git-aicommit
+     * @see https://github.com/QIN2DIM/lazy-commit
      */
     'prompts' => [
         'conventional' => <<<'conventional_WRAP'
