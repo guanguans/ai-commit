@@ -183,6 +183,24 @@ return Factory::fromRuleSet(Php82::create()
             'anonymous_class' => false,
             'named_class' => false,
         ],
+        'no_extra_blank_lines' => [
+            'tokens' => [
+                'attribute',
+                'break',
+                'case',
+                // 'comma',
+                'continue',
+                'curly_brace_block',
+                'default',
+                'extra',
+                'parenthesis_brace_block',
+                'return',
+                'square_brace_block',
+                'switch',
+                'throw',
+                'use',
+            ],
+        ],
         'ordered_traits' => [
             'case_sensitive' => true,
         ],
@@ -274,7 +292,8 @@ return Factory::fromRuleSet(Php82::create()
         'statement_indentation' => [
             'stick_comment_to_next_continuous_control_statement' => true,
         ],
-        'static_lambda' => false, // pest
+        'static_lambda' => false,
+        'static_private_method' => false, // pest
         // 'string_implicit_backslashes' => false,
     ])))
     ->setUsingCache(true)
