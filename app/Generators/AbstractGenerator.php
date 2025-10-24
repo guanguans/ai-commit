@@ -88,7 +88,7 @@ abstract class AbstractGenerator implements GeneratorContract
 
     protected function ensureWithOptions(array $command): array
     {
-        return array_merge($command, $this->hydratedOptions());
+        return [...$command, ...$this->hydratedOptions()];
     }
 
     /**

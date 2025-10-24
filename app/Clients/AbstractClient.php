@@ -204,7 +204,7 @@ abstract class AbstractClient
                     string $userAgent
                 ) => $pendingRequest->withUserAgent($userAgent)
             )
-            ->withOptions((array) config('ai-commit.http_options'))
+            ->withOptions(config()->array('ai-commit.http_options'))
             ->withOptions($this->configRepository->get('http_options'))
             ->retry(
                 times: $this->configRepository->get('retry.times'),

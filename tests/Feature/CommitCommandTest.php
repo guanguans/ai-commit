@@ -95,6 +95,7 @@ it('can generate and commit message', function (array $parameters): void {
 
 afterAll(static function (): void {
     // 清理 playground 仓库
+    Process::fromShellCommandline('git clean -df', repository_path())->run();
     Process::fromShellCommandline('git reset $(git rev-list --max-parents=0 HEAD)', repository_path())->run();
     // Process::fromShellCommandline('git checkout -- .', repository_path())->run();
     Process::fromShellCommandline('git checkout HEAD -- .', repository_path())->run();
