@@ -13133,11 +13133,11 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.1.31",
+            "version": "2.1.54",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/ead89849d879fe203ce9292c6ef5e7e76f867b96",
-                "reference": "ead89849d879fe203ce9292c6ef5e7e76f867b96",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/8be50c3992107dc837b17da4d140fbbdf9a5c5bd",
+                "reference": "8be50c3992107dc837b17da4d140fbbdf9a5c5bd",
                 "shasum": ""
             },
             "require": {
@@ -13182,7 +13182,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-10-10T14:14:11+00:00"
+            "time": "2026-04-29T13:31:09+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
@@ -17887,27 +17887,27 @@
         },
         {
             "name": "yamadashy/phpstan-friendly-formatter",
-            "version": "v1.2.0",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yamadashy/phpstan-friendly-formatter.git",
-                "reference": "3385bd3455c7ea806efe06f30d9478d485d1ac9b"
+                "reference": "cd4882c7293591c13230b5be35e742b33d2ab2ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yamadashy/phpstan-friendly-formatter/zipball/3385bd3455c7ea806efe06f30d9478d485d1ac9b",
-                "reference": "3385bd3455c7ea806efe06f30d9478d485d1ac9b",
+                "url": "https://api.github.com/repos/yamadashy/phpstan-friendly-formatter/zipball/cd4882c7293591c13230b5be35e742b33d2ab2ff",
+                "reference": "cd4882c7293591c13230b5be35e742b33d2ab2ff",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.4 || ^8.0",
+                "php": "^8.1",
                 "php-parallel-lint/php-console-highlighter": "^0.3 || ^0.4 || ^0.5 || ^1.0",
-                "phpstan/phpstan": "^0.12 || ^1.0 || ^2.0"
+                "phpstan/phpstan": "^1.0 || ^2.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.4.0",
-                "phpstan/phpstan-phpunit": "^2.0",
-                "phpunit/phpunit": "^8.5.26 || ^10.0.0"
+                "friendsofphp/php-cs-fixer": "^3.93.0",
+                "phpstan/phpstan-phpunit": "^2.0.12",
+                "phpunit/phpunit": "^10.0 || ^11.0"
             },
             "type": "phpstan-extension",
             "extra": {
@@ -17941,9 +17941,9 @@
             ],
             "support": {
                 "issues": "https://github.com/yamadashy/phpstan-friendly-formatter/issues",
-                "source": "https://github.com/yamadashy/phpstan-friendly-formatter/tree/v1.2.0"
+                "source": "https://github.com/yamadashy/phpstan-friendly-formatter/tree/v1.4.0"
             },
-            "time": "2024-11-13T14:43:14+00:00"
+            "time": "2026-01-26T15:12:47+00:00"
         },
         {
             "name": "yiisoft/injector",
@@ -18029,5 +18029,5 @@
         "ext-mbstring": "*"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
