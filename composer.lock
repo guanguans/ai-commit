@@ -13133,11 +13133,11 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.1.31",
+            "version": "2.1.54",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/ead89849d879fe203ce9292c6ef5e7e76f867b96",
-                "reference": "ead89849d879fe203ce9292c6ef5e7e76f867b96",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/8be50c3992107dc837b17da4d140fbbdf9a5c5bd",
+                "reference": "8be50c3992107dc837b17da4d140fbbdf9a5c5bd",
                 "shasum": ""
             },
             "require": {
@@ -13182,7 +13182,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-10-10T14:14:11+00:00"
+            "time": "2026-04-29T13:31:09+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
@@ -17385,16 +17385,16 @@
         },
         {
             "name": "symplify/phpstan-extensions",
-            "version": "12.0.1",
+            "version": "12.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/phpstan-extensions.git",
-                "reference": "d6a01ac2f00e7457a2b1afc7e9d1d4a7469287bb"
+                "reference": "5ce15cb084eb3bc7f92b77020c59ff3d318746d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/phpstan-extensions/zipball/d6a01ac2f00e7457a2b1afc7e9d1d4a7469287bb",
-                "reference": "d6a01ac2f00e7457a2b1afc7e9d1d4a7469287bb",
+                "url": "https://api.github.com/repos/symplify/phpstan-extensions/zipball/5ce15cb084eb3bc7f92b77020c59ff3d318746d5",
+                "reference": "5ce15cb084eb3bc7f92b77020c59ff3d318746d5",
                 "shasum": ""
             },
             "require": {
@@ -17425,7 +17425,7 @@
             ],
             "support": {
                 "issues": "https://github.com/symplify/phpstan-extensions/issues",
-                "source": "https://github.com/symplify/phpstan-extensions/tree/12.0.1"
+                "source": "https://github.com/symplify/phpstan-extensions/tree/12.0.2"
             },
             "funding": [
                 {
@@ -17437,7 +17437,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-01-07T09:31:37+00:00"
+            "time": "2025-11-12T16:46:04+00:00"
         },
         {
             "name": "symplify/phpstan-rules",
@@ -18029,5 +18029,5 @@
         "ext-mbstring": "*"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
