@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c07bf71e7ab2ac5c60966406fdea2eb0",
+    "content-hash": "d5acc1946a359ec4de7b933f300e3d16",
     "packages": [
         {
             "name": "archtechx/enums",
@@ -14559,16 +14559,16 @@
         },
         {
             "name": "rector/jack",
-            "version": "0.2.9",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/jack.git",
-                "reference": "6e1d62bdeebf38f44caf03b35058bbc42bd599cb"
+                "reference": "207473d8c83924c743e9e90495d4d83b3c2b730f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/jack/zipball/6e1d62bdeebf38f44caf03b35058bbc42bd599cb",
-                "reference": "6e1d62bdeebf38f44caf03b35058bbc42bd599cb",
+                "url": "https://api.github.com/repos/rectorphp/jack/zipball/207473d8c83924c743e9e90495d4d83b3c2b730f",
+                "reference": "207473d8c83924c743e9e90495d4d83b3c2b730f",
                 "shasum": ""
             },
             "require": {
@@ -14580,7 +14580,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Rector\\SwissKnife\\": "src"
+                    "Rector\\Jack\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -14590,7 +14590,7 @@
             "description": "Swiss knife in pocket of every upgrade architect",
             "support": {
                 "issues": "https://github.com/rectorphp/jack/issues",
-                "source": "https://github.com/rectorphp/jack/tree/0.2.9"
+                "source": "https://github.com/rectorphp/jack/tree/1.0.0"
             },
             "funding": [
                 {
@@ -14602,7 +14602,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-08-19T08:57:35+00:00"
+            "time": "2026-04-28T22:41:11+00:00"
         },
         {
             "name": "rector/rector",
@@ -18029,5 +18029,5 @@
         "ext-mbstring": "*"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
