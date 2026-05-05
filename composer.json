@@ -99,7 +99,7 @@
         "phpstan/phpstan-strict-rules": "^2.0",
         "phpstan/phpstan-webmozart-assert": "^2.0",
         "povils/phpmnd": "^3.6",
-        "prism-php/prism": "^0.68",
+        "prism-php/prism": "^0.100",
         "rector/jack": "^1.0",
         "rector/rector": "^2.2",
         "rector/swiss-knife": "^2.3",
