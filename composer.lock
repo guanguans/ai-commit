@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d5acc1946a359ec4de7b933f300e3d16",
+    "content-hash": "1162d9ad1ee95c37a06385291427aaf4",
     "packages": [
         {
             "name": "archtechx/enums",
@@ -16622,16 +16622,16 @@
         },
         {
             "name": "staabm/phpstan-todo-by",
-            "version": "0.2",
+            "version": "0.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/staabm/phpstan-todo-by.git",
-                "reference": "de149a2dcdc0bcb5f3ebc6f6c571bf50d74aea92"
+                "reference": "3c2b7f755965f5bb58354e7c492d3cb8de988f8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/staabm/phpstan-todo-by/zipball/de149a2dcdc0bcb5f3ebc6f6c571bf50d74aea92",
-                "reference": "de149a2dcdc0bcb5f3ebc6f6c571bf50d74aea92",
+                "url": "https://api.github.com/repos/staabm/phpstan-todo-by/zipball/3c2b7f755965f5bb58354e7c492d3cb8de988f8e",
+                "reference": "3c2b7f755965f5bb58354e7c492d3cb8de988f8e",
                 "shasum": ""
             },
             "require": {
@@ -16641,13 +16641,13 @@
                 "ext-json": "*",
                 "nikolaposa/version": "^4.1",
                 "php": "^7.4 || ^8.0",
-                "phpstan/phpstan": "^1.10 || ^2.0"
+                "phpstan/phpstan": "^2.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.64",
-                "nikic/php-parser": "^4.0",
+                "friendsofphp/php-cs-fixer": "^3.91",
+                "nikic/php-parser": "^5.6",
                 "phpstan/extension-installer": "^1.4",
-                "phpstan/phpstan-deprecation-rules": "^1.2",
+                "phpstan/phpstan-deprecation-rules": "^2",
                 "phpunit/phpunit": "^9 || ^10.5",
                 "redaxo/php-cs-fixer-config": "^1.0"
             },
@@ -16678,7 +16678,7 @@
             ],
             "support": {
                 "issues": "https://github.com/staabm/phpstan-todo-by/issues",
-                "source": "https://github.com/staabm/phpstan-todo-by/tree/0.2"
+                "source": "https://github.com/staabm/phpstan-todo-by/tree/0.3.3"
             },
             "funding": [
                 {
@@ -16686,7 +16686,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-11-11T08:11:22+00:00"
+            "time": "2025-12-04T06:51:25+00:00"
         },
         {
             "name": "staabm/side-effects-detector",
