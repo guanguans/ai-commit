@@ -17645,23 +17645,23 @@
         },
         {
             "name": "symplify/phpstan-rules",
-            "version": "14.8.0",
+            "version": "14.9.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/phpstan-rules.git",
-                "reference": "27edd52710424b71d62985e2e48f8cd94f29f17b"
+                "reference": "5ea4bbd9357cba253aada506dd96d37d7069ac3b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/phpstan-rules/zipball/27edd52710424b71d62985e2e48f8cd94f29f17b",
-                "reference": "27edd52710424b71d62985e2e48f8cd94f29f17b",
+                "url": "https://api.github.com/repos/symplify/phpstan-rules/zipball/5ea4bbd9357cba253aada506dd96d37d7069ac3b",
+                "reference": "5ea4bbd9357cba253aada506dd96d37d7069ac3b",
                 "shasum": ""
             },
             "require": {
                 "nette/utils": "^3.2|^4.0",
                 "php": "^7.4|^8.0",
-                "phpstan/phpstan": "^2.1.22",
-                "webmozart/assert": "^1.11"
+                "phpstan/phpstan": "^2.1.33",
+                "webmozart/assert": "^1.12 || ^2.0"
             },
             "type": "phpstan-extension",
             "extra": {
@@ -17686,7 +17686,7 @@
             "description": "Set of Symplify rules for PHPStan",
             "support": {
                 "issues": "https://github.com/symplify/phpstan-rules/issues",
-                "source": "https://github.com/symplify/phpstan-rules/tree/14.8.0"
+                "source": "https://github.com/symplify/phpstan-rules/tree/14.9.11"
             },
             "funding": [
                 {
@@ -17698,7 +17698,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-10-09T15:57:03+00:00"
+            "time": "2026-01-05T13:53:59+00:00"
         },
         {
             "name": "ta-tikoma/phpunit-architecture-test",
