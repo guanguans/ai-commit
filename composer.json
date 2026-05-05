@@ -112,7 +112,7 @@
         "spatie/pest-plugin-snapshots": "^2.2",
         "spatie/schema-org": "^3.23",
         "spaze/phpstan-disallowed-calls": "^4.7",
-        "staabm/phpstan-todo-by": "^0.2",
+        "staabm/phpstan-todo-by": "^0.3",
         "symfony/thanks": "^1.4",
         "symplify/phpstan-extensions": "^12.0",
         "symplify/phpstan-rules": "^14.8",
