@@ -14845,22 +14845,22 @@
         },
         {
             "name": "rector/type-perfect",
-            "version": "2.1.1",
+            "version": "2.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/type-perfect.git",
-                "reference": "542941e6d7268212d7d0c67ce9b594770ae3eb0d"
+                "reference": "5ba40eca0903de8e33a7beb575b2feaa25948d18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/type-perfect/zipball/542941e6d7268212d7d0c67ce9b594770ae3eb0d",
-                "reference": "542941e6d7268212d7d0c67ce9b594770ae3eb0d",
+                "url": "https://api.github.com/repos/rectorphp/type-perfect/zipball/5ba40eca0903de8e33a7beb575b2feaa25948d18",
+                "reference": "5ba40eca0903de8e33a7beb575b2feaa25948d18",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.4|^8.0",
                 "phpstan/phpstan": "^2.1.14",
-                "webmozart/assert": "^1.11"
+                "webmozart/assert": "^1.11 || ^2.1"
             },
             "type": "phpstan-extension",
             "extra": {
@@ -14882,7 +14882,7 @@
             "description": "Next level type declaration checks",
             "support": {
                 "issues": "https://github.com/rectorphp/type-perfect/issues",
-                "source": "https://github.com/rectorphp/type-perfect/tree/2.1.1"
+                "source": "https://github.com/rectorphp/type-perfect/tree/2.1.4"
             },
             "funding": [
                 {
@@ -14894,7 +14894,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-10-09T15:49:34+00:00"
+            "time": "2026-04-17T23:36:51+00:00"
         },
         {
             "name": "saloonphp/saloon",
@@ -17988,23 +17988,23 @@
         },
         {
             "name": "webmozart/assert",
-            "version": "1.12.1",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozarts/assert.git",
-                "reference": "9be6926d8b485f55b9229203f962b51ed377ba68"
+                "reference": "eb0d790f735ba6cff25c683a85a1da0eadeff9e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozarts/assert/zipball/9be6926d8b485f55b9229203f962b51ed377ba68",
-                "reference": "9be6926d8b485f55b9229203f962b51ed377ba68",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/eb0d790f735ba6cff25c683a85a1da0eadeff9e4",
+                "reference": "eb0d790f735ba6cff25c683a85a1da0eadeff9e4",
                 "shasum": ""
             },
             "require": {
                 "ext-ctype": "*",
                 "ext-date": "*",
                 "ext-filter": "*",
-                "php": "^7.2 || ^8.0"
+                "php": "^8.2"
             },
             "suggest": {
                 "ext-intl": "",
@@ -18014,7 +18014,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.10-dev"
+                    "dev-feature/2-0": "2.0-dev"
                 }
             },
             "autoload": {
@@ -18030,6 +18030,10 @@
                 {
                     "name": "Bernhard Schussek",
                     "email": "bschussek@gmail.com"
+                },
+                {
+                    "name": "Woody Gilk",
+                    "email": "woody.gilk@gmail.com"
                 }
             ],
             "description": "Assertions to validate method input/output with nice error messages.",
@@ -18040,9 +18044,9 @@
             ],
             "support": {
                 "issues": "https://github.com/webmozarts/assert/issues",
-                "source": "https://github.com/webmozarts/assert/tree/1.12.1"
+                "source": "https://github.com/webmozarts/assert/tree/2.3.0"
             },
-            "time": "2025-10-29T15:56:20+00:00"
+            "time": "2026-04-11T10:33:05+00:00"
         },
         {
             "name": "whatsdiff/whatsdiff",
