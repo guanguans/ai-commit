@@ -81,7 +81,7 @@
         "ergebnis/rector-rules": "^1.6",
         "evaisse/php-json-schema-generator": "^2.1",
         "friendsofphp/php-cs-fixer": "^3.88",
-        "guanguans/monorepo-builder-worker": "^2.0",
+        "guanguans/monorepo-builder-worker": "^3.2",
         "intonate/tinker-zero": "^1.2",
         "ion-bazan/composer-diff": "^1.13",
         "larastan/larastan": "^3.7",
