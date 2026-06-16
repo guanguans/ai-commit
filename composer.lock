@@ -8966,16 +8966,16 @@
         },
         {
             "name": "buggregator/trap",
-            "version": "1.15.2",
+            "version": "1.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/buggregator/trap.git",
-                "reference": "f146f04ee7be14740d8b35311f1a136a929976ed"
+                "reference": "a0634a3963b7708d53bffd383e4d1976bf57af06"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/buggregator/trap/zipball/f146f04ee7be14740d8b35311f1a136a929976ed",
-                "reference": "f146f04ee7be14740d8b35311f1a136a929976ed",
+                "url": "https://api.github.com/repos/buggregator/trap/zipball/a0634a3963b7708d53bffd383e4d1976bf57af06",
+                "reference": "a0634a3963b7708d53bffd383e4d1976bf57af06",
                 "shasum": ""
             },
             "require": {
@@ -8989,6 +8989,7 @@
                 "php-http/message": "^1.15",
                 "psr/container": "^1.1 || ^2.0",
                 "psr/http-message": "^1.1 || ^2",
+                "psr/log": "^2 || ^3",
                 "symfony/console": "^6.4 || ^7 || ^8",
                 "symfony/var-dumper": "^6.3 || ^7 || ^8",
                 "yiisoft/injector": "^1.2"
@@ -9053,7 +9054,7 @@
             ],
             "support": {
                 "issues": "https://github.com/buggregator/trap/issues",
-                "source": "https://github.com/buggregator/trap/tree/1.15.2"
+                "source": "https://github.com/buggregator/trap/tree/1.16.0"
             },
             "funding": [
                 {
@@ -9061,7 +9062,7 @@
                     "type": "boosty"
                 }
             ],
-            "time": "2026-04-07T21:19:09+00:00"
+            "time": "2026-06-16T12:15:11+00:00"
         },
         {
             "name": "clue/ndjson-react",
