@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f0facf02df2a9b0a11c54eb57952fd52",
+    "content-hash": "843b121544d9c62a2fdb23d0dc855027",
     "packages": [
         {
             "name": "archtechx/enums",
@@ -11057,27 +11057,27 @@
         },
         {
             "name": "ion-bazan/composer-diff",
-            "version": "v1.13.0",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/IonBazan/composer-diff.git",
-                "reference": "8907711f0bf74677041f7b356da2367afea44a53"
+                "reference": "1df085e1edc14bbe47ff9309eee4250d935eec5f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/IonBazan/composer-diff/zipball/8907711f0bf74677041f7b356da2367afea44a53",
-                "reference": "8907711f0bf74677041f7b356da2367afea44a53",
+                "url": "https://api.github.com/repos/IonBazan/composer-diff/zipball/1df085e1edc14bbe47ff9309eee4250d935eec5f",
+                "reference": "1df085e1edc14bbe47ff9309eee4250d935eec5f",
                 "shasum": ""
             },
             "require": {
-                "composer-plugin-api": "^1.1 || ^2.0",
+                "composer-plugin-api": "^2.0",
                 "ext-json": "*",
-                "php": ">=5.3.2"
+                "php": ">=7.2"
             },
             "require-dev": {
-                "composer/composer": "^1.1 || ^2.0",
-                "symfony/console": "^2.3 || ^3.0 || ^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0",
-                "symfony/phpunit-bridge": "^4.2 || ^5.0 || ^6.0 || ^7.0 || ^8.0"
+                "composer/composer": "^2.0",
+                "symfony/console": "^5.4 || ^6.0 || ^7.0 || ^8.0",
+                "symfony/phpunit-bridge": "^5.4.33 || ^6.0 || ^7.0 || ^8.0"
             },
             "suggest": {
                 "composer/composer": "To use the binary without composer runtime",
@@ -11118,7 +11118,7 @@
             ],
             "support": {
                 "issues": "https://github.com/IonBazan/composer-diff/issues",
-                "source": "https://github.com/IonBazan/composer-diff/tree/v1.13.0"
+                "source": "https://github.com/IonBazan/composer-diff/tree/v2.0.0"
             },
             "funding": [
                 {
@@ -11126,7 +11126,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-08-21T15:42:55+00:00"
+            "time": "2026-07-16T15:55:34+00:00"
         },
         {
             "name": "jean85/pretty-package-versions",

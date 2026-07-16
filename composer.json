@@ -83,7 +83,7 @@
         "friendsofphp/php-cs-fixer": "^3.88",
         "guanguans/monorepo-builder-worker": "^3.2",
         "intonate/tinker-zero": "^1.2",
-        "ion-bazan/composer-diff": "^1.13",
+        "ion-bazan/composer-diff": "^2.0",
         "larastan/larastan": "^3.7",
         "laravel/facade-documenter": "dev-main",
         "mockery/mockery": "^1.6",
