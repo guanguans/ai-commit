@@ -11057,16 +11057,16 @@
         },
         {
             "name": "ion-bazan/composer-diff",
-            "version": "v2.0.0",
+            "version": "v2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/IonBazan/composer-diff.git",
-                "reference": "1df085e1edc14bbe47ff9309eee4250d935eec5f"
+                "reference": "674613447e20bc0891b2b77b441424f567546334"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/IonBazan/composer-diff/zipball/1df085e1edc14bbe47ff9309eee4250d935eec5f",
-                "reference": "1df085e1edc14bbe47ff9309eee4250d935eec5f",
+                "url": "https://api.github.com/repos/IonBazan/composer-diff/zipball/674613447e20bc0891b2b77b441424f567546334",
+                "reference": "674613447e20bc0891b2b77b441424f567546334",
                 "shasum": ""
             },
             "require": {
@@ -11118,7 +11118,7 @@
             ],
             "support": {
                 "issues": "https://github.com/IonBazan/composer-diff/issues",
-                "source": "https://github.com/IonBazan/composer-diff/tree/v2.0.0"
+                "source": "https://github.com/IonBazan/composer-diff/tree/v2.2.0"
             },
             "funding": [
                 {
@@ -11126,7 +11126,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-07-16T15:55:34+00:00"
+            "time": "2026-07-17T16:15:31+00:00"
         },
         {
             "name": "jean85/pretty-package-versions",
