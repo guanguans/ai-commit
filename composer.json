@@ -74,7 +74,7 @@
         "dereuromark/composer-prefer-lowest": "^0.1",
         "dg/bypass-finals": "^1.9",
         "driftingly/rector-laravel": "^2.1",
-        "editorconfig-checker/editorconfig-checker": "^10.7",
+        "editorconfig-checker/editorconfig-checker": "^11.0",
         "ergebnis/composer-normalize": "^2.48",
         "ergebnis/license": "^2.7",
         "ergebnis/php-cs-fixer-config": "^6.55",

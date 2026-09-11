@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "843b121544d9c62a2fdb23d0dc855027",
+    "content-hash": "4524e5e3f710cffde483b19eaead2c66",
     "packages": [
         {
             "name": "archtechx/enums",
@@ -9546,16 +9546,16 @@
         },
         {
             "name": "editorconfig-checker/editorconfig-checker",
-            "version": "10.7.0",
+            "version": "11.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/editorconfig-checker/editorconfig-checker.php.git",
-                "reference": "eb2581bee39d10e776e69048a88fb10a76a0cc9f"
+                "reference": "837e39092f02880b8586b1dff9ba16f48a68729d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/editorconfig-checker/editorconfig-checker.php/zipball/eb2581bee39d10e776e69048a88fb10a76a0cc9f",
-                "reference": "eb2581bee39d10e776e69048a88fb10a76a0cc9f",
+                "url": "https://api.github.com/repos/editorconfig-checker/editorconfig-checker.php/zipball/837e39092f02880b8586b1dff9ba16f48a68729d",
+                "reference": "837e39092f02880b8586b1dff9ba16f48a68729d",
                 "shasum": ""
             },
             "require": {
@@ -9565,7 +9565,7 @@
                 "php-coveralls/php-coveralls": "^2.1",
                 "phpstan/phpstan": "^1.4",
                 "phpunit/phpunit": "^8.5.23",
-                "squizlabs/php_codesniffer": "^3.6"
+                "squizlabs/php_codesniffer": "^4.0"
             },
             "bin": [
                 "bin/editorconfig-checker",
@@ -9594,7 +9594,7 @@
                 "issues": "https://github.com/editorconfig-checker/editorconfig-checker.php/issues",
                 "source": "https://github.com/editorconfig-checker/editorconfig-checker.php"
             },
-            "time": "2025-03-17T14:59:08+00:00"
+            "time": "2026-09-08T10:31:24+00:00"
         },
         {
             "name": "ergebnis/agent-detector",
