@@ -8966,22 +8966,23 @@
         },
         {
             "name": "buggregator/trap",
-            "version": "1.16.0",
+            "version": "1.16.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/buggregator/trap.git",
-                "reference": "a0634a3963b7708d53bffd383e4d1976bf57af06"
+                "reference": "46ae4ed023e7b1b96a367ef0033f12d5d99fb8c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/buggregator/trap/zipball/a0634a3963b7708d53bffd383e4d1976bf57af06",
-                "reference": "a0634a3963b7708d53bffd383e4d1976bf57af06",
+                "url": "https://api.github.com/repos/buggregator/trap/zipball/46ae4ed023e7b1b96a367ef0033f12d5d99fb8c0",
+                "reference": "46ae4ed023e7b1b96a367ef0033f12d5d99fb8c0",
                 "shasum": ""
             },
             "require": {
                 "clue/stream-filter": "^1.6",
                 "ext-filter": "*",
                 "ext-sockets": "*",
+                "internal/container": "^1.1",
                 "internal/destroy": "^1.0",
                 "nyholm/psr7": "^1.8",
                 "php": ">=8.1",
@@ -8991,13 +8992,12 @@
                 "psr/http-message": "^1.1 || ^2",
                 "psr/log": "^2 || ^3",
                 "symfony/console": "^6.4 || ^7 || ^8",
-                "symfony/var-dumper": "^6.3 || ^7 || ^8",
-                "yiisoft/injector": "^1.2"
+                "symfony/var-dumper": "^6.3 || ^7 || ^8"
             },
             "require-dev": {
                 "dereuromark/composer-prefer-lowest": "^0.1.10",
                 "ergebnis/phpunit-slow-test-detector": "^2.14",
-                "google/protobuf": "^3.25 || ^4.30",
+                "google/protobuf": "^3.25 || ^4.30 || ^v5.36.1",
                 "phpunit/phpunit": "^10.5.10",
                 "rector/rector": "^1.1",
                 "roxblnfk/unpoly": "^1.8.1",
@@ -9027,11 +9027,11 @@
             ],
             "authors": [
                 {
-                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "name": "Aleksei Gagarin",
                     "homepage": "https://github.com/roxblnfk"
                 },
                 {
-                    "name": "Pavel Buchnev (butschster)",
+                    "name": "Pavel Buchnev",
                     "homepage": "https://github.com/butschster"
                 }
             ],
@@ -9054,7 +9054,7 @@
             ],
             "support": {
                 "issues": "https://github.com/buggregator/trap/issues",
-                "source": "https://github.com/buggregator/trap/tree/1.16.0"
+                "source": "https://github.com/buggregator/trap/tree/1.16.1"
             },
             "funding": [
                 {
@@ -9062,7 +9062,7 @@
                     "type": "boosty"
                 }
             ],
-            "time": "2026-06-16T12:15:11+00:00"
+            "time": "2026-09-08T09:57:19+00:00"
         },
         {
             "name": "clue/ndjson-react",
@@ -10939,6 +10939,82 @@
                 "source": "https://github.com/iamcal/SQLParser/tree/v0.7"
             },
             "time": "2026-01-28T22:20:33+00:00"
+        },
+        {
+            "name": "internal/container",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-internal/container.git",
+                "reference": "a1a0cc23601c4d09bc21511cbccba8653069d50c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-internal/container/zipball/a1a0cc23601c4d09bc21511cbccba8653069d50c",
+                "reference": "a1a0cc23601c4d09bc21511cbccba8653069d50c",
+                "shasum": ""
+            },
+            "require": {
+                "internal/destroy": "^1.0",
+                "php": ">=8.1",
+                "psr/container": "1 - 2",
+                "yiisoft/injector": "^1.2"
+            },
+            "provide": {
+                "psr/container-implementation": "1.0 - 2.0"
+            },
+            "require-dev": {
+                "bamarni/composer-bin-plugin": "^1.8",
+                "llm/skills": "^1.12",
+                "revolt/event-loop": "^1.0",
+                "roxblnfk/unpoly": "^1.8",
+                "testo/codecov": "^0.2.1",
+                "testo/fiber": "^0.1.3",
+                "testo/testo": "^0.10.46"
+            },
+            "type": "library",
+            "extra": {
+                "bamarni-bin": {
+                    "bin-links": true,
+                    "forward-command": false,
+                    "target-directory": "tools"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Internal\\Container\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Aleksei Gagarin",
+                    "homepage": "https://github.com/roxblnfk"
+                }
+            ],
+            "description": "Lightweight PSR-11 container for CLI tools: autowiring, scopes, inflectors and explicit destruction without a DI framework.",
+            "keywords": [
+                "Autowiring",
+                "PSR-11",
+                "cli",
+                "console",
+                "container",
+                "dependency injection"
+            ],
+            "support": {
+                "issues": "https://github.com/php-internal/container/issues",
+                "source": "https://github.com/php-internal/container/tree/1.1.0"
+            },
+            "funding": [
+                {
+                    "url": "https://boosty.to/roxblnfk",
+                    "type": "boosty"
+                }
+            ],
+            "time": "2026-09-08T09:20:40+00:00"
         },
         {
             "name": "internal/destroy",
